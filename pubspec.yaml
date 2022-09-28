@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   material_design_icons_flutter: ^5.0.6996
+  flutter_svg: ^1.1.5
 
 dev_dependencies:
   flutter_test:

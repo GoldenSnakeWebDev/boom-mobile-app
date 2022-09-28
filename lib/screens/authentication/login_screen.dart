@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -172,6 +174,9 @@ class LoginScreen extends StatelessWidget {
                           Get.to(
                             () => const HomeScreen(),
                           );
+                          log("You want to login?");
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (context) => const HomeScreen()));
                         },
                         child: Container(
                           width: SizeConfig.screenWidth * 0.5,
