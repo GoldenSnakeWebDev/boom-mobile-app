@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:boom_mobile/screens/explore/expore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
@@ -35,7 +33,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pages = [
       const HomeScreen(),
@@ -53,7 +50,63 @@ class _MainScreenState extends State<MainScreen> {
       extendBody: true,
       floatingActionButton: GestureDetector(
         onTap: () {
-          log("Docked Button pressed");
+          showModalBottomSheet(
+              isDismissible: true,
+              isScrollControlled: true,
+              enableDrag: true,
+              context: context,
+              backgroundColor: Colors.white,
+              constraints:
+                  BoxConstraints(maxWidth: SizeConfig.screenWidth * 0.5),
+              builder: (context) {
+                return Container(
+                  height: SizeConfig.screenHeight * 0.5,
+                  width: SizeConfig.screenWidth * 0.5,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          children: const [
+                            ListTile(
+                              leading: Icon(Icons.camera_alt),
+                              title: Text('Post'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('Tales'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('Films'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('Noob Talk'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('Boom Box'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('Nudges'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('DM'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.image),
+                              title: Text('Friends'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              });
         },
         child: Container(
           decoration: BoxDecoration(
