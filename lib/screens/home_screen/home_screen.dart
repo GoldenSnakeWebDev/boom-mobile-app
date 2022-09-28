@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
@@ -8,6 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("Gotten here");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),

@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                 height: getProportionateScreenHeight(10),
               ),
               Text(
-                "Web-3 Social Commerce Expereince",
+                "Web-3 Social Commerce Experience",
                 style: TextStyle(
                   fontSize: getProportionateScreenHeight(15),
                   fontWeight: FontWeight.w700,
@@ -132,6 +132,7 @@ class LoginScreen extends StatelessWidget {
                         height: getProportionateScreenHeight(15),
                       ),
                       TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Password",
                           prefixIcon: const Icon(
