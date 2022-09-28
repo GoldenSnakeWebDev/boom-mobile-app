@@ -58,3 +58,26 @@ List<Map<String, String>> brandDetails = [
     "comments": "70",
   },
 ];
+
+List<Map<String, String>> brandNFTs = [
+  {
+    "title": "NFT",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/a0ed/d9fd/9d276f722b9431bca5bab749058cda8b?Expires=1665360000&Signature=IK71Bp3tI4DJJyi7OXS-ryXKIRcAFvXk9QxlbBsYp4YjijuFdrRIe604DH5Mb9NiCeh0iJ44ZjfmV0Q-KMqg~XBfAw80mb6riV4BDavlr5lnhFsLM6ejeOhN60BnDzqquU57fmrY2KdALCb7d4GuH0YWOgJlR8-xZnMjQLwvEEAxnFx4bXiKcB5viYBRYL~TA8qQ8q0NzqjRRKTSp3xZBQySMKaCvTe1kv95dSzw9unSm~BYG02z92~4aImySQMIR9FfQ8zVAMOhLPiaTwMy1uK~D-K-HsXv-kVtld2vZUOWF2fDFELCHVO-GWyHhU3YtldxjIj93eFz6XxFmrF~EA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+  },
+  {
+    "title": "Women",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/7b60/554e/201d64a8b039270113ebd1dea57de332?Expires=1665360000&Signature=UgM6q3iB9uyXAemZInnWTpPsIPOTUTKkXHz1Yt2duMaXmD7DISAk95v8CK902E18ygekBGbAeLOaA6y4hG1EKEyU1NNwtwcZeGMxhKQVxiz91EhStRFfpw33smbIUYXGvs~5PDKHM3hY8HYXGJcKVuqQTKVNZm~pwucL2KqsZ3hLbQ19l4VVx4~Inib519S~xM6maXfg2i7qeZaDsFyIix4Lyst~yvO~LxUS0DHBIviVAZmptQ8KGRYTyTulv5Q3NzRehUC4DPB1Jv1xZuKcXsskLDci9tchzq0Q3zQbuXyx-FqAakLI65iEFxWcz3mnCSK7nwpiVNwYkWKsd7MffA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+  },
+  {
+    "title": "Home Collection",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/ab9b/bbb5/ec758e61c1bdcd401de2d77aebe07fe6?Expires=1665360000&Signature=POtz1ClQpHSIzvPLglk~hkp4-pmnBBsk9XtVs8bYFTaBj9ni-rOznSruYq8vpI40EnQL10riyTCMtuL3JGIXlONXdoGMG4JrIEpYGpXKQ0K05x~Hk35ijzZVM0PWJzkRz3zLF0MfIAUu5VyvF9SpFrHtaeW1359HeFol9IpDWHxYZ1VTsUc5kXiqbMQUx6iOTcw8kE75LWcrfQDxfWouUltAdMW8p525J2Tm3OxALCN7CCUBUVCZFR8NasR2C0j6LIgbtN64PjIxUVuFUg7LcTk8OJcMcSo7aQt7Qw6rso5qpVEOHnkMLAvSeuL5JWJp8ew3KgiRu~--xnnfxPdtnw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+  },
+  {
+    "title": "Men",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/f040/7d7c/a77397d3b7f425eebd7cad7148ae587b?Expires=1665360000&Signature=NYbRTnIomAjj8AAUfmXDqS7UzPq7wv9TXpj9K9vZrb27yguiY7Lg1~u5JTiU3CTF23b9LV5kdRe0JZ07lJ-AlBGpjzZKXWQWgHkAAByI2QJH05ukAb9Oq8h1uan2ou5S5cwstwGZhGAhwJr5a9jyHPry9JSlfZj4ftLZUCkBAQgCZFYdcgagloOnR82Q7vtDdFsyFRUtF15gLZ1a~yAnoEuLLXtFjBB2cWu~AKyudIHnGGCd~0jOZrQW5O9KhkPGE0fvGn3POeWh3uFo1N46vjIS9ggiCAeaPMievYhxq0xynEaqb0WQ0BQFoPhC63lvpthl0HR7dKPQV1bvN~iTcg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+  }
+];
