@@ -1,8 +1,10 @@
+import 'package:boom_mobile/screens/brand_page/brand_page.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_brand_post.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -65,6 +67,11 @@ class HomeScreen extends StatelessWidget {
                       likes: brandDetails[index]["likes"].toString(),
                       rebooms: brandDetails[index]["reboom"].toString(),
                       comments: brandDetails[index]["comments"].toString(),
+                      onTap: () {
+                        Get.to(() => BrandPage(
+                              title: brandDetails[index]["title"].toString(),
+                            ));
+                      },
                     );
                   },
                 ),
