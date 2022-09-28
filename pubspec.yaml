@@ -39,6 +39,7 @@ dependencies:
   get: ^4.6.5
   material_design_icons_flutter: ^5.0.6996
   flutter_svg: ^1.1.5
+  animated_bottom_navigation_bar: ^1.1.0
 
 dev_dependencies:
   flutter_test:
