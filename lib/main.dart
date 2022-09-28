@@ -1,4 +1,4 @@
-import 'package:boom_mobile/screens/main_screen.dart';
+import 'package:boom_mobile/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }

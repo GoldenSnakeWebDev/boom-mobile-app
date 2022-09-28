@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/home_screen/home_screen.dart';
+import 'package:boom_mobile/screens/main_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +172,7 @@ class LoginScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Get.to(
-                            () => const HomeScreen(),
+                            () => const MainScreen(),
                           );
                           log("You want to login?");
                           // Navigator.of(context).push(MaterialPageRoute(

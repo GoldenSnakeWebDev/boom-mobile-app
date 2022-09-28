@@ -50,6 +50,7 @@ class BrandPage extends StatelessWidget {
                           () => SingleNFTPage(
                             title: brandNFTs[index]["title"].toString(),
                             brandName: title,
+                            image: brandNFTs[index]["img"].toString(),
                           ),
                         );
                       },
