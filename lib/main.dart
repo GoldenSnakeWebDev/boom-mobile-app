@@ -1,4 +1,4 @@
-import 'package:boom_mobile/screens/authentication/login_screen.dart';
+import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
