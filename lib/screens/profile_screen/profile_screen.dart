@@ -467,13 +467,12 @@ class ProfileScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
-                                    Image.asset(
-                                      height: getProportionateScreenHeight(26),
-                                      color: kPrimaryColor,
-                                      "assets/icons/applaud.png",
+                                    const Icon(
+                                      MdiIcons.alert,
+                                      color: kYellowTextColor,
                                     ),
                                     Text(
-                                      "4780",
+                                      "58",
                                       style: TextStyle(
                                         fontSize:
                                             getProportionateScreenHeight(12),
@@ -482,14 +481,15 @@ class ProfileScreen extends StatelessWidget {
                                   ],
                                 ),
                                 Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.asset(
-                                      height: getProportionateScreenHeight(26),
-                                      color: kPrimaryColor,
-                                      "assets/icons/applaud.png",
+                                    const Icon(
+                                      MdiIcons.chatOutline,
+                                      size: 24,
                                     ),
                                     Text(
-                                      "4780",
+                                      "612",
                                       style: TextStyle(
                                         fontSize:
                                             getProportionateScreenHeight(12),

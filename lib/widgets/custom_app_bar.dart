@@ -34,8 +34,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               width: 10,
             ),
             const Image(
-              width: 50,
-              height: 45,
+              width: 45,
+              height: 40,
               image: AssetImage(
                 "assets/icons/boom_logo.png",
               ),
@@ -47,7 +47,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {},
               icon: const Icon(
                 Icons.search,
-                color: Colors.white,
+                color: Colors.white70,
               ),
             ),
             const Spacer(),
@@ -55,14 +55,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.mail,
-                color: Colors.grey.shade50,
+                color: Colors.blueGrey.shade400,
               ),
             ),
             IconButton(
               onPressed: () {},
-              icon: const Icon(
+              icon: Icon(
                 MdiIcons.faceAgent,
-                color: Colors.black,
+                color: Colors.blueGrey.shade500,
               ),
             ),
             IconButton(
@@ -76,16 +76,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: () {},
               icon: const Icon(
                 MdiIcons.bank,
-                color: Colors.black87,
+                color: Colors.blueGrey,
               ),
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.shopping_cart,
-                color: Colors.blueAccent,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: const Icon(
+            //     Icons.shopping_cart,
+            //     color: Colors.blueAccent,
+            //   ),
+            // ),
             const SizedBox(
               width: 10,
             ),
