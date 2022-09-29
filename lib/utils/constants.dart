@@ -81,3 +81,12 @@ List<Map<String, String>> brandNFTs = [
         "https://s3-alpha-sig.figma.com/img/f040/7d7c/a77397d3b7f425eebd7cad7148ae587b?Expires=1665360000&Signature=NYbRTnIomAjj8AAUfmXDqS7UzPq7wv9TXpj9K9vZrb27yguiY7Lg1~u5JTiU3CTF23b9LV5kdRe0JZ07lJ-AlBGpjzZKXWQWgHkAAByI2QJH05ukAb9Oq8h1uan2ou5S5cwstwGZhGAhwJr5a9jyHPry9JSlfZj4ftLZUCkBAQgCZFYdcgagloOnR82Q7vtDdFsyFRUtF15gLZ1a~yAnoEuLLXtFjBB2cWu~AKyudIHnGGCd~0jOZrQW5O9KhkPGE0fvGn3POeWh3uFo1N46vjIS9ggiCAeaPMievYhxq0xynEaqb0WQ0BQFoPhC63lvpthl0HR7dKPQV1bvN~iTcg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
   }
 ];
+
+List<String> profileOptions = [
+  "All",
+  "I-Shop",
+  "Boom Box",
+  "Posts",
+  "Social Bridge",
+  "Activity",
+];

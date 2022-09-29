@@ -1,4 +1,4 @@
-import 'package:boom_mobile/screens/brand_page/single_nft_page.dart';
+import 'package:boom_mobile/screens/nft_page/single_nft_page.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
