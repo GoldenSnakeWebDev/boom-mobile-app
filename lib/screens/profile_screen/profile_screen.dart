@@ -180,6 +180,7 @@ class ProfileScreen extends StatelessWidget {
                                   Text(
                                     "Content",
                                     style: TextStyle(
+                                      fontWeight: FontWeight.w600,
                                       fontSize:
                                           getProportionateScreenHeight(12),
                                     ),
@@ -194,7 +195,7 @@ class ProfileScreen extends StatelessWidget {
                                   Text(
                                     "180",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w800,
+                                      fontWeight: FontWeight.w900,
                                       fontSize:
                                           getProportionateScreenHeight(16),
                                     ),
@@ -202,6 +203,7 @@ class ProfileScreen extends StatelessWidget {
                                   Text(
                                     "Fans",
                                     style: TextStyle(
+                                      fontWeight: FontWeight.w600,
                                       fontSize:
                                           getProportionateScreenHeight(12),
                                     ),
@@ -224,6 +226,7 @@ class ProfileScreen extends StatelessWidget {
                                   Text(
                                     "Frens",
                                     style: TextStyle(
+                                      fontWeight: FontWeight.w600,
                                       fontSize:
                                           getProportionateScreenHeight(12),
                                     ),
