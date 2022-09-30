@@ -200,7 +200,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Frens",
+                                    "Fans",
                                     style: TextStyle(
                                       fontSize:
                                           getProportionateScreenHeight(12),
@@ -222,7 +222,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "I-Shape",
+                                    "Frens",
                                     style: TextStyle(
                                       fontSize:
                                           getProportionateScreenHeight(12),

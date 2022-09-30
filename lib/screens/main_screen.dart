@@ -1,11 +1,14 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:boom_mobile/screens/explore/expore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
+import 'package:boom_mobile/screens/new_post/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/profile_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MainScreen extends StatefulWidget {
@@ -67,38 +70,72 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       Expanded(
                         child: ListView(
-                          children: const [
+                          children: [
                             ListTile(
-                              leading: Icon(Icons.camera_alt),
-                              title: Text('Post'),
+                              leading: Image.asset(
+                                height: getProportionateScreenHeight(20),
+                                "assets/icons/post.png",
+                              ),
+                              title: const Text('Post'),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Get.to(() => const CreateNewPost());
+                              },
                             ),
                             ListTile(
-                              leading: Icon(Icons.image),
-                              title: Text('Tales'),
+                              leading: Image.asset(
+                                height: getProportionateScreenHeight(20),
+                                "assets/icons/tales.png",
+                              ),
+                              title: const Text('Tales'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.image),
-                              title: Text('Films'),
+                              leading:
+                                  SvgPicture.asset("assets/icons/films.svg"),
+                              title: const Text('Films'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.image),
-                              title: Text('Noob Talk'),
+                              leading: Image.asset(
+                                height: getProportionateScreenHeight(20),
+                                "assets/images/noob_talk.png",
+                              ),
+                              title: const Text('Noob Talk'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.image),
-                              title: Text('Boom Box'),
+                              leading: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      kPrimaryColor,
+                                      kSecondaryColor,
+                                      kPrimaryColor,
+                                    ],
+                                  ),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text("Box"),
+                                ),
+                              ),
+                              title: const Text('Boom Box'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.image),
-                              title: Text('Nudges'),
+                              leading: Image.asset(
+                                height: getProportionateScreenHeight(20),
+                                "assets/icons/nudges.png",
+                              ),
+                              title: const Text('Nudges'),
                             ),
-                            ListTile(
-                              leading: Icon(Icons.image),
+                            const ListTile(
+                              leading: Icon(MdiIcons.mail),
                               title: Text('DM'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.image),
-                              title: Text('Friends'),
+                              leading: Image.asset(
+                                height: getProportionateScreenHeight(20),
+                                "assets/icons/frens.png",
+                              ),
+                              title: const Text('Friends'),
                             ),
                           ],
                         ),
