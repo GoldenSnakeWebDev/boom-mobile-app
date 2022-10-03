@@ -1,8 +1,10 @@
 import 'package:boom_mobile/screens/back_pack_screen/back_pack_screen.dart';
+import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -54,7 +56,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             const Spacer(),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => const DirectMessagesScreen());
+              },
               icon: Icon(
                 Icons.mail,
                 color: Colors.blueGrey.shade400,

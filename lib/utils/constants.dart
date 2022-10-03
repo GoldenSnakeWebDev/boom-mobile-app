@@ -90,3 +90,87 @@ List<String> profileOptions = [
   "Social Bridge",
   "Activity",
 ];
+
+List<Map<String, dynamic>> dmDetails = [
+  {
+    "username": "Social Misfit",
+    "message": "Hey, I'm looking for a...",
+    "time": "2h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/7b60/554e/201d64a8b039270113ebd1dea57de332?Expires=1665360000&Signature=UgM6q3iB9uyXAemZInnWTpPsIPOTUTKkXHz1Yt2duMaXmD7DISAk95v8CK902E18ygekBGbAeLOaA6y4hG1EKEyU1NNwtwcZeGMxhKQVxiz91EhStRFfpw33smbIUYXGvs~5PDKHM3hY8HYXGJcKVuqQTKVNZm~pwucL2KqsZ3hLbQ19l4VVx4~Inib519S~xM6maXfg2i7qeZaDsFyIix4Lyst~yvO~LxUS0DHBIviVAZmptQ8KGRYTyTulv5Q3NzRehUC4DPB1Jv1xZuKcXsskLDci9tchzq0Q3zQbuXyx-FqAakLI65iEFxWcz3mnCSK7nwpiVNwYkWKsd7MffA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": false,
+  },
+  //some dynamic data
+  {
+    "username": "Just Ngeni",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/b3d2/f61f/5770e44baf3ec0982d980ea282108b25?Expires=1665964800&Signature=G6Jm1A7~xXorDKM0ZJ5ARPtT2R45KPuoE-Nyz5N0ZlmTbueebbebd1bpH0pjcyeaaRtMFvqk-ToK~vZ04lRj~NU1-0vx~PDrBUVEkXAxyNUdh3ZBipKR8uNSi54dSENs6IKTrLIRTqEtPE8iQKJLrRdHiMsejK6e6-~mro4i-4~0NsUNbILIKmSJrvpBxB~SBR1hZKmo5ihLziTxsRoCo7QIRXCov05ZfepOz5xnmqR2N7OPQttxRTc5b34Z7PIbwYOenuTikoXq4-sgjeE5ur0qnq-2oymUKDIbaxrAMDa2LZAI1bG69renOgi3OCV1f8vY1FqJv~SUOUNJj5KZcA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": false,
+  },
+  {
+    "username": "Call me Mikey",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/7b60/554e/201d64a8b039270113ebd1dea57de332?Expires=1665360000&Signature=UgM6q3iB9uyXAemZInnWTpPsIPOTUTKkXHz1Yt2duMaXmD7DISAk95v8CK902E18ygekBGbAeLOaA6y4hG1EKEyU1NNwtwcZeGMxhKQVxiz91EhStRFfpw33smbIUYXGvs~5PDKHM3hY8HYXGJcKVuqQTKVNZm~pwucL2KqsZ3hLbQ19l4VVx4~Inib519S~xM6maXfg2i7qeZaDsFyIix4Lyst~yvO~LxUS0DHBIviVAZmptQ8KGRYTyTulv5Q3NzRehUC4DPB1Jv1xZuKcXsskLDci9tchzq0Q3zQbuXyx-FqAakLI65iEFxWcz3mnCSK7nwpiVNwYkWKsd7MffA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": true,
+  },
+  {
+    "username": "Murife_the_1",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/b3d2/f61f/5770e44baf3ec0982d980ea282108b25?Expires=1665964800&Signature=G6Jm1A7~xXorDKM0ZJ5ARPtT2R45KPuoE-Nyz5N0ZlmTbueebbebd1bpH0pjcyeaaRtMFvqk-ToK~vZ04lRj~NU1-0vx~PDrBUVEkXAxyNUdh3ZBipKR8uNSi54dSENs6IKTrLIRTqEtPE8iQKJLrRdHiMsejK6e6-~mro4i-4~0NsUNbILIKmSJrvpBxB~SBR1hZKmo5ihLziTxsRoCo7QIRXCov05ZfepOz5xnmqR2N7OPQttxRTc5b34Z7PIbwYOenuTikoXq4-sgjeE5ur0qnq-2oymUKDIbaxrAMDa2LZAI1bG69renOgi3OCV1f8vY1FqJv~SUOUNJj5KZcA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": false,
+  },
+  {
+    "username": "Terrence Creative",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/7b60/554e/201d64a8b039270113ebd1dea57de332?Expires=1665360000&Signature=UgM6q3iB9uyXAemZInnWTpPsIPOTUTKkXHz1Yt2duMaXmD7DISAk95v8CK902E18ygekBGbAeLOaA6y4hG1EKEyU1NNwtwcZeGMxhKQVxiz91EhStRFfpw33smbIUYXGvs~5PDKHM3hY8HYXGJcKVuqQTKVNZm~pwucL2KqsZ3hLbQ19l4VVx4~Inib519S~xM6maXfg2i7qeZaDsFyIix4Lyst~yvO~LxUS0DHBIviVAZmptQ8KGRYTyTulv5Q3NzRehUC4DPB1Jv1xZuKcXsskLDci9tchzq0Q3zQbuXyx-FqAakLI65iEFxWcz3mnCSK7nwpiVNwYkWKsd7MffA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": true,
+  },
+  {
+    "username": "Kaligraph Jones",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/b3d2/f61f/5770e44baf3ec0982d980ea282108b25?Expires=1665964800&Signature=G6Jm1A7~xXorDKM0ZJ5ARPtT2R45KPuoE-Nyz5N0ZlmTbueebbebd1bpH0pjcyeaaRtMFvqk-ToK~vZ04lRj~NU1-0vx~PDrBUVEkXAxyNUdh3ZBipKR8uNSi54dSENs6IKTrLIRTqEtPE8iQKJLrRdHiMsejK6e6-~mro4i-4~0NsUNbILIKmSJrvpBxB~SBR1hZKmo5ihLziTxsRoCo7QIRXCov05ZfepOz5xnmqR2N7OPQttxRTc5b34Z7PIbwYOenuTikoXq4-sgjeE5ur0qnq-2oymUKDIbaxrAMDa2LZAI1bG69renOgi3OCV1f8vY1FqJv~SUOUNJj5KZcA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": true,
+  },
+  {
+    "username": "Scar Mkadinali",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/7b60/554e/201d64a8b039270113ebd1dea57de332?Expires=1665360000&Signature=UgM6q3iB9uyXAemZInnWTpPsIPOTUTKkXHz1Yt2duMaXmD7DISAk95v8CK902E18ygekBGbAeLOaA6y4hG1EKEyU1NNwtwcZeGMxhKQVxiz91EhStRFfpw33smbIUYXGvs~5PDKHM3hY8HYXGJcKVuqQTKVNZm~pwucL2KqsZ3hLbQ19l4VVx4~Inib519S~xM6maXfg2i7qeZaDsFyIix4Lyst~yvO~LxUS0DHBIviVAZmptQ8KGRYTyTulv5Q3NzRehUC4DPB1Jv1xZuKcXsskLDci9tchzq0Q3zQbuXyx-FqAakLI65iEFxWcz3mnCSK7nwpiVNwYkWKsd7MffA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": false,
+  },
+  {
+    "username": "Domani Munga",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/b3d2/f61f/5770e44baf3ec0982d980ea282108b25?Expires=1665964800&Signature=G6Jm1A7~xXorDKM0ZJ5ARPtT2R45KPuoE-Nyz5N0ZlmTbueebbebd1bpH0pjcyeaaRtMFvqk-ToK~vZ04lRj~NU1-0vx~PDrBUVEkXAxyNUdh3ZBipKR8uNSi54dSENs6IKTrLIRTqEtPE8iQKJLrRdHiMsejK6e6-~mro4i-4~0NsUNbILIKmSJrvpBxB~SBR1hZKmo5ihLziTxsRoCo7QIRXCov05ZfepOz5xnmqR2N7OPQttxRTc5b34Z7PIbwYOenuTikoXq4-sgjeE5ur0qnq-2oymUKDIbaxrAMDa2LZAI1bG69renOgi3OCV1f8vY1FqJv~SUOUNJj5KZcA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": false,
+  },
+  {
+    "username": "NFT King",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/7b60/554e/201d64a8b039270113ebd1dea57de332?Expires=1665360000&Signature=UgM6q3iB9uyXAemZInnWTpPsIPOTUTKkXHz1Yt2duMaXmD7DISAk95v8CK902E18ygekBGbAeLOaA6y4hG1EKEyU1NNwtwcZeGMxhKQVxiz91EhStRFfpw33smbIUYXGvs~5PDKHM3hY8HYXGJcKVuqQTKVNZm~pwucL2KqsZ3hLbQ19l4VVx4~Inib519S~xM6maXfg2i7qeZaDsFyIix4Lyst~yvO~LxUS0DHBIviVAZmptQ8KGRYTyTulv5Q3NzRehUC4DPB1Jv1xZuKcXsskLDci9tchzq0Q3zQbuXyx-FqAakLI65iEFxWcz3mnCSK7nwpiVNwYkWKsd7MffA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": false,
+  },
+  {
+    "username": "The Crypto Buddy",
+    "message": "Hey, what are you up to?",
+    "time": "10h",
+    "img":
+        "https://s3-alpha-sig.figma.com/img/b3d2/f61f/5770e44baf3ec0982d980ea282108b25?Expires=1665964800&Signature=G6Jm1A7~xXorDKM0ZJ5ARPtT2R45KPuoE-Nyz5N0ZlmTbueebbebd1bpH0pjcyeaaRtMFvqk-ToK~vZ04lRj~NU1-0vx~PDrBUVEkXAxyNUdh3ZBipKR8uNSi54dSENs6IKTrLIRTqEtPE8iQKJLrRdHiMsejK6e6-~mro4i-4~0NsUNbILIKmSJrvpBxB~SBR1hZKmo5ihLziTxsRoCo7QIRXCov05ZfepOz5xnmqR2N7OPQttxRTc5b34Z7PIbwYOenuTikoXq4-sgjeE5ur0qnq-2oymUKDIbaxrAMDa2LZAI1bG69renOgi3OCV1f8vY1FqJv~SUOUNJj5KZcA__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+    "read": true,
+  },
+];
