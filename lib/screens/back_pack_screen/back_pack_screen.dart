@@ -133,13 +133,131 @@ class BackPackScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemBuilder: (context, index) {
-            //       return Container();
-            //     },
-            //   ),
-            // )
+            SizedBox(
+              height: getProportionateScreenHeight(15),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: kContBgColor,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: SizeConfig.screenWidth * 0.4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Syn. NFT ID: B4356FG7",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(13),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const Divider(
+                                  color: Colors.black,
+                                  height: 20,
+                                ),
+                                Text(
+                                  "A collection of space pups that...",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(11),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(10),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black, width: 0.5),
+                                        borderRadius: BorderRadius.circular(3),
+                                        gradient: const LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            kSecondaryColor,
+                                            kPrimaryColor,
+                                            kPrimaryColor,
+                                            kSecondaryColor
+                                          ],
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8.0, 4, 8, 4),
+                                        child: Text(
+                                          "Export",
+                                          style: TextStyle(
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      12)),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black, width: 0.5),
+                                        borderRadius: BorderRadius.circular(3),
+                                        gradient: const LinearGradient(
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            kSecondaryColor,
+                                            kPrimaryColor,
+                                            kPrimaryColor,
+                                            kSecondaryColor
+                                          ],
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            8.0, 4, 8, 4),
+                                        child: Text(
+                                          "Send To",
+                                          style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    12),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: getProportionateScreenWidth(100),
+                            height: getProportionateScreenHeight(95),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: const DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/bored_ape.png")),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

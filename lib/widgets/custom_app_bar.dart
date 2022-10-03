@@ -1,4 +1,5 @@
 import 'package:boom_mobile/screens/back_pack_screen/back_pack_screen.dart';
+import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -69,14 +70,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
               onPressed: () {
                 showDialog(
-                    useSafeArea: true,
-                    context: context,
-                    builder: (context) {
-                      return const AlertDialog(
-                        contentPadding: EdgeInsets.zero,
-                        content: BackPackScreen(),
-                      );
-                    });
+                  useSafeArea: true,
+                  context: context,
+                  builder: (context) {
+                    return const AlertDialog(
+                      contentPadding: EdgeInsets.zero,
+                      content: BackPackScreen(),
+                    );
+                  },
+                );
               },
               icon: const Icon(
                 MdiIcons.bagPersonal,
@@ -84,7 +86,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  useSafeArea: true,
+                  context: context,
+                  builder: (context) {
+                    return const AlertDialog(
+                      contentPadding: EdgeInsets.zero,
+                      content: SyntheticBankScreen(),
+                    );
+                  },
+                );
+              },
               icon: const Icon(
                 MdiIcons.bank,
                 color: Colors.blueGrey,
