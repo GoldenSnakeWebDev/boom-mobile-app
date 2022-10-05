@@ -1,10 +1,9 @@
-import 'package:boom_mobile/screens/brand_page/brand_page.dart';
+import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
-import 'package:boom_mobile/widgets/single_brand_post.dart';
+import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +19,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: getProportionateScreenHeight(100),
+                height: getProportionateScreenHeight(80),
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: talesDetails.length,
@@ -30,18 +29,31 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Container(
-                            width: getProportionateScreenWidth(56),
-                            height: getProportionateScreenHeight(56),
+                            width: getProportionateScreenHeight(60),
+                            height: getProportionateScreenHeight(60),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12.0),
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/${talesDetails[index]["img"]}.jpeg"),
-                                  fit: BoxFit.cover),
+                              border: Border.all(
+                                color: index % 2 == 0
+                                    ? Colors.grey
+                                    : kPrimaryColor,
+                                width: 1.5,
+                              ),
+                              shape: BoxShape.circle,
                             ),
-                          ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(10),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Container(
+                                width: getProportionateScreenWidth(56),
+                                height: getProportionateScreenHeight(56),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/${talesDetails[index]["img"]}.jpeg"),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                            ),
                           ),
                           Text(
                             talesDetails[index]["title"].toString(),
@@ -56,23 +68,15 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
               ),
+              Divider(
+                color: Colors.grey.shade200,
+                thickness: 1,
+              ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: brandDetails.length,
+                  itemCount: 20,
                   itemBuilder: (context, index) {
-                    return SingleBrandPost(
-                      index: index,
-                      title: brandDetails[index]["title"].toString(),
-                      image: brandDetails[index]["img"].toString(),
-                      likes: brandDetails[index]["likes"].toString(),
-                      rebooms: brandDetails[index]["reboom"].toString(),
-                      comments: brandDetails[index]["comments"].toString(),
-                      onTap: () {
-                        Get.to(() => BrandPage(
-                              title: brandDetails[index]["title"].toString(),
-                            ));
-                      },
-                    );
+                    return const SingleBoomWidget();
                   },
                 ),
               ),
