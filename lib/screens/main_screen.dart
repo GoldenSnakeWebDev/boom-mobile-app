@@ -7,7 +7,6 @@ import 'package:boom_mobile/screens/profile_screen/profile_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -63,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
                   BoxConstraints(maxWidth: SizeConfig.screenWidth * 0.5),
               builder: (context) {
                 return Container(
-                  height: SizeConfig.screenHeight * 0.5,
+                  height: SizeConfig.screenHeight * 0.4,
                   width: SizeConfig.screenWidth * 0.5,
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Column(
@@ -90,44 +89,28 @@ class _MainScreenState extends State<MainScreen> {
                               title: const Text('Tales'),
                             ),
                             ListTile(
-                              leading:
-                                  SvgPicture.asset("assets/icons/films.svg"),
-                              title: const Text('Films'),
-                            ),
-                            ListTile(
-                              leading: Image.asset(
-                                height: getProportionateScreenHeight(20),
-                                "assets/images/noob_talk.png",
-                              ),
-                              title: const Text('Noob Talk'),
-                            ),
-                            ListTile(
-                              leading: Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      kPrimaryColor,
-                                      kSecondaryColor,
-                                      kPrimaryColor,
-                                    ],
-                                  ),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.all(4.0),
-                                  child: Text("Box"),
+                              leading: SizedBox(
+                                width: getProportionateScreenWidth(50),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      height: getProportionateScreenHeight(20),
+                                      "assets/icons/tales.png",
+                                    ),
+                                    SizedBox(
+                                      width: getProportionateScreenWidth(5),
+                                    ),
+                                    Image.asset(
+                                      height: getProportionateScreenHeight(20),
+                                      "assets/icons/tales.png",
+                                    ),
+                                  ],
                                 ),
                               ),
-                              title: const Text('Boom Box'),
-                            ),
-                            ListTile(
-                              leading: Image.asset(
-                                height: getProportionateScreenHeight(20),
-                                "assets/icons/nudges.png",
-                              ),
-                              title: const Text('Nudges'),
+                              title: const Text('Epics'),
                             ),
                             const ListTile(
-                              leading: Icon(MdiIcons.mail),
+                              leading: Icon(Icons.mail),
                               title: Text('DM'),
                             ),
                             ListTile(
@@ -135,7 +118,14 @@ class _MainScreenState extends State<MainScreen> {
                                 height: getProportionateScreenHeight(20),
                                 "assets/icons/frens.png",
                               ),
-                              title: const Text('Friends'),
+                              title: const Text('Fans'),
+                            ),
+                            ListTile(
+                              leading: Image.asset(
+                                height: getProportionateScreenHeight(20),
+                                "assets/icons/frens.png",
+                              ),
+                              title: const Text('Frens'),
                             ),
                           ],
                         ),
