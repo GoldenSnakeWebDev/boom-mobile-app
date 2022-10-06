@@ -3,9 +3,18 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SingleBoomPage extends StatelessWidget {
   const SingleBoomPage({Key? key}) : super(key: key);
+
+  void _onShare(BuildContext context) async {
+    final box = context.findRenderObject() as RenderBox;
+
+    await Share.share("You are sharing an NFT man",
+        subject: "NFT",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +92,42 @@ class SingleBoomPage extends StatelessWidget {
                             )
                           ],
                         ),
+                        SizedBox(
+                          width: getProportionateScreenWidth(8),
+                        ),
                         Column(
-                          children: const [],
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  MdiIcons.mapMarker,
+                                  size: 18,
+                                ),
+                                Text(
+                                  "Spain",
+                                  style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(15),
+                                      fontWeight: FontWeight.w800),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(10),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _onShare(context);
+                              },
+                              child: const Icon(
+                                MdiIcons.shareVariant,
+                                size: 18,
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
                         )
                       ],
                     ),
@@ -92,32 +135,144 @@ class SingleBoomPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: kPrimaryColor,
+                        GestureDetector(
+                          onTap: () {
+                            var value = showMenu(
+                              context: context,
+                              position: RelativeRect.fromLTRB(
+                                SizeConfig.screenWidth * 0.6,
+                                SizeConfig.screenHeight * 0.65,
+                                SizeConfig.screenWidth * 0.35,
+                                60,
+                              ),
+                              constraints: BoxConstraints(
+                                  maxWidth: SizeConfig.screenWidth * 0.35),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              items: [
+                                PopupMenuItem(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: kBlueColor.withOpacity(0.8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16.0, 4.0, 16.0, 4.0),
+                                      child: Text(
+                                        "Syn. NFT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                              getProportionateScreenHeight(14),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: kBlueColor.withOpacity(0.8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          16.0, 4.0, 16.0, 4.0),
+                                      child: Text(
+                                        "Mint NFT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize:
+                                              getProportionateScreenHeight(14),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                border: Border.all(color: Colors.black)),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+                              child: Text(
+                                "Obtain",
+                                style: TextStyle(
+                                  fontSize: getProportionateScreenHeight(12),
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
                           ),
-                          child: const Text("Obtain"),
                         ),
                         SizedBox(
-                          width: getProportionateScreenWidth(5),
+                          width: getProportionateScreenWidth(7),
                         ),
                         Column(
                           children: [
                             Text(
                               "50",
                               style: TextStyle(
-                                fontSize: getProportionateScreenHeight(16),
+                                fontSize: getProportionateScreenHeight(18),
+                                fontWeight: FontWeight.w900,
                               ),
                             ),
-                            const Text("(\$75)")
+                            Text(
+                              "(\$75)",
+                              style: TextStyle(
+                                  fontSize: getProportionateScreenHeight(11)),
+                            )
                           ],
+                        ),
+                        SizedBox(
+                          width: getProportionateScreenWidth(5),
                         ),
                         Image.asset(
                           height: getProportionateScreenHeight(20),
                           "assets/icons/bnb.png",
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showMenu(
+                              context: context,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              position: RelativeRect.fromLTRB(
+                                SizeConfig.screenWidth,
+                                SizeConfig.screenHeight * 0.6,
+                                30,
+                                60,
+                              ),
+                              items: [
+                                PopupMenuItem(
+                                  onTap: () {},
+                                  child: Text(
+                                    "View Contract",
+                                    style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(13),
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  onTap: () {},
+                                  child: Text(
+                                    "Report Post",
+                                    style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(13),
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
                           icon: const Icon(
                             MdiIcons.dotsHorizontal,
                             color: Colors.black,
