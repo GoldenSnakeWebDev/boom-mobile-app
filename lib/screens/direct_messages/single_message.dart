@@ -16,9 +16,9 @@ class SingleMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kContBgColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: kContBgColor,
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
@@ -73,11 +73,75 @@ class SingleMessage extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: 100,
-                      itemBuilder: (context, index) {
-                        return const Text("These are some messages");
-                      },
+                    child: SingleChildScrollView(
+                      reverse: true,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 30,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.only(
+                              bottom: getProportionateScreenHeight(10),
+                              top: getProportionateScreenHeight(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: index % 2 == 0
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.end,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: index % 2 == 0
+                                      ? CrossAxisAlignment.start
+                                      : CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      width: SizeConfig.screenWidth * 0.7,
+                                      decoration: BoxDecoration(
+                                        color: index % 2 == 0
+                                            ? const Color(0xFFF8F8F8)
+                                            : const Color(0XFF4B5259),
+                                        borderRadius: index % 2 == 0
+                                            ? const BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12),
+                                                bottomLeft: Radius.circular(12),
+                                              )
+                                            : const BorderRadius.only(
+                                                topLeft: Radius.circular(12),
+                                                topRight: Radius.circular(12),
+                                                bottomRight:
+                                                    Radius.circular(12),
+                                              ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "${index % 2 == 0 ? "Sender" : "Recepient"} These are some messages. Let's try to make it long enough to see how it looks like 😂😂😂🥳",
+                                          style: TextStyle(
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      12),
+                                              color: index % 2 == 0
+                                                  ? const Color(0xFF5F5F5F)
+                                                  : Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      "Seen",
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(10),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   TextFormField(

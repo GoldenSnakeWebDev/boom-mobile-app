@@ -185,7 +185,7 @@ class ProfileScreen extends StatelessWidget {
                         child: const Icon(MdiIcons.swapVertical),
                       )),
                   Positioned(
-                    top: 130,
+                    top: 150,
                     left: 90,
                     child: SizedBox(
                       width: getProportionateScreenWidth(250),
@@ -348,7 +348,7 @@ class ProfileScreen extends StatelessWidget {
               constraints: BoxConstraints(
                 minHeight: SizeConfig.screenHeight * 0.38,
               ),
-              height: SizeConfig.screenHeight * 0.38,
+              height: SizeConfig.screenHeight * 0.39,
               width: SizeConfig.screenWidth,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
