@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Container(
                     width: SizeConfig.screenWidth,
-                    height: getProportionateScreenHeight(150),
+                    height: getProportionateScreenHeight(130),
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(
@@ -74,65 +74,93 @@ class ProfileScreen extends StatelessWidget {
                   Positioned(
                     right: 0,
                     child: Container(
-                      height: getProportionateScreenHeight(150),
-                      width: getProportionateScreenWidth(44),
+                      height: getProportionateScreenHeight(130),
+                      width: getProportionateScreenWidth(30),
                       decoration: const BoxDecoration(color: Colors.white),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: const [
                           Icon(
                             MdiIcons.twitter,
+                            size: 18,
                             color: Colors.blueAccent,
                           ),
                           Icon(
                             MdiIcons.facebook,
+                            size: 18,
                             color: Colors.blue,
                           ),
                           Icon(
                             MdiIcons.instagram,
+                            size: 18,
                             color: Colors.purpleAccent,
                           ),
-                          Icon(MdiIcons.musicNote)
+                          Icon(
+                            MdiIcons.musicNote,
+                            size: 18,
+                          )
                         ],
                       ),
                     ),
                   ),
                   Positioned(
                     top: 95,
-                    left: 70,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: kBlueColor,
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "B",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 120,
                     left: 15,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage(
-                            "assets/images/seven.jpg",
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      width: getProportionateScreenWidth(70),
+                    child: SizedBox(
+                      width: getProportionateScreenWidth(60),
                       height: getProportionateScreenHeight(70),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 10,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              width: getProportionateScreenWidth(55),
+                              height: getProportionateScreenHeight(60),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  height: getProportionateScreenHeight(60),
+                                  width: getProportionateScreenWidth(55),
+                                  "assets/images/seven.jpg",
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Container(
+                              width: getProportionateScreenWidth(20),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.white, width: 1),
+                                shape: BoxShape.circle,
+                                color: kBlueColor,
+                              ),
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.all(3.0),
+                                child: Text(
+                                  "B",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: getProportionateScreenHeight(14),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
-                    top: 210,
+                    top: 170,
                     left: 35,
                     child: Image.asset(
                       height: getProportionateScreenHeight(30),
@@ -140,7 +168,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                      top: 260,
+                      top: 210,
                       left: 35,
                       child: Container(
                         decoration: BoxDecoration(
@@ -157,8 +185,8 @@ class ProfileScreen extends StatelessWidget {
                         child: const Icon(MdiIcons.swapVertical),
                       )),
                   Positioned(
-                    top: 175,
-                    left: 110,
+                    top: 150,
+                    left: 90,
                     child: SizedBox(
                       width: getProportionateScreenWidth(250),
                       child: Column(
@@ -265,7 +293,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 320,
+                    top: 250,
                     child: Container(
                       color: kContBgColor,
                       width: SizeConfig.screenWidth,
@@ -317,7 +345,10 @@ class ProfileScreen extends StatelessWidget {
             ),
             Container(
               color: kContBgColor,
-              height: SizeConfig.screenHeight * 0.32,
+              constraints: BoxConstraints(
+                minHeight: SizeConfig.screenHeight * 0.38,
+              ),
+              height: SizeConfig.screenHeight * 0.39,
               width: SizeConfig.screenWidth,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),

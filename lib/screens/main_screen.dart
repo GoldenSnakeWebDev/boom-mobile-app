@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:boom_mobile/screens/explore/expore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
@@ -152,7 +154,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        height: getProportionateScreenHeight(30),
+        height: Platform.isIOS
+            ? getProportionateScreenHeight(30)
+            : getProportionateScreenHeight(40),
         activeIndex: _currPage,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.softEdge,

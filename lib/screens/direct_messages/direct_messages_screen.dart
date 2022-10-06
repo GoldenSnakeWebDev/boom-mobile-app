@@ -79,7 +79,7 @@ class DirectMessagesScreen extends StatelessWidget {
                       ),
                     ),
                     trailing: SizedBox(
-                      width: getProportionateScreenWidth(50),
+                      width: getProportionateScreenWidth(55),
                       child: Row(
                         children: [
                           dmDetails[index]["read"]
