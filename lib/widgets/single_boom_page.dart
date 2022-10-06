@@ -137,7 +137,7 @@ class SingleBoomPage extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            var value = showMenu(
+                            showMenu(
                               context: context,
                               position: RelativeRect.fromLTRB(
                                 SizeConfig.screenWidth * 0.6,
