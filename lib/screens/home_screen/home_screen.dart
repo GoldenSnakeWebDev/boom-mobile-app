@@ -1,9 +1,12 @@
+import 'package:boom_mobile/screens/tales/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,47 +27,112 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: talesDetails.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(right: 30),
-                      child: Column(
-                        children: [
-                          Container(
-                            width: getProportionateScreenHeight(60),
-                            height: getProportionateScreenHeight(60),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: index % 2 == 0
-                                    ? Colors.grey
-                                    : kPrimaryColor,
-                                width: 1.5,
+                    return index == 0
+                        ? GestureDetector(
+                            onTap: () async {
+                              // await TalesController().loadDefaultCamera();
+                              Get.to(() => CaptureTaleScreen());
+                            },
+                            child: SizedBox(
+                              height: getProportionateScreenHeight(70),
+                              width: getProportionateScreenWidth(70),
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: 0,
+                                    child: Container(
+                                      width: getProportionateScreenHeight(60),
+                                      height: getProportionateScreenHeight(60),
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: Container(
+                                          width:
+                                              getProportionateScreenWidth(56),
+                                          height:
+                                              getProportionateScreenHeight(56),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/${talesDetails[index]["img"]}.jpeg"),
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const Positioned(
+                                    bottom: 20,
+                                    right: 10,
+                                    child: Icon(
+                                      MdiIcons.plusCircle,
+                                      size: 18,
+                                      color: Colors.blueAccent,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 5,
+                                    left: 10,
+                                    child: Text(
+                                      "Your Tale",
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(12),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                              shape: BoxShape.circle,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: Container(
-                                width: getProportionateScreenWidth(56),
-                                height: getProportionateScreenHeight(56),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/${talesDetails[index]["img"]}.jpeg"),
-                                      fit: BoxFit.cover),
+                          )
+                        : Container(
+                            margin: const EdgeInsets.only(right: 30),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: getProportionateScreenHeight(60),
+                                  height: getProportionateScreenHeight(60),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: index % 2 == 0
+                                          ? Colors.grey
+                                          : kPrimaryColor,
+                                      width: 1.5,
+                                    ),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                      width: getProportionateScreenWidth(56),
+                                      height: getProportionateScreenHeight(56),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/${talesDetails[index]["img"]}.jpeg"),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(5),
+                                ),
+                                Text(
+                                  talesDetails[index]["title"].toString(),
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(12),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            talesDetails[index]["title"].toString(),
-                            style: TextStyle(
-                              fontSize: getProportionateScreenHeight(12),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                          );
                   },
                 ),
               ),
