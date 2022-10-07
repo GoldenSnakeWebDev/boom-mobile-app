@@ -1,4 +1,4 @@
-import 'package:boom_mobile/screens/tales/capture_tale_screen.dart';
+import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -30,12 +30,11 @@ class HomeScreen extends StatelessWidget {
                     return index == 0
                         ? GestureDetector(
                             onTap: () async {
-                              // await TalesController().loadDefaultCamera();
                               Get.to(() => CaptureTaleScreen());
                             },
                             child: SizedBox(
                               height: getProportionateScreenHeight(70),
-                              width: getProportionateScreenWidth(70),
+                              width: getProportionateScreenWidth(75),
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -66,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   const Positioned(
                                     bottom: 20,
-                                    right: 10,
+                                    right: 17,
                                     child: Icon(
                                       MdiIcons.plusCircle,
                                       size: 18,
@@ -90,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           )
                         : Container(
-                            margin: const EdgeInsets.only(right: 30),
+                            margin: const EdgeInsets.only(right: 17),
                             child: Column(
                               children: [
                                 Container(

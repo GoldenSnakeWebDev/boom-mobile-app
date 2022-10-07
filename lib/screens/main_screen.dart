@@ -6,6 +6,7 @@ import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/new_post/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/profile_screen.dart';
+import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,10 @@ class _MainScreenState extends State<MainScreen> {
                                 height: getProportionateScreenHeight(20),
                                 "assets/icons/tales.png",
                               ),
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Get.to(() => CaptureTaleScreen());
+                              },
                               title: const Text('Tales'),
                             ),
                             ListTile(
