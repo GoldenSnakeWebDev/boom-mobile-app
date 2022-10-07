@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                     return index == 0
                         ? GestureDetector(
                             onTap: () async {
-                              Get.to(() => CaptureTaleScreen());
+                              Get.to(() => const CaptureTaleScreen());
                             },
                             child: SizedBox(
                               height: getProportionateScreenHeight(70),

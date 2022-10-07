@@ -91,7 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                               onTap: () {
                                 Navigator.of(context).pop();
-                                Get.to(() => CaptureTaleScreen());
+                                Get.to(() => const CaptureTaleScreen());
                               },
                               title: const Text('Tales'),
                             ),

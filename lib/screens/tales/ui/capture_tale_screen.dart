@@ -9,9 +9,7 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CaptureTaleScreen extends GetView<TalesController> {
-  CaptureTaleScreen({Key? key}) : super(key: key);
-
-  XFile? _capturedImage;
+  const CaptureTaleScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +69,9 @@ class CaptureTaleScreen extends GetView<TalesController> {
                   left: SizeConfig.screenWidth * 0.4,
                   child: GestureDetector(
                     onTap: () async {
-                      _capturedImage =
+                      XFile? capturedImage =
                           await value.cameraController?.takePicture();
-                      File file = File(_capturedImage!.path);
+                      File file = File(capturedImage!.path);
                       Get.to(() => EditTaleImage(imageFile: file));
                     },
                     child: Container(
