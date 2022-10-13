@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:boom_mobile/screens/authentication/registration/registration_screen.dart';
 import 'package:boom_mobile/screens/main_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -206,40 +208,43 @@ class LoginScreen extends StatelessWidget {
                             height: getProportionateScreenHeight(15),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      width: getProportionateScreenHeight(15),
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                      ),
-                                      child: const Icon(
-                                        Icons.check,
-                                        size: 16,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: getProportionateScreenWidth(5),
-                                    ),
-                                    const Text(
-                                      "Remember me",
-                                      style: TextStyle(color: Colors.white),
-                                    )
-                                  ],
+                              Text(
+                                "Forgot Password?",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: getProportionateScreenHeight(10),
                                 ),
                               ),
-                              SizedBox(
-                                width: getProportionateScreenWidth(20),
-                              ),
-                              const Text("Forgot Password?",
-                                  style: TextStyle(color: Colors.white)),
                             ],
-                          )
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(25),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: "Don't have an account? ",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenHeight(14),
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "Register",
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.to(
+                                        () => const RegistrationScreen(),
+                                      );
+                                    },
+                                  style: TextStyle(
+                                    color: Colors.red.withOpacity(0.8),
+                                    fontSize: getProportionateScreenHeight(14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),

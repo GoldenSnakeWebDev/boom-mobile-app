@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:boom_mobile/screens/main_screen.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class EditTaleImage extends StatelessWidget {
   final File imageFile;
@@ -47,6 +49,99 @@ class EditTaleImage extends StatelessWidget {
               ),
             ),
             Positioned(
+              top: 7,
+              right: 10,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Text(
+                          "Aa",
+                          style: TextStyle(
+                            fontSize: getProportionateScreenHeight(16),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(4),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: Icon(
+                          MdiIcons.stickerEmoji,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(4),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: Icon(
+                          Icons.gamepad,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: getProportionateScreenWidth(4),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      alignment: Alignment.center,
+                      child: const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: Icon(
+                          MdiIcons.download,
+                          size: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
               bottom: 0,
               child: Container(
                   height: SizeConfig.screenHeight * 0.1,
@@ -61,7 +156,7 @@ class EditTaleImage extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Get.back();
+                            Get.to(() => const MainScreen());
                           },
                           child: Container(
                             decoration: const BoxDecoration(
