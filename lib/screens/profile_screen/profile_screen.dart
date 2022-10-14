@@ -353,9 +353,11 @@ class ProfileScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: booms.length,
                   itemBuilder: (context, index) {
-                    return const SingleBoomWidget();
+                    return SingleBoomWidget(
+                      post: booms[index],
+                    );
                   },
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
@@ -7,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SingleBoomWidget extends StatelessWidget {
+  final SingleBoomPost post;
   const SingleBoomWidget({
     Key? key,
+    required this.post,
   }) : super(key: key);
 
   @override
@@ -32,7 +35,11 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   Image.asset(
                     height: getProportionateScreenHeight(24),
-                    "assets/icons/bnb.png",
+                    post.chain == "bnb"
+                        ? "assets/icons/bnb.png"
+                        : post.chain == "tezos"
+                            ? "assets/icons/tezos.png"
+                            : "assets/icons/polygon.png",
                   ),
                   SizedBox(
                     width: getProportionateScreenWidth(5),
@@ -54,12 +61,12 @@ class SingleBoomWidget extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               MdiIcons.mapMarker,
                               size: 16,
                             ),
-                            Text("North Carolina"),
+                            Text(post.location),
                           ],
                         ),
                       ))
@@ -73,8 +80,8 @@ class SingleBoomWidget extends StatelessWidget {
                 height: getProportionateScreenHeight(200),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  image: const DecorationImage(
-                    image: AssetImage("assets/images/dog.png"),
+                  image: DecorationImage(
+                    image: NetworkImage(post.imgUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -83,7 +90,7 @@ class SingleBoomWidget extends StatelessWidget {
                 height: getProportionateScreenHeight(15),
               ),
               Text(
-                "Cute puppy enjoying his day. Ah, happy happy!",
+                post.desc,
                 style: TextStyle(
                   fontSize: getProportionateScreenHeight(14),
                 ),
@@ -103,7 +110,7 @@ class SingleBoomWidget extends StatelessWidget {
                         "assets/icons/applaud.png",
                       ),
                       Text(
-                        "4780",
+                        post.likes.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -118,7 +125,7 @@ class SingleBoomWidget extends StatelessWidget {
                         "assets/icons/love.svg",
                       ),
                       Text(
-                        "1200",
+                        post.loves.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -133,7 +140,7 @@ class SingleBoomWidget extends StatelessWidget {
                         "assets/icons/smile.png",
                       ),
                       Text(
-                        "550",
+                        post.smiles.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -147,7 +154,7 @@ class SingleBoomWidget extends StatelessWidget {
                         "assets/icons/reboom.svg",
                       ),
                       Text(
-                        "900",
+                        post.rebooms.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -161,7 +168,7 @@ class SingleBoomWidget extends StatelessWidget {
                         color: kYellowTextColor,
                       ),
                       Text(
-                        "58",
+                        post.reported.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -173,10 +180,10 @@ class SingleBoomWidget extends StatelessWidget {
                     children: [
                       const Icon(
                         MdiIcons.chatOutline,
-                        size: 24,
+                        size: 22,
                       ),
                       Text(
-                        "612",
+                        post.comments.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
