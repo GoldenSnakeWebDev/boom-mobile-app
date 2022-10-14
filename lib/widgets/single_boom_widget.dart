@@ -18,7 +18,9 @@ class SingleBoomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const SingleBoomPage());
+        Get.to(() => SingleBoomPage(
+              post: post,
+            ));
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 30),
