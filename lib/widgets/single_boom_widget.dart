@@ -1,21 +1,27 @@
+import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SingleBoomWidget extends StatelessWidget {
+  final SingleBoomPost post;
   const SingleBoomWidget({
     Key? key,
+    required this.post,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => const SingleBoomPage());
+        Get.to(() => SingleBoomPage(
+              post: post,
+            ));
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 30),
@@ -32,7 +38,11 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   Image.asset(
                     height: getProportionateScreenHeight(24),
-                    "assets/icons/bnb.png",
+                    post.chain == "bnb"
+                        ? "assets/icons/bnb.png"
+                        : post.chain == "tezos"
+                            ? "assets/icons/tezos.png"
+                            : "assets/icons/polygon.png",
                   ),
                   SizedBox(
                     width: getProportionateScreenWidth(5),
@@ -54,12 +64,12 @@ class SingleBoomWidget extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               MdiIcons.mapMarker,
                               size: 16,
                             ),
-                            Text("North Carolina"),
+                            Text(post.location),
                           ],
                         ),
                       ))
@@ -73,8 +83,8 @@ class SingleBoomWidget extends StatelessWidget {
                 height: getProportionateScreenHeight(200),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  image: const DecorationImage(
-                    image: AssetImage("assets/images/dog.png"),
+                  image: DecorationImage(
+                    image: NetworkImage(post.imgUrl),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -83,7 +93,7 @@ class SingleBoomWidget extends StatelessWidget {
                 height: getProportionateScreenHeight(15),
               ),
               Text(
-                "Cute puppy enjoying his day. Ah, happy happy!",
+                post.desc,
                 style: TextStyle(
                   fontSize: getProportionateScreenHeight(14),
                 ),
@@ -97,13 +107,22 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Image.asset(
-                        height: getProportionateScreenHeight(26),
-                        color: kPrimaryColor,
-                        "assets/icons/applaud.png",
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(28),
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return Image.asset(
+                            height: getProportionateScreenHeight(26),
+                            color: isLiked ? kPrimaryColor : Colors.black,
+                            "assets/icons/applaud.png",
+                          );
+                        }),
                       ),
                       Text(
-                        "4780",
+                        post.likes.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -113,12 +132,46 @@ class SingleBoomWidget extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset(
-                        height: getProportionateScreenHeight(18),
-                        "assets/icons/love.svg",
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(22),
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return SvgPicture.asset(
+                            height: getProportionateScreenHeight(15),
+                            "assets/icons/love.svg",
+                            color: isLiked ? Colors.red : kPrimaryColor,
+                          );
+                        }),
                       ),
                       Text(
-                        "1200",
+                        post.loves.toString(),
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(12),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(26),
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return Image.asset(
+                            height: getProportionateScreenHeight(22),
+                            "assets/icons/smile.png",
+                          );
+                        }),
+                      ),
+                      Text(
+                        post.smiles.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -128,26 +181,20 @@ class SingleBoomWidget extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        height: getProportionateScreenHeight(22),
-                        "assets/icons/smile.png",
-                      ),
+                      LikeButton(
+                          animationDuration: const Duration(milliseconds: 600),
+                          size: getProportionateScreenHeight(20),
+                          bubblesColor: const BubblesColor(
+                              dotPrimaryColor: kPrimaryColor,
+                              dotSecondaryColor: kSecondaryColor),
+                          likeBuilder: (isLiked) {
+                            return SvgPicture.asset(
+                              height: getProportionateScreenHeight(18),
+                              "assets/icons/reboom.svg",
+                            );
+                          }),
                       Text(
-                        "550",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      SvgPicture.asset(
-                        height: getProportionateScreenHeight(18),
-                        "assets/icons/reboom.svg",
-                      ),
-                      Text(
-                        "900",
+                        post.rebooms.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -161,7 +208,7 @@ class SingleBoomWidget extends StatelessWidget {
                         color: kYellowTextColor,
                       ),
                       Text(
-                        "58",
+                        post.reported.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),
@@ -173,10 +220,10 @@ class SingleBoomWidget extends StatelessWidget {
                     children: [
                       const Icon(
                         MdiIcons.chatOutline,
-                        size: 24,
+                        size: 22,
                       ),
                       Text(
-                        "612",
+                        post.comments.toString(),
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
                         ),

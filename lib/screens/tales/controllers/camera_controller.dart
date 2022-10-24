@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/tales/services/camer_service.dart';
+import 'package:boom_mobile/screens/tales/services/camera_service.dart';
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 

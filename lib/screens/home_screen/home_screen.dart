@@ -141,9 +141,11 @@ class HomeScreen extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: 20,
+                  itemCount: booms.length,
                   itemBuilder: (context, index) {
-                    return const SingleBoomWidget();
+                    return SingleBoomWidget(
+                      post: booms[index],
+                    );
                   },
                 ),
               ),

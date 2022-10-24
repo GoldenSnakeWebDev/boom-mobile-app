@@ -4,6 +4,7 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -32,7 +33,10 @@ class ProfileScreen extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Icon(MdiIcons.mapMarker),
+                    const Icon(
+                      MdiIcons.mapMarker,
+                      size: 16,
+                    ),
                     Container(
                       height: getProportionateScreenHeight(28),
                       decoration: const BoxDecoration(
@@ -160,32 +164,49 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 170,
-                    left: 35,
+                    top: 180,
+                    left: 30,
                     child: Image.asset(
                       height: getProportionateScreenHeight(30),
                       "assets/images/noob_talk.png",
                     ),
                   ),
                   Positioned(
-                      top: 210,
-                      left: 35,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              kPrimaryColor,
-                              kSecondaryColor,
-                            ],
-                          ),
-                        ),
-                        child: const Icon(MdiIcons.swapVertical),
-                      )),
+                    top: 180,
+                    right: 30,
+                    child: SvgPicture.asset(
+                      height: getProportionateScreenHeight(25),
+                      "assets/icons/tip.svg",
+                    ),
+                  ),
                   Positioned(
-                    top: 150,
+                    top: 220,
+                    right: 30,
+                    child: Image.asset(
+                      height: getProportionateScreenHeight(25),
+                      "assets/icons/nudge.png",
+                    ),
+                  ),
+                  Positioned(
+                    top: 220,
+                    left: 30,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            kPrimaryColor,
+                            kSecondaryColor,
+                          ],
+                        ),
+                      ),
+                      child: const Icon(MdiIcons.swapVertical),
+                    ),
+                  ),
+                  Positioned(
+                    top: 145,
                     left: 90,
                     child: SizedBox(
                       width: getProportionateScreenWidth(250),
@@ -206,7 +227,7 @@ class ProfileScreen extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    "Content",
+                                    "Booms",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize:
@@ -264,7 +285,7 @@ class ProfileScreen extends StatelessWidget {
                             ],
                           ),
                           SizedBox(
-                            height: getProportionateScreenHeight(5),
+                            height: getProportionateScreenHeight(4),
                           ),
                           Row(
                             children: const [
@@ -353,9 +374,11 @@ class ProfileScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: booms.length,
                   itemBuilder: (context, index) {
-                    return const SingleBoomWidget();
+                    return SingleBoomWidget(
+                      post: booms[index],
+                    );
                   },
                 ),
               ),

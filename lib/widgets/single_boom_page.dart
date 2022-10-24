@@ -5,8 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../models/single_boom_post.dart';
+
 class SingleBoomPage extends StatelessWidget {
-  const SingleBoomPage({Key? key}) : super(key: key);
+  final SingleBoomPost post;
+  const SingleBoomPage({Key? key, required this.post}) : super(key: key);
 
   void _onShare(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox;
@@ -54,8 +57,8 @@ class SingleBoomPage extends StatelessWidget {
                   height: SizeConfig.screenHeight * 0.6,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.0),
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/dog.png"),
+                    image: DecorationImage(
+                      image: NetworkImage(post.imgUrl),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -232,7 +235,11 @@ class SingleBoomPage extends StatelessWidget {
                         ),
                         Image.asset(
                           height: getProportionateScreenHeight(20),
-                          "assets/icons/bnb.png",
+                          post.chain == "bnb"
+                              ? "assets/icons/bnb.png"
+                              : post.chain == "tezos"
+                                  ? "assets/icons/tezos.png"
+                                  : "assets/icons/polygon.png",
                         ),
                         IconButton(
                           onPressed: () {
@@ -286,7 +293,7 @@ class SingleBoomPage extends StatelessWidget {
                   height: getProportionateScreenHeight(10),
                 ),
                 Text(
-                  "A view of a cute dog bud",
+                  post.desc,
                   style: TextStyle(
                       fontSize: getProportionateScreenHeight(16),
                       fontWeight: FontWeight.w900),
