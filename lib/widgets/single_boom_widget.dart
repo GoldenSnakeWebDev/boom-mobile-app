@@ -5,6 +5,7 @@ import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SingleBoomWidget extends StatelessWidget {
@@ -106,10 +107,19 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Image.asset(
-                        height: getProportionateScreenHeight(26),
-                        color: kPrimaryColor,
-                        "assets/icons/applaud.png",
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(28),
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return Image.asset(
+                            height: getProportionateScreenHeight(26),
+                            color: isLiked ? kPrimaryColor : Colors.black,
+                            "assets/icons/applaud.png",
+                          );
+                        }),
                       ),
                       Text(
                         post.likes.toString(),
@@ -122,9 +132,19 @@ class SingleBoomWidget extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset(
-                        height: getProportionateScreenHeight(18),
-                        "assets/icons/love.svg",
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(22),
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return SvgPicture.asset(
+                            height: getProportionateScreenHeight(15),
+                            "assets/icons/love.svg",
+                            color: isLiked ? Colors.red : kPrimaryColor,
+                          );
+                        }),
                       ),
                       Text(
                         post.loves.toString(),
@@ -135,11 +155,20 @@ class SingleBoomWidget extends StatelessWidget {
                     ],
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        height: getProportionateScreenHeight(22),
-                        "assets/icons/smile.png",
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(26),
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return Image.asset(
+                            height: getProportionateScreenHeight(22),
+                            "assets/icons/smile.png",
+                          );
+                        }),
                       ),
                       Text(
                         post.smiles.toString(),
@@ -150,11 +179,20 @@ class SingleBoomWidget extends StatelessWidget {
                     ],
                   ),
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset(
-                        height: getProportionateScreenHeight(18),
-                        "assets/icons/reboom.svg",
-                      ),
+                      LikeButton(
+                          animationDuration: const Duration(milliseconds: 600),
+                          size: getProportionateScreenHeight(20),
+                          bubblesColor: const BubblesColor(
+                              dotPrimaryColor: kPrimaryColor,
+                              dotSecondaryColor: kSecondaryColor),
+                          likeBuilder: (isLiked) {
+                            return SvgPicture.asset(
+                              height: getProportionateScreenHeight(18),
+                              "assets/icons/reboom.svg",
+                            );
+                          }),
                       Text(
                         post.rebooms.toString(),
                         style: TextStyle(

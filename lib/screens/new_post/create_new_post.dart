@@ -1,9 +1,11 @@
+import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CreateNewPost extends StatelessWidget {
+class CreateNewPost extends GetView<NewPostController> {
   const CreateNewPost({Key? key}) : super(key: key);
 
   @override
@@ -125,33 +127,36 @@ class CreateNewPost extends StatelessWidget {
                             SizedBox(
                               width: getProportionateScreenWidth(15),
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.blueAccent,
+                            GestureDetector(
+                              onTap: () async {},
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: Colors.blueAccent,
+                                  ),
                                 ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(12, 6, 12, 6),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      MdiIcons.plus,
-                                      color: Colors.blueAccent,
-                                    ),
-                                    SizedBox(
-                                      width: getProportionateScreenWidth(5),
-                                    ),
-                                    const Text(
-                                      "Instagram Import",
-                                      style: TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontWeight: FontWeight.w600),
-                                    )
-                                  ],
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        MdiIcons.plus,
+                                        color: Colors.blueAccent,
+                                      ),
+                                      SizedBox(
+                                        width: getProportionateScreenWidth(5),
+                                      ),
+                                      const Text(
+                                        "Instagram Import",
+                                        style: TextStyle(
+                                            color: Colors.blueAccent,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
