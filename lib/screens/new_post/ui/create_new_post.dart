@@ -1,4 +1,5 @@
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
+import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,9 @@ class CreateNewPost extends GetView<NewPostController> {
                               width: getProportionateScreenWidth(15),
                             ),
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                Get.to(() => const InstagramWeb());
+                              },
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
