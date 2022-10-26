@@ -1,4 +1,5 @@
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
+import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
 import 'package:boom_mobile/screens/main_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends GetView<RegisterController> {
   const RegistrationScreen({Key? key}) : super(key: key);
 
   @override
