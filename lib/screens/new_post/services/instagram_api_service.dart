@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:boom_mobile/screens/new_post/models/insta_media.dart';
 import 'package:boom_mobile/secrets.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,16 +12,19 @@ class InstagramService {
   /// [responseType] I recommend only 'code', I try on DEV MODE with token, it wasn't working.
   /// [url] simply the url used to communicate with Instagram API at the beginning.
 
-  String authorizationCode = '';
-  String accessToken = '';
-  String userID = '';
+  late String authorizationCode;
+  late String accessToken;
+  late String userID;
 
-  void getAuthorizationCode(String url) {
+  String getAuthorizationCode(String url) {
     authorizationCode =
-        url.replaceAll('$redirectUri?code=', '').replaceAll('#', '');
+        url.replaceAll('$redirectUri?code=', '').replaceAll('#_', '');
+
+    return authorizationCode;
   }
 
-  Future<bool> getTokenAndUserID() async {
+  Future<bool> getTokenAndUserID(String authCode) async {
+    log("Auth Code $authCode");
     final response = await http.post(
       Uri.parse('https://api.instagram.com/oauth/access_token'),
       body: {
@@ -27,28 +32,53 @@ class InstagramService {
         'client_secret': appSecret,
         'grant_type': 'authorization_code',
         'redirect_uri': redirectUri,
-        'code': authorizationCode,
+        'code': authCode,
       },
     );
     if (response.statusCode == 200) {
+      log("IG API Response ${response.body}");
       accessToken = jsonDecode(response.body)['access_token'];
       userID = jsonDecode(response.body)['user_id'].toString();
       return (accessToken.isNotEmpty && userID.isNotEmpty) ? true : false;
     } else {
+      log("IG API Response ${response.body}");
       return false;
     }
   }
 
-  Future<bool> getUserProfile() async {
-    final String fields = userFields.join(',');
-    final response = await http.get(
-      Uri.parse(
-          'https://graph.instagram.com/$userID?fields=$fields&access_token=$accessToken'),
-    );
-    var instaProfile = {
-      "id": jsonDecode(response.body)['id'],
-      "username": jsonDecode(response.body)['username'],
-    };
-    return (instaProfile.isNotEmpty) ? true : false;
+  Future<List<InstaMedia>> getAllMedias() async {
+    final String fields = mediaFields.join(',');
+
+    final uri = Uri.parse(
+        "https://graph.instagram.com/$userID/media?fields=$fields&access_token=$accessToken");
+
+    final responseMedia = await http.get(uri);
+
+    Map<String, dynamic> mediaList = jsonDecode(responseMedia.body);
+
+    final List<InstaMedia> medias = [];
+
+    await mediaList["data"].forEach((media) async {
+      Map<String, dynamic> m = await getMediaDetails(media["id"]);
+
+      InstaMedia instaMedia = InstaMedia.fromJson(m);
+      medias.add(instaMedia);
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+    return medias;
+  }
+
+  Future<Map<String, dynamic>> getMediaDetails(String mediaID) async {
+    final String fields = mediaFields.join(',');
+
+    final uri = Uri.parse(
+        "https://graph.instagram.com/$mediaID?fields=$fields&access_token=$accessToken");
+
+    final responseMedia = await http.get(uri);
+
+    Map<String, dynamic> media = jsonDecode(responseMedia.body);
+
+    return media;
   }
 }
