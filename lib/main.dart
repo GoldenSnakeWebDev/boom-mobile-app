@@ -21,6 +21,7 @@ configureLoader() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..textColor = Colors.white
     ..indicatorColor = kPrimaryColor
+    ..progressColor = kSecondaryColor
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..backgroundColor = Colors.black
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: AppBindings(),
       home: const LoginScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }
