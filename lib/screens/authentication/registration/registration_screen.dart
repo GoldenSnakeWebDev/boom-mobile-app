@@ -178,36 +178,48 @@ class RegistrationScreen extends GetView<RegisterController> {
                             SizedBox(
                               height: getProportionateScreenHeight(15),
                             ),
-                            TextFormField(
-                              controller: controller.passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: "Password",
-                                prefixIcon: const Icon(
-                                  Icons.person,
-                                  color: Colors.black,
-                                ),
-                                fillColor: Colors.grey.shade300,
-                                filled: true,
-                                contentPadding: const EdgeInsets.all(4.0),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                            Obx(
+                              () => TextFormField(
+                                controller: controller.passwordController,
+                                obscureText: controller.isPassVisible.value,
+                                decoration: InputDecoration(
+                                  hintText: "Password",
+                                  prefixIcon: const Icon(
+                                    Icons.lock,
+                                    color: Colors.black,
                                   ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      controller.changePassVisibility();
+                                    },
+                                    child: const Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: Colors.black,
+                                      size: 20,
+                                    ),
                                   ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                  fillColor: Colors.grey.shade300,
+                                  filled: true,
+                                  contentPadding: const EdgeInsets.all(4.0),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
                                   ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -215,36 +227,50 @@ class RegistrationScreen extends GetView<RegisterController> {
                             SizedBox(
                               height: getProportionateScreenHeight(15),
                             ),
-                            TextFormField(
-                              controller: controller.confirmPasswordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: "Confirm Password",
-                                prefixIcon: const Icon(
-                                  Icons.lock,
-                                  color: Colors.black,
-                                ),
-                                fillColor: Colors.grey.shade300,
-                                filled: true,
-                                contentPadding: const EdgeInsets.all(4.0),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                            Obx(
+                              () => TextFormField(
+                                controller:
+                                    controller.confirmPasswordController,
+                                obscureText:
+                                    controller.isConfirmPassVisibe.value,
+                                decoration: InputDecoration(
+                                  hintText: "Confirm Password",
+                                  prefixIcon: const Icon(
+                                    Icons.lock,
+                                    color: Colors.black,
                                   ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                  suffixIcon: GestureDetector(
+                                    onTap: () {
+                                      controller.changeConfirmPassVisibility();
+                                    },
+                                    child: const Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      color: Colors.black,
+                                      size: 20,
+                                    ),
                                   ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                  fillColor: Colors.grey.shade300,
+                                  filled: true,
+                                  contentPadding: const EdgeInsets.all(4.0),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
                                   ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white.withOpacity(0.1),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white.withOpacity(0.1),
+                                    ),
                                   ),
                                 ),
                               ),

@@ -15,6 +15,18 @@ class RegisterController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
+  var isPassVisible = true.obs;
+  var isConfirmPassVisibe = true.obs;
+
+  void changePassVisibility() {
+    isPassVisible.value = !isConfirmPassVisibe.value;
+  }
+
+  void changeConfirmPassVisibility() {
+    isConfirmPassVisibe.value = !isConfirmPassVisibe.value;
+    update();
+  }
+
   bool validatePassword() {
     if (passwordController.text.trim().length ==
             confirmPasswordController.text.trim().length &&
@@ -33,15 +45,18 @@ class RegisterController extends GetxController {
         "username": usernameController.text.trim(),
         "password": passwordController.text.trim(),
       };
-      log("Body $userData");
 
+      log("Body ${jsonEncode(userData)}");
       EasyLoading.show(status: "Signing up...");
 
-      final res = await http.post(Uri.parse("${baseURL}users/signup"),
-          body: jsonEncode(userData));
+      final res = await http.post(
+        Uri.parse("${baseURL}users/signup"),
+        body: jsonEncode(userData),
+      );
 
       if (res.statusCode == 201) {
         EasyLoading.dismiss();
+
         CustomSnackBar.showCustomSnackBar(
             errorList: [jsonDecode(res.body)["message"]],
             msg: ["Success"],
@@ -50,6 +65,8 @@ class RegisterController extends GetxController {
         return true;
       } else {
         EasyLoading.dismiss();
+        log("Error ${jsonDecode(res.body)}");
+        log("Error ${res.statusCode}");
         CustomSnackBar.showCustomSnackBar(
             errorList: [jsonDecode(res.body)["errors"][0]["message"]],
             msg: ["Sign up Error"],
