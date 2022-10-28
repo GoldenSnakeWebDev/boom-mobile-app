@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -11,6 +12,7 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class MainScreen extends StatefulWidget {
@@ -36,6 +38,8 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  final box = GetStorage();
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
       const NotificationScreen(),
       const ProfileScreen(),
     ];
+    log(box.read("token"));
   }
 
   @override

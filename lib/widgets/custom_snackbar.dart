@@ -26,7 +26,7 @@ class CustomSnackBar {
               message);
     } else {
       if (msg.isEmpty) {
-        message = "success";
+        message = "Success";
       } else {
         for (var element in msg) {
           message = message.isEmpty ? '$message$element' : '$message\n$element';
@@ -43,6 +43,7 @@ class CustomSnackBar {
       progressIndicatorValueColor: AlwaysStoppedAnimation<Color>(
           isError ? kredCancelTextColor : kgreenSuccessColor),
       messageText: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 2),
           Text(
@@ -56,9 +57,10 @@ class CustomSnackBar {
       dismissDirection: DismissDirection.horizontal,
       snackPosition: SnackPosition.TOP,
       titleText: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            isError ? "Success" : "Error",
+            isError ? "Error" : "Success",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: getProportionateScreenHeight(15),

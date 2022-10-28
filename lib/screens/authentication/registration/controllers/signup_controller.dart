@@ -19,12 +19,13 @@ class RegisterController extends GetxController {
   var isConfirmPassVisibe = true.obs;
 
   void changePassVisibility() {
-    isPassVisible.value = !isConfirmPassVisibe.value;
+    isPassVisible.value = !isPassVisible.value;
+    // update();
   }
 
   void changeConfirmPassVisibility() {
     isConfirmPassVisibe.value = !isConfirmPassVisibe.value;
-    update();
+    // update();
   }
 
   bool validatePassword() {
@@ -39,6 +40,7 @@ class RegisterController extends GetxController {
   }
 
   Future<bool> registerUser() async {
+    var headers = {'Content-Type': 'application/json'};
     if (formKey.currentState!.validate() && validatePassword()) {
       Map<String, dynamic> userData = {
         "email": emailController.text.trim(),
@@ -51,16 +53,19 @@ class RegisterController extends GetxController {
 
       final res = await http.post(
         Uri.parse("${baseURL}users/signup"),
+        headers: headers,
         body: jsonEncode(userData),
       );
 
       if (res.statusCode == 201) {
+        log("User registered successfully");
         EasyLoading.dismiss();
 
         CustomSnackBar.showCustomSnackBar(
-            errorList: [jsonDecode(res.body)["message"]],
-            msg: ["Success"],
-            isError: false);
+          errorList: [jsonDecode(res.body)["message"]],
+          msg: ["Success"],
+          isError: false,
+        );
 
         return true;
       } else {
@@ -68,9 +73,10 @@ class RegisterController extends GetxController {
         log("Error ${jsonDecode(res.body)}");
         log("Error ${res.statusCode}");
         CustomSnackBar.showCustomSnackBar(
-            errorList: [jsonDecode(res.body)["errors"][0]["message"]],
-            msg: ["Sign up Error"],
-            isError: true);
+          errorList: [jsonDecode(res.body)["errors"][0]["message"]],
+          msg: ["Sign up Error"],
+          isError: true,
+        );
 
         return false;
       }
