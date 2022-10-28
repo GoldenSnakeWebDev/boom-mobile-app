@@ -4,13 +4,14 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/route_manager.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //Uncomment this line to disable screenshotting due to security policy
   // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-  runApp(const MyApp());
+  GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -21,6 +22,7 @@ configureLoader() {
     ..loadingStyle = EasyLoadingStyle.custom
     ..textColor = Colors.white
     ..indicatorColor = kPrimaryColor
+    ..progressColor = kSecondaryColor
     ..indicatorSize = 45.0
     ..radius = 10.0
     ..backgroundColor = Colors.black
@@ -43,6 +45,7 @@ class MyApp extends StatelessWidget {
       ),
       initialBinding: AppBindings(),
       home: const LoginScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }
