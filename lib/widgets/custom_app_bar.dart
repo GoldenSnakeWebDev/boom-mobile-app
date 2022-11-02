@@ -40,8 +40,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             const Image(
               width: 45,
               height: 40,
-              image: AssetImage(
-                "assets/icons/boom_logo.png",
+              image: NetworkImage(
+                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
               ),
             ),
             const SizedBox(

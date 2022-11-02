@@ -43,8 +43,8 @@ class LoginScreen extends GetView<LoginController> {
                   Image(
                     width: SizeConfig.screenWidth * 0.6,
                     height: SizeConfig.screenHeight * 0.3,
-                    image: const AssetImage(
-                      "assets/icons/boom_logo.png",
+                    image: const NetworkImage(
+                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
                     ),
                   ),
                   SizedBox(
@@ -87,8 +87,8 @@ class LoginScreen extends GetView<LoginController> {
                               height: getProportionateScreenHeight(50),
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/icons/user_icon.png",
+                                  image: NetworkImage(
+                                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/user_icon.png",
                                   ),
                                 ),
                               ),

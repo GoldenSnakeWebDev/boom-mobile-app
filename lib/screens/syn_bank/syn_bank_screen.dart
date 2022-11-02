@@ -83,9 +83,9 @@ class SyntheticBankScreen extends StatelessWidget {
                   fiatBalance: "155.76",
                 ),
                 ChainBalanceWidget(
-                  icon: Image.asset(
+                  icon: Image.network(
                     height: getProportionateScreenHeight(20),
-                    "assets/icons/ethereum.png",
+                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ethereum.png",
                   ),
                   balance: "3",
                   fiatBalance: "5832",

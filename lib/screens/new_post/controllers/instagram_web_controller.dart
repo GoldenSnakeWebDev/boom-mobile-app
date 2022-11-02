@@ -32,11 +32,12 @@ class InstagramWebController extends GetxController {
         if (isTokenFetched) {
           log("Found token and user id");
           medias = await instragram.getAllMedias();
+          log("Fetched Posts of this number${medias.length}");
           update();
 
           flutterWebViewPlugin.close();
 
-          Get.off(() => InstagramPosts());
+          Get.to(() => const InstagramPosts());
         }
       } else {
         log("URL $url");

@@ -36,14 +36,13 @@ class SingleBoomWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(
-                    height: getProportionateScreenHeight(24),
-                    post.chain == "bnb"
-                        ? "assets/icons/bnb.png"
-                        : post.chain == "tezos"
-                            ? "assets/icons/tezos.png"
-                            : "assets/icons/polygon.png",
-                  ),
+                  Image.network(
+                      height: getProportionateScreenHeight(24),
+                      post.chain == "bnb"
+                          ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/bnb.png"
+                          : post.chain == "tezos"
+                              ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png"
+                              : "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png"),
                   SizedBox(
                     width: getProportionateScreenWidth(5),
                   ),
@@ -114,10 +113,10 @@ class SingleBoomWidget extends StatelessWidget {
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
                         likeBuilder: ((isLiked) {
-                          return Image.asset(
+                          return Image.network(
                             height: getProportionateScreenHeight(26),
                             color: isLiked ? kPrimaryColor : Colors.black,
-                            "assets/icons/applaud.png",
+                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
                           );
                         }),
                       ),
@@ -164,9 +163,9 @@ class SingleBoomWidget extends StatelessWidget {
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
                         likeBuilder: ((isLiked) {
-                          return Image.asset(
+                          return Image.network(
                             height: getProportionateScreenHeight(22),
-                            "assets/icons/smile.png",
+                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
                           );
                         }),
                       ),

@@ -84,10 +84,10 @@ class SingleNFTPage extends StatelessWidget {
                                 SizedBox(
                                   width: getProportionateScreenWidth(5),
                                 ),
-                                Image.asset(
+                                Image.network(
                                   width: getProportionateScreenWidth(16),
                                   height: getProportionateScreenHeight(16),
-                                  "assets/icons/clap.png",
+                                  "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/clap.png",
                                 ),
                               ],
                             ),

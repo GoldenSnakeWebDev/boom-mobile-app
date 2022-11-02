@@ -5,65 +5,62 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class InstagramPosts extends StatelessWidget {
-  InstagramPosts({
+  const InstagramPosts({
     Key? key,
   }) : super(key: key);
 
-  final _myController = Get.put(
-    InstagramWebController(),
-    permanent: true,
-  );
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: TextButton(
-          child: const Text("Cancel"),
-          onPressed: () {
-            Get.off(() => const CreateNewPost());
-          },
-        ),
-        leadingWidth: getProportionateScreenWidth(70),
-        title: Text(
-          '${_myController.medias.isNotEmpty ? _myController.medias[0].username : ""} Instagram Posts',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-            fontSize: getProportionateScreenHeight(12),
+    return GetBuilder<InstagramWebController>(builder: (controller) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              Get.off(() => const CreateNewPost());
+            },
           ),
-        ),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Get.off(() => const CreateNewPost());
-              },
-              child: const Text(
-                "Next",
-                style: TextStyle(color: Colors.blue),
-              ))
-        ],
-      ),
-      body: ListView.separated(
-        itemBuilder: (context, index) {
-          return Container(
-            height: 400,
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(_myController.medias[index].media_url),
-                fit: BoxFit.contain,
-              ),
+          leadingWidth: getProportionateScreenWidth(70),
+          title: Text(
+            '${controller.medias.isNotEmpty ? controller.medias[0].username : ""} Instagram Posts',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: getProportionateScreenHeight(12),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return const SizedBox(height: 8.0);
-        },
-        itemCount: _myController.medias.length,
-      ),
-    );
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Get.off(() => const CreateNewPost());
+                },
+                child: const Text(
+                  "Next",
+                  style: TextStyle(color: Colors.blue),
+                ))
+          ],
+        ),
+        body: ListView.separated(
+          itemBuilder: (context, index) {
+            return Container(
+              height: 400,
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(controller.medias[index].media_url),
+                  fit: BoxFit.contain,
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(height: 8.0);
+          },
+          itemCount: controller.medias.length,
+        ),
+      );
+    });
   }
 }

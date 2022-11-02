@@ -40,10 +40,10 @@ class SingleBrandPost extends StatelessWidget {
             Positioned(
               top: 0,
               left: 0,
-              child: Image.asset(
+              child: Image.network(
                 width: getProportionateScreenWidth(30),
                 height: getProportionateScreenHeight(30),
-                "assets/icons/verification.png",
+                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/verification.png",
               ),
             ),
             Positioned(
@@ -130,10 +130,10 @@ class SingleBrandPost extends StatelessWidget {
                   color: kPrimaryColor,
                   border: Border.all(color: Colors.black),
                 ),
-                child: Image.asset(
+                child: Image.network(
                   width: getProportionateScreenWidth(20),
                   height: getProportionateScreenHeight(20),
-                  "assets/icons/promote.png",
+                  "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/promote.png",
                 ),
               ),
             ),
@@ -150,10 +150,10 @@ class SingleBrandPost extends StatelessWidget {
             Positioned(
               bottom: 12,
               left: 90,
-              child: Image.asset(
+              child: Image.network(
                 width: getProportionateScreenWidth(16),
                 height: getProportionateScreenHeight(16),
-                "assets/icons/clap.png",
+                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/clap.png",
               ),
             ),
             Positioned(

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:boom_mobile/screens/explore/expore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
+import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/profile_screen.dart';
@@ -79,23 +80,24 @@ class _MainScreenState extends State<MainScreen> {
                         child: ListView(
                           children: [
                             ListTile(
-                              leading: Image.asset(
+                              leading: Image.network(
                                 height: getProportionateScreenHeight(20),
-                                "assets/icons/post.png",
+                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/post.png",
                               ),
                               title: const Text('Post'),
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Get.back();
+                                Get.find<NewPostController>().onInit();
                                 Get.to(() => const CreateNewPost());
                               },
                             ),
                             ListTile(
-                              leading: Image.asset(
+                              leading: Image.network(
                                 height: getProportionateScreenHeight(20),
-                                "assets/icons/tales.png",
+                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                               ),
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Get.back();
                                 Get.to(() => const CaptureTaleScreen());
                               },
                               title: const Text('Tales'),
@@ -105,16 +107,16 @@ class _MainScreenState extends State<MainScreen> {
                                 width: getProportionateScreenWidth(50),
                                 child: Row(
                                   children: [
-                                    Image.asset(
+                                    Image.network(
                                       height: getProportionateScreenHeight(20),
-                                      "assets/icons/tales.png",
+                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                                     ),
                                     SizedBox(
                                       width: getProportionateScreenWidth(5),
                                     ),
-                                    Image.asset(
+                                    Image.network(
                                       height: getProportionateScreenHeight(20),
-                                      "assets/icons/tales.png",
+                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                                     ),
                                   ],
                                 ),
@@ -126,16 +128,16 @@ class _MainScreenState extends State<MainScreen> {
                               title: Text('DM'),
                             ),
                             ListTile(
-                              leading: Image.asset(
+                              leading: Image.network(
                                 height: getProportionateScreenHeight(20),
-                                "assets/icons/frens.png",
+                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
                               ),
                               title: const Text('Fans'),
                             ),
                             ListTile(
-                              leading: Image.asset(
+                              leading: Image.network(
                                 height: getProportionateScreenHeight(20),
-                                "assets/icons/frens.png",
+                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
                               ),
                               title: const Text('Frens'),
                             ),
@@ -154,8 +156,8 @@ class _MainScreenState extends State<MainScreen> {
               border: Border.all(color: Colors.black)),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Image.asset(
-              "assets/icons/boom_logo.png",
+            child: Image.network(
+              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
               width: getProportionateScreenHeight(22),
               height: getProportionateScreenHeight(22),
             ),
