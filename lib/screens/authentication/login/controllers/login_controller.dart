@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:boom_mobile/screens/main_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,23 @@ class LoginController extends GetxController {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final box = GetStorage();
+
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+
+    await checkIfUserIsLoggedIn();
+  }
+
+  checkIfUserIsLoggedIn() async {
+    if (box.read("token") != null) {
+      log("Token is not null");
+      Get.offAll(() => const MainScreen());
+    } else {
+      log("Token is null");
+    }
+  }
 
   var isPassVisible = true.obs;
 

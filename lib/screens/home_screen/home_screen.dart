@@ -53,7 +53,9 @@ class HomeScreen extends StatelessWidget {
                                           height:
                                               getProportionateScreenHeight(56),
                                           decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
+                                            // shape: BoxShape.circle,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             image: DecorationImage(
                                                 image: AssetImage(
                                                     "assets/images/${talesDetails[index]["img"]}.jpeg"),
@@ -96,13 +98,14 @@ class HomeScreen extends StatelessWidget {
                                   width: getProportionateScreenHeight(60),
                                   height: getProportionateScreenHeight(60),
                                   decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
                                     border: Border.all(
                                       color: index % 2 == 0
                                           ? Colors.grey
                                           : kPrimaryColor,
                                       width: 1.5,
                                     ),
-                                    shape: BoxShape.circle,
+                                    // shape: BoxShape.circle,
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(2.0),
@@ -110,7 +113,8 @@ class HomeScreen extends StatelessWidget {
                                       width: getProportionateScreenWidth(56),
                                       height: getProportionateScreenHeight(56),
                                       decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
+                                        // shape: BoxShape.circle,
+                                        borderRadius: BorderRadius.circular(10),
                                         image: DecorationImage(
                                             image: AssetImage(
                                                 "assets/images/${talesDetails[index]["img"]}.jpeg"),

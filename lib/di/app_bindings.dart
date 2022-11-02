@@ -2,6 +2,7 @@ import 'package:boom_mobile/screens/authentication/login/controllers/login_contr
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/camera_controller.dart';
 import 'package:get/get.dart';
 
@@ -13,5 +14,6 @@ class AppBindings extends Bindings {
     Get.lazyPut<InstagramWebController>(() => InstagramWebController());
     Get.lazyPut<RegisterController>(() => RegisterController());
     Get.lazyPut<LoginController>(() => LoginController());
+    Get.lazyPut<SplashController>(() => SplashController());
   }
 }

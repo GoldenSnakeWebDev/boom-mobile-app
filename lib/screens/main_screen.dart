@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
       const HomeScreen(),
       const ExploreScreen(),
       const NotificationScreen(),
-      const ProfileScreen(),
+      ProfileScreen(),
     ];
     log(box.read("token"));
   }

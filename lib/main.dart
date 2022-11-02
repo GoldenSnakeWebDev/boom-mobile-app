@@ -1,5 +1,5 @@
 import 'package:boom_mobile/di/app_bindings.dart';
-import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
+import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Uncomment this line to disable screenshotting due to security policy
+  // Uncomment this line to disable screenshotting due to security policy
   // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   GetStorage.init();
   runApp(const MyApp());
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       initialBinding: AppBindings(),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
       builder: EasyLoading.init(),
     );
   }
