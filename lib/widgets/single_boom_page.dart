@@ -233,14 +233,13 @@ class SingleBoomPage extends StatelessWidget {
                         SizedBox(
                           width: getProportionateScreenWidth(5),
                         ),
-                        Image.asset(
-                          height: getProportionateScreenHeight(20),
-                          post.chain == "bnb"
-                              ? "assets/icons/bnb.png"
-                              : post.chain == "tezos"
-                                  ? "assets/icons/tezos.png"
-                                  : "assets/icons/polygon.png",
-                        ),
+                        Image.network(
+                            height: getProportionateScreenHeight(20),
+                            post.chain == "bnb"
+                                ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/bnb.png"
+                                : post.chain == "tezos"
+                                    ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png"
+                                    : "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png"),
                         IconButton(
                           onPressed: () {
                             showMenu(
@@ -307,10 +306,10 @@ class SingleBoomPage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Image.asset(
+                        Image.network(
                           height: getProportionateScreenHeight(26),
                           color: kPrimaryColor,
-                          "assets/icons/applaud.png",
+                          "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
                         ),
                         Text(
                           "4780",
@@ -338,9 +337,9 @@ class SingleBoomPage extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Image.asset(
+                        Image.network(
                           height: getProportionateScreenHeight(22),
-                          "assets/icons/smile.png",
+                          "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
                         ),
                         Text(
                           "550",
