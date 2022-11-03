@@ -75,9 +75,9 @@ class SyntheticBankScreen extends StatelessWidget {
             Row(
               children: [
                 ChainBalanceWidget(
-                  icon: Image.asset(
+                  icon: Image.network(
                     height: getProportionateScreenHeight(20),
-                    "assets/icons/polygon.png",
+                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png",
                   ),
                   balance: "236",
                   fiatBalance: "155.76",
@@ -99,9 +99,9 @@ class SyntheticBankScreen extends StatelessWidget {
                   fiatBalance: "1920",
                 ),
                 ChainBalanceWidget(
-                  icon: Image.asset(
+                  icon: Image.network(
                     height: getProportionateScreenHeight(20),
-                    "assets/icons/tezos.png",
+                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png",
                   ),
                   balance: "5",
                   fiatBalance: "225",

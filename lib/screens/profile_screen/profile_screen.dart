@@ -6,13 +6,24 @@ import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class ProfileScreen extends GetView<ProfileController> {
-  ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    Get.put(ProfileController());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +105,76 @@ class ProfileScreen extends GetView<ProfileController> {
                                 height: SizeConfig.screenHeight * 0.41,
                                 child: Stack(
                                   children: [
-                                    Container(
-                                      width: SizeConfig.screenWidth,
-                                      height: getProportionateScreenHeight(125),
-                                      decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                            "assets/images/header_img.png",
+                                    controller.isNewUser
+                                        ? Container(
+                                            width: SizeConfig.screenWidth,
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    125),
+                                            decoration: const BoxDecoration(
+                                                color: kContBgColor),
+                                            child: ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                maxHeight:
+                                                    getProportionateScreenHeight(
+                                                        125),
+                                                maxWidth:
+                                                    SizeConfig.screenWidth,
+                                              ),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "No header Image",
+                                                    style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              14),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        getProportionateScreenHeight(
+                                                            10),
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.black26),
+                                                        shape: BoxShape.circle),
+                                                    child: const Padding(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        size: 16,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            width: SizeConfig.screenWidth,
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    125),
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/header_img.png",
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
                                     Positioned(
                                       right: 0,
                                       child: Container(
@@ -154,6 +223,9 @@ class ProfileScreen extends GetView<ProfileController> {
                                               top: 10,
                                               child: Container(
                                                 decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: Colors.black26,
+                                                  ),
                                                   borderRadius:
                                                       BorderRadius.circular(8),
                                                 ),
@@ -166,46 +238,52 @@ class ProfileScreen extends GetView<ProfileController> {
                                                 child: ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
-                                                  child: Image.asset(
+                                                  child: Image.network(
                                                     height:
                                                         getProportionateScreenHeight(
                                                             60),
                                                     width:
                                                         getProportionateScreenWidth(
                                                             55),
-                                                    "assets/images/seven.jpg",
-                                                    fit: BoxFit.cover,
+                                                    controller.isNewUser
+                                                        ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/user_icon.png"
+                                                        : "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/seven.jpg",
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                            Positioned(
-                                              top: 0,
-                                              right: 0,
-                                              child: Container(
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        20),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.white,
-                                                      width: 1),
-                                                  shape: BoxShape.circle,
-                                                  color: kBlueColor,
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(3.0),
-                                                  child: Text(
-                                                    "B",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
+                                            Visibility(
+                                              visible: controller.isVerified,
+                                              child: Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: Container(
+                                                  width:
+                                                      getProportionateScreenWidth(
+                                                          20),
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: Colors.white,
+                                                        width: 1),
+                                                    shape: BoxShape.circle,
+                                                    color: kBlueColor,
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            3.0),
+                                                    child: Text(
+                                                      "B",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                14),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -218,10 +296,10 @@ class ProfileScreen extends GetView<ProfileController> {
                                     Positioned(
                                       top: 180,
                                       left: 30,
-                                      child: Image.asset(
+                                      child: Image.network(
                                         height:
                                             getProportionateScreenHeight(30),
-                                        "assets/images/noob_talk.png",
+                                        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/noob_talk.png",
                                       ),
                                     ),
                                     Positioned(
@@ -281,7 +359,8 @@ class ProfileScreen extends GetView<ProfileController> {
                                                   Column(
                                                     children: [
                                                       Text(
-                                                        "256",
+                                                        controller.numberOfBooms
+                                                            .toString(),
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w800,
@@ -310,7 +389,8 @@ class ProfileScreen extends GetView<ProfileController> {
                                                   Column(
                                                     children: [
                                                       Text(
-                                                        "180",
+                                                        controller.numberOfFans
+                                                            .toString(),
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w900,
@@ -339,7 +419,8 @@ class ProfileScreen extends GetView<ProfileController> {
                                                   Column(
                                                     children: [
                                                       Text(
-                                                        "79",
+                                                        controller.numberOfFrens
+                                                            .toString(),
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w800,
@@ -367,26 +448,41 @@ class ProfileScreen extends GetView<ProfileController> {
                                                     getProportionateScreenHeight(
                                                         4),
                                               ),
-                                              Row(
-                                                children: const [
-                                                  Icon(MdiIcons.circleSmall),
-                                                  Text(
-                                                      "Blockchain dev, Calle me Seven")
-                                                ],
-                                              ),
-                                              Row(
-                                                children: const [
-                                                  Icon(MdiIcons.circleSmall),
-                                                  Text(
-                                                      "All posts are opinionated, NFA")
-                                                ],
-                                              ),
-                                              Row(
-                                                children: const [
-                                                  Icon(MdiIcons.circleSmall),
-                                                  Text("Lead Dev Ngeni Devs")
-                                                ],
-                                              ),
+                                              controller.isNewUser
+                                                  ? TextButton(
+                                                      onPressed: () {},
+                                                      child: const Text(
+                                                        "You have no Bio yet please add one",
+                                                      ),
+                                                    )
+                                                  : Column(
+                                                      children: [
+                                                        Row(
+                                                          children: const [
+                                                            Icon(MdiIcons
+                                                                .circleSmall),
+                                                            Text(
+                                                                "Blockchain dev, Calle me Seven")
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: const [
+                                                            Icon(MdiIcons
+                                                                .circleSmall),
+                                                            Text(
+                                                                "All posts are opinionated, NFA")
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: const [
+                                                            Icon(MdiIcons
+                                                                .circleSmall),
+                                                            Text(
+                                                                "Lead Dev Ngeni Devs")
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
 
                                               // const ListTile(
                                               //   leading: Icon(MdiIcons.circleSmall),
@@ -481,14 +577,18 @@ class ProfileScreen extends GetView<ProfileController> {
                       width: SizeConfig.screenWidth,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: ListView.builder(
-                          itemCount: booms.length,
-                          itemBuilder: (context, index) {
-                            return SingleBoomWidget(
-                              post: booms[index],
-                            );
-                          },
-                        ),
+                        child: controller.booms.isEmpty
+                            ? const Center(
+                                child: Text("No Booms yet"),
+                              )
+                            : ListView.builder(
+                                itemCount: controller.booms.length,
+                                itemBuilder: (context, index) {
+                                  return SingleBoomWidget(
+                                    post: booms[index],
+                                  );
+                                },
+                              ),
                       ),
                     ),
                   ),

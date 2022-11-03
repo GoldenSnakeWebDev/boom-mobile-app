@@ -247,8 +247,10 @@ class BackPackScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               image: const DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/bored_ape.png")),
+                                image: NetworkImage(
+                                  "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/bored_ape.png",
+                                ),
+                              ),
                             ),
                           ),
                         ],

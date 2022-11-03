@@ -110,7 +110,7 @@ class SingleBrandPost extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
-                        image: AssetImage("assets/images/$image"),
+                        image: NetworkImage("assets/images/$image"),
                         fit: BoxFit.cover,
                       ),
                     ),
