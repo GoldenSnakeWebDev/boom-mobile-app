@@ -2,78 +2,93 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 
 List<Map<String, String>> talesDetails = [
   {
-    "img": "!sam",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!sam.jpeg",
     "title": "!Sam",
   },
   {
-    "img": "!rottie",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/!rottie.jpeg",
     "title": "!Rottie",
   },
   {
-    "img": "!flexcon",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!flexcon.jpeg",
     "title": "!Flexcon",
   },
   {
-    "img": "!muto",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!muto.jpeg",
     "title": "!Muto",
   },
   {
-    "img": "!boom",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!boom.jpeg",
     "title": "!Gelato",
   },
   {
-    "img": "!sam",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!sam.jpeg",
     "title": "!Sam",
   },
   {
-    "img": "!rottie",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/!rottie.jpeg",
     "title": "!Rottie",
   },
   {
-    "img": "!flexcon",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!flexcon.jpeg",
     "title": "!Flexcon",
   },
   {
-    "img": "!muto",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!muto.jpeg",
     "title": "!Muto",
   },
   {
-    "img": "!boom",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/!boom.jpeg",
     "title": "!Gelato",
   },
 ];
 
 List<Map<String, String>> brandDetails = [
   {
-    "img": "gucci.jpeg",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/gucci.jpeg",
     "title": "Gucci",
     "likes": "1.2K",
     "reboom": "40",
     "comments": "20",
   },
   {
-    "img": "versace.jpeg",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/versace.jpeg",
     "title": "Versace",
     "likes": "150",
     "reboom": "10",
     "comments": "5",
   },
   {
-    "img": "offwhite.jpeg",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/offwhite.jpeg",
     "title": "Offwhite",
     "likes": "10.5k",
     "reboom": "36",
     "comments": "15",
   },
   {
-    "img": "jordans.jpeg",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/jordans.jpeg",
     "title": "Jordans",
     "likes": "1.2K",
     "reboom": "69",
     "comments": "36",
   },
   {
-    "img": "zara.png",
+    "img":
+        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/zara.png",
     "title": "Zara",
     "likes": "1574",
     "reboom": "87",

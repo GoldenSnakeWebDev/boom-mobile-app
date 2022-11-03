@@ -76,10 +76,10 @@ class SingleBoomPage extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12.0),
-                              child: Image.asset(
+                              child: Image.network(
                                 height: getProportionateScreenHeight(45),
                                 width: getProportionateScreenHeight(45),
-                                "assets/images/seven.jpg",
+                                "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/seven.jpg",
                                 fit: BoxFit.cover,
                               ),
                             ),
