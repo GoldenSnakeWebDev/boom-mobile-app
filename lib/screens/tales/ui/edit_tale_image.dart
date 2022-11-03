@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:boom_mobile/screens/main_screen.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

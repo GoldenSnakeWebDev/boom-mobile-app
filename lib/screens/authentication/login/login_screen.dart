@@ -1,6 +1,6 @@
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/registration_screen.dart';
-import 'package:boom_mobile/screens/main_screen.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/gestures.dart';
@@ -111,7 +111,7 @@ class LoginScreen extends GetView<LoginController> {
                             TextFormField(
                               controller: controller.userNameController,
                               decoration: InputDecoration(
-                                hintText: "Email",
+                                hintText: "Username or Email",
                                 prefixIcon: const Icon(
                                   Icons.person,
                                   color: Colors.black,
