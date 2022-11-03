@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/main_screen.dart';
+import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class LoginController extends GetxController {
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final box = GetStorage();
+  UserModel? user;
 
   @override
   void onInit() async {
@@ -57,6 +59,7 @@ class LoginController extends GetxController {
       );
 
       if (res.statusCode == 200) {
+        user = UserModel.fromJson(jsonDecode(res.body));
         EasyLoading.dismiss();
         CustomSnackBar.showCustomSnackBar(
           errorList: [jsonDecode(res.body)["message"]],
@@ -64,6 +67,7 @@ class LoginController extends GetxController {
           isError: false,
         );
         box.write("token", jsonDecode(res.body)["token"]);
+        update();
         return true;
       } else {
         EasyLoading.dismiss();

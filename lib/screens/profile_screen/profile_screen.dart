@@ -1,3 +1,4 @@
+import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
@@ -22,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Get.put(ProfileController());
+    Get.put(LoginController());
     super.initState();
   }
 
@@ -89,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "!Seven22",
+                                        "!${controller.user?.user.username}",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize:
@@ -106,58 +108,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: Stack(
                                   children: [
                                     controller.isNewUser
-                                        ? Container(
-                                            width: SizeConfig.screenWidth,
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    125),
-                                            decoration: const BoxDecoration(
-                                                color: kContBgColor),
-                                            child: ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                maxHeight:
-                                                    getProportionateScreenHeight(
-                                                        125),
-                                                maxWidth:
-                                                    SizeConfig.screenWidth,
-                                              ),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "No header Image",
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        getProportionateScreenHeight(
-                                                            10),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        border: Border.all(
-                                                            color:
-                                                                Colors.black26),
-                                                        shape: BoxShape.circle),
-                                                    child: const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Icon(
-                                                        Icons.add,
-                                                        size: 16,
+                                        ? GestureDetector(
+                                            onTap: () async {
+                                              controller.signOut();
+                                            },
+                                            child: Container(
+                                              width: SizeConfig.screenWidth,
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      125),
+                                              decoration: const BoxDecoration(
+                                                  color: kContBgColor),
+                                              child: ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                  maxHeight:
+                                                      getProportionateScreenHeight(
+                                                          125),
+                                                  maxWidth:
+                                                      SizeConfig.screenWidth,
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      "Add header Image",
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                14),
+                                                        fontWeight:
+                                                            FontWeight.w700,
                                                       ),
                                                     ),
-                                                  )
-                                                ],
+                                                    SizedBox(
+                                                      height:
+                                                          getProportionateScreenHeight(
+                                                              10),
+                                                    ),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .black26),
+                                                          shape:
+                                                              BoxShape.circle),
+                                                      child: const Padding(
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
+                                                        child: Icon(
+                                                          Icons.add,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           )
@@ -224,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
-                                                    color: Colors.black26,
+                                                    color: Colors.black12,
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -246,7 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         getProportionateScreenWidth(
                                                             55),
                                                     controller.isNewUser
-                                                        ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/user_icon.png"
+                                                        ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
                                                         : "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/seven.jpg",
                                                     fit: BoxFit.contain,
                                                   ),

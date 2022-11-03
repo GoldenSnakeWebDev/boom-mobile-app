@@ -59,46 +59,69 @@ class CreateNewPost extends GetView<NewPostController> {
                     width: SizeConfig.screenWidth,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.blueAccent),
+                      // border: Border.all(
+                      //   color: Colors.blueAccent.withOpacity(0.3),
+                      //   width: 0.5,
+                      // ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 15, bottom: 20),
+                      padding: const EdgeInsets.only(top: 0, bottom: 20),
                       child: Column(
                         children: [
-                          Text(
-                            controller.pickedImage != null
-                                ? controller.pickedImage!.path
-                                : "Upload File",
-                            style: TextStyle(
-                                fontSize: getProportionateScreenHeight(15),
-                                fontWeight: FontWeight.w900,
-                                color: Colors.black),
+                          TextFormField(
+                            minLines: 3,
+                            maxLines: 6,
+                            maxLength: 130,
+                            decoration: InputDecoration(
+                              counterStyle: TextStyle(
+                                  fontSize: getProportionateScreenHeight(9)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: kPrimaryColor),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: kPrimaryColor),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: kPrimaryColor),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    const BorderSide(color: kPrimaryColor),
+                              ),
+                            ),
                           ),
                           SizedBox(
                             height: getProportionateScreenHeight(15),
                           ),
-                          Text(
-                            "Accepted file types (JPG, PNG, MOV, MP4, GIF)",
-                            style: TextStyle(
-                                fontSize: getProportionateScreenHeight(12),
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(5),
-                          ),
-                          Text(
-                            "Max upload size 30MB",
-                            style: TextStyle(
-                                fontSize: getProportionateScreenHeight(12),
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: getProportionateScreenHeight(40),
-                          ),
+                          // Text(
+                          //   controller.pickedImage != null
+                          //       ? controller.pickedImage!.path
+                          //       : "Upload File",
+                          //   style: TextStyle(
+                          //       fontSize: getProportionateScreenHeight(15),
+                          //       fontWeight: FontWeight.w900,
+                          //       color: Colors.black),
+                          // ),
+                          // SizedBox(
+                          //   height: getProportionateScreenHeight(5),
+                          // ),
+                          // Text(
+                          //   "Accepted file types (JPG, PNG, MOV, MP4, GIF)",
+                          //   style: TextStyle(
+                          //       fontSize: getProportionateScreenHeight(12),
+                          //       color: Colors.grey,
+                          //       fontWeight: FontWeight.w600),
+                          // ),
+
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               GestureDetector(
                                 onTap: () async {
@@ -111,19 +134,23 @@ class CreateNewPost extends GetView<NewPostController> {
                                   ),
                                   child: Padding(
                                     padding:
-                                        const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                                        const EdgeInsets.fromLTRB(8, 4, 8, 4),
                                     child: Row(
                                       children: [
                                         const Icon(
                                           MdiIcons.plus,
                                           color: Colors.white,
+                                          size: 13,
                                         ),
                                         SizedBox(
                                           width: getProportionateScreenWidth(5),
                                         ),
-                                        const Text(
+                                        Text(
                                           "Add File",
                                           style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    12),
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -150,19 +177,23 @@ class CreateNewPost extends GetView<NewPostController> {
                                   ),
                                   child: Padding(
                                     padding:
-                                        const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                                        const EdgeInsets.fromLTRB(8, 4, 8, 4),
                                     child: Row(
                                       children: [
                                         const Icon(
                                           MdiIcons.plus,
                                           color: Colors.blueAccent,
+                                          size: 13,
                                         ),
                                         SizedBox(
-                                          width: getProportionateScreenWidth(5),
+                                          width: getProportionateScreenWidth(3),
                                         ),
-                                        const Text(
+                                        Text(
                                           "Instagram Import",
                                           style: TextStyle(
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      12),
                                               color: Colors.blueAccent,
                                               fontWeight: FontWeight.w600),
                                         )
@@ -172,6 +203,19 @@ class CreateNewPost extends GetView<NewPostController> {
                                 ),
                               ),
                             ],
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(3),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Max upload size 30MB",
+                              style: TextStyle(
+                                  fontSize: getProportionateScreenHeight(10),
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ],
                       ),
