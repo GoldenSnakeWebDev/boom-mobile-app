@@ -1,4 +1,5 @@
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/edit_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -98,6 +99,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                       ),
                                       const Spacer(),
+                                      GestureDetector(
+                                        onTap: () =>
+                                            Get.to(() => const EditProfile()),
+                                        child: const Icon(
+                                          MdiIcons.accountEditOutline,
+                                          size: 24,
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
