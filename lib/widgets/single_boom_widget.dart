@@ -47,31 +47,32 @@ class SingleBoomWidget extends StatelessWidget {
                     width: getProportionateScreenWidth(5),
                   ),
                   Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black38, width: 0.5),
-                        borderRadius: BorderRadius.circular(6),
-                        gradient: const LinearGradient(
-                          colors: [
-                            kPrimaryColor,
-                            kSecondaryColor,
-                            kPrimaryColor,
-                            kPrimaryColor,
-                            kSecondaryColor,
-                          ],
-                        ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black38, width: 0.5),
+                      borderRadius: BorderRadius.circular(6),
+                      gradient: const LinearGradient(
+                        colors: [
+                          kPrimaryColor,
+                          kSecondaryColor,
+                          kPrimaryColor,
+                          kPrimaryColor,
+                          kSecondaryColor,
+                        ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              MdiIcons.mapMarker,
-                              size: 16,
-                            ),
-                            Text(post.location),
-                          ],
-                        ),
-                      ))
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            MdiIcons.mapMarker,
+                            size: 16,
+                          ),
+                          Text(post.location),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
               SizedBox(
