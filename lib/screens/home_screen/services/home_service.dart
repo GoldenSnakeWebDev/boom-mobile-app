@@ -1,18 +1,20 @@
 import 'package:boom_mobile/utils/url_container.dart';
-import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
-class FetchCurrUserRepo extends GetConnect {
-  Future fetchCurrUser(String token) async {
+class HomeService {
+  final box = GetStorage();
+
+  fetchBooms() async {
+    String token = box.read("token");
     final res = await http.get(
-      Uri.parse("${baseURL}users/currentUser"),
+      Uri.parse("${baseURL}booms?page=all"),
       headers: {
-        "Content-Type": "application/json",
         "Accept": "application/json",
+        "Content-Type": "application/json",
         "Authorization": token,
       },
     );
-
     return res;
   }
 }

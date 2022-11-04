@@ -1,4 +1,5 @@
 class SingleBoomPost {
+  final String boomType;
   final String imgUrl;
   final String desc;
   final String location;
@@ -11,6 +12,7 @@ class SingleBoomPost {
   final int comments;
 
   SingleBoomPost({
+    required this.boomType,
     required this.location,
     required this.chain,
     required this.imgUrl,

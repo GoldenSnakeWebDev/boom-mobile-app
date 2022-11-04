@@ -213,6 +213,7 @@ List<Map<String, dynamic>> dmDetails = [
 ];
 List<SingleBoomPost> booms = [
   SingleBoomPost(
+    boomType: "Image",
     imgUrl:
         "https://images.unsplash.com/photo-1665530653555-20998d0f4374?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1528&q=80",
     location: "Las Vegas",
@@ -226,6 +227,7 @@ List<SingleBoomPost> booms = [
     comments: 25,
   ),
   SingleBoomPost(
+    boomType: "Image",
     imgUrl:
         "https://images.unsplash.com/photo-1664892378945-6a95d2fe538a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2692&q=80",
     location: "Nairobi",
@@ -239,6 +241,7 @@ List<SingleBoomPost> booms = [
     comments: 69,
   ),
   SingleBoomPost(
+    boomType: "Image",
     imgUrl:
         "https://images.unsplash.com/photo-1664849275192-503e4c864380?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1238&q=80",
     location: "Ontario",
@@ -252,6 +255,7 @@ List<SingleBoomPost> booms = [
     comments: 147,
   ),
   SingleBoomPost(
+    boomType: "Image",
     imgUrl:
         "https://images.unsplash.com/photo-1664542496645-958567bf6b11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1288&q=80",
     location: "Unknown",
@@ -265,6 +269,7 @@ List<SingleBoomPost> booms = [
     comments: 160,
   ),
   SingleBoomPost(
+    boomType: "Image",
     imgUrl:
         "https://images.unsplash.com/photo-1663909450025-74f0abaf5e6b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1306&q=80",
     location: "Muscat",
@@ -278,6 +283,7 @@ List<SingleBoomPost> booms = [
     comments: 64,
   ),
   SingleBoomPost(
+    boomType: "Image",
     imgUrl:
         "https://images.unsplash.com/photo-1664538605442-1f50e5eebb2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1760&q=80",
     location: "Denver",

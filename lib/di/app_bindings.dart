@@ -1,5 +1,6 @@
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
@@ -18,6 +19,7 @@ class AppBindings extends Bindings {
     Get.lazyPut<LoginController>(() => LoginController());
     Get.lazyPut<SplashController>(() => SplashController());
     Get.lazyPut<ProfileController>(() => ProfileController());
+    Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<MainScreenController>(
         () => MainScreenController(repo: Get.find()));
   }
