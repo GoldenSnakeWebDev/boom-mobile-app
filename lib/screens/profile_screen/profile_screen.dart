@@ -183,10 +183,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             height:
                                                 getProportionateScreenHeight(
                                                     125),
-                                            decoration: const BoxDecoration(
+                                            decoration: BoxDecoration(
                                               image: DecorationImage(
                                                 image: NetworkImage(
-                                                  "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/header_img.png",
+                                                  controller.user!.cover,
                                                 ),
                                                 fit: BoxFit.cover,
                                               ),
@@ -264,7 +264,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             55),
                                                     controller.isNewUser
                                                         ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
-                                                        : "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/seven.jpg",
+                                                        : controller
+                                                            .user!.photo,
                                                     fit: BoxFit.contain,
                                                   ),
                                                 ),
@@ -475,27 +476,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   : Column(
                                                       children: [
                                                         Row(
-                                                          children: const [
-                                                            Icon(MdiIcons
-                                                                .circleSmall),
-                                                            Text(
-                                                                "Blockchain dev, Calle me Seven")
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: const [
-                                                            Icon(MdiIcons
-                                                                .circleSmall),
-                                                            Text(
-                                                                "All posts are opinionated, NFA")
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: const [
-                                                            Icon(MdiIcons
-                                                                .circleSmall),
-                                                            Text(
-                                                                "Lead Dev Ngeni Devs")
+                                                          children: [
+                                                            // const Icon(MdiIcons
+                                                            //     .circleSmall),
+                                                            Text(controller
+                                                                .user!.bio)
                                                           ],
                                                         ),
                                                       ],

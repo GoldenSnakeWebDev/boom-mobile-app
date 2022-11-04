@@ -66,14 +66,24 @@ class EditProfileController extends GetxController {
       var length = photo.lengthSync();
       final mimeTypeData =
           lookupMimeType(photo.path, headerBytes: [0xFF, 0xD8])!.split('/');
-      var multipartFile = http.MultipartFile("photo", stream, length,
-          filename: basename(photo.path),
-          contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
-      Map<String, String> headers = {"Content-Type": "multipart/form-data"};
+      var multipartFile = http.MultipartFile(
+        "doc",
+        stream,
+        length,
+        filename: basename(photo.path),
+        contentType: MediaType(
+          mimeTypeData[0],
+          mimeTypeData[1],
+        ),
+      );
+      Map<String, String> headers = {
+        "Content-Type": "multipart/form-data",
+        "Accept": "*/*",
+      };
       request.headers.addAll(headers);
 
       request.files.add(multipartFile);
-      request.fields["doc"] = basename(photo.path);
+      // request.fields["doc"] = basename(photo.path);
       log(basename(photo.path));
       var response = await request.send();
 
@@ -112,7 +122,8 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            "username": usernameController.text,
+            // "username": usernameController.text,
+            "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,
@@ -135,7 +146,8 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            "username": usernameController.text,
+            // "username": usernameController.text,
+            "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,
@@ -157,7 +169,8 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            "username": usernameController.text,
+            // "username": usernameController.text,
+            "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,
@@ -179,6 +192,7 @@ class EditProfileController extends GetxController {
         body: json.encode(
           {
             // "username": usernameController.text,
+
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,

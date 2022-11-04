@@ -58,6 +58,7 @@ class User {
     required this.isAdmin,
     required this.passwordResetToken,
     required this.syncBank,
+    required this.cover,
     required this.id,
   });
 
@@ -77,6 +78,7 @@ class User {
   bool isAdmin;
   String passwordResetToken;
   SyncBank syncBank;
+  String cover;
   String id;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -96,6 +98,7 @@ class User {
         isAdmin: json["is_admin"],
         passwordResetToken: json["password_reset_token"],
         syncBank: SyncBank.fromJson(json["sync_bank"]),
+        cover: json["cover"],
         id: json["id"],
       );
 
@@ -116,6 +119,7 @@ class User {
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
         "sync_bank": syncBank.toJson(),
+        "cover": cover,
         "id": id,
       };
 }

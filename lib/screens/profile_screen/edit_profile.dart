@@ -159,7 +159,7 @@ class _EditProfileState extends State<EditProfile> {
                                     )
                                   : const Icon(
                                       Icons.add,
-                                      size: 16,
+                                      size: 24,
                                     ),
                             ),
                           ),
