@@ -72,6 +72,7 @@ class CreateNewPost extends GetView<NewPostController> {
                             minLines: 3,
                             maxLines: 6,
                             maxLength: 130,
+                            controller: controller.boomText,
                             decoration: InputDecoration(
                               counterStyle: TextStyle(
                                   fontSize: getProportionateScreenHeight(9)),
@@ -235,6 +236,7 @@ class CreateNewPost extends GetView<NewPostController> {
                     height: getProportionateScreenHeight(15),
                   ),
                   TextFormField(
+                    controller: controller.quantity,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(4),
                       hintText: "Enter number of copies you want to create",
@@ -254,6 +256,7 @@ class CreateNewPost extends GetView<NewPostController> {
                   SizedBox(
                     width: SizeConfig.screenWidth * 0.5,
                     child: TextFormField(
+                      controller: controller.fixedPrice,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(4),
                         hintText: "\$ Fixed Price",
@@ -282,6 +285,7 @@ class CreateNewPost extends GetView<NewPostController> {
                     height: getProportionateScreenHeight(15),
                   ),
                   TextFormField(
+                    controller: controller.price,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(4),
                       hintText: "40\$ price for one piece",
@@ -399,6 +403,7 @@ class CreateNewPost extends GetView<NewPostController> {
                             height: getProportionateScreenHeight(10),
                           ),
                           TextFormField(
+                            controller: controller.title,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(4),
                               hintText: "Enter title about your art",
@@ -428,6 +433,7 @@ class CreateNewPost extends GetView<NewPostController> {
                           ),
                           TextFormField(
                             maxLines: 5,
+                            controller: controller.description,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(4),
                               hintText:
@@ -457,6 +463,7 @@ class CreateNewPost extends GetView<NewPostController> {
                             height: getProportionateScreenHeight(10),
                           ),
                           TextFormField(
+                            controller: controller.tags,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(4),
                               // hintText: "Enter title about your art",
@@ -480,27 +487,32 @@ class CreateNewPost extends GetView<NewPostController> {
                     height: getProportionateScreenHeight(20),
                   ),
                   Center(
-                    child: Container(
-                      height: getProportionateScreenHeight(40),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: const Offset(4, 8),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Text(
-                          "Create Post",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenHeight(16),
-                            fontWeight: FontWeight.w800,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.uploadNewBoom();
+                      },
+                      child: Container(
+                        height: getProportionateScreenHeight(40),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset: const Offset(4, 8),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: Text(
+                            "Create Post",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(16),
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       ),

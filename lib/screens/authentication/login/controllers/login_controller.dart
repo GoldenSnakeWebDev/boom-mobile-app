@@ -66,7 +66,7 @@ class LoginController extends GetxController {
           msg: [],
           isError: false,
         );
-        box.write("token", jsonDecode(res.body)["token"]);
+        box.write("token", "Bearer " + jsonDecode(res.body)["token"]);
         update();
         return true;
       } else {

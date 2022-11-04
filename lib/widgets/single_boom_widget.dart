@@ -29,7 +29,7 @@ class SingleBoomWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           color: kContBgColor,
         ),
-        child: Padding(
+        child: Container(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,17 +77,21 @@ class SingleBoomWidget extends StatelessWidget {
               SizedBox(
                 height: getProportionateScreenHeight(20),
               ),
-              Container(
-                width: SizeConfig.screenWidth,
-                height: getProportionateScreenHeight(200),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image: NetworkImage(post.imgUrl),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              post.boomType == "text"
+                  ? Text(post.imgUrl)
+                  : post.boomType == "video"
+                      ? const Text("Video")
+                      : Container(
+                          width: SizeConfig.screenWidth,
+                          height: getProportionateScreenHeight(200),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: NetworkImage(post.imgUrl),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
               SizedBox(
                 height: getProportionateScreenHeight(15),
               ),

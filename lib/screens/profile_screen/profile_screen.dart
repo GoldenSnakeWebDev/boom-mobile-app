@@ -1,4 +1,3 @@
-import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
@@ -23,7 +22,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Get.put(ProfileController());
-    Get.put(LoginController());
+
     super.initState();
   }
 
@@ -91,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "!${controller.user?.user.username}",
+                                        "!${controller.user?.username ?? "username"}",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize:
