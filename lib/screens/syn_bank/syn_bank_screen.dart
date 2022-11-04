@@ -1,7 +1,9 @@
+import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SyntheticBankScreen extends StatelessWidget {
@@ -9,6 +11,7 @@ class SyntheticBankScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myCtrl = Get.find<MainScreenController>();
     return Container(
       width: SizeConfig.screenWidth * 0.8,
       height: SizeConfig.screenHeight * 0.45,
@@ -30,40 +33,43 @@ class SyntheticBankScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "SYN ID: 9815673450",
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                Text(
+                  "SYN ID: ${myCtrl.user!.syncBank.syncId}",
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black45, width: 0.5),
-                    borderRadius: BorderRadius.circular(4),
-                    gradient: const LinearGradient(
-                      colors: [
-                        kPrimaryColor,
-                        kSecondaryColor,
-                      ],
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black45, width: 0.5),
+                      borderRadius: BorderRadius.circular(4),
+                      gradient: const LinearGradient(
+                        colors: [
+                          kPrimaryColor,
+                          kSecondaryColor,
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          MdiIcons.contentCopy,
-                          size: 20,
-                          color: Colors.black54,
-                        ),
-                        SizedBox(
-                          width: getProportionateScreenWidth(5),
-                        ),
-                        Text(
-                          "Copy",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenHeight(11),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            MdiIcons.contentCopy,
+                            size: 20,
+                            color: Colors.black54,
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: getProportionateScreenWidth(5),
+                          ),
+                          Text(
+                            "Copy",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(11),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -79,32 +85,32 @@ class SyntheticBankScreen extends StatelessWidget {
                     height: getProportionateScreenHeight(20),
                     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png",
                   ),
-                  balance: "236",
-                  fiatBalance: "155.76",
+                  balance: "${myCtrl.user!.syncBank.amountBalance}",
+                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
                 ),
                 ChainBalanceWidget(
                   icon: Image.network(
                     height: getProportionateScreenHeight(20),
                     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ethereum.png",
                   ),
-                  balance: "3",
-                  fiatBalance: "5832",
+                  balance: "${myCtrl.user!.syncBank.amountBalance}",
+                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
                 ),
                 ChainBalanceWidget(
                   icon: SvgPicture.asset(
                     height: getProportionateScreenHeight(20),
                     "assets/icons/bnb.svg",
                   ),
-                  balance: "6",
-                  fiatBalance: "1920",
+                  balance: "${myCtrl.user!.syncBank.amountBalance}",
+                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
                 ),
                 ChainBalanceWidget(
                   icon: Image.network(
                     height: getProportionateScreenHeight(20),
                     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png",
                   ),
-                  balance: "5",
-                  fiatBalance: "225",
+                  balance: "${myCtrl.user!.syncBank.amountBalance}",
+                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
                 ),
               ],
             ),
@@ -121,7 +127,7 @@ class SyntheticBankScreen extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: "\$8,132.76",
+                    text: "\$${myCtrl.user!.syncBank.amountBalance}",
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w800,

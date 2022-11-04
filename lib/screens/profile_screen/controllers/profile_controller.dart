@@ -18,6 +18,14 @@ class ProfileController extends GetxController {
   final box = GetStorage();
   List<SingleBoomPost> booms = [];
 
+  @override
+  void onInit() {
+    if (user!.bio.isNotEmpty) {
+      isNewUser = false;
+    }
+    super.onInit();
+  }
+
   changeSelectedIndex(int index) {
     selectedTab = index;
     update();
