@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -12,11 +13,24 @@ class MainScreenController extends GetxController {
 
   User? user;
   final box = GetStorage();
+  NetworkModel? networkModel;
 
   @override
   void onInit() {
     super.onInit();
     getCurrenUser();
+    getNetworks();
+  }
+
+  getNetworks() async {
+    final res = await repo.getNetworks();
+    if (res.statusCode == 200) {
+      networkModel = NetworkModel.fromJson(jsonDecode(res.body));
+      update();
+    } else {
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Networks not fetched"], msg: ["Error"], isError: true);
+    }
   }
 
   getCurrenUser() async {

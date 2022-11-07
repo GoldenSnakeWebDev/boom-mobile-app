@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
@@ -13,7 +16,8 @@ class ProfileController extends GetxController {
   int numberOfFans = 0;
   int numberOfFrens = 0;
   bool isVerified = false;
-  final User? user = Get.find<MainScreenController>().user;
+  User? user = Get.find<MainScreenController>().user;
+  FetchCurrUserRepo repo = Get.find();
 
   final box = GetStorage();
   List<SingleBoomPost> booms = [];
@@ -29,6 +33,25 @@ class ProfileController extends GetxController {
   changeSelectedIndex(int index) {
     selectedTab = index;
     update();
+  }
+
+  fetchProfile() async {
+    String token = box.read("token");
+    final res = await repo.fetchCurrUser(token);
+    if (res.statusCode == 200) {
+      user = User.fromJson(jsonDecode(res.body)["user"]);
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["User Details Fetched"],
+          msg: ["Success"],
+          isError: false);
+      update();
+    } else {
+      CustomSnackBar.showCustomSnackBar(
+        errorList: ["User Details Fetched"],
+        msg: ["Error"],
+        isError: true,
+      );
+    }
   }
 
   signOut() async {
