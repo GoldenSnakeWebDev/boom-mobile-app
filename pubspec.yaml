@@ -96,6 +96,7 @@ dependencies:
   http_parser: ^4.0.2
   path: ^1.8.2
   mime: ^1.0.2
+  widget_and_text_animator: ^1.0.9
   
   
  
