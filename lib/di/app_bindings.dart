@@ -1,3 +1,4 @@
+import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
@@ -22,5 +23,7 @@ class AppBindings extends Bindings {
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<MainScreenController>(
         () => MainScreenController(repo: Get.find()));
+
+    Get.lazyPut<FetchCurrUserRepo>(() => FetchCurrUserRepo());
   }
 }

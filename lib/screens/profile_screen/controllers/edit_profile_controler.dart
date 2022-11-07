@@ -55,7 +55,7 @@ class EditProfileController extends GetxController {
     update();
   }
 
-  uploadPhoto(File photo) async {
+  uploadPhoto(File photo, String successMessage) async {
     try {
       var request = http.MultipartRequest(
         'POST',
@@ -92,7 +92,7 @@ class EditProfileController extends GetxController {
         UploadPhotoModel uploadPhotoModel =
             UploadPhotoModel.fromJson(json.decode(respStr));
 
-        EasyLoading.showSuccess('Profile photo uploaded!');
+        EasyLoading.showSuccess(successMessage);
         update();
         return uploadPhotoModel.url;
       } else {
@@ -115,8 +115,10 @@ class EditProfileController extends GetxController {
     EasyLoading.show(status: 'Updating profile...');
 
     if (profileImage != null && headerImage != null) {
-      profileUrl = await uploadPhoto(pickedProfileImage!);
-      headerUrl = await uploadPhoto(pickedHeaderImage!);
+      profileUrl =
+          await uploadPhoto(pickedProfileImage!, 'Profile photo uploaded!');
+      headerUrl =
+          await uploadPhoto(pickedHeaderImage!, 'Profile photo uploaded!');
       final res = await http.post(
         Uri.parse("${baseURL}users/update-profile"),
         headers: {"Content-Type": "application/json", "Authorization": token},
@@ -140,7 +142,8 @@ class EditProfileController extends GetxController {
         EasyLoading.showError('Error updating profile');
       }
     } else if (profileImage != null) {
-      profileUrl = await uploadPhoto(pickedProfileImage!);
+      profileUrl =
+          await uploadPhoto(pickedProfileImage!, 'Profile photo uploaded!');
       final res = await http.post(
         Uri.parse("${baseURL}users/update-profile"),
         headers: {"Content-Type": "application/json", "Authorization": token},
@@ -163,7 +166,8 @@ class EditProfileController extends GetxController {
         EasyLoading.showError('Error updating profile');
       }
     } else if (headerImage != null) {
-      headerUrl = await uploadPhoto(pickedHeaderImage!);
+      headerUrl =
+          await uploadPhoto(pickedHeaderImage!, 'Profile photo uploaded!');
       final res = await http.post(
         Uri.parse("${baseURL}users/update-profile"),
         headers: {"Content-Type": "application/json", "Authorization": token},
