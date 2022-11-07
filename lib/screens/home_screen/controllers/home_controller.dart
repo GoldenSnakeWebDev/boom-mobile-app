@@ -23,8 +23,8 @@ class HomeController extends GetxController {
 
     if (res.statusCode == 200) {
       isLoading = false;
-      CustomSnackBar.showCustomSnackBar(
-          errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
+      // CustomSnackBar.showCustomSnackBar(
+      //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
       allBooms = AllBooms.fromJson(jsonDecode(res.body));
       EasyLoading.dismiss();
       update();

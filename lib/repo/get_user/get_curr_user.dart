@@ -15,4 +15,16 @@ class FetchCurrUserRepo extends GetConnect {
 
     return res;
   }
+
+  Future getNetworks() async {
+    final res = await http.get(
+      Uri.parse("${baseURL}networks?page=all"),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    );
+
+    return res;
+  }
 }
