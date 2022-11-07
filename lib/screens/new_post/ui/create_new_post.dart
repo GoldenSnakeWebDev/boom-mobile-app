@@ -2,6 +2,7 @@ import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dar
 import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -250,28 +251,28 @@ class CreateNewPost extends GetView<NewPostController> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(15),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.screenWidth * 0.5,
-                    child: TextFormField(
-                      controller: controller.fixedPrice,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(4),
-                        hintText: "\$ Fixed Price",
-                        hintStyle: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(15),
+                  // ),
+                  // SizedBox(
+                  //   width: SizeConfig.screenWidth * 0.5,
+                  //   child: TextFormField(
+                  //     controller: controller.fixedPrice,
+                  //     decoration: InputDecoration(
+                  //       contentPadding: const EdgeInsets.all(4),
+                  //       hintText: "\$ Fixed Price",
+                  //       hintStyle: TextStyle(
+                  //         fontSize: getProportionateScreenHeight(12),
+                  //       ),
+                  //       filled: true,
+                  //       fillColor: Colors.white,
+                  //       border: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(8.0),
+                  //         borderSide: BorderSide.none,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: getProportionateScreenHeight(15),
                   ),
@@ -295,25 +296,54 @@ class CreateNewPost extends GetView<NewPostController> {
                       filled: true,
                       fillColor: Colors.white,
                       suffixIcon: SizedBox(
-                        width: SizeConfig.screenWidth * 0.36,
+                        width: SizeConfig.screenWidth * 0.45,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(
-                              MdiIcons.arrowDownDropCircle,
+                            SizedBox(
+                              width: getProportionateScreenWidth(60),
+                              child: DropdownButton(
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down_circle_outlined,
+                                    color: Colors.grey,
+                                    size: 24,
+                                  ),
+                                  underline: const SizedBox(),
+                                  hint: Text(
+                                    controller.selectedNetwork ?? "Choose",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(12)),
+                                  ),
+                                  style: const TextStyle(color: Colors.black),
+                                  items: controller.networks.map((e) {
+                                    return DropdownMenuItem(
+                                      value: e,
+                                      child: Text(
+                                        e,
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    controller.changeChain(value!);
+                                  }),
                             ),
                             SizedBox(
-                              width: getProportionateScreenWidth(4),
+                              width: getProportionateScreenWidth(10),
                             ),
-                            Image.network(
+                            CachedNetworkImage(
                               height: getProportionateScreenHeight(16),
-                              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/bnb.png",
+                              imageUrl:
+                                  controller.selectedNetworkModel?.imageUrl ??
+                                      "",
                             ),
                             SizedBox(
                               width: getProportionateScreenWidth(4),
                             ),
                             Text(
-                              "29.7 BNB",
+                              "29.7 ${controller.selectedNetwork}",
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: getProportionateScreenHeight(12),
