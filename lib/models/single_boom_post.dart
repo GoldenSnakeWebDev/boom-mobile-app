@@ -12,7 +12,7 @@ class SingleBoomPost {
   final int rebooms;
   final int reported;
   final int comments;
-  final Network? network;
+  final Network network;
   final bool isLiked;
 
   SingleBoomPost({

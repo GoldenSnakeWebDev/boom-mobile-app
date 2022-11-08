@@ -36,6 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
     log("Main User: ${mainController.user}");
     return GetBuilder<HomeController>(
       builder: (controller) {
+        Future.delayed(const Duration(seconds: 3)).then((value) =>
+            controller.getMyBooms(controller.allBooms, mainController.user!));
+
         return controller.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -99,10 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         height:
                                                             getProportionateScreenHeight(
                                                                 56),
-                                                        imageUrl: controller
-                                                                .user
-                                                                .user
-                                                                ?.photo ??
+                                                        imageUrl: mainController
+                                                                .user?.photo ??
                                                             "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
                                                         fit: BoxFit.cover,
                                                       ),
@@ -223,25 +224,43 @@ class _HomeScreenState extends State<HomeScreen> {
                                     itemCount:
                                         controller.allBooms!.booms.length,
                                     itemBuilder: (context, index) {
-                                      log("Networks ${controller.network.length}");
                                       SingleBoomPost boomPost = SingleBoomPost(
                                         boomType: controller
                                             .allBooms!.booms[index].boomType,
                                         location: "Location",
-                                        chain: controller
-                                            .allBooms!.booms[index].network,
+                                        chain: controller.allBooms!.booms[index]
+                                            .network.symbol,
                                         imgUrl: controller
                                             .allBooms!.booms[index].imageUrl,
                                         desc: controller
                                             .allBooms!.booms[index].description,
-                                        network: controller.network[index],
+                                        network: controller
+                                            .allBooms!.booms[index].network,
                                         isLiked: controller.isLiked,
-                                        likes: 100 + index,
-                                        loves: 76 + index,
-                                        smiles: 20 + index,
-                                        rebooms: 5 + index,
-                                        reported: 2 + index,
-                                        comments: 3 + index,
+                                        likes: controller.allBooms!.booms[index]
+                                            .reactions.likes.length,
+                                        loves: controller.allBooms!.booms[index]
+                                            .reactions.loves.length,
+                                        smiles: controller
+                                            .allBooms!
+                                            .booms[index]
+                                            .reactions
+                                            .smiles
+                                            .length,
+                                        rebooms: controller
+                                            .allBooms!
+                                            .booms[index]
+                                            .reactions
+                                            .rebooms
+                                            .length,
+                                        reported: controller
+                                            .allBooms!
+                                            .booms[index]
+                                            .reactions
+                                            .reports
+                                            .length,
+                                        comments: controller.allBooms!
+                                            .booms[index].comments.length,
                                       );
 
                                       return SingleBoomWidget(

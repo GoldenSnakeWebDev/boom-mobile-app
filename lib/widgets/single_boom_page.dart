@@ -80,10 +80,12 @@ class SingleBoomPage extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12.0),
-                              child: Image.network(
+                              child: CachedNetworkImage(
                                 height: getProportionateScreenHeight(45),
                                 width: getProportionateScreenHeight(45),
-                                "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/ipfs/bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy/seven.jpg",
+                                imageUrl: boom.user.photo.isNotEmpty
+                                    ? boom.user.photo
+                                    : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -91,7 +93,7 @@ class SingleBoomPage extends StatelessWidget {
                               height: getProportionateScreenHeight(5),
                             ),
                             Text(
-                              "!Rottie",
+                              "!${boom.user.username}",
                               style: TextStyle(
                                 fontSize: getProportionateScreenHeight(11),
                                 fontWeight: FontWeight.w800,
@@ -239,7 +241,7 @@ class SingleBoomPage extends StatelessWidget {
                         ),
                         CachedNetworkImage(
                           height: getProportionateScreenHeight(20),
-                          imageUrl: post.network?.imageUrl ?? "",
+                          imageUrl: post.network.imageUrl,
                         ),
                         IconButton(
                           onPressed: () {
@@ -307,13 +309,14 @@ class SingleBoomPage extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Image.network(
+                        CachedNetworkImage(
                           height: getProportionateScreenHeight(26),
                           color: kPrimaryColor,
-                          "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                          imageUrl:
+                              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
                         ),
                         Text(
-                          "${post.likes}",
+                          "${boom.reactions.likes.length}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -328,7 +331,7 @@ class SingleBoomPage extends StatelessWidget {
                           "assets/icons/love.svg",
                         ),
                         Text(
-                          "${post.loves}",
+                          "${boom.reactions.loves.length}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -343,7 +346,7 @@ class SingleBoomPage extends StatelessWidget {
                           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
                         ),
                         Text(
-                          "${post.smiles}",
+                          "${boom.reactions.smiles.length}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -357,7 +360,7 @@ class SingleBoomPage extends StatelessWidget {
                           "assets/icons/reboom.svg",
                         ),
                         Text(
-                          "${post.rebooms}",
+                          "${boom.reactions.rebooms.length}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -371,7 +374,7 @@ class SingleBoomPage extends StatelessWidget {
                           color: kYellowTextColor,
                         ),
                         Text(
-                          "${post.comments}",
+                          "${boom.reactions.reports.length}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -386,7 +389,7 @@ class SingleBoomPage extends StatelessWidget {
                           size: 24,
                         ),
                         Text(
-                          "${post.reported}",
+                          "${boom.comments.length}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),

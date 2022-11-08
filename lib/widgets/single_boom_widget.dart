@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
@@ -26,7 +24,6 @@ class SingleBoomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("Network ${post.network?.imageUrl}");
     return GestureDetector(
       onTap: () {
         Get.to(
@@ -51,7 +48,7 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    imageUrl: post.network?.imageUrl ?? " ",
+                    imageUrl: post.network.imageUrl,
                     fit: BoxFit.cover,
                   ),
                   SizedBox(
