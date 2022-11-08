@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:boom_mobile/screens/new_post/models/insta_media.dart';
 import 'package:boom_mobile/screens/new_post/services/instagram_api_service.dart';
 import 'package:boom_mobile/screens/new_post/ui/instagram_posts.dart';
+import 'package:boom_mobile/secrets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 
@@ -17,10 +18,12 @@ class InstagramWebController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    log("Watch this pace");
     await urlChanged();
   }
 
   urlChanged() async {
+    log("Watch this pace $url");
     onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) async {
       log("New Url $url");
       if (url.startsWith("https://rennylangat.github.io/")) {

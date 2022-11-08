@@ -23,8 +23,8 @@ class MainScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getNetworks();
     getCurrenUser();
+    getNetworks();
   }
 
   getNetworks() async {
@@ -38,9 +38,7 @@ class MainScreenController extends GetxController {
     if (res.statusCode == 200) {
       networkModel = NetworkModel.fromJson(jsonDecode(res.body));
       log("networkModel is $networkModel");
-      Future.delayed(const Duration(seconds: 2)).then((value) {
-        update();
-      });
+      update();
     } else {
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Networks not fetched"], msg: ["Error"], isError: true);

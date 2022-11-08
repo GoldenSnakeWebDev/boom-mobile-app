@@ -629,13 +629,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     boomType:
                                         boomController.myBooms[index].boomType,
                                     location: "Location",
-                                    chain:
-                                        boomController.myBooms[index].network,
+                                    chain: boomController
+                                        .myBooms[index].network.symbol,
                                     imgUrl:
                                         boomController.myBooms[index].imageUrl,
                                     desc: boomController
                                         .myBooms[index].description,
-                                    network: boomController.network[index],
+                                    network:
+                                        boomController.myBooms[index].network,
                                     isLiked: isLiked,
                                     likes: 100 + index,
                                     loves: 76 + index,
