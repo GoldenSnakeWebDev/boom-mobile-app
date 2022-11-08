@@ -1,5 +1,6 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
+import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
@@ -12,11 +13,13 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SingleBoomWidget extends StatelessWidget {
   final SingleBoomPost post;
+  final Boom boom;
   final HomeController controller;
   const SingleBoomWidget({
     Key? key,
     required this.post,
     required this.controller,
+    required this.boom,
   }) : super(key: key);
 
   @override
@@ -25,6 +28,7 @@ class SingleBoomWidget extends StatelessWidget {
       onTap: () {
         Get.to(() => SingleBoomPage(
               post: post,
+              boom: boom,
             ));
       },
       child: Container(
@@ -42,7 +46,7 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(24),
-                    imageUrl: post.network?.imageUrl ?? " ",
+                    imageUrl: post.network?.imageUrl ?? "",
                   ),
                   SizedBox(
                     width: getProportionateScreenWidth(5),

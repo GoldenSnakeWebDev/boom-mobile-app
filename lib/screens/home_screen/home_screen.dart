@@ -7,6 +7,7 @@ import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -25,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Get.put(HomeController());
   }
+
+  // final mainScreenController = Get.find<MainScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -82,25 +85,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             2.0),
-                                                    child: Container(
-                                                      width:
-                                                          getProportionateScreenWidth(
-                                                              56),
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              56),
-                                                      decoration: BoxDecoration(
-                                                        // shape: BoxShape.circle,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                talesDetails[
-                                                                            index]
-                                                                        ["img"]
-                                                                    .toString()),
-                                                            fit: BoxFit.cover),
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      child: CachedNetworkImage(
+                                                        width:
+                                                            getProportionateScreenWidth(
+                                                                56),
+                                                        height:
+                                                            getProportionateScreenHeight(
+                                                                56),
+                                                        imageUrl: controller
+                                                                .user
+                                                                .user
+                                                                ?.photo ??
+                                                            "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
                                                   ),
@@ -246,6 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return SingleBoomWidget(
                                         post: boomPost,
                                         controller: controller,
+                                        boom: controller.allBooms!.booms[index],
                                       );
                                     },
                                   ),
