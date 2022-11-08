@@ -1,3 +1,4 @@
+import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,7 +11,9 @@ import '../models/single_boom_post.dart';
 
 class SingleBoomPage extends StatelessWidget {
   final SingleBoomPost post;
-  const SingleBoomPage({Key? key, required this.post}) : super(key: key);
+  final Boom boom;
+  const SingleBoomPage({Key? key, required this.post, required this.boom})
+      : super(key: key);
 
   void _onShare(BuildContext context) async {
     final box = context.findRenderObject() as RenderBox;
@@ -55,12 +58,14 @@ class SingleBoomPage extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: CachedNetworkImage(
-                    // height: getProportionateScreenHeight(200),
-                    width: SizeConfig.screenWidth,
-                    imageUrl: post.imgUrl,
-                    fit: BoxFit.cover,
-                  ),
+                  child: post.boomType == "text"
+                      ? Text(post.imgUrl)
+                      : CachedNetworkImage(
+                          // height: getProportionateScreenHeight(200),
+                          width: SizeConfig.screenWidth,
+                          imageUrl: post.imgUrl,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 SizedBox(
                   height: getProportionateScreenHeight(15),
@@ -216,14 +221,14 @@ class SingleBoomPage extends StatelessWidget {
                         Column(
                           children: [
                             Text(
-                              "50",
+                              boom.fixedPrice,
                               style: TextStyle(
                                 fontSize: getProportionateScreenHeight(18),
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
                             Text(
-                              "(\$75)",
+                              "(\$${boom.price})",
                               style: TextStyle(
                                   fontSize: getProportionateScreenHeight(11)),
                             )
@@ -232,13 +237,10 @@ class SingleBoomPage extends StatelessWidget {
                         SizedBox(
                           width: getProportionateScreenWidth(5),
                         ),
-                        Image.network(
-                            height: getProportionateScreenHeight(20),
-                            post.chain == "bnb"
-                                ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/bnb.png"
-                                : post.chain == "tezos"
-                                    ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png"
-                                    : "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png"),
+                        CachedNetworkImage(
+                          height: getProportionateScreenHeight(20),
+                          imageUrl: post.network?.imageUrl ?? "",
+                        ),
                         IconButton(
                           onPressed: () {
                             showMenu(
@@ -311,7 +313,7 @@ class SingleBoomPage extends StatelessWidget {
                           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
                         ),
                         Text(
-                          "4780",
+                          "${post.likes}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -326,7 +328,7 @@ class SingleBoomPage extends StatelessWidget {
                           "assets/icons/love.svg",
                         ),
                         Text(
-                          "1200",
+                          "${post.loves}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -341,7 +343,7 @@ class SingleBoomPage extends StatelessWidget {
                           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
                         ),
                         Text(
-                          "550",
+                          "${post.smiles}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -355,7 +357,7 @@ class SingleBoomPage extends StatelessWidget {
                           "assets/icons/reboom.svg",
                         ),
                         Text(
-                          "900",
+                          "${post.rebooms}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -369,7 +371,7 @@ class SingleBoomPage extends StatelessWidget {
                           color: kYellowTextColor,
                         ),
                         Text(
-                          "58",
+                          "${post.comments}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),
@@ -384,7 +386,7 @@ class SingleBoomPage extends StatelessWidget {
                           size: 24,
                         ),
                         Text(
-                          "612",
+                          "${post.reported}",
                           style: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
                           ),

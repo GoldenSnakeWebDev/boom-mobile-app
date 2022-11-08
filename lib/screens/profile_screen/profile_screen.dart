@@ -628,6 +628,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             return SingleBoomWidget(
                               post: boomPost,
                               controller: Get.find<HomeController>(),
+                              boom: Get.find<HomeController>()
+                                  .allBooms!
+                                  .booms[index],
                             );
                           },
                         ),
