@@ -24,7 +24,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    if (user!.bio.isNotEmpty) {
+    if (user != null && user!.bio.isNotEmpty) {
       isNewUser = false;
     }
     super.onInit();
