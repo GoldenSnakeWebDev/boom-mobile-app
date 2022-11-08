@@ -326,10 +326,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Positioned(
                                         top: 180,
                                         left: 30,
-                                        child: Image.network(
-                                          height:
-                                              getProportionateScreenHeight(30),
-                                          "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/noob_talk.png",
+                                        child: GestureDetector(
+                                          onTap: () => _showComingSoon(),
+                                          child: Image.network(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    30),
+                                            "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/noob_talk.png",
+                                          ),
                                         ),
                                       ),
                                       Positioned(
@@ -637,5 +641,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       );
     });
+  }
+
+  _showComingSoon() {
+    Get.snackbar(
+      "Hang in there.",
+      "Shipping soon..",
+      backgroundColor: kPrimaryColor,
+      snackPosition: SnackPosition.TOP,
+      colorText: Colors.black,
+      overlayBlur: 5.0,
+      margin: EdgeInsets.only(
+        top: SizeConfig.screenHeight * 0.05,
+        left: SizeConfig.screenWidth * 0.05,
+        right: SizeConfig.screenWidth * 0.05,
+      ),
+    );
   }
 }
