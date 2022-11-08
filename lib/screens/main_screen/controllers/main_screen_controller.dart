@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
+import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
@@ -55,10 +58,12 @@ class MainScreenController extends GetxController {
       update();
     } else {
       CustomSnackBar.showCustomSnackBar(
-        errorList: ["User Details Fetched"],
+        errorList: ["User Details Not Fetched"],
         msg: ["Error"],
         isError: true,
       );
+      box.erase();
+      Get.offAll(() => const LoginScreen(), binding: AppBindings());
     }
   }
 }

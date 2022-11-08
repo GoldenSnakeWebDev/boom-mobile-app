@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterController extends GetxController {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> regFormKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -41,7 +41,7 @@ class RegisterController extends GetxController {
 
   Future<bool> registerUser() async {
     var headers = {'Content-Type': 'application/json'};
-    if (formKey.currentState!.validate() && validatePassword()) {
+    if (regFormKey.currentState!.validate() && validatePassword()) {
       Map<String, dynamic> userData = {
         "email": emailController.text.trim(),
         "username": usernameController.text.trim(),

@@ -12,7 +12,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class LoginController extends GetxController {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> loginformKey = GlobalKey<FormState>();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final box = GetStorage();
@@ -45,7 +45,7 @@ class LoginController extends GetxController {
   Future<bool> loginUser() async {
     var headers = {'Content-Type': 'application/json'};
 
-    if (formKey.currentState!.validate()) {
+    if (loginformKey.currentState!.validate()) {
       EasyLoading.show(status: "Signing in...");
       final res = await http.post(
         Uri.parse("${baseURL}users/signin"),
