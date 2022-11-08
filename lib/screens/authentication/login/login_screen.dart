@@ -1,3 +1,4 @@
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/registration_screen.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
@@ -30,7 +31,7 @@ class LoginScreen extends GetView<LoginController> {
           ),
         ),
         child: Form(
-          key: controller.formKey,
+          key: controller.loginformKey,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -265,10 +266,10 @@ class LoginScreen extends GetView<LoginController> {
                                           text: "Register",
                                           recognizer: TapGestureRecognizer()
                                             ..onTap = () {
-                                              Get.to(
-                                                () =>
-                                                    const RegistrationScreen(),
-                                              );
+                                              Get.off(
+                                                  () =>
+                                                      const RegistrationScreen(),
+                                                  binding: AppBindings());
                                             },
                                           style: TextStyle(
                                             color: Colors.red.withOpacity(0.8),

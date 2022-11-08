@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/explore/expore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
@@ -14,6 +15,7 @@ import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -46,8 +48,11 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    Get.put(FetchCurrUserRepo());
-    Get.put(MainScreenController(repo: Get.find()));
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.put(FetchCurrUserRepo());
+      Get.put(MainScreenController(repo: Get.find()));
+    });
     _pages = [
       const HomeScreen(),
       const ExploreScreen(),
@@ -92,7 +97,8 @@ class _MainScreenState extends State<MainScreen> {
                               onTap: () {
                                 Get.back();
                                 Get.find<NewPostController>().onInit();
-                                Get.to(() => const CreateNewPost());
+                                Get.to(() => const CreateNewPost(),
+                                    binding: AppBindings());
                               },
                             ),
                             ListTile(

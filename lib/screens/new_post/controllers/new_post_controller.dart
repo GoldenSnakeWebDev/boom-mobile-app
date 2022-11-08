@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
@@ -80,7 +81,8 @@ class NewPostController extends GetxController {
         ? postType = 'text'
         : postType = 'image';
     if (postType != 'text') {
-      imgURL = await EditProfileController().uploadPhoto(pickedImage!);
+      imgURL = await EditProfileController()
+          .uploadPhoto(pickedImage!, "Boom Uploaded");
     } else {
       imgURL = boomText.text.trim();
     }
@@ -101,7 +103,7 @@ class NewPostController extends GetxController {
     if (res.statusCode == 201) {
       CustomSnackBar.showCustomSnackBar(
           errorList: [""], msg: [""], isError: false);
-      Get.offAll(() => const MainScreen());
+      Get.offAll(() => const MainScreen(), binding: AppBindings());
     } else {
       log(res.body);
       CustomSnackBar.showCustomSnackBar(

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,10 @@ class SplashController extends GetxController {
     Future.delayed(const Duration(seconds: 2)).then((value) {
       if (box.read("token") != null) {
         log("Found Token ${box.read("token")}");
-        Get.offAll(() => const MainScreen());
+        Get.offAll(
+          () => const MainScreen(),
+          binding: AppBindings(),
+        );
       } else {
         log("Token is null");
         Get.offAll(() => const LoginScreen());

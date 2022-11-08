@@ -1,3 +1,4 @@
+import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
     Get.put(HomeController());
   }
 
@@ -204,33 +206,50 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.grey.shade200,
                             thickness: 1,
                           ),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: controller.allBooms!.booms.length,
-                              itemBuilder: (context, index) {
-                                SingleBoomPost boomPost = SingleBoomPost(
-                                    boomType: controller
-                                        .allBooms!.booms[index].boomType,
-                                    location: "Location",
-                                    chain: controller
-                                        .allBooms!.booms[index].network,
-                                    imgUrl: controller
-                                        .allBooms!.booms[index].imageUrl,
-                                    desc: controller
-                                        .allBooms!.booms[index].description,
-                                    likes: 100,
-                                    loves: 100,
-                                    smiles: 20,
-                                    rebooms: 5,
-                                    reported: 2,
-                                    comments: 3);
+                          controller.allBooms!.booms.isEmpty
+                              ? const Center(
+                                  child: Text("No Booms available",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                )
+                              : Expanded(
+                                  child: ListView.builder(
+                                    itemCount:
+                                        controller.allBooms!.booms.length,
+                                    itemBuilder: (context, index) {
+                                      Network? network =
+                                          controller.getNetworkById(controller
+                                              .allBooms!.booms[index].network);
 
-                                return SingleBoomWidget(
-                                  post: boomPost,
-                                );
-                              },
-                            ),
-                          ),
+                                      SingleBoomPost boomPost = SingleBoomPost(
+                                        boomType: controller
+                                            .allBooms!.booms[index].boomType,
+                                        location: "Location",
+                                        chain: controller
+                                            .allBooms!.booms[index].network,
+                                        imgUrl: controller
+                                            .allBooms!.booms[index].imageUrl,
+                                        desc: controller
+                                            .allBooms!.booms[index].description,
+                                        network: network,
+                                        isLiked: controller.isLiked,
+                                        likes: 100 + index,
+                                        loves: 76 + index,
+                                        smiles: 20 + index,
+                                        rebooms: 5 + index,
+                                        reported: 2 + index,
+                                        comments: 3 + index,
+                                      );
+
+                                      return SingleBoomWidget(
+                                        post: boomPost,
+                                        controller: controller,
+                                      );
+                                    },
+                                  ),
+                                ),
                         ],
                       ),
                     ),

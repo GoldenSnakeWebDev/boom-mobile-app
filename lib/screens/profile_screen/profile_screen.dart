@@ -1,3 +1,5 @@
+import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/edit_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -594,18 +596,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: SizeConfig.screenWidth,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: controller.booms.isEmpty
-                            ? const Center(
-                                child: Text("No Booms yet"),
-                              )
-                            : ListView.builder(
-                                itemCount: controller.booms.length,
-                                itemBuilder: (context, index) {
-                                  return SingleBoomWidget(
-                                    post: booms[index],
-                                  );
-                                },
-                              ),
+                        child: ListView.builder(
+                          itemCount: controller.booms.length,
+                          itemBuilder: (context, index) {
+                            //Temp Solutiuon to change this later to only my Booms
+                            final allBooms = Get.find<HomeController>()
+                                .allBooms!
+                                .booms[index];
+                            final network = Get.find<HomeController>()
+                                .getNetworkById(allBooms.network);
+                            final isLiked = Get.find<HomeController>().isLiked;
+                            SingleBoomPost boomPost = SingleBoomPost(
+                              boomType: allBooms.boomType,
+                              location: "Location",
+                              chain: allBooms.network,
+                              imgUrl: allBooms.imageUrl,
+                              desc: allBooms.description,
+                              network: network,
+                              isLiked: isLiked,
+                              likes: 100 + index,
+                              loves: 76 + index,
+                              smiles: 20 + index,
+                              rebooms: 5 + index,
+                              reported: 2 + index,
+                              comments: 3 + index,
+                            );
+                            return SingleBoomWidget(
+                              post: boomPost,
+                              controller: Get.find<HomeController>(),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

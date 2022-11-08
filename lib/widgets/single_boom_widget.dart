@@ -1,7 +1,9 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -10,9 +12,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SingleBoomWidget extends StatelessWidget {
   final SingleBoomPost post;
+  final HomeController controller;
   const SingleBoomWidget({
     Key? key,
     required this.post,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -36,13 +40,10 @@ class SingleBoomWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.network(
-                      height: getProportionateScreenHeight(24),
-                      post.chain == "bnb"
-                          ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/bnb.png"
-                          : post.chain == "tezos"
-                              ? "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png"
-                              : "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png"),
+                  CachedNetworkImage(
+                    height: getProportionateScreenHeight(24),
+                    imageUrl: post.network?.imageUrl ?? " ",
+                  ),
                   SizedBox(
                     width: getProportionateScreenWidth(5),
                   ),
@@ -82,15 +83,13 @@ class SingleBoomWidget extends StatelessWidget {
                   ? Text(post.imgUrl)
                   : post.boomType == "video"
                       ? const Text("Video")
-                      : Container(
-                          width: SizeConfig.screenWidth,
-                          height: getProportionateScreenHeight(200),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: NetworkImage(post.imgUrl),
-                              fit: BoxFit.cover,
-                            ),
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: CachedNetworkImage(
+                            height: getProportionateScreenHeight(200),
+                            width: SizeConfig.screenWidth,
+                            imageUrl: post.imgUrl,
+                            fit: BoxFit.cover,
                           ),
                         ),
               SizedBox(

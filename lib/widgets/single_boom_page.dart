@@ -1,5 +1,6 @@
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -52,15 +53,13 @@ class SingleBoomPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: SizeConfig.screenWidth,
-                  height: SizeConfig.screenHeight * 0.6,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.0),
-                    image: DecorationImage(
-                      image: NetworkImage(post.imgUrl),
-                      fit: BoxFit.cover,
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: CachedNetworkImage(
+                    // height: getProportionateScreenHeight(200),
+                    width: SizeConfig.screenWidth,
+                    imageUrl: post.imgUrl,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(
