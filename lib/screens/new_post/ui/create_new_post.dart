@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -204,6 +206,36 @@ class CreateNewPost extends GetView<NewPostController> {
                                   ),
                                 ),
                               ),
+                              const Spacer(),
+                              (controller.pickedImage != null)
+                                  ? GestureDetector(
+                                      onTap: () => showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            PreviewDialog(
+                                          image: controller.pickedImage!,
+                                        ),
+                                      ),
+                                      child: SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(50),
+                                        width: getProportionateScreenWidth(50),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.file(
+                                            controller.pickedImage!,
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    50),
+                                            width:
+                                                getProportionateScreenWidth(50),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           ),
                           SizedBox(
@@ -558,5 +590,102 @@ class CreateNewPost extends GetView<NewPostController> {
         ),
       );
     });
+  }
+}
+
+class PreviewDialog extends StatelessWidget {
+  final File image;
+  const PreviewDialog({Key? key, required this.image}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              constraints: BoxConstraints(
+                  minHeight: 100,
+                  maxHeight: MediaQuery.of(context).size.height * 0.5),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+              ),
+              child: Image.file(
+                image,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 1.3),
+                  shape: BoxShape.circle),
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(30),
+                  splashColor: Colors.grey,
+                  onTap: () =>
+                      Navigator.canPop(context) ? Navigator.pop(context) : null,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.close, size: 28, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget dialogContent(BuildContext context, int index, VoidCallback fct) {
+    return FittedBox(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: fct,
+          splashColor: Colors.grey,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.25,
+            padding: const EdgeInsets.all(4),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    shape: BoxShape.circle,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10.0,
+                        offset: Offset(0.0, 10.0),
+                      ),
+                    ],
+                  ),
+                  child: const ClipOval(
+                    child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.red,
+                        size: 25,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
