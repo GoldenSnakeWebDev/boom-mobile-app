@@ -6,7 +6,6 @@ import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
@@ -24,8 +23,8 @@ class MainScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getCurrenUser();
     getNetworks();
+    getCurrenUser();
   }
 
   getNetworks() async {
@@ -39,7 +38,9 @@ class MainScreenController extends GetxController {
     if (res.statusCode == 200) {
       networkModel = NetworkModel.fromJson(jsonDecode(res.body));
       log("networkModel is $networkModel");
-      update();
+      Future.delayed(const Duration(seconds: 2)).then((value) {
+        update();
+      });
     } else {
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Networks not fetched"], msg: ["Error"], isError: true);
