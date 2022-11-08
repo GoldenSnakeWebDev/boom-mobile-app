@@ -11,11 +11,13 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   AllBooms? allBooms;
+  List<Boom> myBooms = [];
   HomeService homeService = HomeService();
   bool isLoading = true;
 
   bool isLiked = false;
   final user = Get.find<MainScreenController>();
+  List<Network?> network = [];
 
   @override
   void onInit() {
@@ -32,17 +34,31 @@ class HomeController extends GetxController {
     update();
   }
 
-  getNetworkById(String networkId) {
-    log("Network ID $networkId");
-    Network? network;
+  getMyBooms(AllBooms? booms) {
+    myBooms = allBooms!.booms
+        .where((element) => element.user == user.user!.id)
+        .toList();
+  }
 
-    for (var element in user.networkModel!.networks) {
-      if (element.id == networkId) {
-        network = element;
+  getNetworkById(AllBooms? booms) {
+    if (user.networkModel != null) {
+      network.clear();
+      for (int i = 0; i < booms!.booms.length; i++) {
+        for (int j = 0; j < user.networkModel!.networks.length; j++) {
+          if (booms.booms[i].network == user.networkModel!.networks[j].id) {
+            log("We are adding network");
+            network.add(user.networkModel!.networks[j]);
+
+            update();
+          } else {
+            log("No Matching network for ${booms.booms[i].network}");
+          }
+        }
       }
-
-      isLoading = false;
-      return network;
+      update();
+    } else {
+      update();
+      log("User network is null");
     }
   }
 
@@ -55,7 +71,11 @@ class HomeController extends GetxController {
       // CustomSnackBar.showCustomSnackBar(
       //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
       allBooms = AllBooms.fromJson(jsonDecode(res.body));
+
       EasyLoading.dismiss();
+      getNetworkById(allBooms);
+      getMyBooms(allBooms);
+
       update();
     } else {
       isLoading = false;

@@ -29,6 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  final boomController = Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(builder: (controller) {
@@ -331,7 +333,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           child: Image.network(
                                             height:
                                                 getProportionateScreenHeight(
-                                                    30),
+                                                    26),
                                             "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/noob_talk.png",
                                           ),
                                         ),
@@ -341,7 +343,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         right: 30,
                                         child: SvgPicture.asset(
                                           height:
-                                              getProportionateScreenHeight(25),
+                                              getProportionateScreenHeight(22),
                                           "assets/icons/tip.svg",
                                         ),
                                       ),
@@ -350,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         right: 30,
                                         child: Image.network(
                                           height:
-                                              getProportionateScreenHeight(25),
+                                              getProportionateScreenHeight(22),
                                           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/nudge.png",
                                         ),
                                       ),
@@ -358,6 +360,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         top: 220,
                                         left: 30,
                                         child: Container(
+                                          width:
+                                              getProportionateScreenWidth(22),
+                                          height:
+                                              getProportionateScreenHeight(22),
                                           decoration: BoxDecoration(
                                             border:
                                                 Border.all(color: Colors.black),
@@ -370,8 +376,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               ],
                                             ),
                                           ),
-                                          child:
-                                              const Icon(MdiIcons.swapVertical),
+                                          child: const Icon(
+                                            MdiIcons.swapVertical,
+                                            size: 18,
+                                          ),
                                         ),
                                       ),
                                       Positioned(
@@ -600,40 +608,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: SizeConfig.screenWidth,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: ListView.builder(
-                          itemCount: controller.booms.length,
-                          itemBuilder: (context, index) {
-                            //Temp Solutiuon to change this later to only my Booms
-                            final allBooms = Get.find<HomeController>()
-                                .allBooms!
-                                .booms[index];
-                            final network = Get.find<HomeController>()
-                                .getNetworkById(allBooms.network);
-                            final isLiked = Get.find<HomeController>().isLiked;
-                            SingleBoomPost boomPost = SingleBoomPost(
-                              boomType: allBooms.boomType,
-                              location: "Location",
-                              chain: allBooms.network,
-                              imgUrl: allBooms.imageUrl,
-                              desc: allBooms.description,
-                              network: network,
-                              isLiked: isLiked,
-                              likes: 100 + index,
-                              loves: 76 + index,
-                              smiles: 20 + index,
-                              rebooms: 5 + index,
-                              reported: 2 + index,
-                              comments: 3 + index,
-                            );
-                            return SingleBoomWidget(
-                              post: boomPost,
-                              controller: Get.find<HomeController>(),
-                              boom: Get.find<HomeController>()
-                                  .allBooms!
-                                  .booms[index],
-                            );
-                          },
-                        ),
+                        child: boomController.myBooms.isEmpty
+                            ? Center(
+                                child: Text(
+                                  "You have no Booms Yet",
+                                  style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(17),
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              )
+                            : ListView.builder(
+                                itemCount: boomController.myBooms.length,
+                                itemBuilder: (context, index) {
+                                  //Temp Solutiuon to change this later to only my Booms
+
+                                  final isLiked =
+                                      Get.find<HomeController>().isLiked;
+                                  SingleBoomPost boomPost = SingleBoomPost(
+                                    boomType:
+                                        boomController.myBooms[index].boomType,
+                                    location: "Location",
+                                    chain:
+                                        boomController.myBooms[index].network,
+                                    imgUrl:
+                                        boomController.myBooms[index].imageUrl,
+                                    desc: boomController
+                                        .myBooms[index].description,
+                                    network: boomController.network[index],
+                                    isLiked: isLiked,
+                                    likes: 100 + index,
+                                    loves: 76 + index,
+                                    smiles: 20 + index,
+                                    rebooms: 5 + index,
+                                    reported: 2 + index,
+                                    comments: 3 + index,
+                                  );
+                                  return SingleBoomWidget(
+                                    post: boomPost,
+                                    controller: Get.find<HomeController>(),
+                                    boom: Get.find<HomeController>()
+                                        .allBooms!
+                                        .booms[index],
+                                  );
+                                },
+                              ),
                       ),
                     ),
                   ),

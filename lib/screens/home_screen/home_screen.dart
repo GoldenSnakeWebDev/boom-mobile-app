@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
@@ -29,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Get.put(HomeController());
   }
-
 
   final mainController = Get.find<MainScreenController>();
 
@@ -225,10 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     itemCount:
                                         controller.allBooms!.booms.length,
                                     itemBuilder: (context, index) {
-                                      Network? network =
-                                          controller.getNetworkById(controller
-                                              .allBooms!.booms[index].network);
-
+                                      log("Networks ${controller.network.length}");
                                       SingleBoomPost boomPost = SingleBoomPost(
                                         boomType: controller
                                             .allBooms!.booms[index].boomType,
@@ -239,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .allBooms!.booms[index].imageUrl,
                                         desc: controller
                                             .allBooms!.booms[index].description,
-                                        network: network,
+                                        network: controller.network[index],
                                         isLiked: controller.isLiked,
                                         likes: 100 + index,
                                         loves: 76 + index,
