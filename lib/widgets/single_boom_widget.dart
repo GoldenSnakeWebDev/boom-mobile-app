@@ -152,7 +152,7 @@ class SingleBoomWidget extends StatelessWidget {
                           return SvgPicture.asset(
                             height: getProportionateScreenHeight(15),
                             "assets/icons/love.svg",
-                            color: isLiked ? Colors.red : kPrimaryColor,
+                            color: isLiked ? Colors.red : Colors.grey,
                           );
                         }),
                       ),
@@ -194,6 +194,22 @@ class SingleBoomWidget extends StatelessWidget {
                       LikeButton(
                           animationDuration: const Duration(milliseconds: 600),
                           size: getProportionateScreenHeight(20),
+                          onTap: (_) async {
+                            Get.snackbar(
+                              "Hang in there.",
+                              "Shipping soon..",
+                              backgroundColor: kPrimaryColor,
+                              snackPosition: SnackPosition.TOP,
+                              colorText: Colors.black,
+                              overlayBlur: 5.0,
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.screenHeight * 0.05,
+                                left: SizeConfig.screenWidth * 0.05,
+                                right: SizeConfig.screenWidth * 0.05,
+                              ),
+                            );
+                            return null;
+                          },
                           bubblesColor: const BubblesColor(
                               dotPrimaryColor: kPrimaryColor,
                               dotSecondaryColor: kSecondaryColor),
@@ -213,9 +229,34 @@ class SingleBoomWidget extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      const Icon(
-                        MdiIcons.alert,
-                        color: kYellowTextColor,
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(20),
+                        onTap: (_) async {
+                          Get.snackbar(
+                            "Hang in there.",
+                            "Shipping soon..",
+                            backgroundColor: kPrimaryColor,
+                            snackPosition: SnackPosition.TOP,
+                            colorText: Colors.black,
+                            overlayBlur: 5.0,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.screenHeight * 0.05,
+                              left: SizeConfig.screenWidth * 0.05,
+                              right: SizeConfig.screenWidth * 0.05,
+                            ),
+                          );
+                          return null;
+                        },
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return const Icon(
+                            MdiIcons.alert,
+                            color: kYellowTextColor,
+                          );
+                        }),
                       ),
                       Text(
                         post.reported.toString(),
@@ -228,9 +269,34 @@ class SingleBoomWidget extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(
-                        MdiIcons.chatOutline,
-                        size: 22,
+                      LikeButton(
+                        animationDuration: const Duration(milliseconds: 600),
+                        size: getProportionateScreenHeight(20),
+                        onTap: (_) async {
+                          Get.snackbar(
+                            "Hang in there.",
+                            "Shipping soon..",
+                            backgroundColor: kPrimaryColor,
+                            snackPosition: SnackPosition.TOP,
+                            colorText: Colors.black,
+                            overlayBlur: 5.0,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.screenHeight * 0.05,
+                              left: SizeConfig.screenWidth * 0.05,
+                              right: SizeConfig.screenWidth * 0.05,
+                            ),
+                          );
+                          return null;
+                        },
+                        bubblesColor: const BubblesColor(
+                            dotPrimaryColor: kPrimaryColor,
+                            dotSecondaryColor: kSecondaryColor),
+                        likeBuilder: ((isLiked) {
+                          return const Icon(
+                            MdiIcons.chatOutline,
+                            size: 22,
+                          );
+                        }),
                       ),
                       Text(
                         post.comments.toString(),

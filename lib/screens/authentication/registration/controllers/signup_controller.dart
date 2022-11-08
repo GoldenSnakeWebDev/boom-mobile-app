@@ -14,6 +14,8 @@ class RegisterController extends GetxController {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  RegExp regex =
+      RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$');
 
   var isPassVisible = true.obs;
   var isConfirmPassVisibe = true.obs;
@@ -32,7 +34,10 @@ class RegisterController extends GetxController {
     if (passwordController.text.trim().length ==
             confirmPasswordController.text.trim().length &&
         passwordController.text.trim() ==
-            confirmPasswordController.text.trim()) {
+            confirmPasswordController.text.trim() &&
+        regex.hasMatch(passwordController.text.trim()) &&
+        regex.hasMatch(confirmPasswordController.text.trim()) &&
+        passwordController.text.trim().length >= 6) {
       return true;
     } else {
       return false;
@@ -80,6 +85,11 @@ class RegisterController extends GetxController {
 
         return false;
       }
+    } else {
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Please check your username or Password"],
+          msg: ["Input Error"],
+          isError: true);
     }
     return false;
   }
