@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
+import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
@@ -27,10 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
     Get.put(HomeController());
   }
 
-  // final mainScreenController = Get.find<MainScreenController>();
+
+  final mainController = Get.find<MainScreenController>();
 
   @override
   Widget build(BuildContext context) {
+    log("Main User: ${mainController.user}");
     return GetBuilder<HomeController>(
       builder: (controller) {
         return controller.isLoading
