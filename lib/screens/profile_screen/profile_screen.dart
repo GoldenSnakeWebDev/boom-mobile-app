@@ -87,14 +87,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         Container(
                                           height:
-                                              getProportionateScreenHeight(28),
+                                              getProportionateScreenHeight(30),
                                           decoration: const BoxDecoration(
                                             color: Colors.black,
                                           ),
-                                          child: const Text(
-                                            "Texas",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                          alignment: Alignment.center,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0, right: 4.0),
+                                            child: Text(
+                                              controller.user?.location ??
+                                                  "Location",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
                                         const Spacer(),
@@ -279,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
                                                           : controller
                                                               .user!.photo,
-                                                      fit: BoxFit.contain,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ),
