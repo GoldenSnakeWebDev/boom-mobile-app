@@ -43,6 +43,7 @@ dependencies:
   #c
   camera: ^0.10.0+3
   cupertino_icons: ^1.0.2
+  cached_network_image: ^3.2.2
 
   #d
 
@@ -54,15 +55,19 @@ dependencies:
   flutter_windowmanager: ^0.2.0
   flutter_webview_plugin: ^0.4.0
   freezed_annotation: ^2.2.0
+  flutter_easyloading: ^3.0.5
 
   #g
   get: ^4.6.5
   google_fonts: ^3.0.1
+  get_storage: ^2.0.3
 
   #h
   http: ^0.13.5
+  http_parser: ^4.0.2
 
   #i
+  image_picker: ^0.8.6
 
   #j
   json_annotation: ^4.4.0
@@ -74,6 +79,7 @@ dependencies:
 
   #m
   material_design_icons_flutter: ^5.0.6996
+  mime: ^1.0.2
 
   #n
 
@@ -81,6 +87,7 @@ dependencies:
 
   #p
   permission_handler: ^10.1.0
+  path: ^1.8.2
 
   #q
 
@@ -88,14 +95,20 @@ dependencies:
 
   #s
   share_plus: ^4.5.2
-  flutter_easyloading: ^3.0.5
-  get_storage: ^2.0.3
-  image_picker: ^0.8.6
-  http_parser: ^4.0.2
-  path: ^1.8.2
-  mime: ^1.0.2
+
+  #t
+
+  #u
+
+  #v
+  video_player: ^2.4.7
+  
+  #w
   widget_and_text_animator: ^1.0.9
-  cached_network_image: ^3.2.2
+  flutter_downloader: ^1.9.1
+  path_provider: ^2.0.11
+  intl: ^0.17.0
+  
 
 dev_dependencies:
   flutter_test:
