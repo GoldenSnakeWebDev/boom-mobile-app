@@ -328,43 +328,10 @@ class CreateNewPost extends GetView<NewPostController> {
                       filled: true,
                       fillColor: Colors.white,
                       suffixIcon: SizedBox(
-                        width: SizeConfig.screenWidth * 0.45,
+                        width: SizeConfig.screenWidth * 0.42,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              width: getProportionateScreenWidth(60),
-                              child: DropdownButton(
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down_circle_outlined,
-                                    color: Colors.grey,
-                                    size: 24,
-                                  ),
-                                  underline: const SizedBox(),
-                                  hint: Text(
-                                    controller.selectedNetwork ?? "Choose",
-                                    style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12)),
-                                  ),
-                                  style: const TextStyle(color: Colors.black),
-                                  items: controller.networks.map((e) {
-                                    return DropdownMenuItem(
-                                      value: e,
-                                      child: Text(
-                                        e,
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    controller.changeChain(value!);
-                                  }),
-                            ),
-                            SizedBox(
-                              width: getProportionateScreenWidth(10),
-                            ),
                             CachedNetworkImage(
                               height: getProportionateScreenHeight(16),
                               imageUrl:
@@ -380,7 +347,30 @@ class CreateNewPost extends GetView<NewPostController> {
                                 fontWeight: FontWeight.w900,
                                 fontSize: getProportionateScreenHeight(12),
                               ),
-                            )
+                            ),
+                            Expanded(
+                              child: DropdownButton(
+                                  icon: const Icon(
+                                    Icons.arrow_drop_down_circle_outlined,
+                                    color: Colors.grey,
+                                    size: 24,
+                                  ),
+                                  underline: const SizedBox(),
+                                  style: const TextStyle(color: Colors.black),
+                                  items: controller.networks.map((e) {
+                                    return DropdownMenuItem(
+                                      value: e,
+                                      child: Text(
+                                        e,
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    controller.changeChain(value!);
+                                  }),
+                            ),
                           ],
                         ),
                       ),

@@ -14,6 +14,7 @@ import 'package:boom_mobile/screens/profile_screen/profile_screen.dart';
 import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -87,13 +88,15 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       Expanded(
                         child: ListView(
+                          shrinkWrap: true,
                           children: [
                             ListTile(
-                              leading: Image.network(
-                                height: getProportionateScreenHeight(20),
+                              leading: const FloatingActionWidget(
                                 "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/post.png",
                               ),
-                              title: const Text('Post'),
+                              title: const Text(
+                                'Post',
+                              ),
                               onTap: () {
                                 Get.back();
                                 Get.find<NewPostController>().onInit();
@@ -102,54 +105,59 @@ class _MainScreenState extends State<MainScreen> {
                               },
                             ),
                             ListTile(
-                              leading: Image.network(
-                                height: getProportionateScreenHeight(20),
+                              leading: const FloatingActionWidget(
                                 "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                               ),
                               onTap: () {
                                 Get.back();
                                 Get.to(() => const CaptureTaleScreen());
                               },
-                              title: const Text('Tales'),
+                              title: const Text(
+                                'Tales',
+                              ),
                             ),
                             ListTile(
                               leading: SizedBox(
                                 width: getProportionateScreenWidth(50),
                                 child: Row(
                                   children: [
-                                    Image.network(
-                                      height: getProportionateScreenHeight(20),
+                                    const FloatingActionWidget(
                                       "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                                     ),
                                     SizedBox(
                                       width: getProportionateScreenWidth(5),
                                     ),
-                                    Image.network(
-                                      height: getProportionateScreenHeight(20),
+                                    const FloatingActionWidget(
                                       "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                                     ),
                                   ],
                                 ),
                               ),
-                              title: const Text('Epics'),
+                              title: const Text(
+                                'Epics',
+                              ),
                             ),
                             const ListTile(
                               leading: Icon(Icons.mail),
-                              title: Text('DM'),
+                              title: Text(
+                                'DM',
+                              ),
                             ),
-                            ListTile(
-                              leading: Image.network(
-                                height: getProportionateScreenHeight(20),
+                            const ListTile(
+                              leading: FloatingActionWidget(
                                 "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
                               ),
-                              title: const Text('Fans'),
+                              title: Text(
+                                'Fans',
+                              ),
                             ),
-                            ListTile(
-                              leading: Image.network(
-                                height: getProportionateScreenHeight(20),
+                            const ListTile(
+                              leading: FloatingActionWidget(
                                 "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
                               ),
-                              title: const Text('Frens'),
+                              title: Text(
+                                'Frens',
+                              ),
                             ),
                           ],
                         ),
@@ -203,6 +211,25 @@ class _MainScreenState extends State<MainScreen> {
         onTap: onPageChanged,
       ),
       body: _pages.elementAt(_currPage),
+    );
+  }
+}
+
+class FloatingActionWidget extends StatelessWidget {
+  final String imageUrl;
+  const FloatingActionWidget(
+    this.imageUrl, {
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: SizeConfig.screenWidth * 0.06,
+      child: CachedNetworkImage(
+        height: getProportionateScreenHeight(20),
+        imageUrl: imageUrl,
+      ),
     );
   }
 }
