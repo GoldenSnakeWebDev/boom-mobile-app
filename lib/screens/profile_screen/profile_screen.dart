@@ -8,7 +8,6 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
@@ -88,14 +87,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         Container(
                                           height:
-                                              getProportionateScreenHeight(28),
+                                              getProportionateScreenHeight(30),
                                           decoration: const BoxDecoration(
                                             color: Colors.black,
                                           ),
-                                          child: const Text(
-                                            "Texas",
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                          alignment: Alignment.center,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 4.0, right: 4.0),
+                                            child: Text(
+                                              controller.user?.location ??
+                                                  "Location",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white),
+                                            ),
                                           ),
                                         ),
                                         const Spacer(),
@@ -280,7 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
                                                           : controller
                                                               .user!.photo,
-                                                      fit: BoxFit.contain,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ),
@@ -338,24 +344,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ),
                                       ),
-                                      Positioned(
-                                        top: 180,
-                                        right: 30,
-                                        child: SvgPicture.asset(
-                                          height:
-                                              getProportionateScreenHeight(22),
-                                          "assets/icons/tip.svg",
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 220,
-                                        right: 30,
-                                        child: Image.network(
-                                          height:
-                                              getProportionateScreenHeight(22),
-                                          "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/nudge.png",
-                                        ),
-                                      ),
+                                      // Positioned(
+                                      //   top: 180,
+                                      //   right: 30,
+                                      //   child: SvgPicture.asset(
+                                      //     height:
+                                      //         getProportionateScreenHeight(22),
+                                      //     "assets/icons/tip.svg",
+                                      //   ),
+                                      // ),
+                                      // Positioned(
+                                      //   top: 220,
+                                      //   right: 30,
+                                      //   child: Image.network(
+                                      //     height:
+                                      //         getProportionateScreenHeight(22),
+                                      //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/nudge.png",
+                                      //   ),
+                                      // ),
                                       Positioned(
                                         top: 220,
                                         left: 30,
@@ -402,8 +408,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     Column(
                                                       children: [
                                                         Text(
-                                                          controller
-                                                              .numberOfBooms
+                                                          boomController
+                                                              .myBooms.length
                                                               .toString(),
                                                           style: TextStyle(
                                                             fontWeight:

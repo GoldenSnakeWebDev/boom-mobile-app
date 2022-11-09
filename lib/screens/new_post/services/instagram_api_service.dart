@@ -41,7 +41,6 @@ class InstagramService {
       userID = jsonDecode(response.body)['user_id'].toString();
       return (accessToken.isNotEmpty && userID.isNotEmpty) ? true : false;
     } else {
-      log("Access Token $accessToken");
       log("IG API Response ${response.body}");
       return false;
     }
@@ -67,14 +66,7 @@ class InstagramService {
     });
 
     await Future.delayed(const Duration(seconds: 3));
-    if (medias.isNotEmpty) {
-      for (var element in medias) {
-        if (element.media_type == "VIDEO") {
-          log("Media Type ${element.media_type}");
-        }
-        medias.remove(element);
-      }
-    }
+
     return medias;
   }
 

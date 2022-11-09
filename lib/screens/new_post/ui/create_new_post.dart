@@ -375,7 +375,7 @@ class CreateNewPost extends GetView<NewPostController> {
                               width: getProportionateScreenWidth(4),
                             ),
                             Text(
-                              "29.7 ${controller.selectedNetwork}",
+                              "0.00 ${controller.selectedNetwork}",
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: getProportionateScreenHeight(12),
