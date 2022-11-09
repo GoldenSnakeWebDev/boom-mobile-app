@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   AllBooms? allBooms;
+  List<Boom>? _homeBooms;
+  List<Boom>? get homeBooms => _homeBooms;
   List<Boom> myBooms = [];
   HomeService homeService = HomeService();
   bool isLoading = true;
@@ -63,7 +65,7 @@ class HomeController extends GetxController {
       // CustomSnackBar.showCustomSnackBar(
       //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
       allBooms = AllBooms.fromJson(jsonDecode(res.body));
-
+      _homeBooms = allBooms!.booms;
       EasyLoading.dismiss();
       // getNetworkById(allBooms);
 

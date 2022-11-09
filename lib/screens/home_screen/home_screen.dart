@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
@@ -33,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("Main User: ${mainController.user}");
     return GetBuilder<HomeController>(
       builder: (controller) {
         Future.delayed(const Duration(seconds: 3)).then((value) =>
@@ -59,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: getProportionateScreenHeight(80),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: controller.allBooms!.booms.length,
+                              itemCount: controller.homeBooms!.length,
                               itemBuilder: (context, index) {
                                 return index == 0
                                     ? GestureDetector(
@@ -211,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.grey.shade200,
                             thickness: 1,
                           ),
-                          controller.allBooms!.booms.isEmpty
+                          (controller.homeBooms!.isEmpty)
                               ? const Center(
                                   child: Text("No Booms available",
                                       style: TextStyle(
@@ -221,52 +218,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               : Expanded(
                                   child: ListView.builder(
-                                    itemCount:
-                                        controller.allBooms!.booms.length,
+                                    itemCount: controller.homeBooms!.length,
                                     itemBuilder: (context, index) {
                                       SingleBoomPost boomPost = SingleBoomPost(
                                         boomType: controller
-                                            .allBooms!.booms[index].boomType,
+                                            .homeBooms![index].boomType,
                                         location: "Location",
-                                        chain: controller.allBooms!.booms[index]
-                                            .network.symbol,
+                                        chain: controller
+                                            .homeBooms![index].network.symbol,
                                         imgUrl: controller
-                                            .allBooms!.booms[index].imageUrl,
+                                            .homeBooms![index].imageUrl,
                                         desc: controller
-                                            .allBooms!.booms[index].description,
+                                            .homeBooms![index].description,
                                         network: controller
-                                            .allBooms!.booms[index].network,
+                                            .homeBooms![index].network,
                                         isLiked: controller.isLiked,
-                                        likes: controller.allBooms!.booms[index]
+                                        likes: controller.homeBooms![index]
                                             .reactions.likes.length,
-                                        loves: controller.allBooms!.booms[index]
+                                        loves: controller.homeBooms![index]
                                             .reactions.loves.length,
-                                        smiles: controller
-                                            .allBooms!
-                                            .booms[index]
-                                            .reactions
-                                            .smiles
-                                            .length,
-                                        rebooms: controller
-                                            .allBooms!
-                                            .booms[index]
-                                            .reactions
-                                            .rebooms
-                                            .length,
-                                        reported: controller
-                                            .allBooms!
-                                            .booms[index]
-                                            .reactions
-                                            .reports
-                                            .length,
-                                        comments: controller.allBooms!
-                                            .booms[index].comments.length,
+                                        smiles: controller.homeBooms![index]
+                                            .reactions.smiles.length,
+                                        rebooms: controller.homeBooms![index]
+                                            .reactions.rebooms.length,
+                                        reported: controller.homeBooms![index]
+                                            .reactions.reports.length,
+                                        comments: controller
+                                            .homeBooms![index].comments.length,
                                       );
 
                                       return SingleBoomWidget(
                                         post: boomPost,
                                         controller: controller,
-                                        boom: controller.allBooms!.booms[index],
+                                        boom: controller.homeBooms![index],
                                       );
                                     },
                                   ),
