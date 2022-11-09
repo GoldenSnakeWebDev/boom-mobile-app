@@ -5,6 +5,7 @@ import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
@@ -33,6 +34,7 @@ class NewPostController extends GetxController {
   String? selectedNetwork;
   Network? selectedNetworkModel;
   List<String> networks = [];
+  final igController = Get.find<InstagramWebController>();
 
   @override
   void onInit() {
@@ -43,8 +45,10 @@ class NewPostController extends GetxController {
     for (var element in networkModel!.networks) {
       networks.add(element.symbol);
     }
-    image = null;
-    pickedImage = null;
+    // image = null;
+    // pickedImage = null;
+
+    log("Ig Post ${igController.selectedIgMedia?.id}");
   }
 
   changeChain(String value) {
@@ -54,6 +58,12 @@ class NewPostController extends GetxController {
         selectedNetworkModel = element;
       }
     }
+    update();
+  }
+
+  fetchImageFromIG(File image) {
+    pickedImage = image;
+
     update();
   }
 
