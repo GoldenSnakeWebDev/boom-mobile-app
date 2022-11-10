@@ -1,5 +1,6 @@
 import 'package:boom_mobile/screens/home_screen/controllers/single_boom_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
+import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_comment_widget.dart';
@@ -8,17 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../models/single_boom_post.dart';
-
 class SingleBoomPage extends StatefulWidget {
-  final SingleBoomPost post;
-
   const SingleBoomPage({
     Key? key,
-    required this.post,
   }) : super(key: key);
 
   @override
@@ -35,8 +32,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
   }
 
   final box = GetStorage();
-  final controller = SingleBoomController();
+  final boomService = SingleBoomService();
+
   final String boomId = Get.arguments;
+  final boomController = Get.put(
+    SingleBoomController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +67,11 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
       ),
       body: SafeArea(
         child: StreamBuilder(
-          stream: controller.getSingleBoom(),
+          stream: boomService.getSingleBoom(),
           builder: (context, snapshot) {
             SingleBoom? boom = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
+              //TODO: Add loading Shimmer
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -95,11 +97,11 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
                               child: snapshot.data!.boom.boomType == "text"
-                                  ? Text(widget.post.imgUrl)
+                                  ? Text(boom!.boom.imageUrl)
                                   : CachedNetworkImage(
                                       // height: getProportionateScreenHeight(200),
                                       width: SizeConfig.screenWidth,
-                                      imageUrl: widget.post.imgUrl,
+                                      imageUrl: boom!.boom.imageUrl,
                                       fit: BoxFit.cover,
                                     ),
                             ),
@@ -123,7 +125,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                     45),
                                             width: getProportionateScreenHeight(
                                                 45),
-                                            imageUrl: boom!
+                                            imageUrl: boom
                                                     .boom.user.photo.isNotEmpty
                                                 ? boom.boom.user.photo
                                                 : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
@@ -309,7 +311,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     ),
                                     CachedNetworkImage(
                                       height: getProportionateScreenHeight(20),
-                                      imageUrl: widget.post.network.imageUrl,
+                                      imageUrl: boom.boom.network.imageUrl,
                                     ),
                                     IconButton(
                                       onPressed: () {
@@ -341,7 +343,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             PopupMenuItem(
                                               onTap: () {},
                                               child: Text(
-                                                "Report Post",
+                                                "Report Boom",
                                                 style: TextStyle(
                                                   fontSize:
                                                       getProportionateScreenHeight(
@@ -366,7 +368,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               height: getProportionateScreenHeight(10),
                             ),
                             Text(
-                              widget.post.desc,
+                              boom.boom.description,
                               style: TextStyle(
                                   fontSize: getProportionateScreenHeight(16),
                                   fontWeight: FontWeight.w900),
@@ -384,17 +386,39 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                             SizedBox(
                               height: getProportionateScreenHeight(10),
                             ),
+
+                            //Ractions Section
+                            //TODO: Change this to a widget
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Column(
                                   children: [
-                                    CachedNetworkImage(
-                                      height: getProportionateScreenHeight(26),
-                                      color: kPrimaryColor,
-                                      imageUrl:
-                                          "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                                    LikeButton(
+                                      animationDuration:
+                                          const Duration(milliseconds: 600),
+                                      size: getProportionateScreenHeight(28),
+                                      bubblesColor: const BubblesColor(
+                                          dotPrimaryColor: kPrimaryColor,
+                                          dotSecondaryColor: kSecondaryColor),
+                                      isLiked: false,
+                                      onTap: (isLiked) async {
+                                        boomController.reactToBoom(
+                                            "likes", boomId);
+                                        return null;
+                                      },
+                                      likeBuilder: ((isLiked) {
+                                        return CachedNetworkImage(
+                                          height:
+                                              getProportionateScreenHeight(26),
+                                          color: isLiked
+                                              ? kPrimaryColor
+                                              : Colors.black,
+                                          imageUrl:
+                                              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                                        );
+                                      }),
                                     ),
                                     Text(
                                       "${boom.boom.reactions.likes.length}",
@@ -409,9 +433,27 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    SvgPicture.asset(
-                                      height: getProportionateScreenHeight(18),
-                                      "assets/icons/love.svg",
+                                    LikeButton(
+                                      animationDuration:
+                                          const Duration(milliseconds: 600),
+                                      size: getProportionateScreenHeight(22),
+                                      bubblesColor: const BubblesColor(
+                                          dotPrimaryColor: kPrimaryColor,
+                                          dotSecondaryColor: kSecondaryColor),
+                                      isLiked: false,
+                                      onTap: (isLoves) async {
+                                        return null;
+                                      },
+                                      likeBuilder: ((isLoves) {
+                                        return SvgPicture.asset(
+                                          height:
+                                              getProportionateScreenHeight(15),
+                                          "assets/icons/love.svg",
+                                          color: isLoves
+                                              ? Colors.red
+                                              : Colors.grey,
+                                        );
+                                      }),
                                     ),
                                     Text(
                                       "${boom.boom.reactions.loves.length}",
@@ -423,12 +465,27 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   ],
                                 ),
                                 Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Image.network(
-                                      height: getProportionateScreenHeight(22),
-                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
+                                    LikeButton(
+                                      animationDuration:
+                                          const Duration(milliseconds: 600),
+                                      size: getProportionateScreenHeight(26),
+                                      bubblesColor: const BubblesColor(
+                                          dotPrimaryColor: kPrimaryColor,
+                                          dotSecondaryColor: kSecondaryColor),
+                                      isLiked: false,
+                                      onTap: (isSmiles) async {
+                                        return null;
+                                      },
+                                      likeBuilder: ((isSmiles) {
+                                        return CachedNetworkImage(
+                                          height:
+                                              getProportionateScreenHeight(22),
+                                          imageUrl:
+                                              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
+                                        );
+                                      }),
                                     ),
                                     Text(
                                       "${boom.boom.reactions.smiles.length}",
@@ -440,11 +497,28 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   ],
                                 ),
                                 Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    SvgPicture.asset(
-                                      height: getProportionateScreenHeight(18),
-                                      "assets/icons/reboom.svg",
-                                    ),
+                                    LikeButton(
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        size: getProportionateScreenHeight(20),
+                                        isLiked: false,
+                                        onTap: (isRebooms) async {
+                                          return null;
+                                        },
+                                        bubblesColor: const BubblesColor(
+                                            dotPrimaryColor: kPrimaryColor,
+                                            dotSecondaryColor: kSecondaryColor),
+                                        likeBuilder: (isRebooms) {
+                                          return SvgPicture.asset(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    18),
+                                            "assets/icons/reboom.svg",
+                                          );
+                                        }),
                                     Text(
                                       "${boom.boom.reactions.rebooms.length}",
                                       style: TextStyle(
@@ -456,12 +530,42 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 ),
                                 Column(
                                   children: [
-                                    const Icon(
-                                      MdiIcons.alert,
-                                      color: kYellowTextColor,
+                                    LikeButton(
+                                      animationDuration:
+                                          const Duration(milliseconds: 600),
+                                      size: getProportionateScreenHeight(20),
+                                      onTap: (_) async {
+                                        Get.snackbar(
+                                          "Hang in there.",
+                                          "Shipping soon..",
+                                          backgroundColor: kPrimaryColor,
+                                          snackPosition: SnackPosition.TOP,
+                                          colorText: Colors.black,
+                                          overlayBlur: 5.0,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.screenHeight * 0.05,
+                                            left: SizeConfig.screenWidth * 0.05,
+                                            right:
+                                                SizeConfig.screenWidth * 0.05,
+                                          ),
+                                        );
+                                        return null;
+                                      },
+                                      bubblesColor: const BubblesColor(
+                                          dotPrimaryColor: kPrimaryColor,
+                                          dotSecondaryColor: kSecondaryColor),
+                                      likeBuilder: ((isLiked) {
+                                        return Icon(
+                                          MdiIcons.alert,
+                                          color: isLiked
+                                              ? kYellowTextColor
+                                              : Colors.grey,
+                                        );
+                                      }),
                                     ),
                                     Text(
-                                      "${boom.boom.reactions.reports.length}",
+                                      boom.boom.reactions.reports.length
+                                          .toString(),
                                       style: TextStyle(
                                         fontSize:
                                             getProportionateScreenHeight(12),
@@ -473,9 +577,36 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Icon(
-                                      MdiIcons.chatOutline,
-                                      size: 24,
+                                    LikeButton(
+                                      animationDuration:
+                                          const Duration(milliseconds: 600),
+                                      size: getProportionateScreenHeight(20),
+                                      onTap: (_) async {
+                                        Get.snackbar(
+                                          "Hang in there.",
+                                          "Shipping soon..",
+                                          backgroundColor: kPrimaryColor,
+                                          snackPosition: SnackPosition.TOP,
+                                          colorText: Colors.black,
+                                          overlayBlur: 5.0,
+                                          margin: EdgeInsets.only(
+                                            top: SizeConfig.screenHeight * 0.05,
+                                            left: SizeConfig.screenWidth * 0.05,
+                                            right:
+                                                SizeConfig.screenWidth * 0.05,
+                                          ),
+                                        );
+                                        return null;
+                                      },
+                                      bubblesColor: const BubblesColor(
+                                          dotPrimaryColor: kPrimaryColor,
+                                          dotSecondaryColor: kSecondaryColor),
+                                      likeBuilder: ((isLiked) {
+                                        return const Icon(
+                                          MdiIcons.chatOutline,
+                                          size: 22,
+                                        );
+                                      }),
                                     ),
                                     Text(
                                       "${boom.boom.comments.length}",
@@ -491,29 +622,17 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                             SizedBox(
                               height: getProportionateScreenHeight(15),
                             ),
-                            Expanded(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: boom.boom.comments.length,
-                                itemBuilder: (context, index) {
-                                  return SingleComment(
-                                    comment: boom.boom.comments[index].message,
-                                    userName: boom.boom.comments[index].user,
-                                    createdAt: boom
-                                        .boom.comments[index].createdAt
-                                        .toString(),
-                                    imageUrl:
-                                        "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
-                                  );
-                                },
-                              ),
-                            ),
+
+                            //Add Comment Field
+
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(12.0),
                                 fillColor: const Color(0xFFF8F8F8),
                                 filled: true,
-                                hintText: "Type a Comment...",
+                                hintText: boom.boom.comments.isEmpty
+                                    ? "No comments yet. Be the first"
+                                    : "Type a Comment...",
                                 // prefixIcon: IconButton(
                                 //   icon: const Icon(
                                 //     MdiIcons.cameraOutline,
@@ -554,6 +673,29 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(5),
+                            ),
+
+                            //View Comments Section
+
+                            Expanded(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: boom.boom.comments.length,
+                                itemBuilder: (context, index) {
+                                  return SingleComment(
+                                    comment: boom.boom.comments[index].message,
+                                    userName: boom.boom.comments[index].user,
+                                    createdAt: boom
+                                        .boom.comments[index].createdAt
+                                        .toString(),
+                                    imageUrl:
+                                        "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
+                                  );
+                                },
                               ),
                             ),
                           ],
