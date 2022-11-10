@@ -28,9 +28,7 @@ class SingleBoomWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.to(
-          () => SingleBoomPage(
-            post: post,
-          ),
+          () => const SingleBoomPage(),
           arguments: boomId,
         );
       },
@@ -133,12 +131,13 @@ class SingleBoomWidget extends StatelessWidget {
                           return controller.isLiked = !isLiked;
                         },
                         likeBuilder: ((isLiked) {
-                          return Image.network(
+                          return CachedNetworkImage(
                             height: getProportionateScreenHeight(26),
                             color: controller.isLiked
                                 ? kPrimaryColor
                                 : Colors.black,
-                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                            imageUrl:
+                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
                           );
                         }),
                       ),
@@ -197,9 +196,10 @@ class SingleBoomWidget extends StatelessWidget {
                           return controller.isSmiles = isSmiles;
                         },
                         likeBuilder: ((isSmiles) {
-                          return Image.network(
+                          return CachedNetworkImage(
                             height: getProportionateScreenHeight(22),
-                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
+                            imageUrl:
+                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
                           );
                         }),
                       ),
@@ -265,9 +265,9 @@ class SingleBoomWidget extends StatelessWidget {
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
                         likeBuilder: ((isLiked) {
-                          return const Icon(
+                          return Icon(
                             MdiIcons.alert,
-                            color: kYellowTextColor,
+                            color: isLiked ? kYellowTextColor : Colors.grey,
                           );
                         }),
                       ),

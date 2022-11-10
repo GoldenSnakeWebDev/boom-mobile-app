@@ -1,40 +1,35 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
-import 'package:boom_mobile/utils/url_container.dart';
+import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
+import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
 
-class SingleBoomController {
+class SingleBoomController extends GetxController {
   final box = GetStorage();
+  HomeService homeService = HomeService();
 
-  String boomId = Get.arguments;
+  Future<bool> reactToBoom(String reactType, String boomId) async {
+    log("$reactType to $boomId");
+    final res = await homeService.reactToBoom(reactType, boomId);
 
-  bool isLoading = true;
-
-  Stream<SingleBoom?> getSingleBoom() async* {
-    String token = box.read("token");
-
-    while (true) {
-      await Future.delayed(const Duration(seconds: 5));
-      try {
-        var res = await http.get(
-          Uri.parse("${baseURL}booms/$boomId"),
-          headers: {
-            "Authorization": token,
-          },
-        );
-        if (res.statusCode == 200) {
-          final singleBoom = SingleBoom.fromJson(jsonDecode(res.body));
-          yield singleBoom;
-        } else {
-          log("Error ${res.statusCode}");
-        }
-      } catch (e) {
-        log(e.toString());
-      }
+    if (res.statusCode == 200) {
+      log("Boom Reacted To : $reactType");
+      log("message: ${res.body}");
+      return true;
+    } else {
+      log(res.body);
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Could not react to Boom"],
+          msg: ["Error"],
+          isError: true);
+      return false;
     }
   }
+
+  obtainBoom() async {}
+
+  viewBoomContract() async {}
+
+  reportBoom() async {}
 }
