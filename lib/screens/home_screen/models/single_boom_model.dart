@@ -1,35 +1,31 @@
 // To parse this JSON data, do
 //
-//     final allBooms = allBoomsFromJson(jsonString);
+//     final singleBoom = singleBoomFromJson(jsonString);
 
-import 'package:boom_mobile/models/network_model.dart';
 import 'dart:convert';
 
-AllBooms allBoomsFromJson(String str) => AllBooms.fromJson(json.decode(str));
+SingleBoom singleBoomFromJson(String str) =>
+    SingleBoom.fromJson(json.decode(str));
 
-String allBoomsToJson(AllBooms data) => json.encode(data.toJson());
+String singleBoomToJson(SingleBoom data) => json.encode(data.toJson());
 
-class AllBooms {
-  AllBooms({
+class SingleBoom {
+  SingleBoom({
     required this.status,
-    required this.page,
-    required this.booms,
+    required this.boom,
   });
 
   String status;
-  Page page;
-  List<Boom> booms;
+  Boom boom;
 
-  factory AllBooms.fromJson(Map<String, dynamic> json) => AllBooms(
+  factory SingleBoom.fromJson(Map<String, dynamic> json) => SingleBoom(
         status: json["status"],
-        page: Page.fromJson(json["page"]),
-        booms: List<Boom>.from(json["booms"].map((x) => Boom.fromJson(x))),
+        boom: Boom.fromJson(json["boom"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "page": page.toJson(),
-        "booms": List<dynamic>.from(booms.map((x) => x.toJson())),
+        "boom": boom.toJson(),
       };
 }
 
@@ -61,7 +57,7 @@ class Boom {
   String description;
   Network network;
   List<Comment> comments;
-  UserClass user;
+  User user;
   String imageUrl;
   String price;
   String fixedPrice;
@@ -80,7 +76,7 @@ class Boom {
         network: Network.fromJson(json["network"]),
         comments: List<Comment>.from(
             json["comments"].map((x) => Comment.fromJson(x))),
-        user: UserClass.fromJson(json["user"]),
+        user: User.fromJson(json["user"]),
         imageUrl: json["image_url"],
         price: json["price"],
         fixedPrice: json["fixed_price"],
@@ -146,6 +142,38 @@ class Comment {
       };
 }
 
+class Network {
+  Network({
+    required this.name,
+    required this.imageUrl,
+    required this.symbol,
+    required this.isActive,
+    required this.id,
+  });
+
+  String name;
+  String imageUrl;
+  String symbol;
+  bool isActive;
+  String id;
+
+  factory Network.fromJson(Map<String, dynamic> json) => Network(
+        name: json["name"],
+        imageUrl: json["image_url"],
+        symbol: json["symbol"],
+        isActive: json["is_active"],
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "image_url": imageUrl,
+        "symbol": symbol,
+        "is_active": isActive,
+        "id": id,
+      };
+}
+
 class Reactions {
   Reactions({
     required this.likes,
@@ -155,23 +183,18 @@ class Reactions {
     required this.reports,
   });
 
-  List<UserClass> likes;
-  List<UserClass> loves;
-  List<UserClass> smiles;
-  List<UserClass> rebooms;
-  List<UserClass> reports;
+  List<User> likes;
+  List<User> loves;
+  List<User> smiles;
+  List<User> rebooms;
+  List<User> reports;
 
   factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
-        likes: List<UserClass>.from(
-            json["likes"].map((x) => UserClass.fromJson(x))),
-        loves: List<UserClass>.from(
-            json["loves"].map((x) => UserClass.fromJson(x))),
-        smiles: List<UserClass>.from(
-            json["smiles"].map((x) => UserClass.fromJson(x))),
-        rebooms: List<UserClass>.from(
-            json["rebooms"].map((x) => UserClass.fromJson(x))),
-        reports: List<UserClass>.from(
-            json["reports"].map((x) => UserClass.fromJson(x))),
+        likes: List<User>.from(json["likes"].map((x) => User.fromJson(x))),
+        loves: List<User>.from(json["loves"].map((x) => User.fromJson(x))),
+        smiles: List<User>.from(json["smiles"].map((x) => User.fromJson(x))),
+        rebooms: List<User>.from(json["rebooms"].map((x) => User.fromJson(x))),
+        reports: List<User>.from(json["reports"].map((x) => User.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -183,8 +206,8 @@ class Reactions {
       };
 }
 
-class UserClass {
-  UserClass({
+class User {
+  User({
     required this.passwordReset,
     required this.socialMedia,
     required this.firstName,
@@ -224,7 +247,7 @@ class UserClass {
   String syncBank;
   String id;
 
-  factory UserClass.fromJson(Map<String, dynamic> json) => UserClass(
+  factory User.fromJson(Map<String, dynamic> json) => User(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
         socialMedia: SocialMedia.fromJson(json["social_media"]),
         firstName: json["first_name"],
@@ -309,12 +332,4 @@ class SocialMedia {
         "tiktok": tiktok,
         "facebook": facebook,
       };
-}
-
-class Page {
-  Page();
-
-  factory Page.fromJson(Map<String, dynamic> json) => Page();
-
-  Map<String, dynamic> toJson() => {};
 }

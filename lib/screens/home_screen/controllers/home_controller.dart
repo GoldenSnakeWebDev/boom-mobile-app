@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
@@ -14,7 +15,9 @@ class HomeController extends GetxController {
   List<Boom> myBooms = [];
   HomeService homeService = HomeService();
   bool isLoading = true;
-
+  bool isLoves = false;
+  bool isSmiles = false;
+  bool isRebooms = false;
   bool isLiked = false;
 
   @override
@@ -75,6 +78,22 @@ class HomeController extends GetxController {
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not fetch Booms"], msg: ["Error"], isError: true);
       EasyLoading.dismiss();
+    }
+  }
+
+  reactToBoom(String reactType, String boomId) async {
+    log("$reactType to $boomId");
+    final res = await homeService.reactToBoom(reactType, boomId);
+
+    if (res.statusCode == 200) {
+      log("Boom Reacted To : $reactType");
+      log("message: ${res.body}");
+    } else {
+      log(res.body);
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Could not react to Boom"],
+          msg: ["Error"],
+          isError: true);
     }
   }
 }

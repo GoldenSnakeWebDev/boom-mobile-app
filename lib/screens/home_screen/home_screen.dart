@@ -250,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       return SingleBoomWidget(
                                         post: boomPost,
                                         controller: controller,
-                                        boom: controller.homeBooms![index],
+                                        boomId: controller.homeBooms![index].id,
                                       );
                                     },
                                   ),

@@ -118,7 +118,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   return SingleBoomWidget(
                                     post: boomPost,
                                     controller: homeController,
-                                    boom: _shuffledBooms![index],
+                                    boomId: _shuffledBooms![index].id,
                                   );
                                 },
                               ),

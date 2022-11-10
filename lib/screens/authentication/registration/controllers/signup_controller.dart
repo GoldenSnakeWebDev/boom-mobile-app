@@ -87,7 +87,7 @@ class RegisterController extends GetxController {
       }
     } else {
       CustomSnackBar.showCustomSnackBar(
-          errorList: ["Please check your username or Password"],
+          errorList: ["Please make sure you password meets the requirements"],
           msg: ["Input Error"],
           isError: true);
     }
