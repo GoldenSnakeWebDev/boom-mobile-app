@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
-import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
@@ -15,13 +14,13 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class SingleBoomWidget extends StatelessWidget {
   final SingleBoomPost post;
-  final Boom boom;
+  final String boomId;
   final HomeController controller;
   const SingleBoomWidget({
     Key? key,
     required this.post,
     required this.controller,
-    required this.boom,
+    required this.boomId,
   }) : super(key: key);
 
   @override
@@ -31,8 +30,8 @@ class SingleBoomWidget extends StatelessWidget {
         Get.to(
           () => SingleBoomPage(
             post: post,
-            boom: boom,
           ),
+          arguments: boomId,
         );
       },
       child: Container(
@@ -56,30 +55,33 @@ class SingleBoomWidget extends StatelessWidget {
                   SizedBox(
                     width: getProportionateScreenWidth(5),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black38, width: 0.5),
-                      borderRadius: BorderRadius.circular(6),
-                      gradient: const LinearGradient(
-                        colors: [
-                          kPrimaryColor,
-                          kSecondaryColor,
-                          kPrimaryColor,
-                          kPrimaryColor,
-                          kSecondaryColor,
-                        ],
+                  Visibility(
+                    visible: post.location.isEmpty,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black38, width: 0.5),
+                        borderRadius: BorderRadius.circular(6),
+                        gradient: const LinearGradient(
+                          colors: [
+                            kPrimaryColor,
+                            kSecondaryColor,
+                            kPrimaryColor,
+                            kPrimaryColor,
+                            kSecondaryColor,
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            MdiIcons.mapMarker,
-                            size: 16,
-                          ),
-                          Text(post.location),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              MdiIcons.mapMarker,
+                              size: 16,
+                            ),
+                            Text(post.location),
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -127,7 +129,7 @@ class SingleBoomWidget extends StatelessWidget {
                             dotSecondaryColor: kSecondaryColor),
                         isLiked: controller.isLiked,
                         onTap: (isLiked) async {
-                          controller.reactToBoom("likes", boom.id);
+                          controller.reactToBoom("likes", boomId);
                           return controller.isLiked = !isLiked;
                         },
                         likeBuilder: ((isLiked) {
@@ -159,7 +161,7 @@ class SingleBoomWidget extends StatelessWidget {
                             dotSecondaryColor: kSecondaryColor),
                         isLiked: controller.isLoves,
                         onTap: (isLoves) async {
-                          controller.reactToBoom("loves", boom.id);
+                          controller.reactToBoom("loves", boomId);
                           return controller.isLoves = isLoves;
                         },
                         likeBuilder: ((isLoves) {
@@ -191,7 +193,7 @@ class SingleBoomWidget extends StatelessWidget {
                         isLiked: controller.isSmiles,
                         onTap: (isSmiles) async {
                           log(isSmiles.toString());
-                          controller.reactToBoom("smiles", boom.id);
+                          controller.reactToBoom("smiles", boomId);
                           return controller.isSmiles = isSmiles;
                         },
                         likeBuilder: ((isSmiles) {
@@ -217,7 +219,7 @@ class SingleBoomWidget extends StatelessWidget {
                           size: getProportionateScreenHeight(20),
                           isLiked: controller.isRebooms,
                           onTap: (isRebooms) async {
-                            controller.reactToBoom("rebooms", boom.id);
+                            controller.reactToBoom("rebooms", boomId);
                             post.rebooms++;
                             return controller.isRebooms = isRebooms;
                           },

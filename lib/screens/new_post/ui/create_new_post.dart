@@ -475,7 +475,7 @@ class CreateNewPost extends GetView<NewPostController> {
                             height: getProportionateScreenHeight(20),
                           ),
                           Text(
-                            "Caption",
+                            "Caption (Optional)",
                             style: TextStyle(
                                 fontSize: getProportionateScreenHeight(13),
                                 fontWeight: FontWeight.w900),
