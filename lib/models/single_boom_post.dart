@@ -6,11 +6,11 @@ class SingleBoomPost {
   final String desc;
   final String location;
   final String chain;
-  final int likes;
-  final int loves;
-  final int smiles;
-  final int rebooms;
-  final int reported;
+  int likes;
+  int loves;
+  int smiles;
+  int rebooms;
+  int reported;
   final int comments;
   final Network network;
   final bool isLiked;

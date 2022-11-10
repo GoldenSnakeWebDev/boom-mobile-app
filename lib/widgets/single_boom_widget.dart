@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
@@ -123,10 +125,17 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
+                        isLiked: controller.isLiked,
+                        onTap: (isLiked) async {
+                          controller.reactToBoom("likes", boom.id);
+                          return controller.isLiked = !isLiked;
+                        },
                         likeBuilder: ((isLiked) {
                           return Image.network(
                             height: getProportionateScreenHeight(26),
-                            color: isLiked ? kPrimaryColor : Colors.black,
+                            color: controller.isLiked
+                                ? kPrimaryColor
+                                : Colors.black,
                             "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
                           );
                         }),
@@ -148,11 +157,17 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
-                        likeBuilder: ((isLiked) {
+                        isLiked: controller.isLoves,
+                        onTap: (isLoves) async {
+                          controller.reactToBoom("loves", boom.id);
+                          return controller.isLoves = isLoves;
+                        },
+                        likeBuilder: ((isLoves) {
                           return SvgPicture.asset(
                             height: getProportionateScreenHeight(15),
                             "assets/icons/love.svg",
-                            color: isLiked ? Colors.red : Colors.grey,
+                            color:
+                                controller.isLoves ? Colors.red : Colors.grey,
                           );
                         }),
                       ),
@@ -173,7 +188,13 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
-                        likeBuilder: ((isLiked) {
+                        isLiked: controller.isSmiles,
+                        onTap: (isSmiles) async {
+                          log(isSmiles.toString());
+                          controller.reactToBoom("smiles", boom.id);
+                          return controller.isSmiles = isSmiles;
+                        },
+                        likeBuilder: ((isSmiles) {
                           return Image.network(
                             height: getProportionateScreenHeight(22),
                             "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
@@ -194,26 +215,16 @@ class SingleBoomWidget extends StatelessWidget {
                       LikeButton(
                           animationDuration: const Duration(milliseconds: 600),
                           size: getProportionateScreenHeight(20),
-                          onTap: (_) async {
-                            Get.snackbar(
-                              "Hang in there.",
-                              "Shipping soon..",
-                              backgroundColor: kPrimaryColor,
-                              snackPosition: SnackPosition.TOP,
-                              colorText: Colors.black,
-                              overlayBlur: 5.0,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.screenHeight * 0.05,
-                                left: SizeConfig.screenWidth * 0.05,
-                                right: SizeConfig.screenWidth * 0.05,
-                              ),
-                            );
-                            return null;
+                          isLiked: controller.isRebooms,
+                          onTap: (isRebooms) async {
+                            controller.reactToBoom("rebooms", boom.id);
+                            post.rebooms++;
+                            return controller.isRebooms = isRebooms;
                           },
                           bubblesColor: const BubblesColor(
                               dotPrimaryColor: kPrimaryColor,
                               dotSecondaryColor: kSecondaryColor),
-                          likeBuilder: (isLiked) {
+                          likeBuilder: (isRebooms) {
                             return SvgPicture.asset(
                               height: getProportionateScreenHeight(18),
                               "assets/icons/reboom.svg",

@@ -146,67 +146,40 @@ class Comment {
       };
 }
 
-// class Network {
-//     Network({
-//         required this.name,
-//         required this.imageUrl,
-//         required this.symbol,
-//         required this.isActive,
-//         required this.id,
-//     });
-
-//     String name;
-//     String imageUrl;
-//     String symbol;
-//     bool isActive;
-//     String id;
-
-//     factory Network.fromJson(Map<String, dynamic> json) => Network(
-//         name: json["name"],
-//         imageUrl: json["image_url"],
-//         symbol: json["symbol"],
-//         isActive: json["is_active"],
-//         id: json["id"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "name": name,
-//         "image_url": imageUrl,
-//         "symbol": symbol,
-//         "is_active": isActive,
-//         "id": id,
-//     };
-// }
-
 class Reactions {
   Reactions({
-    required this.reports,
     required this.likes,
     required this.loves,
-    required this.rebooms,
     required this.smiles,
+    required this.rebooms,
+    required this.reports,
   });
 
-  List<dynamic> reports;
-  List<dynamic> likes;
-  List<dynamic> loves;
-  List<dynamic> rebooms;
-  List<dynamic> smiles;
+  List<UserClass> likes;
+  List<UserClass> loves;
+  List<UserClass> smiles;
+  List<UserClass> rebooms;
+  List<UserClass> reports;
 
   factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
-        reports: List<dynamic>.from(json["reports"].map((x) => x)),
-        likes: List<dynamic>.from(json["likes"].map((x) => x)),
-        loves: List<dynamic>.from(json["loves"].map((x) => x)),
-        rebooms: List<dynamic>.from(json["rebooms"].map((x) => x)),
-        smiles: List<dynamic>.from(json["smiles"].map((x) => x)),
+        likes: List<UserClass>.from(
+            json["likes"].map((x) => UserClass.fromJson(x))),
+        loves: List<UserClass>.from(
+            json["loves"].map((x) => UserClass.fromJson(x))),
+        smiles: List<UserClass>.from(
+            json["smiles"].map((x) => UserClass.fromJson(x))),
+        rebooms: List<UserClass>.from(
+            json["rebooms"].map((x) => UserClass.fromJson(x))),
+        reports: List<UserClass>.from(
+            json["reports"].map((x) => UserClass.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "reports": List<dynamic>.from(reports.map((x) => x)),
-        "likes": List<dynamic>.from(likes.map((x) => x)),
-        "loves": List<dynamic>.from(loves.map((x) => x)),
-        "rebooms": List<dynamic>.from(rebooms.map((x) => x)),
-        "smiles": List<dynamic>.from(smiles.map((x) => x)),
+        "likes": List<dynamic>.from(likes.map((x) => x.toJson())),
+        "loves": List<dynamic>.from(loves.map((x) => x.toJson())),
+        "smiles": List<dynamic>.from(smiles.map((x) => x.toJson())),
+        "rebooms": List<dynamic>.from(rebooms.map((x) => x.toJson())),
+        "reports": List<dynamic>.from(reports.map((x) => x.toJson())),
       };
 }
 
