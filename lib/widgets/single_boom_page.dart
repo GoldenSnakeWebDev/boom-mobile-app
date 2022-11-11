@@ -5,6 +5,7 @@ import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:boom_mobile/widgets/single_boom_shimmer.dart';
 import 'package:boom_mobile/widgets/single_comment_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -74,9 +75,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
             SingleBoom? boom = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
               //TODO: Add loading Shimmer
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const SingleBoomShimmer();
             } else if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {

@@ -35,7 +35,8 @@ class EditProfileController extends GetxController {
   @override
   void onInit() {
     usernameController.text = user!.username;
-
+    bioController.text = user!.bio;
+    locationController.text = user!.location;
     super.onInit();
   }
 
@@ -196,7 +197,7 @@ class EditProfileController extends GetxController {
         body: json.encode(
           {
             // "username": usernameController.text,
-
+            "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,

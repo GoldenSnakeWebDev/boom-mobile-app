@@ -16,7 +16,7 @@ class ProfileController extends GetxController {
   int numberOfFans = 0;
   int numberOfFrens = 0;
   bool isVerified = false;
-  User? user = Get.find<MainScreenController>().user;
+  User? user;
   FetchCurrUserRepo repo = Get.find();
 
   final box = GetStorage();
@@ -24,6 +24,7 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    user = Get.find<MainScreenController>().user;
     if (user != null && user!.bio.isNotEmpty) {
       isNewUser = false;
     }
@@ -40,10 +41,6 @@ class ProfileController extends GetxController {
     final res = await repo.fetchCurrUser(token);
     if (res.statusCode == 200) {
       user = User.fromJson(jsonDecode(res.body)["user"]);
-      CustomSnackBar.showCustomSnackBar(
-          errorList: ["User Details Fetched"],
-          msg: ["Success"],
-          isError: false);
       update();
     } else {
       CustomSnackBar.showCustomSnackBar(
