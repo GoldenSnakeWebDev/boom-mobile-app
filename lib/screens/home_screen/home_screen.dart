@@ -100,8 +100,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             getProportionateScreenHeight(
                                                                 56),
                                                         imageUrl: mainController
-                                                                .user?.photo ??
-                                                            "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                                .user!
+                                                                .photo
+                                                                .isNotEmpty
+                                                            ? mainController
+                                                                .user!.photo
+                                                            : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -220,32 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: ListView.builder(
                                     itemCount: controller.homeBooms!.length,
                                     itemBuilder: (context, index) {
-                                      SingleBoomPost boomPost = SingleBoomPost(
-                                        boomType: controller
-                                            .homeBooms![index].boomType,
-                                        location: "Location",
-                                        chain: controller
-                                            .homeBooms![index].network.symbol,
-                                        imgUrl: controller
-                                            .homeBooms![index].imageUrl,
-                                        desc: controller
-                                            .homeBooms![index].description,
-                                        network: controller
-                                            .homeBooms![index].network,
-                                        isLiked: controller.isLiked,
-                                        likes: controller.homeBooms![index]
-                                            .reactions.likes.length,
-                                        loves: controller.homeBooms![index]
-                                            .reactions.loves.length,
-                                        smiles: controller.homeBooms![index]
-                                            .reactions.smiles.length,
-                                        rebooms: controller.homeBooms![index]
-                                            .reactions.rebooms.length,
-                                        reported: controller.homeBooms![index]
-                                            .reactions.reports.length,
-                                        comments: controller
-                                            .homeBooms![index].comments.length,
-                                      );
+                                      SingleBoomPost boomPost = controller
+                                          .getSingleBoomDetails(index);
 
                                       return SingleBoomWidget(
                                         post: boomPost,
