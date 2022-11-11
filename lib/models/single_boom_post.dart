@@ -1,6 +1,7 @@
 import 'package:boom_mobile/models/network_model.dart';
 
 class SingleBoomPost {
+  final int index;
   final String boomType;
   final String imgUrl;
   final String desc;
@@ -13,9 +14,13 @@ class SingleBoomPost {
   int reported;
   final int comments;
   final Network network;
-  final bool isLiked;
+  bool isLiked;
+  bool isLoves;
+  bool isSmiles;
+  bool isRebooms;
 
   SingleBoomPost({
+    required this.index,
     required this.boomType,
     required this.location,
     required this.chain,
@@ -29,5 +34,8 @@ class SingleBoomPost {
     required this.comments,
     required this.network,
     required this.isLiked,
+    required this.isLoves,
+    required this.isSmiles,
+    required this.isRebooms,
   });
 }

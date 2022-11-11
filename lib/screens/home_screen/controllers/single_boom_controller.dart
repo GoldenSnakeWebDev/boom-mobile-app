@@ -76,7 +76,7 @@ class SingleBoomController extends GetxController {
           "Accept": "application/json"
         },
         body: jsonEncode(body));
-    if (res.statusCode == 200) {
+    if (res.statusCode == 201) {
       log("Boom Commented On");
       log("message: ${res.body}");
       commentController.clear();

@@ -82,39 +82,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                               child: ListView.builder(
                                 itemCount: _shuffledBooms!.length,
                                 itemBuilder: (context, index) {
-                                  SingleBoomPost boomPost = SingleBoomPost(
-                                    boomType: _shuffledBooms![index].boomType,
-                                    location: "Location",
-                                    chain:
-                                        _shuffledBooms![index].network.symbol,
-                                    imgUrl: _shuffledBooms![index].imageUrl,
-                                    desc: _shuffledBooms![index].description,
-                                    network: _shuffledBooms![index].network,
-                                    isLiked: homeController.isLiked,
-                                    likes: _shuffledBooms![index]
-                                        .reactions
-                                        .likes
-                                        .length,
-                                    loves: _shuffledBooms![index]
-                                        .reactions
-                                        .loves
-                                        .length,
-                                    smiles: _shuffledBooms![index]
-                                        .reactions
-                                        .smiles
-                                        .length,
-                                    rebooms: _shuffledBooms![index]
-                                        .reactions
-                                        .rebooms
-                                        .length,
-                                    reported: _shuffledBooms![index]
-                                        .reactions
-                                        .reports
-                                        .length,
-                                    comments:
-                                        _shuffledBooms![index].comments.length,
-                                  );
-
+                                  final singlePostDets =
+                                      Get.find<HomeController>();
+                                  SingleBoomPost boomPost = singlePostDets
+                                      .getSingleBoomDetails(index);
                                   return SingleBoomWidget(
                                     post: boomPost,
                                     controller: homeController,

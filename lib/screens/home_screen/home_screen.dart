@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
                         children: [
+
                           GetBuilder<TalesEpicsController>(
                               init: TalesEpicsController(),
                               builder: (ctrllr) => Obx(
@@ -153,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               )
                                                             ],
                                                           ),
+
                                                         ),
                                                       )
                                                     : Container(
@@ -255,32 +257,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: ListView.builder(
                                     itemCount: controller.homeBooms!.length,
                                     itemBuilder: (context, index) {
-                                      SingleBoomPost boomPost = SingleBoomPost(
-                                        boomType: controller
-                                            .homeBooms![index].boomType,
-                                        location: "Location",
-                                        chain: controller
-                                            .homeBooms![index].network.symbol,
-                                        imgUrl: controller
-                                            .homeBooms![index].imageUrl,
-                                        desc: controller
-                                            .homeBooms![index].description,
-                                        network: controller
-                                            .homeBooms![index].network,
-                                        isLiked: controller.isLiked,
-                                        likes: controller.homeBooms![index]
-                                            .reactions.likes.length,
-                                        loves: controller.homeBooms![index]
-                                            .reactions.loves.length,
-                                        smiles: controller.homeBooms![index]
-                                            .reactions.smiles.length,
-                                        rebooms: controller.homeBooms![index]
-                                            .reactions.rebooms.length,
-                                        reported: controller.homeBooms![index]
-                                            .reactions.reports.length,
-                                        comments: controller
-                                            .homeBooms![index].comments.length,
-                                      );
+                                      SingleBoomPost boomPost = controller
+                                          .getSingleBoomDetails(index);
 
                                       return SingleBoomWidget(
                                         post: boomPost,
