@@ -5,7 +5,10 @@ import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -32,7 +35,21 @@ class ProfileController extends GetxController {
   }
 
   changeSelectedIndex(int index) {
-    selectedTab = index;
+    index != 0
+        ? Get.snackbar(
+            "Hang in there.",
+            "Shipping soon..",
+            backgroundColor: kPrimaryColor,
+            snackPosition: SnackPosition.TOP,
+            colorText: Colors.black,
+            overlayBlur: 5.0,
+            margin: EdgeInsets.only(
+              top: SizeConfig.screenHeight * 0.05,
+              left: SizeConfig.screenWidth * 0.05,
+              right: SizeConfig.screenWidth * 0.05,
+            ),
+          )
+        : selectedTab = index;
     update();
   }
 

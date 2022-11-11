@@ -13,7 +13,7 @@ class SyntheticBankScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final myCtrl = Get.find<MainScreenController>();
     return Container(
-      width: SizeConfig.screenWidth * 0.8,
+      width: SizeConfig.screenWidth * 0.9,
       height: SizeConfig.screenHeight * 0.45,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -33,9 +33,12 @@ class SyntheticBankScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "SYN ID: ${myCtrl.user!.syncBank.syncId}",
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+                SizedBox(
+                  width: SizeConfig.screenWidth * 0.4,
+                  child: Text(
+                    "SYN ID: ${myCtrl.user!.syncBank.syncId}",
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
                 ),
                 GestureDetector(
                   onTap: () {},

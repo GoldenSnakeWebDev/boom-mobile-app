@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   Container(
                                     width: SizeConfig.screenWidth,
-                                    height: getProportionateScreenHeight(28),
+                                    height: getProportionateScreenHeight(34),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       border: Border.all(
@@ -138,7 +138,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       children: [
                                         controller.isNewUser
                                             ? GestureDetector(
-                                                onTap: () async {},
+                                                onTap: () {
+                                                  Get.to(() =>
+                                                      const EditProfile());
+                                                },
                                                 child: Container(
                                                   width: SizeConfig.screenWidth,
                                                   height:
@@ -520,7 +523,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ),
                                                   controller.isNewUser
                                                       ? TextButton(
-                                                          onPressed: () {},
+                                                          onPressed: () {
+                                                            Get.to(() =>
+                                                                const EditProfile());
+                                                          },
                                                           child: const Text(
                                                             "You have no Bio yet please add one",
                                                           ),
@@ -653,28 +659,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   itemBuilder: (context, index) {
                                     //Temp Solutiuon to change this later to only my Booms
 
-                                    final isLiked =
-                                        Get.find<HomeController>().isLiked;
-                                    SingleBoomPost boomPost = SingleBoomPost(
-                                      boomType: boomController
-                                          .myBooms[index].boomType,
-                                      location: "Location",
-                                      chain: boomController
-                                          .myBooms[index].network.symbol,
-                                      imgUrl: boomController
-                                          .myBooms[index].imageUrl,
-                                      desc: boomController
-                                          .myBooms[index].description,
-                                      network:
-                                          boomController.myBooms[index].network,
-                                      isLiked: isLiked,
-                                      likes: 100 + index,
-                                      loves: 76 + index,
-                                      smiles: 20 + index,
-                                      rebooms: 5 + index,
-                                      reported: 2 + index,
-                                      comments: 3 + index,
-                                    );
+                                    final singlePostDets =
+                                        Get.find<HomeController>();
+                                    SingleBoomPost boomPost = singlePostDets
+                                        .getSingleBoomDetails(index);
                                     return SingleBoomWidget(
                                       post: boomPost,
                                       controller: Get.find<HomeController>(),

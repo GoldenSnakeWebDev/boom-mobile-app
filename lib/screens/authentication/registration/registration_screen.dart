@@ -185,6 +185,8 @@ class RegistrationScreen extends GetView<RegisterController> {
                                 obscureText: controller.isPassVisible.value,
                                 decoration: InputDecoration(
                                   hintText: "Password",
+                                  counterText:
+                                      "Must be over 6 characters long, contain an uppercase letter, special symbol and a number",
                                   prefixIcon: const Icon(
                                     Icons.lock,
                                     color: Colors.black,
