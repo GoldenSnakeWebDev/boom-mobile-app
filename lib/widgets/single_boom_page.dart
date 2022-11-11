@@ -668,6 +668,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               //Add Comment Field
 
                               TextFormField(
+                                controller: boomController.commentController,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.all(12.0),
                                   fillColor: const Color(0xFFF8F8F8),
@@ -686,10 +687,21 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     width: getProportionateScreenWidth(100),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      children: const [
-                                        Icon(
-                                          MdiIcons.send,
-                                          color: Color(0xFF454C4D),
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            await boomController.commentOnPost(
+                                              boomController
+                                                  .commentController.text,
+                                              boomId,
+                                            );
+                                            boomController.commentController
+                                                .clear();
+                                          },
+                                          child: const Icon(
+                                            MdiIcons.send,
+                                            color: Color(0xFF454C4D),
+                                          ),
                                         ),
                                       ],
                                     ),
