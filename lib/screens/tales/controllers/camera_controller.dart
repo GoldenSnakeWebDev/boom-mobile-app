@@ -28,4 +28,10 @@ class TalesController extends GetxController {
     });
     super.onInit();
   }
+
+  @override
+  void onClose() {
+    cameraController?.dispose();
+    super.onClose();
+  }
 }
