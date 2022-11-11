@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/screens/home_screen/controllers/single_boom_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
@@ -82,623 +84,654 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                   child: Text("Could not fecch boom"),
                 );
               } else if (snapshot.hasData) {
-                return Container(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: MediaQuery.of(context).size.height * 0.89,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: snapshot.data!.boom.boomType == "text"
-                                  ? Text(boom!.boom.imageUrl)
-                                  : CachedNetworkImage(
-                                      // height: getProportionateScreenHeight(200),
-                                      width: SizeConfig.screenWidth,
-                                      imageUrl: boom!.boom.imageUrl,
-                                      fit: BoxFit.cover,
-                                    ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                          child: CachedNetworkImage(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    45),
-                                            width: getProportionateScreenHeight(
-                                                45),
-                                            imageUrl: boom
-                                                    .boom.user.photo.isNotEmpty
-                                                ? boom.boom.user.photo
-                                                : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              getProportionateScreenHeight(5),
-                                        ),
-                                        Text(
-                                          "!${boom.boom.user.username}",
-                                          style: TextStyle(
-                                            fontSize:
-                                                getProportionateScreenHeight(
-                                                    11),
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: getProportionateScreenWidth(8),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              MdiIcons.mapMarker,
-                                              size: 18,
-                                            ),
-                                            Text(
-                                              "Spain",
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      getProportionateScreenHeight(
-                                                          15),
-                                                  fontWeight: FontWeight.w800),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              getProportionateScreenHeight(5),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                              getProportionateScreenHeight(10),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            _onShare(context);
-                                          },
-                                          child: const Icon(
-                                            MdiIcons.shareVariant,
-                                            size: 18,
-                                            color: Colors.black,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        showMenu(
-                                          context: context,
-                                          position: RelativeRect.fromLTRB(
-                                            SizeConfig.screenWidth * 0.6,
-                                            SizeConfig.screenHeight * 0.65,
-                                            SizeConfig.screenWidth * 0.35,
-                                            60,
-                                          ),
-                                          constraints: BoxConstraints(
-                                              maxWidth: SizeConfig.screenWidth *
-                                                  0.35),
-                                          shape: RoundedRectangleBorder(
+                boomController.fetchReactionStatus(boom!);
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    boomController.refreshPage();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SingleChildScrollView(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.89,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: snapshot.data!.boom.boomType == "text"
+                                    ? Text(boom.boom.imageUrl)
+                                    : CachedNetworkImage(
+                                        // height: getProportionateScreenHeight(200),
+                                        width: SizeConfig.screenWidth,
+                                        imageUrl: boom.boom.imageUrl,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Column(
+                                        children: [
+                                          ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(8.0),
+                                                BorderRadius.circular(12.0),
+                                            child: CachedNetworkImage(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      45),
+                                              width:
+                                                  getProportionateScreenHeight(
+                                                      45),
+                                              imageUrl: boom.boom.user.photo
+                                                      .isNotEmpty
+                                                  ? boom.boom.user.photo
+                                                  : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                          items: [
-                                            PopupMenuItem(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: kBlueColor
-                                                      .withOpacity(0.8),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          16.0, 4.0, 16.0, 4.0),
-                                                  child: Text(
-                                                    "Syn. NFT",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            PopupMenuItem(
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: kBlueColor
-                                                      .withOpacity(0.8),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          16.0, 4.0, 16.0, 4.0),
-                                                  child: Text(
-                                                    "Mint NFT",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: kPrimaryColor,
-                                            border: Border.all(
-                                                color: Colors.black)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              10, 4, 10, 4),
-                                          child: Text(
-                                            "Obtain",
+                                          SizedBox(
+                                            height:
+                                                getProportionateScreenHeight(5),
+                                          ),
+                                          Text(
+                                            "!${boom.boom.user.username}",
                                             style: TextStyle(
                                               fontSize:
                                                   getProportionateScreenHeight(
-                                                      12),
+                                                      11),
+                                              fontWeight: FontWeight.w800,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        width: getProportionateScreenWidth(8),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                MdiIcons.mapMarker,
+                                                size: 18,
+                                              ),
+                                              Text(
+                                                "Spain",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            15),
+                                                    fontWeight:
+                                                        FontWeight.w800),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                getProportionateScreenHeight(5),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    10),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _onShare(context);
+                                            },
+                                            child: const Icon(
+                                              MdiIcons.shareVariant,
+                                              size: 18,
+                                              color: Colors.black,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          showMenu(
+                                            context: context,
+                                            position: RelativeRect.fromLTRB(
+                                              SizeConfig.screenWidth * 0.6,
+                                              SizeConfig.screenHeight * 0.65,
+                                              SizeConfig.screenWidth * 0.35,
+                                              60,
+                                            ),
+                                            constraints: BoxConstraints(
+                                                maxWidth:
+                                                    SizeConfig.screenWidth *
+                                                        0.35),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            items: [
+                                              PopupMenuItem(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: kBlueColor
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                        16.0, 4.0, 16.0, 4.0),
+                                                    child: Text(
+                                                      "Syn. NFT",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                14),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              PopupMenuItem(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: kBlueColor
+                                                        .withOpacity(0.8),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                        16.0, 4.0, 16.0, 4.0),
+                                                    child: Text(
+                                                      "Mint NFT",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                14),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: kPrimaryColor,
+                                              border: Border.all(
+                                                  color: Colors.black)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 4, 10, 4),
+                                            child: Text(
+                                              "Obtain",
+                                              style: TextStyle(
+                                                fontSize:
+                                                    getProportionateScreenHeight(
+                                                        12),
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: getProportionateScreenWidth(7),
+                                      ),
+                                      Column(
+                                        children: [
+                                          Text(
+                                            boom.boom.fixedPrice,
+                                            style: TextStyle(
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      18),
                                               fontWeight: FontWeight.w900,
                                             ),
                                           ),
-                                        ),
+                                          Text(
+                                            "(\$${boom.boom.price})",
+                                            style: TextStyle(
+                                                fontSize:
+                                                    getProportionateScreenHeight(
+                                                        11)),
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: getProportionateScreenWidth(7),
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          boom.boom.fixedPrice,
-                                          style: TextStyle(
-                                            fontSize:
-                                                getProportionateScreenHeight(
-                                                    18),
-                                            fontWeight: FontWeight.w900,
-                                          ),
-                                        ),
-                                        Text(
-                                          "(\$${boom.boom.price})",
-                                          style: TextStyle(
-                                              fontSize:
-                                                  getProportionateScreenHeight(
-                                                      11)),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: getProportionateScreenWidth(5),
-                                    ),
-                                    CachedNetworkImage(
-                                      height: getProportionateScreenHeight(20),
-                                      imageUrl: boom.boom.network.imageUrl,
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        showMenu(
-                                          context: context,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          position: RelativeRect.fromLTRB(
-                                            SizeConfig.screenWidth,
-                                            SizeConfig.screenHeight * 0.6,
-                                            30,
-                                            60,
-                                          ),
-                                          items: [
-                                            PopupMenuItem(
-                                              onTap: () {},
-                                              child: Text(
-                                                "View Contract",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      getProportionateScreenHeight(
-                                                          13),
-                                                  fontWeight: FontWeight.w800,
+                                      SizedBox(
+                                        width: getProportionateScreenWidth(5),
+                                      ),
+                                      CachedNetworkImage(
+                                        height:
+                                            getProportionateScreenHeight(20),
+                                        imageUrl: boom.boom.network.imageUrl,
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          showMenu(
+                                            context: context,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            position: RelativeRect.fromLTRB(
+                                              SizeConfig.screenWidth,
+                                              SizeConfig.screenHeight * 0.6,
+                                              30,
+                                              60,
+                                            ),
+                                            items: [
+                                              PopupMenuItem(
+                                                onTap: () {},
+                                                child: Text(
+                                                  "View Contract",
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            13),
+                                                    fontWeight: FontWeight.w800,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            PopupMenuItem(
-                                              onTap: () {},
-                                              child: Text(
-                                                "Report Boom",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      getProportionateScreenHeight(
-                                                          13),
-                                                  fontWeight: FontWeight.w800,
+                                              PopupMenuItem(
+                                                onTap: () {},
+                                                child: Text(
+                                                  "Report Boom",
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            13),
+                                                    fontWeight: FontWeight.w800,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        MdiIcons.dotsHorizontal,
-                                        color: Colors.black,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Text(
-                              boom.boom.description,
-                              style: TextStyle(
-                                  fontSize: getProportionateScreenHeight(16),
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(5),
-                            ),
-                            Text(
-                              boom.boom.tags[0],
-                              style: TextStyle(
-                                  fontSize: getProportionateScreenHeight(11),
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
+                                            ],
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          MdiIcons.dotsHorizontal,
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
+                              Text(
+                                boom.boom.description,
+                                style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(16),
+                                    fontWeight: FontWeight.w900),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(5),
+                              ),
+                              Text(
+                                boom.boom.tags[0],
+                                style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(11),
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(10),
+                              ),
 
-                            //Ractions Section
-                            //TODO: Change this to a widget
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Column(
-                                  children: [
-                                    LikeButton(
-                                      animationDuration:
-                                          const Duration(milliseconds: 600),
-                                      size: getProportionateScreenHeight(28),
-                                      bubblesColor: const BubblesColor(
-                                          dotPrimaryColor: kPrimaryColor,
-                                          dotSecondaryColor: kSecondaryColor),
-                                      isLiked: false,
-                                      onTap: (isLiked) async {
-                                        boomController.reactToBoom(
-                                            "likes", boomId);
-                                        return null;
-                                      },
-                                      likeBuilder: ((isLiked) {
-                                        return CachedNetworkImage(
-                                          height:
-                                              getProportionateScreenHeight(26),
-                                          color: isLiked
-                                              ? kPrimaryColor
-                                              : Colors.black,
-                                          imageUrl:
-                                              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
-                                        );
-                                      }),
-                                    ),
-                                    Text(
-                                      "${boom.boom.reactions.likes.length}",
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
+                              //Ractions Section
+                              //TODO: Change this to a widget
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Column(
+                                    children: [
+                                      LikeButton(
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        size: getProportionateScreenHeight(28),
+                                        bubblesColor: const BubblesColor(
+                                            dotPrimaryColor: kPrimaryColor,
+                                            dotSecondaryColor: kSecondaryColor),
+                                        isLiked: boomController.isLiked,
+                                        onTap: (isLiked) async {
+                                          log(isLiked.toString());
+                                          boomController.reactToBoom(
+                                              "likes", boomId);
+                                          return null;
+                                        },
+                                        likeBuilder: ((isLiked) {
+                                          return CachedNetworkImage(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    26),
+                                            color: isLiked
+                                                ? kPrimaryColor
+                                                : Colors.black,
+                                            imageUrl:
+                                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                                          );
+                                        }),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    LikeButton(
-                                      animationDuration:
-                                          const Duration(milliseconds: 600),
-                                      size: getProportionateScreenHeight(22),
-                                      bubblesColor: const BubblesColor(
-                                          dotPrimaryColor: kPrimaryColor,
-                                          dotSecondaryColor: kSecondaryColor),
-                                      isLiked: false,
-                                      onTap: (isLoves) async {
-                                        return null;
-                                      },
-                                      likeBuilder: ((isLoves) {
-                                        return SvgPicture.asset(
-                                          height:
-                                              getProportionateScreenHeight(15),
-                                          "assets/icons/love.svg",
-                                          color: isLoves
-                                              ? Colors.red
-                                              : Colors.grey,
-                                        );
-                                      }),
-                                    ),
-                                    Text(
-                                      "${boom.boom.reactions.loves.length}",
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
+                                      Text(
+                                        "${boom.boom.reactions.likes.length}",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    LikeButton(
-                                      animationDuration:
-                                          const Duration(milliseconds: 600),
-                                      size: getProportionateScreenHeight(26),
-                                      bubblesColor: const BubblesColor(
-                                          dotPrimaryColor: kPrimaryColor,
-                                          dotSecondaryColor: kSecondaryColor),
-                                      isLiked: false,
-                                      onTap: (isSmiles) async {
-                                        return null;
-                                      },
-                                      likeBuilder: ((isSmiles) {
-                                        return CachedNetworkImage(
-                                          height:
-                                              getProportionateScreenHeight(22),
-                                          imageUrl:
-                                              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
-                                        );
-                                      }),
-                                    ),
-                                    Text(
-                                      "${boom.boom.reactions.smiles.length}",
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      LikeButton(
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        size: getProportionateScreenHeight(22),
+                                        bubblesColor: const BubblesColor(
+                                            dotPrimaryColor: kPrimaryColor,
+                                            dotSecondaryColor: kSecondaryColor),
+                                        isLiked: boomController.isLoves,
+                                        onTap: (isLoves) async {
+                                          boomController.reactToBoom(
+                                              "loves", boomId);
+                                          return null;
+                                        },
+                                        likeBuilder: ((isLoves) {
+                                          return SvgPicture.asset(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    15),
+                                            "assets/icons/love.svg",
+                                            color: isLoves
+                                                ? Colors.red
+                                                : Colors.grey,
+                                          );
+                                        }),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    LikeButton(
+                                      Text(
+                                        "${boom.boom.reactions.loves.length}",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      LikeButton(
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        size: getProportionateScreenHeight(26),
+                                        bubblesColor: const BubblesColor(
+                                            dotPrimaryColor: kPrimaryColor,
+                                            dotSecondaryColor: kSecondaryColor),
+                                        isLiked: boomController.isSmiles,
+                                        onTap: (isSmiles) async {
+                                          boomController.reactToBoom(
+                                              "smiles", boomId);
+                                          return null;
+                                        },
+                                        likeBuilder: ((isSmiles) {
+                                          return CachedNetworkImage(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    22),
+                                            imageUrl:
+                                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
+                                          );
+                                        }),
+                                      ),
+                                      Text(
+                                        "${boom.boom.reactions.smiles.length}",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      LikeButton(
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          size:
+                                              getProportionateScreenHeight(20),
+                                          isLiked: boomController.isRebooms,
+                                          onTap: (isRebooms) async {
+                                            boomController.reactToBoom(
+                                                "rebooms", boomId);
+                                            return null;
+                                          },
+                                          bubblesColor: const BubblesColor(
+                                              dotPrimaryColor: kPrimaryColor,
+                                              dotSecondaryColor:
+                                                  kSecondaryColor),
+                                          likeBuilder: (isRebooms) {
+                                            return SvgPicture.asset(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      18),
+                                              "assets/icons/reboom.svg",
+                                            );
+                                          }),
+                                      Text(
+                                        "${boom.boom.reactions.rebooms.length}",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      LikeButton(
                                         animationDuration:
                                             const Duration(milliseconds: 600),
                                         size: getProportionateScreenHeight(20),
-                                        isLiked: false,
-                                        onTap: (isRebooms) async {
+                                        onTap: (_) async {
+                                          Get.snackbar(
+                                            "Hang in there.",
+                                            "Shipping soon..",
+                                            backgroundColor: kPrimaryColor,
+                                            snackPosition: SnackPosition.TOP,
+                                            colorText: Colors.black,
+                                            overlayBlur: 5.0,
+                                            margin: EdgeInsets.only(
+                                              top: SizeConfig.screenHeight *
+                                                  0.05,
+                                              left:
+                                                  SizeConfig.screenWidth * 0.05,
+                                              right:
+                                                  SizeConfig.screenWidth * 0.05,
+                                            ),
+                                          );
                                           return null;
                                         },
                                         bubblesColor: const BubblesColor(
                                             dotPrimaryColor: kPrimaryColor,
                                             dotSecondaryColor: kSecondaryColor),
-                                        likeBuilder: (isRebooms) {
-                                          return SvgPicture.asset(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    18),
-                                            "assets/icons/reboom.svg",
+                                        likeBuilder: ((isLiked) {
+                                          return Icon(
+                                            MdiIcons.alert,
+                                            color: isLiked
+                                                ? kYellowTextColor
+                                                : Colors.grey,
                                           );
                                         }),
-                                    Text(
-                                      "${boom.boom.reactions.rebooms.length}",
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    LikeButton(
-                                      animationDuration:
-                                          const Duration(milliseconds: 600),
-                                      size: getProportionateScreenHeight(20),
-                                      onTap: (_) async {
-                                        Get.snackbar(
-                                          "Hang in there.",
-                                          "Shipping soon..",
-                                          backgroundColor: kPrimaryColor,
-                                          snackPosition: SnackPosition.TOP,
-                                          colorText: Colors.black,
-                                          overlayBlur: 5.0,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.screenHeight * 0.05,
-                                            left: SizeConfig.screenWidth * 0.05,
-                                            right:
-                                                SizeConfig.screenWidth * 0.05,
-                                          ),
-                                        );
-                                        return null;
-                                      },
-                                      bubblesColor: const BubblesColor(
-                                          dotPrimaryColor: kPrimaryColor,
-                                          dotSecondaryColor: kSecondaryColor),
-                                      likeBuilder: ((isLiked) {
-                                        return Icon(
-                                          MdiIcons.alert,
-                                          color: isLiked
-                                              ? kYellowTextColor
-                                              : Colors.grey,
-                                        );
-                                      }),
-                                    ),
-                                    Text(
-                                      boom.boom.reactions.reports.length
-                                          .toString(),
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    LikeButton(
-                                      animationDuration:
-                                          const Duration(milliseconds: 600),
-                                      size: getProportionateScreenHeight(20),
-                                      onTap: (_) async {
-                                        Get.snackbar(
-                                          "Hang in there.",
-                                          "Shipping soon..",
-                                          backgroundColor: kPrimaryColor,
-                                          snackPosition: SnackPosition.TOP,
-                                          colorText: Colors.black,
-                                          overlayBlur: 5.0,
-                                          margin: EdgeInsets.only(
-                                            top: SizeConfig.screenHeight * 0.05,
-                                            left: SizeConfig.screenWidth * 0.05,
-                                            right:
-                                                SizeConfig.screenWidth * 0.05,
-                                          ),
-                                        );
-                                        return null;
-                                      },
-                                      bubblesColor: const BubblesColor(
-                                          dotPrimaryColor: kPrimaryColor,
-                                          dotSecondaryColor: kSecondaryColor),
-                                      likeBuilder: ((isLiked) {
-                                        return const Icon(
-                                          MdiIcons.chatOutline,
-                                          size: 22,
-                                        );
-                                      }),
-                                    ),
-                                    Text(
-                                      "${boom.boom.comments.length}",
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(15),
-                            ),
-
-                            //Add Comment Field
-
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(12.0),
-                                fillColor: const Color(0xFFF8F8F8),
-                                filled: true,
-                                hintText: boom.boom.comments.isEmpty
-                                    ? "No comments yet. Be the first"
-                                    : "Type a Comment...",
-                                // prefixIcon: IconButton(
-                                //   icon: const Icon(
-                                //     MdiIcons.cameraOutline,
-                                //     color: Color(0xFF454C4D),
-                                //   ),
-                                //   onPressed: () {},
-                                // ),
-                                suffixIcon: SizedBox(
-                                  width: getProportionateScreenWidth(100),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: const [
-                                      Icon(
-                                        MdiIcons.send,
-                                        color: Color(0xFF454C4D),
+                                      Text(
+                                        boom.boom.reactions.reports.length
+                                            .toString(),
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black45,
-                                    width: 0.2,
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      LikeButton(
+                                        animationDuration:
+                                            const Duration(milliseconds: 600),
+                                        size: getProportionateScreenHeight(20),
+                                        onTap: (_) async {
+                                          Get.snackbar(
+                                            "Hang in there.",
+                                            "Shipping soon..",
+                                            backgroundColor: kPrimaryColor,
+                                            snackPosition: SnackPosition.TOP,
+                                            colorText: Colors.black,
+                                            overlayBlur: 5.0,
+                                            margin: EdgeInsets.only(
+                                              top: SizeConfig.screenHeight *
+                                                  0.05,
+                                              left:
+                                                  SizeConfig.screenWidth * 0.05,
+                                              right:
+                                                  SizeConfig.screenWidth * 0.05,
+                                            ),
+                                          );
+                                          return null;
+                                        },
+                                        bubblesColor: const BubblesColor(
+                                            dotPrimaryColor: kPrimaryColor,
+                                            dotSecondaryColor: kSecondaryColor),
+                                        likeBuilder: ((isLiked) {
+                                          return const Icon(
+                                            MdiIcons.chatOutline,
+                                            size: 22,
+                                          );
+                                        }),
+                                      ),
+                                      Text(
+                                        "${boom.boom.comments.length}",
+                                        style: TextStyle(
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black45,
-                                    width: 0.2,
+                                ],
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(15),
+                              ),
+
+                              //Add Comment Field
+
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(12.0),
+                                  fillColor: const Color(0xFFF8F8F8),
+                                  filled: true,
+                                  hintText: boom.boom.comments.isEmpty
+                                      ? "No comments yet. Be the first"
+                                      : "Type a Comment...",
+                                  // prefixIcon: IconButton(
+                                  //   icon: const Icon(
+                                  //     MdiIcons.cameraOutline,
+                                  //     color: Color(0xFF454C4D),
+                                  //   ),
+                                  //   onPressed: () {},
+                                  // ),
+                                  suffixIcon: SizedBox(
+                                    width: getProportionateScreenWidth(100),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: const [
+                                        Icon(
+                                          MdiIcons.send,
+                                          color: Color(0xFF454C4D),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                    color: Colors.black45,
-                                    width: 0.2,
+                                  border: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Colors.black45,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  borderRadius: BorderRadius.circular(8),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Colors.black45,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Colors.black45,
+                                      width: 0.2,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(5),
-                            ),
-
-                            //View Comments Section
-
-                            Expanded(
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: boom.boom.comments.length,
-                                itemBuilder: (context, index) {
-                                  return SingleComment(
-                                    comment: boom.boom.comments[index].message,
-                                    userName: boom.boom.comments[index].user,
-                                    createdAt: boom
-                                        .boom.comments[index].createdAt
-                                        .toString(),
-                                    imageUrl:
-                                        "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
-                                  );
-                                },
+                              SizedBox(
+                                height: getProportionateScreenHeight(5),
                               ),
-                            ),
-                          ],
+
+                              //View Comments Section
+
+                              Expanded(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: boom.boom.comments.length,
+                                  itemBuilder: (context, index) {
+                                    return SingleComment(
+                                      comment:
+                                          boom.boom.comments[index].message,
+                                      userName: boom.boom.comments[index].user,
+                                      createdAt: boom
+                                          .boom.comments[index].createdAt
+                                          .toString(),
+                                      imageUrl:
+                                          "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

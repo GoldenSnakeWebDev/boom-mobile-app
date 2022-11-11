@@ -50,6 +50,7 @@ class MainScreenController extends GetxController {
     final res = await repo.fetchCurrUser(token);
     if (res.statusCode == 200) {
       user = User.fromJson(jsonDecode(res.body)["user"]);
+      box.write("userId", user!.id);
       // CustomSnackBar.showCustomSnackBar(
       //     errorList: ["User Details Fetched"],
       //     msg: ["Success"],
