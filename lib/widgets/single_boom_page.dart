@@ -109,6 +109,17 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         // height: getProportionateScreenHeight(200),
                                         width: SizeConfig.screenWidth,
                                         imageUrl: boom.boom.imageUrl,
+                                        errorWidget: (context, url, error) =>
+                                            Container(
+                                          height:
+                                              getProportionateScreenHeight(200),
+                                          width: SizeConfig.screenWidth,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                         fit: BoxFit.cover,
                                       ),
                               ),

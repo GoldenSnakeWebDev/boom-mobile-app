@@ -48,6 +48,10 @@ class SingleBoomWidget extends StatelessWidget {
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
                     imageUrl: post.network.imageUrl,
+                    errorWidget: (context, url, error) => SvgPicture.asset(
+                      'assets/images/Error.svg',
+                      height: getProportionateScreenHeight(20),
+                    ),
                     fit: BoxFit.cover,
                   ),
                   SizedBox(
@@ -98,6 +102,21 @@ class SingleBoomWidget extends StatelessWidget {
                             height: getProportionateScreenHeight(200),
                             width: SizeConfig.screenWidth,
                             imageUrl: post.imgUrl,
+                            placeholder: (context, url) => SizedBox(
+                              height: getProportionateScreenHeight(200),
+                              width: SizeConfig.screenWidth,
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              height: getProportionateScreenHeight(200),
+                              width: SizeConfig.screenWidth,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.grey,
+                              ),
+                            ),
                             fit: BoxFit.cover,
                           ),
                         ),
