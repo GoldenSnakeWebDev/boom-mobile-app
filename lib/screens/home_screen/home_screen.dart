@@ -222,12 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       5),
                                                             ),
                                                             Text(
-                                                              ctrllr
-                                                                  .tales![index]
-                                                                  .user
-                                                                  .toString()
-                                                                  .substring(
-                                                                      0, 5),
+                                                              "${ctrllr.tales?[index].user?.username}",
                                                               style: TextStyle(
                                                                 fontSize:
                                                                     getProportionateScreenHeight(
