@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/tales/controllers/camera_controller.dart';
 import 'package:boom_mobile/screens/tales/ui/edit_tale_image.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -72,7 +73,10 @@ class CaptureTaleScreen extends GetView<TalesController> {
                       XFile? capturedImage =
                           await value.cameraController?.takePicture();
                       File file = File(capturedImage!.path);
-                      Get.to(() => EditTaleImage(imageFile: file));
+                      Get.to(
+                        () => EditTaleImage(imageFile: file),
+                        binding: AppBindings(),
+                      );
                     },
                     child: Container(
                       width: getProportionateScreenWidth(55),

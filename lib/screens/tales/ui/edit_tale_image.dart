@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
+import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +10,10 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class EditTaleImage extends StatelessWidget {
   final File imageFile;
-  const EditTaleImage({Key? key, required this.imageFile}) : super(key: key);
+  EditTaleImage({Key? key, required this.imageFile}) : super(key: key);
+
+  final _talesEpicsController = Get.find<TalesEpicsController>();
+  final _uploadController = Get.find<EditProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +160,16 @@ class EditTaleImage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            // TODO: Upload tale image
+                            var imgURL = await _uploadController.uploadPhoto(
+                                imageFile, "Image Uploaded");
+
+                            var result =
+                                await _talesEpicsController.postTale(imgURL);
+                            // if (result != null) {
                             Get.to(() => const MainScreen());
+                            // }
                           },
                           child: Container(
                             decoration: const BoxDecoration(
