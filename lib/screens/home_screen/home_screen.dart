@@ -53,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
                         children: [
-
                           GetBuilder<TalesEpicsController>(
                               init: TalesEpicsController(),
                               builder: (ctrllr) => Obx(
@@ -115,9 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             56),
                                                                         height:
                                                                             getProportionateScreenHeight(56),
-                                                                        imageUrl:
-                                                                            mainController.user?.photo ??
-                                                                                "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                                        imageUrl: mainController.user!.photo.isNotEmpty
+                                                                            ? mainController.user!.photo
+                                                                            : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
                                                                         fit: BoxFit
                                                                             .cover,
                                                                       ),
@@ -154,7 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               )
                                                             ],
                                                           ),
-
                                                         ),
                                                       )
                                                     : Container(
