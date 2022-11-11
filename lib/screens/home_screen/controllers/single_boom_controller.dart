@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
+import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 class SingleBoomController extends GetxController {
   final box = GetStorage();
@@ -15,6 +19,7 @@ class SingleBoomController extends GetxController {
   bool isLoves = false;
   bool isSmiles = false;
   bool isRebooms = false;
+  TextEditingController commentController = TextEditingController();
 
   Future<bool> reactToBoom(String reactType, String boomId) async {
     log("$reactType to $boomId");
@@ -55,6 +60,32 @@ class SingleBoomController extends GetxController {
       if (item.id == userId) {
         isRebooms = true;
       }
+    }
+  }
+
+  commentOnPost(String text, String boomId) async {
+    String token = box.read("token");
+    log("Comment Message $text");
+    Map<String, dynamic> body = {
+      "message": text,
+    };
+    var res = await http.post(Uri.parse("${baseURL}booms/$boomId/comments"),
+        headers: {
+          "Authorization": token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode(body));
+    if (res.statusCode == 200) {
+      log("Boom Commented On");
+      log("message: ${res.body}");
+      commentController.clear();
+    } else {
+      log(res.body);
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Could not comment on Boom"],
+          msg: ["Error"],
+          isError: true);
     }
   }
 
