@@ -11,6 +11,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -55,16 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           GetBuilder<TalesEpicsController>(
                               init: TalesEpicsController(),
-                              builder: (ctrllr) => Obx(
-                                    () => (ctrllr.isLoading.value)
-                                        ? const Center(
-                                            child: CircularProgressIndicator(),
-                                          )
-                                        : SizedBox(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    80),
-                                            child: ListView.builder(
+                              builder: (ctrllr) => SizedBox(
+                                    height: getProportionateScreenHeight(80),
+                                    child: Obx(
+                                      () => (ctrllr.isLoading.value)
+                                          ? _buildTalesShimmer()
+                                          : ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: ctrllr.tales!.length,
                                               itemBuilder: (context, index) {
@@ -114,6 +111,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             56),
                                                                         height:
                                                                             getProportionateScreenHeight(56),
+                                                                        errorWidget: (context,
+                                                                                url,
+                                                                                error) =>
+                                                                            Image.network(
+                                                                          "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
                                                                         imageUrl:
                                                                             mainController.user?.photo ??
                                                                                 "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
@@ -237,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       );
                                               },
                                             ),
-                                          ),
+                                    ),
                                   )),
                           Divider(
                             color: Colors.grey.shade200,
@@ -297,6 +302,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
       },
+    );
+  }
+
+  _buildTalesShimmer() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: kPrimaryColor,
+      child: ListView.builder(
+        itemCount: 5,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, i) => Container(
+          height: getProportionateScreenHeight(40),
+          width: getProportionateScreenWidth(75),
+          margin: EdgeInsets.only(
+            right: getProportionateScreenWidth(10),
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white,
+          ),
+          child: const Text(""),
+        ),
+      ),
     );
   }
 }
