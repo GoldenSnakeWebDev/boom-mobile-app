@@ -18,7 +18,7 @@ class SingleBoomService {
     String token = box.read("token");
 
     while (true) {
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 0));
       try {
         var res = await http.get(
           Uri.parse("${baseURL}booms/$boomId"),

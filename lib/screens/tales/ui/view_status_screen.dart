@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ class ViewStatusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(imagesUrl.length.toString());
     return Scaffold(
         body: SafeArea(
       child: StoryPageView(
