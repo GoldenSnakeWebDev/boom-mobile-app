@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -165,11 +164,7 @@ class EditTaleImage extends StatelessWidget {
                             var imgURL = await _uploadController.uploadPhoto(
                                 imageFile, "Image Uploaded");
 
-                            var result =
-                                await _talesEpicsController.postTale(imgURL);
-                            // if (result != null) {
-                            Get.to(() => const MainScreen());
-                            // }
+                            await _talesEpicsController.postTale(imgURL);
                           },
                           child: Container(
                             decoration: const BoxDecoration(

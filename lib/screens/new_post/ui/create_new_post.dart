@@ -38,7 +38,9 @@ class CreateNewPost extends GetView<NewPostController> {
           centerTitle: true,
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                controller.connectWallet();
+              },
               child: Text(
                 "Import NFT",
                 style: TextStyle(
@@ -70,11 +72,22 @@ class CreateNewPost extends GetView<NewPostController> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 0, bottom: 20),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            "Text NFT",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(13),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(5),
+                          ),
                           TextFormField(
                             minLines: 3,
                             maxLines: 6,
-                            maxLength: 130,
+                            maxLength: 320,
                             controller: controller.boomText,
                             decoration: InputDecoration(
                               counterStyle: TextStyle(
@@ -102,28 +115,18 @@ class CreateNewPost extends GetView<NewPostController> {
                             ),
                           ),
                           SizedBox(
-                            height: getProportionateScreenHeight(15),
+                            height: getProportionateScreenHeight(10),
                           ),
-                          // Text(
-                          //   controller.pickedImage != null
-                          //       ? controller.pickedImage!.path
-                          //       : "Upload File",
-                          //   style: TextStyle(
-                          //       fontSize: getProportionateScreenHeight(15),
-                          //       fontWeight: FontWeight.w900,
-                          //       color: Colors.black),
-                          // ),
-                          // SizedBox(
-                          //   height: getProportionateScreenHeight(5),
-                          // ),
-                          // Text(
-                          //   "Accepted file types (JPG, PNG, MOV, MP4, GIF)",
-                          //   style: TextStyle(
-                          //       fontSize: getProportionateScreenHeight(12),
-                          //       color: Colors.grey,
-                          //       fontWeight: FontWeight.w600),
-                          // ),
-
+                          Text(
+                            "OR",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(12),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(5),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -270,6 +273,12 @@ class CreateNewPost extends GetView<NewPostController> {
                   ),
                   TextFormField(
                     controller: controller.quantity,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter number of versions";
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(4),
                       hintText: "Enter number of copies you want to create",
@@ -319,16 +328,32 @@ class CreateNewPost extends GetView<NewPostController> {
                   ),
                   TextFormField(
                     controller: controller.price,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter price";
+                      } else if (double.parse(value) < 5) {
+                        return "Price must be greater than \$5";
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(4),
-                      hintText: "40\$ price for one piece",
+                      hintText: "Price (min. listing price is \$5)",
                       hintStyle: TextStyle(
                         fontSize: getProportionateScreenHeight(12),
+                      ),
+                      prefix: Text(
+                        "\$",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(12),
+                          color: Colors.black,
+                        ),
                       ),
                       filled: true,
                       fillColor: Colors.white,
                       suffixIcon: SizedBox(
-                        width: SizeConfig.screenWidth * 0.42,
+                        width: SizeConfig.screenWidth * 0.45,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -348,29 +373,46 @@ class CreateNewPost extends GetView<NewPostController> {
                                 fontSize: getProportionateScreenHeight(12),
                               ),
                             ),
-                            Expanded(
-                              child: DropdownButton(
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down_circle_outlined,
-                                    color: Colors.grey,
-                                    size: 24,
-                                  ),
-                                  underline: const SizedBox(),
-                                  style: const TextStyle(color: Colors.black),
-                                  items: controller.networks.map((e) {
-                                    return DropdownMenuItem(
+                            DropdownButton(
+                                icon: const Icon(
+                                  Icons.arrow_drop_down_circle_outlined,
+                                  color: Colors.grey,
+                                  size: 24,
+                                ),
+                                underline: const SizedBox(),
+                                style: const TextStyle(color: Colors.black),
+                                items: controller.networks.map((e) {
+                                  return DropdownMenuItem(
                                       value: e,
-                                      child: Text(
-                                        e,
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    controller.changeChain(value!);
-                                  }),
-                            ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          CachedNetworkImage(
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    16),
+                                            imageUrl: e.imageUrl,
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(4),
+                                          ),
+                                          Text(
+                                            e.symbol,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      12),
+                                            ),
+                                          )
+                                        ],
+                                      ));
+                                }).toList(),
+                                onChanged: (value) {
+                                  controller.changeChain(value!.symbol);
+                                }),
                           ],
                         ),
                       ),
@@ -490,6 +532,35 @@ class CreateNewPost extends GetView<NewPostController> {
                               contentPadding: const EdgeInsets.all(4),
                               hintText:
                                   "Enter some description about your post",
+                              hintStyle: TextStyle(
+                                fontSize: getProportionateScreenHeight(12),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6.0),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade100,
+                                  width: 0.1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(20),
+                          ),
+                          Text(
+                            "Location",
+                            style: TextStyle(
+                                fontSize: getProportionateScreenHeight(13),
+                                fontWeight: FontWeight.w900),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(10),
+                          ),
+                          TextFormField(
+                            controller: controller.tags,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(4),
+                              // hintText: "Enter title about your art",
                               hintStyle: TextStyle(
                                 fontSize: getProportionateScreenHeight(12),
                               ),

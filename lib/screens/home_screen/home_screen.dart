@@ -47,10 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.white,
                 appBar: const CustomAppBar(),
                 body: SafeArea(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      await controller.fetchAllBooms();
+                  child: GestureDetector(
+                    onHorizontalDragStart: (details) {
+                      // details.globalPosition.dx > SizeConfig.screenWidth / 2
+                      //     ? Get.to(() => const CaptureTaleScreen())
+                      //     : null;
+
+                      Get.to(() => const CaptureTaleScreen());
                     },
+
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
@@ -96,17 +101,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     shape: BoxShape
                                                                         .circle,
                                                                   ),
+
                                                                   child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            2.0),
+                                                                      Container(
+                                                                    width:
+                                                                        getProportionateScreenHeight(
+                                                                            60),
+                                                                    height:
+                                                                        getProportionateScreenHeight(
+                                                                            60),
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10),
+                                                                        border: ctrllr.talesByUser[index].containsKey(controller.userId)
+                                                                            ? Border.all(
+                                                                                color: kPrimaryColor,
+                                                                                width: 1.5)
+                                                                            : null),
                                                                     child:
-                                                                        ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12),
+                                                                        Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              2.0),
                                                                       child:
+
                                                                           CachedNetworkImage(
                                                                         width: getProportionateScreenWidth(
                                                                             56),
@@ -127,40 +146,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                                                         fit: BoxFit
                                                                             .cover,
+
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              const Positioned(
-                                                                bottom: 20,
-                                                                right: 17,
-                                                                child: Icon(
-                                                                  MdiIcons
-                                                                      .plusCircle,
-                                                                  size: 18,
-                                                                  color: Colors
-                                                                      .blueAccent,
-                                                                ),
-                                                              ),
-                                                              Positioned(
-                                                                bottom: 5,
-                                                                left: 10,
-                                                                child: Text(
-                                                                  "Your Tale",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        getProportionateScreenHeight(
-                                                                            12),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
+                                                                Visibility(
+                                                                  visible: !ctrllr
+                                                                      .talesByUser[
+                                                                          index]
+                                                                      .containsKey(
+                                                                          controller
+                                                                              .userId),
+                                                                  child:
+                                                                      const Positioned(
+                                                                    bottom: 20,
+                                                                    right: 17,
+                                                                    child: Icon(
+                                                                      MdiIcons
+                                                                          .plusCircle,
+                                                                      size: 18,
+                                                                      color: Colors
+                                                                          .blueAccent,
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              )
-                                                            ],
+                                                                Positioned(
+                                                                  bottom: 5,
+                                                                  left: 10,
+                                                                  child: Text(
+                                                                    "Your Tale",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          getProportionateScreenHeight(
+                                                                              12),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
                                                           ),
+
                                                         ),
                                                       )
                                                     : GestureDetector(
@@ -179,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           );
                                                         },
                                                         child: Container(
+
                                                           margin:
                                                               const EdgeInsets
                                                                       .only(
@@ -231,7 +262,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               10),
                                                                       image: DecorationImage(
                                                                           image: NetworkImage(
+
                                                                             ctrllr.tales![index].imageUrl.toString(),
+
                                                                           ),
                                                                           fit: BoxFit.cover),
                                                                     ),
@@ -244,7 +277,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         5),
                                                               ),
                                                               Text(
+
                                                                 "${ctrllr.tales?[index].user?.username}",
+
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize:
@@ -257,6 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ),
                                                             ],
                                                           ),
+
                                                         ),
                                                       );
                                               },
@@ -282,15 +318,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SingleBoomPost boomPost = controller
                                           .getSingleBoomDetails(index);
 
-                                      return SingleBoomWidget(
-                                        post: boomPost,
-                                        controller: controller,
-                                        boomId: controller.homeBooms![index].id,
-                                      );
-                                    },
+
+                                        return SingleBoomWidget(
+                                          post: boomPost,
+                                          controller: controller,
+                                          boomId:
+                                              controller.homeBooms![index].id,
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
