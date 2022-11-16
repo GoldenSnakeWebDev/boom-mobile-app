@@ -3,6 +3,7 @@ import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
+import 'package:boom_mobile/screens/tales/ui/view_status_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
@@ -54,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
                         children: [
-
                           GetBuilder<TalesEpicsController>(
                               init: TalesEpicsController(),
                               builder: (ctrllr) => SizedBox(
@@ -159,87 +159,102 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               )
                                                             ],
                                                           ),
-
                                                         ),
                                                       )
-                                                    : Container(
-                                                        margin: const EdgeInsets
-                                                            .only(right: 17),
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              width:
-                                                                  getProportionateScreenHeight(
-                                                                      60),
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      60),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: index %
-                                                                              2 ==
-                                                                          0
-                                                                      ? Colors
-                                                                          .grey
-                                                                      : kPrimaryColor,
-                                                                  width: 1.5,
+                                                    : GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                            () =>
+                                                                ViewStatusScreen(
+                                                              imagesUrl: [
+                                                                ctrllr
+                                                                    .tales![
+                                                                        index]
+                                                                    .imageUrl
+                                                                    .toString()
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 17),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                width:
+                                                                    getProportionateScreenHeight(
+                                                                        60),
+                                                                height:
+                                                                    getProportionateScreenHeight(
+                                                                        60),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: index %
+                                                                                2 ==
+                                                                            0
+                                                                        ? Colors
+                                                                            .grey
+                                                                        : kPrimaryColor,
+                                                                    width: 1.5,
+                                                                  ),
+                                                                  // shape: BoxShape.circle,
                                                                 ),
-                                                                // shape: BoxShape.circle,
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        2.0),
-                                                                child:
-                                                                    Container(
-                                                                  width:
-                                                                      getProportionateScreenWidth(
-                                                                          56),
-                                                                  height:
-                                                                      getProportionateScreenHeight(
-                                                                          56),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    // shape: BoxShape.circle,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(
-                                                                          ctrllr
-                                                                              .tales![index]
-                                                                              .imageUrl
-                                                                              .toString(),
-                                                                        ),
-                                                                        fit: BoxFit.cover),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          2.0),
+                                                                  child:
+                                                                      Container(
+                                                                    width:
+                                                                        getProportionateScreenWidth(
+                                                                            56),
+                                                                    height:
+                                                                        getProportionateScreenHeight(
+                                                                            56),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      // shape: BoxShape.circle,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      image: DecorationImage(
+                                                                          image: NetworkImage(
+                                                                            ctrllr.tales![index].imageUrl.toString(),
+                                                                          ),
+                                                                          fit: BoxFit.cover),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      5),
-                                                            ),
-                                                            Text(
-                                                              "${ctrllr.tales?[index].user?.username}",
-                                                              style: TextStyle(
-                                                                fontSize:
+                                                              SizedBox(
+                                                                height:
                                                                     getProportionateScreenHeight(
-                                                                        12),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
+                                                                        5),
                                                               ),
-                                                            ),
-                                                          ],
+                                                              Text(
+                                                                "${ctrllr.tales?[index].user?.username}",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      getProportionateScreenHeight(
+                                                                          12),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       );
                                               },
