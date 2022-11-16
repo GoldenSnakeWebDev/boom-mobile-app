@@ -100,10 +100,13 @@ dependencies:
   #s
   share_plus: ^4.5.2
   shimmer: ^2.0.0
+  story: ^0.8.0
 
   #t
+  tezart: ^2.0.5
 
   #u
+  url_launcher: ^6.1.6
 
   #v
   video_player: ^2.4.7
@@ -113,8 +116,9 @@ dependencies:
   wallet_connect: ^1.0.4
   web3dart: ^2.4.1
   walletconnect_dart: ^0.0.11
-  url_launcher: ^6.1.6
   
+  
+
   
 
 dev_dependencies:

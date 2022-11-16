@@ -22,6 +22,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  ansicolor:
+    dependency: transitive
+    description:
+      name: ansicolor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   args:
     dependency: transitive
     description:
@@ -36,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
+  bip39:
+    dependency: transitive
+    description:
+      name: bip39
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   boolean_selector:
     dependency: transitive
     description:
@@ -43,6 +57,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+
   buffer:
     dependency: transitive
     description:
@@ -50,6 +65,14 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+
+  bs58check:
+    dependency: transitive
+    description:
+      name: bs58check
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   build:
     dependency: transitive
     description:
@@ -246,6 +269,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+
   eip55:
     dependency: transitive
     description:
@@ -253,6 +277,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.6"
+
   equatable:
     dependency: transitive
     description:
@@ -260,6 +293,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+
   eth_sig_util:
     dependency: "direct main"
     description:
@@ -267,6 +301,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.9"
+
   fake_async:
     dependency: transitive
     description:
@@ -597,6 +632,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.6996"
+  memoize:
+    dependency: transitive
+    description:
+      name: memoize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   meta:
     dependency: transitive
     description:
@@ -611,6 +653,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   octo_image:
     dependency: transitive
     description:
@@ -744,6 +793,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  pinenacl:
+    dependency: transitive
+    description:
+      name: pinenacl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.4"
   platform:
     dependency: transitive
     description:
@@ -772,6 +828,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.1"
+  pretty_dio_logger:
+    dependency: transitive
+    description:
+      name: pretty_dio_logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0-beta-1"
   process:
     dependency: transitive
     description:
@@ -779,6 +842,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.4"
   pub_semver:
     dependency: transitive
     description:
@@ -797,6 +867,13 @@ packages:
     dependency: transitive
     description:
       name: quiver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
+  retry:
+    dependency: transitive
+    description:
+      name: retry
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.0"
@@ -917,6 +994,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  story:
+    dependency: "direct main"
+    description:
+      name: story
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.0"
   stream_channel:
     dependency: transitive
     description:
@@ -959,6 +1043,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.12"
+  tezart:
+    dependency: "direct main"
+    description:
+      name: tezart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   timing:
     dependency: transitive
     description:

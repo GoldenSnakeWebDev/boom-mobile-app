@@ -3,6 +3,7 @@ import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
+import 'package:boom_mobile/screens/tales/ui/view_status_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
@@ -11,6 +12,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -53,59 +55,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       Get.to(() => const CaptureTaleScreen());
                     },
-                    child: RefreshIndicator(
-                      onRefresh: () async {
-                        await controller.fetchAllBooms();
-                        await TalesEpicsController().fetchTales();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          children: [
-                            GetBuilder<TalesEpicsController>(
-                                init: TalesEpicsController(),
-                                builder: (ctrllr) => Obx(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
+                          GetBuilder<TalesEpicsController>(
+                              init: TalesEpicsController(),
+                              builder: (ctrllr) => SizedBox(
+                                    height: getProportionateScreenHeight(80),
+                                    child: Obx(
                                       () => (ctrllr.isLoading.value)
-                                          ? const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            )
-                                          : SizedBox(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      80),
-                                              child: ListView.builder(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                itemCount:
-                                                    ctrllr.talesByUser.length,
-                                                itemBuilder: (context, index) {
-                                                  return ctrllr
-                                                          .talesByUser[index]
-                                                          .containsKey(
-                                                              controller.userId)
-                                                      ? GestureDetector(
-                                                          onTap: () async {
-                                                            ctrllr.talesByUser[
-                                                                        index]
-                                                                    .containsKey(
-                                                                        controller
-                                                                            .userId)
-                                                                ? null
-                                                                : Get.to(() =>
-                                                                    const CaptureTaleScreen());
-                                                          },
-                                                          child: SizedBox(
-                                                            height:
-                                                                getProportionateScreenHeight(
-                                                                    70),
-                                                            width:
-                                                                getProportionateScreenWidth(
-                                                                    75),
-                                                            child: Stack(
-                                                              children: [
-                                                                Positioned(
-                                                                  top: 0,
+                                          ? _buildTalesShimmer()
+                                          : ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: ctrllr.tales!.length,
+                                              itemBuilder: (context, index) {
+                                                return index == 0
+                                                    ? GestureDetector(
+                                                        onTap: () async {
+                                                          Get.to(() =>
+                                                              const CaptureTaleScreen());
+                                                        },
+                                                        child: SizedBox(
+                                                          height:
+                                                              getProportionateScreenHeight(
+                                                                  70),
+                                                          width:
+                                                              getProportionateScreenWidth(
+                                                                  75),
+                                                          child: Stack(
+                                                            children: [
+                                                              Positioned(
+                                                                top: 0,
+                                                                child:
+                                                                    Container(
+                                                                  width:
+                                                                      getProportionateScreenHeight(
+                                                                          60),
+                                                                  height:
+                                                                      getProportionateScreenHeight(
+                                                                          60),
+                                                                  decoration:
+                                                                      const BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+
                                                                   child:
                                                                       Container(
                                                                     width:
@@ -129,21 +125,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           const EdgeInsets.all(
                                                                               2.0),
                                                                       child:
-                                                                          ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10),
-                                                                        child:
-                                                                            CachedNetworkImage(
-                                                                          width:
-                                                                              getProportionateScreenWidth(56),
-                                                                          height:
-                                                                              getProportionateScreenHeight(56),
-                                                                          imageUrl: ctrllr.talesByUser[index].containsKey(controller.userId)
-                                                                              ? ctrllr.tales![index].imageUrl.toString()
-                                                                              : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+
+                                                                          CachedNetworkImage(
+                                                                        width: getProportionateScreenWidth(
+                                                                            56),
+                                                                        height:
+                                                                            getProportionateScreenHeight(56),
+
+                                                                        errorWidget: (context,
+                                                                                url,
+                                                                                error) =>
+                                                                            Image.network(
+                                                                          "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
                                                                           fit: BoxFit
                                                                               .cover,
                                                                         ),
+                                                                        imageUrl:
+                                                                            mainController.user?.photo ??
+                                                                                "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+
+                                                                        fit: BoxFit
+                                                                            .cover,
+
                                                                       ),
                                                                     ),
                                                                   ),
@@ -187,8 +190,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ],
                                                             ),
                                                           ),
-                                                        )
-                                                      : Container(
+
+                                                        ),
+                                                      )
+                                                    : GestureDetector(
+                                                        onTap: () {
+                                                          Get.to(
+                                                            () =>
+                                                                ViewStatusScreen(
+                                                              imagesUrl: [
+                                                                ctrllr
+                                                                    .tales![
+                                                                        index]
+                                                                    .imageUrl
+                                                                    .toString()
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Container(
+
                                                           margin:
                                                               const EdgeInsets
                                                                       .only(
@@ -241,7 +262,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               10),
                                                                       image: DecorationImage(
                                                                           image: NetworkImage(
-                                                                            ctrllr.talesByUser[index].entries.first.value[0].imageUrl.toString(),
+
+                                                                            ctrllr.tales![index].imageUrl.toString(),
+
                                                                           ),
                                                                           fit: BoxFit.cover),
                                                                     ),
@@ -254,7 +277,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         5),
                                                               ),
                                                               Text(
-                                                                "${ctrllr.talesByUser[index].entries.first.value[0].user!.username}",
+
+                                                                "${ctrllr.tales?[index].user?.username}",
+
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize:
@@ -267,29 +292,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ),
                                                             ],
                                                           ),
-                                                        );
-                                                },
-                                              ),
+
+                                                        ),
+                                                      );
+                                              },
                                             ),
-                                    )),
-                            Divider(
-                              color: Colors.grey.shade200,
-                              thickness: 1,
-                            ),
-                            (controller.homeBooms!.isEmpty)
-                                ? const Center(
-                                    child: Text("No Booms available",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold)),
-                                  )
-                                : Expanded(
-                                    child: ListView.builder(
-                                      itemCount: controller.homeBooms!.length,
-                                      itemBuilder: (context, index) {
-                                        SingleBoomPost boomPost = controller
-                                            .getSingleBoomDetails(index);
+                                    ),
+                                  )),
+                          Divider(
+                            color: Colors.grey.shade200,
+                            thickness: 1,
+                          ),
+                          (controller.homeBooms!.isEmpty)
+                              ? const Center(
+                                  child: Text("No Booms available",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                )
+                              : Expanded(
+                                  child: ListView.builder(
+                                    itemCount: controller.homeBooms!.length,
+                                    itemBuilder: (context, index) {
+                                      SingleBoomPost boomPost = controller
+                                          .getSingleBoomDetails(index);
+
 
                                         return SingleBoomWidget(
                                           post: boomPost,
@@ -308,6 +336,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
       },
+    );
+  }
+
+  _buildTalesShimmer() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: kPrimaryColor,
+      child: ListView.builder(
+        itemCount: 5,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, i) => Container(
+          height: getProportionateScreenHeight(40),
+          width: getProportionateScreenWidth(75),
+          margin: EdgeInsets.only(
+            right: getProportionateScreenWidth(10),
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.white,
+          ),
+          child: const Text(""),
+        ),
+      ),
     );
   }
 }
