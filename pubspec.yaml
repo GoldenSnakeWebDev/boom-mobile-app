@@ -110,6 +110,7 @@ dependencies:
   intl: ^0.17.0
   wallet_connect: ^1.0.4
   shimmer: ^2.0.0
+  story: ^0.8.0
   
 
 dev_dependencies:
