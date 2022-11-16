@@ -110,6 +110,8 @@ dependencies:
   intl: ^0.17.0
   wallet_connect: ^1.0.4
   shimmer: ^2.0.0
+  web3dart: ^2.4.1
+  eth_sig_util: ^0.0.9
   
 
 dev_dependencies:

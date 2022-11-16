@@ -56,7 +56,7 @@ class TalesService {
         }),
       );
       log('Post tale response >> ${response.body}');
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final postStatusModel = postStatusModelFromJson(response.body);
         EasyLoading.showSuccess("${postStatusModel.message}");
         return postStatusModel.statusData;

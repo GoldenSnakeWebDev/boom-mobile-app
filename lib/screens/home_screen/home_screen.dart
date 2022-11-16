@@ -45,228 +45,263 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.white,
                 appBar: const CustomAppBar(),
                 body: SafeArea(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      await controller.fetchAllBooms();
+                  child: GestureDetector(
+                    onHorizontalDragStart: (details) {
+                      // details.globalPosition.dx > SizeConfig.screenWidth / 2
+                      //     ? Get.to(() => const CaptureTaleScreen())
+                      //     : null;
+
+                      Get.to(() => const CaptureTaleScreen());
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        children: [
-                          GetBuilder<TalesEpicsController>(
-                              init: TalesEpicsController(),
-                              builder: (ctrllr) => Obx(
-                                    () => (ctrllr.isLoading.value)
-                                        ? const Center(
-                                            child: CircularProgressIndicator(),
-                                          )
-                                        : SizedBox(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    80),
-                                            child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: ctrllr.tales!.length,
-                                              itemBuilder: (context, index) {
-                                                return index == 0
-                                                    ? GestureDetector(
-                                                        onTap: () async {
-                                                          Get.to(() =>
-                                                              const CaptureTaleScreen());
-                                                        },
-                                                        child: SizedBox(
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  70),
-                                                          width:
-                                                              getProportionateScreenWidth(
-                                                                  75),
-                                                          child: Stack(
-                                                            children: [
-                                                              Positioned(
-                                                                top: 0,
-                                                                child:
-                                                                    Container(
-                                                                  width:
-                                                                      getProportionateScreenHeight(
-                                                                          60),
-                                                                  height:
-                                                                      getProportionateScreenHeight(
-                                                                          60),
-                                                                  decoration:
-                                                                      const BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                  ),
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        await controller.fetchAllBooms();
+                        await TalesEpicsController().fetchTales();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          children: [
+                            GetBuilder<TalesEpicsController>(
+                                init: TalesEpicsController(),
+                                builder: (ctrllr) => Obx(
+                                      () => (ctrllr.isLoading.value)
+                                          ? const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : SizedBox(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      80),
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount:
+                                                    ctrllr.talesByUser.length,
+                                                itemBuilder: (context, index) {
+                                                  return ctrllr
+                                                          .talesByUser[index]
+                                                          .containsKey(
+                                                              controller.userId)
+                                                      ? GestureDetector(
+                                                          onTap: () async {
+                                                            ctrllr.talesByUser[
+                                                                        index]
+                                                                    .containsKey(
+                                                                        controller
+                                                                            .userId)
+                                                                ? null
+                                                                : Get.to(() =>
+                                                                    const CaptureTaleScreen());
+                                                          },
+                                                          child: SizedBox(
+                                                            height:
+                                                                getProportionateScreenHeight(
+                                                                    70),
+                                                            width:
+                                                                getProportionateScreenWidth(
+                                                                    75),
+                                                            child: Stack(
+                                                              children: [
+                                                                Positioned(
+                                                                  top: 0,
                                                                   child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            2.0),
+                                                                      Container(
+                                                                    width:
+                                                                        getProportionateScreenHeight(
+                                                                            60),
+                                                                    height:
+                                                                        getProportionateScreenHeight(
+                                                                            60),
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10),
+                                                                        border: ctrllr.talesByUser[index].containsKey(controller.userId)
+                                                                            ? Border.all(
+                                                                                color: kPrimaryColor,
+                                                                                width: 1.5)
+                                                                            : null),
                                                                     child:
-                                                                        ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12),
+                                                                        Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              2.0),
                                                                       child:
-                                                                          CachedNetworkImage(
-                                                                        width: getProportionateScreenWidth(
-                                                                            56),
-                                                                        height:
-                                                                            getProportionateScreenHeight(56),
-                                                                        imageUrl: mainController.user!.photo.isNotEmpty
-                                                                            ? mainController.user!.photo
-                                                                            : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
-                                                                        fit: BoxFit
-                                                                            .cover,
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
+                                                                        child:
+                                                                            CachedNetworkImage(
+                                                                          width:
+                                                                              getProportionateScreenWidth(56),
+                                                                          height:
+                                                                              getProportionateScreenHeight(56),
+                                                                          imageUrl: ctrllr.talesByUser[index].containsKey(controller.userId)
+                                                                              ? ctrllr.tales![index].imageUrl.toString()
+                                                                              : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                              const Positioned(
-                                                                bottom: 20,
-                                                                right: 17,
-                                                                child: Icon(
-                                                                  MdiIcons
-                                                                      .plusCircle,
-                                                                  size: 18,
-                                                                  color: Colors
-                                                                      .blueAccent,
-                                                                ),
-                                                              ),
-                                                              Positioned(
-                                                                bottom: 5,
-                                                                left: 10,
-                                                                child: Text(
-                                                                  "Your Tale",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        getProportionateScreenHeight(
-                                                                            12),
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
+                                                                Visibility(
+                                                                  visible: !ctrllr
+                                                                      .talesByUser[
+                                                                          index]
+                                                                      .containsKey(
+                                                                          controller
+                                                                              .userId),
+                                                                  child:
+                                                                      const Positioned(
+                                                                    bottom: 20,
+                                                                    right: 17,
+                                                                    child: Icon(
+                                                                      MdiIcons
+                                                                          .plusCircle,
+                                                                      size: 18,
+                                                                      color: Colors
+                                                                          .blueAccent,
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                              )
+                                                                Positioned(
+                                                                  bottom: 5,
+                                                                  left: 10,
+                                                                  child: Text(
+                                                                    "Your Tale",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          getProportionateScreenHeight(
+                                                                              12),
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 17),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                width:
+                                                                    getProportionateScreenHeight(
+                                                                        60),
+                                                                height:
+                                                                    getProportionateScreenHeight(
+                                                                        60),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: index %
+                                                                                2 ==
+                                                                            0
+                                                                        ? Colors
+                                                                            .grey
+                                                                        : kPrimaryColor,
+                                                                    width: 1.5,
+                                                                  ),
+                                                                  // shape: BoxShape.circle,
+                                                                ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          2.0),
+                                                                  child:
+                                                                      Container(
+                                                                    width:
+                                                                        getProportionateScreenWidth(
+                                                                            56),
+                                                                    height:
+                                                                        getProportionateScreenHeight(
+                                                                            56),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      // shape: BoxShape.circle,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      image: DecorationImage(
+                                                                          image: NetworkImage(
+                                                                            ctrllr.talesByUser[index].entries.first.value[0].imageUrl.toString(),
+                                                                          ),
+                                                                          fit: BoxFit.cover),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height:
+                                                                    getProportionateScreenHeight(
+                                                                        5),
+                                                              ),
+                                                              Text(
+                                                                "${ctrllr.talesByUser[index].entries.first.value[0].user!.username}",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize:
+                                                                      getProportionateScreenHeight(
+                                                                          12),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
-                                                        ),
-                                                      )
-                                                    : Container(
-                                                        margin: const EdgeInsets
-                                                            .only(right: 17),
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              width:
-                                                                  getProportionateScreenHeight(
-                                                                      60),
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      60),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: index %
-                                                                              2 ==
-                                                                          0
-                                                                      ? Colors
-                                                                          .grey
-                                                                      : kPrimaryColor,
-                                                                  width: 1.5,
-                                                                ),
-                                                                // shape: BoxShape.circle,
-                                                              ),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        2.0),
-                                                                child:
-                                                                    Container(
-                                                                  width:
-                                                                      getProportionateScreenWidth(
-                                                                          56),
-                                                                  height:
-                                                                      getProportionateScreenHeight(
-                                                                          56),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    // shape: BoxShape.circle,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    image: DecorationImage(
-                                                                        image: NetworkImage(
-                                                                          ctrllr
-                                                                              .tales![index]
-                                                                              .imageUrl
-                                                                              .toString(),
-                                                                        ),
-                                                                        fit: BoxFit.cover),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height:
-                                                                  getProportionateScreenHeight(
-                                                                      5),
-                                                            ),
-                                                            Text(
-                                                              "${ctrllr.tales?[index].user?.username}",
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    getProportionateScreenHeight(
-                                                                        12),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      );
-                                              },
+                                                        );
+                                                },
+                                              ),
                                             ),
-                                          ),
-                                  )),
-                          Divider(
-                            color: Colors.grey.shade200,
-                            thickness: 1,
-                          ),
-                          (controller.homeBooms!.isEmpty)
-                              ? const Center(
-                                  child: Text("No Booms available",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold)),
-                                )
-                              : Expanded(
-                                  child: ListView.builder(
-                                    itemCount: controller.homeBooms!.length,
-                                    itemBuilder: (context, index) {
-                                      SingleBoomPost boomPost = controller
-                                          .getSingleBoomDetails(index);
+                                    )),
+                            Divider(
+                              color: Colors.grey.shade200,
+                              thickness: 1,
+                            ),
+                            (controller.homeBooms!.isEmpty)
+                                ? const Center(
+                                    child: Text("No Booms available",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold)),
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                      itemCount: controller.homeBooms!.length,
+                                      itemBuilder: (context, index) {
+                                        SingleBoomPost boomPost = controller
+                                            .getSingleBoomDetails(index);
 
-                                      return SingleBoomWidget(
-                                        post: boomPost,
-                                        controller: controller,
-                                        boomId: controller.homeBooms![index].id,
-                                      );
-                                    },
+                                        return SingleBoomWidget(
+                                          post: boomPost,
+                                          controller: controller,
+                                          boomId:
+                                              controller.homeBooms![index].id,
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

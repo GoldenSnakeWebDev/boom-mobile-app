@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:boom_mobile/models/fetch_status_model.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/tales/services/tales_service.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ class TalesEpicsController extends GetxController {
 
   List<Status>? _tales;
   List<Status>? get tales => _tales;
+  final List<Map<String, List<Status>>> talesByUser = [];
 
   var isLoading = false.obs;
 
@@ -19,6 +21,7 @@ class TalesEpicsController extends GetxController {
   @override
   void onInit() async {
     fetchTales();
+
     update();
     super.onInit();
   }
@@ -27,12 +30,48 @@ class TalesEpicsController extends GetxController {
   Future<dynamic> fetchTales() async {
     setLoading(true);
     var talesRess = await _talesService.fetchTales();
-    log("talesRess ::: $talesRess");
+    // log("talesRess ::: $talesRess");
     setLoading(false);
     if (talesRess != null) {
       _tales = [...talesRess];
+      filterStatuses();
       update();
     }
+  }
+
+  filterStatuses() {
+    talesByUser.add({
+      _tales![0].user!.id.toString(): [_tales![0]]
+    });
+
+    for (var item in _tales!) {
+      var isExist = false;
+      for (var user in talesByUser) {
+        if (user.containsKey(item.user!.id.toString())) {
+          user[item.user!.id.toString()]!.add(item);
+          isExist = true;
+        }
+      }
+      if (!isExist) {
+        talesByUser.add({
+          item.user!.id.toString(): [item]
+        });
+      }
+    }
+
+    // for (var i = 0; i < _tales!.length; i++) {
+    //   if (talesByUser[i].containsKey(_tales![i].user!.id.toString())) {
+    //     talesByUser[i][_tales![i].user!.id.toString()]!.add(_tales![i]);
+    //   } else {
+    //     talesByUser.add({
+    //       _tales![i].user!.id.toString(): [_tales![i]]
+    //     });
+    //   }
+    // }
+
+    log("talesByUser ::: ${talesByUser[1]["636a2c62a59ab2d87f220cd7"]}");
+
+    update();
   }
 
   // postTale
@@ -41,8 +80,10 @@ class TalesEpicsController extends GetxController {
     var postTaleRess = await _talesService.postTale(imageUrl);
     setLoading(false);
     if (postTaleRess != null) {
-      _tales?.insert(0, postTaleRess);
+      // _tales?.insert(0, postTaleRess);
+
       update();
+      Get.to(() => const MainScreen());
     }
   }
 }

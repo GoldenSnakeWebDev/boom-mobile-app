@@ -12,8 +12,13 @@ import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_cont
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wallet_connect/models/jsonrpc/json_rpc_request.dart';
+import 'package:wallet_connect/wallet_connect.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:http/http.dart' as http;
 
 enum POST_TYPE { image, video, text }
 
@@ -33,9 +38,19 @@ class NewPostController extends GetxController {
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   String? selectedNetwork;
   Network? selectedNetworkModel;
-  List<String> networks = [];
+  List<Network> networks = [];
   final igController = Get.find<InstagramWebController>();
+  late WCClient wcClient;
+  late InAppWebViewController webViewController;
+  late String walletAddress, privateKey;
+  bool isWalletConnected = false;
+  WCSessionStore? sessionStore;
 
+  String rpc =
+      'wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae';
+  final web3Client = Web3Client(
+      "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae",
+      http.Client());
   @override
   void onInit() {
     super.onInit();
@@ -43,12 +58,53 @@ class NewPostController extends GetxController {
     selectedNetworkModel = networkModel!.networks[0];
     networks.clear();
     for (var element in networkModel!.networks) {
-      networks.add(element.symbol);
+      networks.add(element);
     }
     // image = null;
     // pickedImage = null;
 
     log("Ig Post ${igController.selectedIgMedia?.id}");
+  }
+
+  connectWallet() {
+    wcClient = WCClient(
+      onSessionRequest: (number, peerData) {
+        log("Session Request");
+      },
+      onFailure: (message) {
+        log("Failure");
+      },
+      onDisconnect: (code, reason) {
+        log("Disconnect");
+      },
+      onEthSign: (id, message) {
+        log("Eth Sign");
+      },
+      onEthSignTransaction: (id, transaction) {
+        log("Eth Sign Transaction");
+      },
+      onConnect: () {
+        log("Connected");
+        isWalletConnected = true;
+        update();
+      },
+      onCustomRequest: (number, peerData) {
+        log("Session Update");
+      },
+      onWalletSwitchNetwork: (id, chainId) {
+        log("Wallet Switch Network");
+      },
+    );
+    final rpcReq = JsonRpcRequest.fromJson({
+      "jsonrpc": "2.0",
+      "id": 1666695490479571,
+      "method": "eth_accounts",
+      "params": [
+        {"chainId": "0x1"}
+      ],
+    });
+
+    log(rpcReq.toJson().toString());
   }
 
   changeChain(String value) {
