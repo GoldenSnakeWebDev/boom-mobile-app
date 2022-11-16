@@ -55,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       Get.to(() => const CaptureTaleScreen());
                     },
-
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
@@ -101,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     shape: BoxShape
                                                                         .circle,
                                                                   ),
-
                                                                   child:
                                                                       Container(
                                                                     width:
@@ -125,13 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           const EdgeInsets.all(
                                                                               2.0),
                                                                       child:
-
                                                                           CachedNetworkImage(
                                                                         width: getProportionateScreenWidth(
                                                                             56),
                                                                         height:
                                                                             getProportionateScreenHeight(56),
-
                                                                         errorWidget: (context,
                                                                                 url,
                                                                                 error) =>
@@ -143,54 +139,51 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         imageUrl:
                                                                             mainController.user?.photo ??
                                                                                 "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
-
                                                                         fit: BoxFit
                                                                             .cover,
-
                                                                       ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                                Visibility(
-                                                                  visible: !ctrllr
-                                                                      .talesByUser[
-                                                                          index]
-                                                                      .containsKey(
-                                                                          controller
-                                                                              .userId),
-                                                                  child:
-                                                                      const Positioned(
-                                                                    bottom: 20,
-                                                                    right: 17,
-                                                                    child: Icon(
-                                                                      MdiIcons
-                                                                          .plusCircle,
-                                                                      size: 18,
-                                                                      color: Colors
-                                                                          .blueAccent,
-                                                                    ),
+                                                              ),
+                                                              Visibility(
+                                                                visible: !ctrllr
+                                                                    .talesByUser[
+                                                                        index]
+                                                                    .containsKey(
+                                                                        controller
+                                                                            .userId),
+                                                                child:
+                                                                    const Positioned(
+                                                                  bottom: 20,
+                                                                  right: 17,
+                                                                  child: Icon(
+                                                                    MdiIcons
+                                                                        .plusCircle,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .blueAccent,
                                                                   ),
                                                                 ),
-                                                                Positioned(
-                                                                  bottom: 5,
-                                                                  left: 10,
-                                                                  child: Text(
-                                                                    "Your Tale",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              12),
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
+                                                              ),
+                                                              Positioned(
+                                                                bottom: 5,
+                                                                left: 10,
+                                                                child: Text(
+                                                                  "Your Tale",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        getProportionateScreenHeight(
+                                                                            12),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                   ),
-                                                                )
-                                                              ],
-                                                            ),
+                                                                ),
+                                                              )
+                                                            ],
                                                           ),
-
                                                         ),
                                                       )
                                                     : GestureDetector(
@@ -209,7 +202,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           );
                                                         },
                                                         child: Container(
-
                                                           margin:
                                                               const EdgeInsets
                                                                       .only(
@@ -262,9 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               10),
                                                                       image: DecorationImage(
                                                                           image: NetworkImage(
-
                                                                             ctrllr.tales![index].imageUrl.toString(),
-
                                                                           ),
                                                                           fit: BoxFit.cover),
                                                                     ),
@@ -277,9 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         5),
                                                               ),
                                                               Text(
-
                                                                 "${ctrllr.tales?[index].user?.username}",
-
                                                                 style:
                                                                     TextStyle(
                                                                   fontSize:
@@ -292,7 +280,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               ),
                                                             ],
                                                           ),
-
                                                         ),
                                                       );
                                               },
@@ -318,18 +305,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SingleBoomPost boomPost = controller
                                           .getSingleBoomDetails(index);
 
-
-                                        return SingleBoomWidget(
-                                          post: boomPost,
-                                          controller: controller,
-                                          boomId:
-                                              controller.homeBooms![index].id,
-                                        );
-                                      },
-                                    ),
+                                      return SingleBoomWidget(
+                                        post: boomPost,
+                                        controller: controller,
+                                        boomId: controller.homeBooms![index].id,
+                                      );
+                                    },
                                   ),
-                          ],
-                        ),
+                                ),
+                        ],
                       ),
                     ),
                   ),
