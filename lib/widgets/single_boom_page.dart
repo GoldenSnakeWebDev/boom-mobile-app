@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boom_mobile/screens/home_screen/controllers/single_boom_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
+import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_shimmer.dart';
@@ -140,39 +141,49 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 children: [
                                   Row(
                                     children: [
-                                      Column(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                            child: CachedNetworkImage(
+                                      GestureDetector(
+                                        onTap: () {
+                                          Get.to(
+                                            () =>
+                                                const OtherUserProfileScreen(),
+                                            arguments: boom.boom.user,
+                                          );
+                                        },
+                                        child: Column(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
+                                              child: CachedNetworkImage(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        45),
+                                                width:
+                                                    getProportionateScreenHeight(
+                                                        45),
+                                                imageUrl: boom.boom.user.photo
+                                                        .isNotEmpty
+                                                    ? boom.boom.user.photo
+                                                    : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            SizedBox(
                                               height:
                                                   getProportionateScreenHeight(
-                                                      45),
-                                              width:
-                                                  getProportionateScreenHeight(
-                                                      45),
-                                              imageUrl: boom.boom.user.photo
-                                                      .isNotEmpty
-                                                  ? boom.boom.user.photo
-                                                  : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
-                                              fit: BoxFit.cover,
+                                                      5),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height:
-                                                getProportionateScreenHeight(5),
-                                          ),
-                                          Text(
-                                            "!${boom.boom.user.username}",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  getProportionateScreenHeight(
-                                                      11),
-                                              fontWeight: FontWeight.w800,
-                                            ),
-                                          )
-                                        ],
+                                            Text(
+                                              "!${boom.boom.user.username}",
+                                              style: TextStyle(
+                                                fontSize:
+                                                    getProportionateScreenHeight(
+                                                        11),
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       SizedBox(
                                         width: getProportionateScreenWidth(8),

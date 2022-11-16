@@ -112,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             56),
                                                                         height:
                                                                             getProportionateScreenHeight(56),
+
                                                                         errorWidget: (context,
                                                                                 url,
                                                                                 error) =>
@@ -123,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         imageUrl:
                                                                             mainController.user?.photo ??
                                                                                 "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+
                                                                         fit: BoxFit
                                                                             .cover,
                                                                       ),
