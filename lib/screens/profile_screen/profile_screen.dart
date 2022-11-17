@@ -206,8 +206,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ),
                                                 const Spacer(),
                                                 GestureDetector(
-                                                  onTap: () => Get.to(() =>
-                                                      const EditProfile()),
+                                                  onTap: () => Get.to(
+                                                      () => const EditProfile(),
+                                                      arguments: user),
                                                   child: const Icon(
                                                     MdiIcons.accountEditOutline,
                                                     size: 24,
@@ -330,47 +331,88 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         MainAxisAlignment
                                                             .spaceEvenly,
                                                     children: [
-                                                      InkWell(
+                                                      GestureDetector(
                                                         onTap: () async {
-                                                          _launchSocial(
-                                                            "https://twitter.com/",
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .twitter,
+                                                            ),
                                                           );
                                                         },
-                                                        child: const Icon(
+                                                        child: Icon(
                                                           MdiIcons.twitter,
                                                           size: 18,
-                                                          color:
-                                                              Colors.blueAccent,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .twitter
+                                                                  .isEmpty
+                                                              ? Colors.black26
+                                                              : Colors
+                                                                  .blueAccent,
                                                         ),
                                                       ),
-                                                      InkWell(
+                                                      GestureDetector(
                                                         onTap: () async {
-                                                          _launchSocial(
-                                                            "https://www.facebook.com/",
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .facebook,
+                                                            ),
                                                           );
                                                         },
-                                                        child: const Icon(
+                                                        child: Icon(
                                                           MdiIcons.facebook,
                                                           size: 18,
-                                                          color: Colors.blue,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .facebook
+                                                                  .isEmpty
+                                                              ? Colors.grey
+                                                              : Colors.blue,
                                                         ),
                                                       ),
-                                                      InkWell(
+                                                      GestureDetector(
                                                         onTap: () async {
-                                                          _launchSocial(
-                                                            "https://www.instagram.com/",
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .instagram,
+                                                            ),
                                                           );
                                                         },
-                                                        child: const Icon(
+                                                        child: Icon(
                                                           MdiIcons.instagram,
                                                           size: 18,
-                                                          color: Colors
-                                                              .purpleAccent,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .twitter
+                                                                  .isEmpty
+                                                              ? Colors.black26
+                                                              : Colors
+                                                                  .purpleAccent,
                                                         ),
                                                       ),
-                                                      const Icon(
-                                                        MdiIcons.musicNote,
-                                                        size: 18,
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .tiktok,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Icon(
+                                                          MdiIcons.musicNote,
+                                                          size: 18,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .twitter
+                                                                  .isEmpty
+                                                              ? Colors.black26
+                                                              : Colors
+                                                                  .pinkAccent,
+                                                        ),
                                                       )
                                                     ],
                                                   ),
