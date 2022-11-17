@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:boom_mobile/models/fetch_tales_model.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +6,19 @@ import 'package:get/get.dart';
 import 'package:story/story.dart';
 
 class ViewStatusScreen extends StatelessWidget {
-  final List<String> imagesUrl;
+  final List<Statue>? imagesUrl;
   const ViewStatusScreen({super.key, required this.imagesUrl});
 
   @override
   Widget build(BuildContext context) {
-    log(imagesUrl.length.toString());
     return Scaffold(
         body: SafeArea(
       child: StoryPageView(
         itemBuilder: (context, pageIndex, storyIndex) {
-          final imageUrl = imagesUrl[storyIndex];
+          final imageUrl = imagesUrl![storyIndex].imageUrl;
           return Center(
               child: CachedNetworkImage(
-            imageUrl: imageUrl,
+            imageUrl: "$imageUrl",
             fit: BoxFit.cover,
             errorWidget: (context, url, error) => const Icon(Icons.error),
             placeholder: (context, url) => const Center(
@@ -29,10 +27,10 @@ class ViewStatusScreen extends StatelessWidget {
           ));
         },
         storyLength: (pageIndex) {
-          return imagesUrl.length;
+          return imagesUrl!.length;
         },
         indicatorVisitedColor: kPrimaryColor,
-        pageLength: imagesUrl.length,
+        pageLength: imagesUrl!.length,
         onPageLimitReached: () {
           Get.back();
         },
