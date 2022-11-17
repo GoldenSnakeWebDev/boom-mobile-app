@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -328,25 +329,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceEvenly,
-                                                    children: const [
-                                                      Icon(
-                                                        MdiIcons.twitter,
-                                                        size: 18,
-                                                        color:
-                                                            Colors.blueAccent,
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          _launchSocial(
+                                                            "https://twitter.com/",
+                                                          );
+                                                        },
+                                                        child: const Icon(
+                                                          MdiIcons.twitter,
+                                                          size: 18,
+                                                          color:
+                                                              Colors.blueAccent,
+                                                        ),
                                                       ),
-                                                      Icon(
-                                                        MdiIcons.facebook,
-                                                        size: 18,
-                                                        color: Colors.blue,
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          _launchSocial(
+                                                            "https://www.facebook.com/",
+                                                          );
+                                                        },
+                                                        child: const Icon(
+                                                          MdiIcons.facebook,
+                                                          size: 18,
+                                                          color: Colors.blue,
+                                                        ),
                                                       ),
-                                                      Icon(
-                                                        MdiIcons.instagram,
-                                                        size: 18,
-                                                        color:
-                                                            Colors.purpleAccent,
+                                                      InkWell(
+                                                        onTap: () async {
+                                                          _launchSocial(
+                                                            "https://www.instagram.com/",
+                                                          );
+                                                        },
+                                                        child: const Icon(
+                                                          MdiIcons.instagram,
+                                                          size: 18,
+                                                          color: Colors
+                                                              .purpleAccent,
+                                                        ),
                                                       ),
-                                                      Icon(
+                                                      const Icon(
                                                         MdiIcons.musicNote,
                                                         size: 18,
                                                       )
@@ -799,6 +821,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _launchSocial(String url) async {
+    var uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   _showComingSoon() {

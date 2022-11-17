@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/models/fetch_status_model.dart';
+import 'package:boom_mobile/models/fetch_tales_model.dart';
 import 'package:boom_mobile/models/post_status_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -24,6 +24,7 @@ class TalesService {
         Uri.parse('${baseURL}statuses?page=all'),
         headers: headers,
       );
+      log("tales response ::: ${response.body}");
       if (response.statusCode == 200) {
         final fetchStatusModel = fetchStatusModelFromJson(response.body);
 

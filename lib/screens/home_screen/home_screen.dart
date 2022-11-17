@@ -73,128 +73,151 @@ class _HomeScreenState extends State<HomeScreen> {
                                             (ctrllr.isLoading.value ||
                                                     controller.isLoading)
                                                 ? _buildTalesShimmer()
-                                                : ListView.builder(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemCount:
-                                                        ctrllr.tales!.length,
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      List<String> imUrls = [];
-                                                      for (var item
-                                                          in ctrllr.tales!) {
-                                                        imUrls.add(
-                                                            item.imageUrl!);
-                                                      }
-
-                                                      return index == 0
-                                                          ? GestureDetector(
-                                                              onTap: () async {
-                                                                Get.to(() =>
-                                                                    const CaptureTaleScreen());
-                                                              },
-                                                              child: SizedBox(
-                                                                height:
-                                                                    getProportionateScreenHeight(
-                                                                        70),
-                                                                width:
-                                                                    getProportionateScreenWidth(
-                                                                        75),
-                                                                child: Stack(
-                                                                  children: [
-                                                                    Positioned(
-                                                                      top: 0,
-                                                                      child:
-                                                                          Container(
-                                                                        width: getProportionateScreenHeight(
+                                                : Row(
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          Get.to(() =>
+                                                              const CaptureTaleScreen());
+                                                        },
+                                                        child: SizedBox(
+                                                          height:
+                                                              getProportionateScreenHeight(
+                                                                  70),
+                                                          width:
+                                                              getProportionateScreenWidth(
+                                                                  75),
+                                                          child: Stack(
+                                                            children: [
+                                                              Positioned(
+                                                                top: 0,
+                                                                child:
+                                                                    Container(
+                                                                  width:
+                                                                      getProportionateScreenHeight(
+                                                                          60),
+                                                                  height:
+                                                                      getProportionateScreenHeight(
+                                                                          60),
+                                                                  decoration:
+                                                                      const BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  child:
+                                                                      Container(
+                                                                    width:
+                                                                        getProportionateScreenHeight(
                                                                             60),
-                                                                        height:
-                                                                            getProportionateScreenHeight(60),
-                                                                        decoration:
-                                                                            const BoxDecoration(
-                                                                          shape:
-                                                                              BoxShape.circle,
-                                                                        ),
+                                                                    height:
+                                                                        getProportionateScreenHeight(
+                                                                            60),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      //
+                                                                    ),
+                                                                    child:
+                                                                        Padding(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                              2.0),
+                                                                      child:
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(10),
                                                                         child:
-                                                                            Container(
+                                                                            CachedNetworkImage(
                                                                           width:
-                                                                              getProportionateScreenHeight(60),
+                                                                              getProportionateScreenWidth(56),
                                                                           height:
-                                                                              getProportionateScreenHeight(60),
-                                                                          decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                              border: ctrllr.talesByUser[index].containsKey(controller.userId) ? Border.all(color: kPrimaryColor, width: 1.5) : null),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.all(2.0),
-                                                                            child:
-                                                                                ClipRRect(
-                                                                              borderRadius: BorderRadius.circular(10),
-                                                                              child: CachedNetworkImage(
-                                                                                width: getProportionateScreenWidth(56),
-                                                                                height: getProportionateScreenHeight(56),
-                                                                                errorWidget: (context, url, error) => Image.network(
-                                                                                  "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
-                                                                                  fit: BoxFit.cover,
-                                                                                ),
-                                                                                imageUrl: mainController.user?.photo ?? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
-                                                                                fit: BoxFit.cover,
-                                                                              ),
-                                                                            ),
+                                                                              getProportionateScreenHeight(56),
+                                                                          errorWidget: (context, url, error) =>
+                                                                              Image.network(
+                                                                            "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                                            fit:
+                                                                                BoxFit.cover,
                                                                           ),
+                                                                          imageUrl:
+                                                                              mainController.user?.photo ?? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                                          fit: BoxFit
+                                                                              .cover,
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    Visibility(
-                                                                      visible: !ctrllr
-                                                                          .talesByUser[
-                                                                              index]
-                                                                          .containsKey(
-                                                                              controller.userId),
-                                                                      child:
-                                                                          const Positioned(
-                                                                        bottom:
-                                                                            20,
-                                                                        right:
-                                                                            17,
-                                                                        child:
-                                                                            Icon(
-                                                                          MdiIcons
-                                                                              .plusCircle,
-                                                                          size:
-                                                                              18,
-                                                                          color:
-                                                                              Colors.blueAccent,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Positioned(
-                                                                      bottom: 5,
-                                                                      left: 10,
-                                                                      child:
-                                                                          Text(
-                                                                        "Your Tale",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              getProportionateScreenHeight(12),
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  ],
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            )
-                                                          : GestureDetector(
+                                                              const Visibility(
+                                                                // visible: !ctrllr
+                                                                //     .talesByUser[
+                                                                //         index]
+                                                                //     .containsKey(
+                                                                //         controller.userId),
+                                                                child:
+                                                                    Positioned(
+                                                                  bottom: 20,
+                                                                  right: 17,
+                                                                  child: Icon(
+                                                                    MdiIcons
+                                                                        .plusCircle,
+                                                                    size: 18,
+                                                                    color: Colors
+                                                                        .blueAccent,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Positioned(
+                                                                bottom: 5,
+                                                                left: 10,
+                                                                child: Text(
+                                                                  "Your Tale",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        getProportionateScreenHeight(
+                                                                            12),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Expanded(
+                                                        child: ListView.builder(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          itemCount: ctrllr
+                                                              .tales!.length,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            List<String>
+                                                                imUrls = [];
+
+                                                            for (var item
+                                                                in ctrllr
+                                                                    .tales![
+                                                                        index]
+                                                                    .statues!) {
+                                                              imUrls.add(item
+                                                                  .imageUrl!);
+                                                            }
+
+                                                            return GestureDetector(
                                                               onTap: () {
                                                                 Get.to(
                                                                   () =>
                                                                       ViewStatusScreen(
-                                                                    imagesUrl:
-                                                                        imUrls,
+                                                                    imagesUrl: ctrllr
+                                                                        .tales![
+                                                                            index]
+                                                                        .statues,
                                                                   ),
                                                                 );
                                                               },
@@ -244,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 BorderRadius.circular(10),
                                                                             image: DecorationImage(
                                                                                 image: NetworkImage(
-                                                                                  ctrllr.tales![index].imageUrl.toString(),
+                                                                                  "${ctrllr.tales![index].statues![0].imageUrl}",
                                                                                 ),
                                                                                 fit: BoxFit.cover),
                                                                           ),
@@ -257,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                               5),
                                                                     ),
                                                                     Text(
-                                                                      "${ctrllr.tales?[index].user?.username}",
+                                                                      "${ctrllr.tales?[index].id}",
                                                                       style:
                                                                           TextStyle(
                                                                         fontSize:
@@ -270,7 +293,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 ),
                                                               ),
                                                             );
-                                                    },
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                       ),
                                     )),
