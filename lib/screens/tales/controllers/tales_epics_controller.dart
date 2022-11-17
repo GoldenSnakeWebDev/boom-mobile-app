@@ -35,6 +35,7 @@ class TalesEpicsController extends GetxController {
     if (talesRess != null) {
       _tales = [...talesRess];
       filterStatuses();
+      setLoading(false);
       update();
     }
   }

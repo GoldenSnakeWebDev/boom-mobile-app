@@ -68,6 +68,8 @@ class HomeController extends GetxController {
     for (var item in boom.reactions.likes) {
       if (item.id == userId) {
         isLiked = true;
+      } else {
+        isLiked = false;
       }
     }
     for (var item in boom.reactions.loves) {
