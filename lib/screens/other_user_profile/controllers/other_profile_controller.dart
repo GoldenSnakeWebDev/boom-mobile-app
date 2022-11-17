@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 
 import '../../home_screen/models/single_boom_model.dart';
@@ -13,11 +15,6 @@ class OtherUserProfileController extends GetxController {
   void onInit() {
     super.onInit();
     user = Get.arguments;
-    if (user!.bio.isEmpty) {
-      isNewUser = true;
-    }
-    if (user!.username == "Ani") {
-      isVerified = true;
-    }
+    log(user!.id);
   }
 }
