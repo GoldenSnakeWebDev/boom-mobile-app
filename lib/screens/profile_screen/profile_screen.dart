@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -205,8 +206,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 ),
                                                 const Spacer(),
                                                 GestureDetector(
-                                                  onTap: () => Get.to(() =>
-                                                      const EditProfile()),
+                                                  onTap: () => Get.to(
+                                                      () => const EditProfile(),
+                                                      arguments: user),
                                                   child: const Icon(
                                                     MdiIcons.accountEditOutline,
                                                     size: 24,
@@ -328,27 +330,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceEvenly,
-                                                    children: const [
-                                                      Icon(
-                                                        MdiIcons.twitter,
-                                                        size: 18,
-                                                        color:
-                                                            Colors.blueAccent,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .twitter,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Icon(
+                                                          MdiIcons.twitter,
+                                                          size: 18,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .twitter
+                                                                  .isEmpty
+                                                              ? Colors.black26
+                                                              : Colors
+                                                                  .blueAccent,
+                                                        ),
                                                       ),
-                                                      Icon(
-                                                        MdiIcons.facebook,
-                                                        size: 18,
-                                                        color: Colors.blue,
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .facebook,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Icon(
+                                                          MdiIcons.facebook,
+                                                          size: 18,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .facebook
+                                                                  .isEmpty
+                                                              ? Colors.grey
+                                                              : Colors.blue,
+                                                        ),
                                                       ),
-                                                      Icon(
-                                                        MdiIcons.instagram,
-                                                        size: 18,
-                                                        color:
-                                                            Colors.purpleAccent,
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .instagram,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Icon(
+                                                          MdiIcons.instagram,
+                                                          size: 18,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .twitter
+                                                                  .isEmpty
+                                                              ? Colors.black26
+                                                              : Colors
+                                                                  .purpleAccent,
+                                                        ),
                                                       ),
-                                                      Icon(
-                                                        MdiIcons.musicNote,
-                                                        size: 18,
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          await launchUrl(
+                                                            Uri.parse(
+                                                              user.socialMedia
+                                                                  .tiktok,
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Icon(
+                                                          MdiIcons.musicNote,
+                                                          size: 18,
+                                                          color: user
+                                                                  .socialMedia
+                                                                  .twitter
+                                                                  .isEmpty
+                                                              ? Colors.black26
+                                                              : Colors
+                                                                  .pinkAccent,
+                                                        ),
                                                       )
                                                     ],
                                                   ),

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +20,13 @@ class EditProfileController extends GetxController {
   TextEditingController usernameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  TextEditingController websiteController = TextEditingController();
+  TextEditingController twitterController = TextEditingController();
+  TextEditingController facebookController = TextEditingController();
+  TextEditingController instagramController = TextEditingController();
+  TextEditingController tiktokController = TextEditingController();
+
   final box = GetStorage();
-  final User? user = Get.find<MainScreenController>().user;
+  final User? user = Get.arguments([0]);
   final ImagePicker _picker = ImagePicker();
   XFile? headerImage;
   XFile? profileImage;
@@ -37,6 +40,10 @@ class EditProfileController extends GetxController {
     usernameController.text = user!.username;
     bioController.text = user!.bio;
     locationController.text = user!.location;
+    twitterController.text = user!.socialMedia.twitter;
+    facebookController.text = user!.socialMedia.facebook;
+    instagramController.text = user!.socialMedia.instagram;
+    tiktokController.text = user!.socialMedia.tiktok;
     super.onInit();
   }
 
@@ -132,6 +139,12 @@ class EditProfileController extends GetxController {
             // "website": websiteController.text,
             "photo": profileUrl,
             "cover": headerUrl,
+            "social_media": {
+              "facebook": "https://facebook.com/${facebookController.text}",
+              "twitter": "https://twitter.com/${twitterController.text}",
+              "instagram": "https://instagram.com/${instagramController.text}",
+              "tiktok": "https://tiktok.com./${tiktokController.text}",
+            },
           },
         ),
       );
@@ -155,7 +168,13 @@ class EditProfileController extends GetxController {
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,
-            "photo": profileUrl
+            "photo": profileUrl,
+            "social_media": {
+              "facebook": "https://facebook.com/${facebookController.text}",
+              "twitter": "https://twitter.com/${twitterController.text}",
+              "instagram": "https://instagram.com/${instagramController.text}",
+              "tiktok": "https://tiktok.com./${tiktokController.text}",
+            },
           },
         ),
       );
@@ -179,7 +198,13 @@ class EditProfileController extends GetxController {
             "bio": bioController.text,
             "location": locationController.text,
             // "website": websiteController.text,
-            "cover": headerUrl
+            "cover": headerUrl,
+            "social_media": {
+              "facebook": "https://facebook.com/${facebookController.text}",
+              "twitter": "https://twitter.com/${twitterController.text}",
+              "instagram": "https://instagram.com/${instagramController.text}",
+              "tiktok": "https://tiktok.com./${tiktokController.text}",
+            },
           },
         ),
       );
@@ -200,7 +225,12 @@ class EditProfileController extends GetxController {
             "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
-            // "website": websiteController.text,
+            "social_media": {
+              "facebook": "https://facebook.com/${facebookController.text}",
+              "twitter": "https://twitter.com/${twitterController.text}",
+              "instagram": "https://instagram.com/${instagramController.text}",
+              "tiktok": "https://tiktok.com./${tiktokController.text}",
+            },
           },
         ),
       );
