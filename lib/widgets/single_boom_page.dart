@@ -27,10 +27,11 @@ class SingleBoomPage extends StatefulWidget {
 }
 
 class _SingleBoomPageState extends State<SingleBoomPage> {
-  void _onShare(BuildContext context) async {
+  void _onShare(BuildContext context, String imgURL) async {
     final box = context.findRenderObject() as RenderBox;
 
-    await Share.share("You are sharing an NFT",
+    await Share.share(
+        "Hey there, check out this NFT $imgURL. To view this NFT on Boom, download the app from https://play.google.com/store/apps/details?id=com.boom.boom_mobile",
         subject: "NFT",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
@@ -222,7 +223,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           ),
                                           GestureDetector(
                                             onTap: () {
-                                              _onShare(context);
+                                              _onShare(
+                                                  context, boom.boom.imageUrl);
                                             },
                                             child: const Icon(
                                               MdiIcons.shareVariant,
@@ -245,7 +247,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             context: context,
                                             position: RelativeRect.fromLTRB(
                                               SizeConfig.screenWidth * 0.6,
-                                              SizeConfig.screenHeight * 0.65,
+                                              SizeConfig.screenHeight * 0.45,
                                               SizeConfig.screenWidth * 0.35,
                                               60,
                                             ),
@@ -259,6 +261,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             ),
                                             items: [
                                               PopupMenuItem(
+                                                onTap: () async {
+                                                  //Function to synthetically Mint the NFT
+                                                  await boomController
+                                                      .syntheticallyMintBoom(
+                                                          boom.boom.id);
+                                                },
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                     color: kBlueColor
@@ -281,6 +289,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                 ),
                                               ),
                                               PopupMenuItem(
+                                                onTap: () async {
+                                                  Get.snackbar("Hang in there",
+                                                      "We are working on this feature",
+                                                      backgroundColor:
+                                                          kPrimaryColor);
+                                                },
                                                 child: Container(
                                                   decoration: BoxDecoration(
                                                     color: kBlueColor
@@ -366,7 +380,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             ),
                                             position: RelativeRect.fromLTRB(
                                               SizeConfig.screenWidth,
-                                              SizeConfig.screenHeight * 0.6,
+                                              SizeConfig.screenHeight * 0.45,
                                               30,
                                               60,
                                             ),

@@ -11,6 +11,7 @@ import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,11 +25,15 @@ class OtherUserProfileScreen extends StatefulWidget {
 class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
   final ScrollController _scrollController = ScrollController();
   late String userId;
+  late String myUserId;
+  final box = GetStorage();
   @override
   void initState() {
     // Get.put(OtherUserProfileController());
     userId = Get.arguments;
+    myUserId = box.read("userId");
     super.initState();
+    Get.put(OtherUserProfileController());
   }
 
   final boomController = Get.find<HomeController>();
@@ -625,38 +630,46 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                     getProportionateScreenWidth(
                                                                         30),
                                                               ),
-                                                              Expanded(
-                                                                child:
-                                                                    GestureDetector(
-                                                                  onTap:
-                                                                      () async {},
+                                                              Visibility(
+                                                                visible: !user
+                                                                    .user
+                                                                    .followers
+                                                                    .contains(
+                                                                        myUserId),
+                                                                child: Expanded(
                                                                   child:
-                                                                      Container(
-                                                                    width:
-                                                                        getProportionateScreenWidth(
-                                                                            35),
-                                                                    height:
-                                                                        getProportionateScreenHeight(
-                                                                            25),
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                8),
-                                                                        border: Border.all(
-                                                                            color: Colors
-                                                                                .black12),
-                                                                        color:
-                                                                            kSecondaryColor),
-                                                                    child: Text(
-                                                                      "Follow",
-                                                                      style: TextStyle(
-                                                                          fontSize: getProportionateScreenHeight(
-                                                                              13),
-                                                                          fontWeight:
-                                                                              FontWeight.w600),
+                                                                      GestureDetector(
+                                                                    onTap:
+                                                                        () async {
+                                                                      await otherProfileService
+                                                                          .followUser(
+                                                                              myUserId);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      width:
+                                                                          getProportionateScreenWidth(
+                                                                              35),
+                                                                      height:
+                                                                          getProportionateScreenHeight(
+                                                                              25),
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                              8),
+                                                                          border:
+                                                                              Border.all(color: Colors.black12),
+                                                                          color: kSecondaryColor),
+                                                                      child:
+                                                                          Text(
+                                                                        "Follow",
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                getProportionateScreenHeight(13),
+                                                                            fontWeight: FontWeight.w600),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),

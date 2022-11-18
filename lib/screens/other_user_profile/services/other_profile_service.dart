@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_booms.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -36,6 +37,22 @@ class OtherProfileService {
     }
   }
 
+  followUser(String userId) async {
+    String token = box.read("token");
+    final res = await http.patch(
+      Uri.parse("${baseURL}friends/$userId"),
+      headers: {"Authorization": token},
+    );
+
+    if (res.statusCode == 200) {
+      log("Followed");
+    } else {
+      log(res.body);
+      log(res.statusCode.toString());
+      Get.snackbar("Error", "Could not follow user");
+    }
+  }
+
   Stream<OtherUserBooms?> fetchUserBooms(String userId) async* {
     String token = box.read("token");
 
@@ -49,7 +66,7 @@ class OtherProfileService {
             "Authorization": token,
           },
         );
-        log("Other Booms ${res.body}");
+
         if (res.statusCode == 200) {
           final booms = OtherUserBooms.fromJson(jsonDecode(res.body));
 

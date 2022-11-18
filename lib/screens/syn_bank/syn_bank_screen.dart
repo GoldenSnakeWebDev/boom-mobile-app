@@ -138,7 +138,7 @@ class SyntheticBankScreen extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: "\$${myCtrl.user!.syncBank.amountBalance}",
+                    text: "\$${myCtrl.user!.syncBank.amountBalance * 4}",
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w800,
@@ -174,25 +174,28 @@ class SyntheticBankScreen extends StatelessWidget {
             SizedBox(
               height: getProportionateScreenHeight(20),
             ),
-            Container(
-              width: SizeConfig.screenWidth,
-              height: getProportionateScreenHeight(40),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black38, width: 0.4),
-                borderRadius: BorderRadius.circular(4),
-                gradient: const LinearGradient(
-                  colors: [
-                    kPrimaryColor,
-                    kSecondaryColor,
-                  ],
+            GestureDetector(
+              onTap: () async {},
+              child: Container(
+                width: SizeConfig.screenWidth,
+                height: getProportionateScreenHeight(40),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black38, width: 0.4),
+                  borderRadius: BorderRadius.circular(4),
+                  gradient: const LinearGradient(
+                    colors: [
+                      kPrimaryColor,
+                      kSecondaryColor,
+                    ],
+                  ),
                 ),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                "Deposit",
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: getProportionateScreenHeight(15),
+                alignment: Alignment.center,
+                child: Text(
+                  "Deposit",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: getProportionateScreenHeight(15),
+                  ),
                 ),
               ),
             )

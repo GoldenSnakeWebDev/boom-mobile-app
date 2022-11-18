@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +24,35 @@ class SingleBoomController extends GetxController {
   bool isSmiles = false;
   bool isRebooms = false;
   TextEditingController commentController = TextEditingController();
+
+  syntheticallyMintBoom(String boomId) async {
+    EasyLoading.show(status: "Minting...");
+
+    final res = await http.post(
+      Uri.parse("${baseURL}by-booms-with-sync-coins"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": box.read("token"),
+      },
+      body: jsonEncode({
+        "boom": boomId,
+      }),
+    );
+    if (res.statusCode == 200) {
+      EasyLoading.dismiss();
+      Get.snackbar("Minting", "Boom successfully minted",
+          backgroundColor: kPrimaryColor);
+      Get.off(() => const MainScreen(), binding: AppBindings());
+    } else {
+      log(res.body);
+      log(boomId);
+      log(res.statusCode.toString());
+
+      EasyLoading.dismiss();
+      Get.snackbar("Minting", "Boom minting failed",
+          backgroundColor: kwarningColor1);
+    }
+  }
 
   Future<bool> reactToBoom(String reactType, String boomId) async {
     log("$reactType to $boomId");

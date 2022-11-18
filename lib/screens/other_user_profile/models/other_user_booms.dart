@@ -2,7 +2,6 @@
 //
 //     final otherUserBooms = otherUserBoomsFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 OtherUserBooms otherUserBoomsFromJson(String str) =>
@@ -389,7 +388,7 @@ class EnumValues<T> {
   EnumValues(this.map);
 
   Map<T, String> get reverse {
-    reverseMap ??= map.map((k, v) => MapEntry(v, k));
+    reverseMap;
     return reverseMap;
   }
 }

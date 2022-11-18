@@ -116,6 +116,7 @@ dependencies:
   wallet_connect: ^1.0.4
   web3dart: ^2.4.1
   walletconnect_dart: ^0.0.11
+  adapty_flutter: ^1.0.14
   
   
 
