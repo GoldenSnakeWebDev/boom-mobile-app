@@ -1,33 +1,36 @@
 // To parse this JSON data, do
 //
-//     final singleBoom = singleBoomFromJson(jsonString);
+//     final otherUserBooms = otherUserBoomsFromJson(jsonString);
 
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
-import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
+OtherUserBooms otherUserBoomsFromJson(String str) =>
+    OtherUserBooms.fromJson(json.decode(str));
 
-SingleBoom singleBoomFromJson(String str) =>
-    SingleBoom.fromJson(json.decode(str));
+String otherUserBoomsToJson(OtherUserBooms data) => json.encode(data.toJson());
 
-String singleBoomToJson(SingleBoom data) => json.encode(data.toJson());
-
-class SingleBoom {
-  SingleBoom({
+class OtherUserBooms {
+  OtherUserBooms({
     required this.status,
-    required this.boom,
+    required this.page,
+    required this.booms,
   });
 
   String status;
-  Boom boom;
+  Page page;
+  List<Boom> booms;
 
-  factory SingleBoom.fromJson(Map<String, dynamic> json) => SingleBoom(
+  factory OtherUserBooms.fromJson(Map<String, dynamic> json) => OtherUserBooms(
         status: json["status"],
-        boom: Boom.fromJson(json["boom"]),
+        page: Page.fromJson(json["page"]),
+        booms: List<Boom>.from(json["booms"].map((x) => Boom.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "boom": boom.toJson(),
+        "page": page.toJson(),
+        "booms": List<dynamic>.from(booms.map((x) => x.toJson())),
       };
 }
 
@@ -39,6 +42,7 @@ class Boom {
     required this.boomState,
     required this.isMinted,
     required this.description,
+    required this.location,
     required this.network,
     required this.comments,
     required this.user,
@@ -57,6 +61,7 @@ class Boom {
   String boomState;
   bool isMinted;
   String description;
+  String location;
   Network network;
   List<Comment> comments;
   User user;
@@ -75,6 +80,7 @@ class Boom {
         boomState: json["boom_state"],
         isMinted: json["is_minted"],
         description: json["description"],
+        location: json["location"],
         network: Network.fromJson(json["network"]),
         comments: List<Comment>.from(
             json["comments"].map((x) => Comment.fromJson(x))),
@@ -95,6 +101,7 @@ class Boom {
         "boom_state": boomState,
         "is_minted": isMinted,
         "description": description,
+        "location": location,
         "network": network.toJson(),
         "comments": List<dynamic>.from(comments.map((x) => x.toJson())),
         "user": user.toJson(),
@@ -118,7 +125,7 @@ class Comment {
     required this.id,
   });
 
-  UserClass user;
+  User user;
   String boom;
   String message;
   bool isActive;
@@ -126,7 +133,7 @@ class Comment {
   String id;
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-        user: UserClass.fromJson(json["user"]),
+        user: User.fromJson(json["user"]),
         boom: json["boom"],
         message: json["message"],
         isActive: json["is_active"],
@@ -135,7 +142,7 @@ class Comment {
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user,
+        "user": user.toJson(),
         "boom": boom,
         "message": message,
         "is_active": isActive,
@@ -144,74 +151,11 @@ class Comment {
       };
 }
 
-class Network {
-  Network({
-    required this.name,
-    required this.imageUrl,
-    required this.symbol,
-    required this.isActive,
-    required this.id,
-  });
-
-  String name;
-  String imageUrl;
-  String symbol;
-  bool isActive;
-  String id;
-
-  factory Network.fromJson(Map<String, dynamic> json) => Network(
-        name: json["name"],
-        imageUrl: json["image_url"],
-        symbol: json["symbol"],
-        isActive: json["is_active"],
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "image_url": imageUrl,
-        "symbol": symbol,
-        "is_active": isActive,
-        "id": id,
-      };
-}
-
-class Reactions {
-  Reactions({
-    required this.likes,
-    required this.loves,
-    required this.smiles,
-    required this.rebooms,
-    required this.reports,
-  });
-
-  List<User> likes;
-  List<User> loves;
-  List<User> smiles;
-  List<User> rebooms;
-  List<User> reports;
-
-  factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
-        likes: List<User>.from(json["likes"].map((x) => User.fromJson(x))),
-        loves: List<User>.from(json["loves"].map((x) => User.fromJson(x))),
-        smiles: List<User>.from(json["smiles"].map((x) => User.fromJson(x))),
-        rebooms: List<User>.from(json["rebooms"].map((x) => User.fromJson(x))),
-        reports: List<User>.from(json["reports"].map((x) => User.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "likes": List<dynamic>.from(likes.map((x) => x.toJson())),
-        "loves": List<dynamic>.from(loves.map((x) => x.toJson())),
-        "smiles": List<dynamic>.from(smiles.map((x) => x.toJson())),
-        "rebooms": List<dynamic>.from(rebooms.map((x) => x.toJson())),
-        "reports": List<dynamic>.from(reports.map((x) => x.toJson())),
-      };
-}
-
 class User {
   User({
     required this.passwordReset,
     required this.socialMedia,
+    required this.funs,
     required this.firstName,
     required this.lastName,
     required this.username,
@@ -227,11 +171,12 @@ class User {
     required this.isAdmin,
     required this.passwordResetToken,
     required this.syncBank,
-    required this.id,
+    this.id,
   });
 
   PasswordReset passwordReset;
   SocialMedia socialMedia;
+  List<dynamic> funs;
   String firstName;
   String lastName;
   String username;
@@ -247,11 +192,12 @@ class User {
   bool isAdmin;
   String passwordResetToken;
   String syncBank;
-  String id;
+  String? id;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
         socialMedia: SocialMedia.fromJson(json["social_media"]),
+        funs: List<dynamic>.from(json["funs"].map((x) => x)),
         firstName: json["first_name"],
         lastName: json["last_name"],
         username: json["username"],
@@ -273,21 +219,22 @@ class User {
   Map<String, dynamic> toJson() => {
         "password_reset": passwordReset.toJson(),
         "social_media": socialMedia.toJson(),
+        "funs": List<dynamic>.from(funs.map((x) => x)),
         "first_name": firstName,
         "last_name": lastName,
-        "username": username,
+        "username": usernameValues.reverse[username],
         "photo": photo,
         "cover": cover,
         "email": email,
         "bio": bio,
         "location": location,
-        "user_type": userType,
+        "user_type": userTypeValues.reverse[userType],
         "booms": List<dynamic>.from(booms.map((x) => x)),
         "followers": List<dynamic>.from(followers.map((x) => x)),
         "following": List<dynamic>.from(following.map((x) => x)),
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
-        "sync_bank": syncBank,
+        "sync_bank": syncBankValues.reverse[syncBank],
         "id": id,
       };
 }
@@ -334,4 +281,115 @@ class SocialMedia {
         "tiktok": tiktok,
         "facebook": facebook,
       };
+}
+
+enum SyncBank {
+  THE_636_B0_A691_FC509_CF468_A74_C2,
+  THE_636_A1_F40794_AADAE01_B8_AF71,
+  THE_636_A2_C62_A59_AB2_D87_F220_CD8,
+  THE_636_EB11_DB80_C9_F7627_DD84_B1
+}
+
+final syncBankValues = EnumValues({
+  "636a1f40794aadae01b8af71": SyncBank.THE_636_A1_F40794_AADAE01_B8_AF71,
+  "636a2c62a59ab2d87f220cd8": SyncBank.THE_636_A2_C62_A59_AB2_D87_F220_CD8,
+  "636b0a691fc509cf468a74c2": SyncBank.THE_636_B0_A691_FC509_CF468_A74_C2,
+  "636eb11db80c9f7627dd84b1": SyncBank.THE_636_EB11_DB80_C9_F7627_DD84_B1
+});
+
+enum UserType { NORMAL }
+
+final userTypeValues = EnumValues({"normal": UserType.NORMAL});
+
+enum Username { DREAMANDBOA, RENNY, CORNELIUS, LANGAT }
+
+final usernameValues = EnumValues({
+  "cornelius": Username.CORNELIUS,
+  "Dreamandboa": Username.DREAMANDBOA,
+  "langat": Username.LANGAT,
+  "renny": Username.RENNY
+});
+
+class Network {
+  Network({
+    required this.name,
+    required this.imageUrl,
+    required this.symbol,
+    required this.isActive,
+    required this.id,
+  });
+
+  String name;
+  String imageUrl;
+  String symbol;
+  bool isActive;
+  String id;
+
+  factory Network.fromJson(Map<String, dynamic> json) => Network(
+        name: json["name"],
+        imageUrl: json["image_url"],
+        symbol: json["symbol"],
+        isActive: json["is_active"],
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "image_url": imageUrl,
+        "symbol": symbol,
+        "is_active": isActive,
+        "id": id,
+      };
+}
+
+class Reactions {
+  Reactions({
+    required this.likes,
+    required this.loves,
+    required this.smiles,
+    required this.rebooms,
+    required this.reports,
+  });
+
+  List<User> likes;
+  List<User> loves;
+  List<User> smiles;
+  List<User> rebooms;
+  List<dynamic> reports;
+
+  factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
+        likes: List<User>.from(json["likes"].map((x) => User.fromJson(x))),
+        loves: List<User>.from(json["loves"].map((x) => User.fromJson(x))),
+        smiles: List<User>.from(json["smiles"].map((x) => User.fromJson(x))),
+        rebooms: List<User>.from(json["rebooms"].map((x) => User.fromJson(x))),
+        reports: List<dynamic>.from(json["reports"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "likes": List<dynamic>.from(likes.map((x) => x.toJson())),
+        "loves": List<dynamic>.from(loves.map((x) => x.toJson())),
+        "smiles": List<dynamic>.from(smiles.map((x) => x.toJson())),
+        "rebooms": List<dynamic>.from(rebooms.map((x) => x.toJson())),
+        "reports": List<dynamic>.from(reports.map((x) => x)),
+      };
+}
+
+class Page {
+  Page();
+
+  factory Page.fromJson(Map<String, dynamic> json) => Page();
+
+  Map<String, dynamic> toJson() => {};
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap ??= map.map((k, v) => MapEntry(v, k));
+    return reverseMap;
+  }
 }

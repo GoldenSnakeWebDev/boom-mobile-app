@@ -24,7 +24,7 @@ class TalesService {
         Uri.parse('${baseURL}statuses?page=all'),
         headers: headers,
       );
-      log("tales response ::: ${response.body}");
+
       if (response.statusCode == 200) {
         final fetchStatusModel = fetchStatusModelFromJson(response.body);
 

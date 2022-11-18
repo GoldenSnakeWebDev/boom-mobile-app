@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         child: SizedBox(
                                                           height:
                                                               getProportionateScreenHeight(
-                                                                  70),
+                                                                  75),
                                                           width:
                                                               getProportionateScreenWidth(
                                                                   75),
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       Container(
                                                                     width:
                                                                         getProportionateScreenHeight(
-                                                                            60),
+                                                                            53),
                                                                     height:
                                                                         getProportionateScreenHeight(
                                                                             60),
@@ -158,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 //         controller.userId),
                                                                 child:
                                                                     Positioned(
-                                                                  bottom: 20,
+                                                                  bottom: 10,
                                                                   right: 17,
                                                                   child: Icon(
                                                                     MdiIcons
@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 ),
                                                               ),
                                                               Positioned(
-                                                                bottom: 5,
+                                                                bottom: 0,
                                                                 left: 10,
                                                                 child: Text(
                                                                   "Your Tale",

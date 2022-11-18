@@ -1,6 +1,9 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
-import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
+
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
+import 'package:boom_mobile/screens/other_user_profile/controllers/other_profile_controller.dart';
+import 'package:boom_mobile/screens/other_user_profile/models/other_user_booms.dart';
+import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart';
 import 'package:boom_mobile/screens/other_user_profile/services/other_profile_service.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -20,11 +23,11 @@ class OtherUserProfileScreen extends StatefulWidget {
 
 class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
   final ScrollController _scrollController = ScrollController();
-
+  late String userId;
   @override
   void initState() {
     // Get.put(OtherUserProfileController());
-
+    userId = Get.arguments;
     super.initState();
   }
 
@@ -33,60 +36,66 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: otherProfileService.fetchotherUserProfile(),
-        builder: ((context, AsyncSnapshot<User?> snapshot) {
-          User? user = snapshot.data;
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.connectionState == ConnectionState.active ||
-              snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              return Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                  elevation: 0,
-                  backgroundColor: Colors.white,
-                  leading: IconButton(
-                    onPressed: () => Get.back(),
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_outlined,
-                      color: Colors.black,
-                    ),
-                  ),
-                  centerTitle: false,
-                  actions: const [],
-                ),
-                body: SafeArea(
-                  child: RefreshIndicator(
-                    onRefresh: () async {
-                      // await controller.fetchProfile();
-                    },
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxHeight: SizeConfig.screenHeight,
-                        maxWidth: SizeConfig.screenWidth,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(
-                            child: NestedScrollView(
-                              controller: _scrollController,
-                              headerSliverBuilder: (context, value) {
-                                return [
-                                  // SliverPersistentHeader(
-                                  //   delegate: SliverAppBarDelegate(
-                                  //     maxHeight: SizeConfig.screenHeight * 0.25,
-                                  //     minHeight: SizeConfig.screenHeight * 0.09,
-                                  //   ),
-                                  // ),
-                                  SliverToBoxAdapter(
-                                    child: RefreshIndicator(
-                                      onRefresh: () async {
-                                        // await controller.fetchProfile();
-                                      },
-                                      child: Column(
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () => Get.back(),
+            icon: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.black,
+            ),
+          ),
+          centerTitle: false,
+          actions: const [],
+        ),
+        body: SafeArea(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: SizeConfig.screenHeight,
+              maxWidth: SizeConfig.screenWidth,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: NestedScrollView(
+                      controller: _scrollController,
+                      headerSliverBuilder: (context, value) {
+                        return [
+                          // SliverPersistentHeader(
+                          //   delegate: SliverAppBarDelegate(
+                          //     maxHeight: SizeConfig.screenHeight * 0.25,
+                          //     minHeight: SizeConfig.screenHeight * 0.09,
+                          //   ),
+                          // ),
+                          SliverToBoxAdapter(
+                            child: RefreshIndicator(
+                              onRefresh: () async {
+                                // await controller.fetchProfile();
+                              },
+                              child: StreamBuilder(
+                                stream: otherProfileService
+                                    .fetchotherUserProfile(userId),
+                                builder: ((context, snapshot) {
+                                  OtherUserModel? user = snapshot.data;
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  } else if (snapshot.connectionState ==
+                                          ConnectionState.active ||
+                                      snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                    if (snapshot.hasError) {
+                                      return const Center(
+                                        child: Text("Could not fetch boom"),
+                                      );
+                                    } else if (snapshot.hasData) {
+                                      return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Container(
@@ -129,7 +138,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               left: 4.0,
                                                               right: 4.0),
                                                       child: Text(
-                                                        user?.location ??
+                                                        user?.user.location ??
                                                             "Location",
                                                         style: const TextStyle(
                                                             fontWeight:
@@ -141,7 +150,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                   ),
                                                   const Spacer(),
                                                   Text(
-                                                    "!${user?.username ?? "username"}",
+                                                    "!${user?.user.username ?? "username"}",
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -175,13 +184,13 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                        user!.cover,
+                                                        user!.user.cover,
                                                       ),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                   child: CachedNetworkImage(
-                                                    imageUrl: user.cover,
+                                                    imageUrl: user.user.cover,
                                                     errorWidget:
                                                         (context, url, error) =>
                                                             Container(
@@ -219,7 +228,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user.socialMedia
+                                                                user
+                                                                    .user
+                                                                    .socialMedia
                                                                     .twitter,
                                                               ),
                                                             );
@@ -228,6 +239,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             MdiIcons.twitter,
                                                             size: 18,
                                                             color: user
+                                                                    .user
                                                                     .socialMedia
                                                                     .twitter
                                                                     .isEmpty
@@ -240,7 +252,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user.socialMedia
+                                                                user
+                                                                    .user
+                                                                    .socialMedia
                                                                     .facebook,
                                                               ),
                                                             );
@@ -249,6 +263,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             MdiIcons.facebook,
                                                             size: 18,
                                                             color: user
+                                                                    .user
                                                                     .socialMedia
                                                                     .facebook
                                                                     .isEmpty
@@ -260,7 +275,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user.socialMedia
+                                                                user
+                                                                    .user
+                                                                    .socialMedia
                                                                     .instagram,
                                                               ),
                                                             );
@@ -269,6 +286,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             MdiIcons.instagram,
                                                             size: 18,
                                                             color: user
+                                                                    .user
                                                                     .socialMedia
                                                                     .twitter
                                                                     .isEmpty
@@ -281,7 +299,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user.socialMedia
+                                                                user
+                                                                    .user
+                                                                    .socialMedia
                                                                     .tiktok,
                                                               ),
                                                             );
@@ -290,6 +310,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             MdiIcons.musicNote,
                                                             size: 18,
                                                             color: user
+                                                                    .user
                                                                     .socialMedia
                                                                     .twitter
                                                                     .isEmpty
@@ -348,10 +369,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                 width:
                                                                     getProportionateScreenWidth(
                                                                         55),
-                                                                user.photo
+                                                                user.user.photo
                                                                         .isEmpty
                                                                     ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
-                                                                    : user
+                                                                    : user.user
                                                                         .photo,
                                                                 fit: BoxFit
                                                                     .cover,
@@ -360,7 +381,8 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           ),
                                                         ),
                                                         Visibility(
-                                                          visible: user.isAdmin,
+                                                          visible:
+                                                              user.user.isAdmin,
                                                           child: Positioned(
                                                             top: 0,
                                                             right: 0,
@@ -532,7 +554,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               Column(
                                                                 children: [
                                                                   Text(
-                                                                    user.followers
+                                                                    user
+                                                                        .user
+                                                                        .followers
                                                                         .length
                                                                         .toString(),
                                                                     style:
@@ -567,7 +591,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               Column(
                                                                 children: [
                                                                   Text(
-                                                                    user.following
+                                                                    user
+                                                                        .user
+                                                                        .following
                                                                         .length
                                                                         .toString(),
                                                                     style:
@@ -642,7 +668,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                 getProportionateScreenHeight(
                                                                     4),
                                                           ),
-                                                          user.bio.isEmpty
+                                                          user.user.bio.isEmpty
                                                               ? const Text(
                                                                   "User has no bio")
                                                               : Column(
@@ -652,6 +678,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                         // const Icon(MdiIcons
                                                                         //     .circleSmall),
                                                                         Text(user
+                                                                            .user
                                                                             .bio)
                                                                       ],
                                                                     ),
@@ -670,12 +697,39 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                             ),
                                           ),
                                         ],
-                                      ),
-                                    ),
-                                  )
-                                ];
-                              },
-                              body: Container(
+                                      );
+                                    } else {
+                                      return const Center(
+                                        child: Text("Loading..."),
+                                      );
+                                    }
+                                  } else {
+                                    return const Center(
+                                      child: Text("Something went wrong"),
+                                    );
+                                  }
+                                }),
+                              ),
+                            ),
+                          )
+                        ];
+                      },
+                      body: StreamBuilder(
+                        stream: otherProfileService.fetchUserBooms(userId),
+                        builder: ((context, snapshot) {
+                          OtherUserBooms? booms = snapshot.data;
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.connectionState ==
+                                  ConnectionState.done ||
+                              snapshot.connectionState ==
+                                  ConnectionState.active) {
+                            if (snapshot.hasError) {
+                              return const Center(child: Text("Error"));
+                            } else {
+                              return Container(
                                 color: kContBgColor,
                                 constraints: BoxConstraints(
                                   minHeight: SizeConfig.screenHeight * 0.38,
@@ -684,7 +738,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                 width: SizeConfig.screenWidth,
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: boomController.myBooms.isEmpty
+                                  child: booms!.booms.isEmpty
                                       ? Center(
                                           child: Text(
                                             "You have no Booms Yet",
@@ -696,49 +750,39 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                           ),
                                         )
                                       : ListView.builder(
-                                          itemCount:
-                                              boomController.myBooms.length,
+                                          itemCount: booms.booms.length,
                                           itemBuilder: (context, index) {
                                             //Temp Solutiuon to change this later to only my Booms
 
-                                            final singlePostDets =
-                                                Get.find<HomeController>();
+                                            final singlePostDets = Get.find<
+                                                OtherUserProfileController>();
                                             SingleBoomPost boomPost =
                                                 singlePostDets
                                                     .getSingleBoomDetails(
+                                                        booms.booms[index],
                                                         index);
                                             return SingleBoomWidget(
                                               post: boomPost,
                                               controller:
                                                   Get.find<HomeController>(),
-                                              boomId: Get.find<HomeController>()
-                                                  .allBooms!
-                                                  .booms[index]
-                                                  .id,
+                                              boomId: booms.booms[index].id,
                                             );
                                           },
                                         ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                              );
+                            }
+                          } else {
+                            return const Center(child: Text("Error"));
+                          }
+                        }),
+                      )),
                 ),
-              );
-            } else {
-              return const Center(
-                child: Text("Error fetching user"),
-              );
-            }
-          } else {
-            return const Center(
-              child: Text("Error fetching user details"),
-            );
-          }
-        }));
+              ],
+            ),
+          ),
+        ));
+
     // return GetBuilder<OtherUserProfileController>(builder: (controller) {});
   }
 

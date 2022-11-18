@@ -208,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 GestureDetector(
                                                   onTap: () => Get.to(
                                                       () => const EditProfile(),
-                                                      arguments: user),
+                                                      arguments: [user]),
                                                   child: const Icon(
                                                     MdiIcons.accountEditOutline,
                                                     size: 24,
@@ -226,8 +226,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               user!.cover.isEmpty
                                                   ? GestureDetector(
                                                       onTap: () {
-                                                        Get.to(() =>
-                                                            const EditProfile());
+                                                        Get.to(
+                                                            () =>
+                                                                const EditProfile(),
+                                                            arguments: [user]);
                                                       },
                                                       child: Container(
                                                         width: SizeConfig
@@ -646,8 +648,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         user.bio.isEmpty
                                                             ? TextButton(
                                                                 onPressed: () {
-                                                                  Get.to(() =>
-                                                                      const EditProfile());
+                                                                  Get.to(
+                                                                      () =>
+                                                                          const EditProfile(),
+                                                                      arguments: [
+                                                                        user
+                                                                      ]);
                                                                 },
                                                                 child:
                                                                     const Text(

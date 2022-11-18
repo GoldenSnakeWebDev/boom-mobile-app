@@ -25,6 +25,7 @@ class SingleBoomService {
             "Authorization": token,
           },
         );
+
         if (res.statusCode == 200) {
           final singleBoom = SingleBoom.fromJson(jsonDecode(res.body));
           yield singleBoom;
