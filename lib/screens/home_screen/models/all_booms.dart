@@ -41,6 +41,7 @@ class Boom {
     required this.boomState,
     required this.isMinted,
     required this.description,
+    required this.location,
     required this.network,
     required this.comments,
     required this.user,
@@ -59,6 +60,7 @@ class Boom {
   String boomState;
   bool isMinted;
   String description;
+  String location;
   Network network;
   List<Comment> comments;
   UserClass user;
@@ -77,6 +79,7 @@ class Boom {
         boomState: json["boom_state"],
         isMinted: json["is_minted"],
         description: json["description"],
+        location: json["location"],
         network: Network.fromJson(json["network"]),
         comments: List<Comment>.from(
             json["comments"].map((x) => Comment.fromJson(x))),
@@ -92,11 +95,12 @@ class Boom {
 
   Map<String, dynamic> toJson() => {
         "reactions": reactions.toJson(),
-        "boom_type": boomType,
+        "boom_type": boomTypeValues.reverse[boomType],
         "title": title,
-        "boom_state": boomState,
+        "boom_state": boomStateValues.reverse[boomState],
         "is_minted": isMinted,
         "description": description,
+        "location": location,
         "network": network.toJson(),
         "comments": List<dynamic>.from(comments.map((x) => x.toJson())),
         "user": user.toJson(),
@@ -110,6 +114,15 @@ class Boom {
       };
 }
 
+enum BoomState { UPLOAD }
+
+final boomStateValues = EnumValues({"upload": BoomState.UPLOAD});
+
+enum BoomType { IMAGE, TEXT }
+
+final boomTypeValues =
+    EnumValues({"image": BoomType.IMAGE, "text": BoomType.TEXT});
+
 class Comment {
   Comment({
     required this.user,
@@ -120,7 +133,7 @@ class Comment {
     required this.id,
   });
 
-  String user;
+  UserClass user;
   String boom;
   String message;
   bool isActive;
@@ -128,7 +141,7 @@ class Comment {
   String id;
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-        user: json["user"],
+        user: UserClass.fromJson(json["user"]),
         boom: json["boom"],
         message: json["message"],
         isActive: json["is_active"],
@@ -137,7 +150,7 @@ class Comment {
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user,
+        "user": user.toJson(),
         "boom": boom,
         "message": message,
         "is_active": isActive,
@@ -146,47 +159,11 @@ class Comment {
       };
 }
 
-class Reactions {
-  Reactions({
-    required this.likes,
-    required this.loves,
-    required this.smiles,
-    required this.rebooms,
-    required this.reports,
-  });
-
-  List<UserClass> likes;
-  List<UserClass> loves;
-  List<UserClass> smiles;
-  List<UserClass> rebooms;
-  List<UserClass> reports;
-
-  factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
-        likes: List<UserClass>.from(
-            json["likes"].map((x) => UserClass.fromJson(x))),
-        loves: List<UserClass>.from(
-            json["loves"].map((x) => UserClass.fromJson(x))),
-        smiles: List<UserClass>.from(
-            json["smiles"].map((x) => UserClass.fromJson(x))),
-        rebooms: List<UserClass>.from(
-            json["rebooms"].map((x) => UserClass.fromJson(x))),
-        reports: List<UserClass>.from(
-            json["reports"].map((x) => UserClass.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "likes": List<dynamic>.from(likes.map((x) => x.toJson())),
-        "loves": List<dynamic>.from(loves.map((x) => x.toJson())),
-        "smiles": List<dynamic>.from(smiles.map((x) => x.toJson())),
-        "rebooms": List<dynamic>.from(rebooms.map((x) => x.toJson())),
-        "reports": List<dynamic>.from(reports.map((x) => x.toJson())),
-      };
-}
-
 class UserClass {
   UserClass({
     required this.passwordReset,
     required this.socialMedia,
+    required this.funs,
     required this.firstName,
     required this.lastName,
     required this.username,
@@ -202,11 +179,12 @@ class UserClass {
     required this.isAdmin,
     required this.passwordResetToken,
     required this.syncBank,
-    required this.id,
+    this.id,
   });
 
   PasswordReset passwordReset;
   SocialMedia socialMedia;
+  List<dynamic> funs;
   String firstName;
   String lastName;
   String username;
@@ -222,11 +200,12 @@ class UserClass {
   bool isAdmin;
   String passwordResetToken;
   String syncBank;
-  String id;
+  String? id;
 
   factory UserClass.fromJson(Map<String, dynamic> json) => UserClass(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
         socialMedia: SocialMedia.fromJson(json["social_media"]),
+        funs: List<dynamic>.from(json["funs"].map((x) => x)),
         firstName: json["first_name"],
         lastName: json["last_name"],
         username: json["username"],
@@ -248,6 +227,7 @@ class UserClass {
   Map<String, dynamic> toJson() => {
         "password_reset": passwordReset.toJson(),
         "social_media": socialMedia.toJson(),
+        "funs": List<dynamic>.from(funs.map((x) => x)),
         "first_name": firstName,
         "last_name": lastName,
         "username": username,
@@ -263,9 +243,46 @@ class UserClass {
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
         "sync_bank": syncBank,
-        "id": id,
+        "id": id == null ? null : userIdValues.reverse[id],
       };
 }
+
+enum Email {
+  RENNYLNGT_GMAIL_COM,
+  DREAMANDBOA_GMAIL_COM,
+  MUFAMUFASAG_GMAIL_COM,
+  RENNY_GMAIL_COM
+}
+
+final emailValues = EnumValues({
+  "dreamandboa@gmail.com": Email.DREAMANDBOA_GMAIL_COM,
+  "mufamufasag@gmail.com": Email.MUFAMUFASAG_GMAIL_COM,
+  "rennylngt@gmail.com": Email.RENNYLNGT_GMAIL_COM,
+  "renny@gmail.com": Email.RENNY_GMAIL_COM
+});
+
+enum UserId {
+  THE_636_A1_F40794_AADAE01_B8_AF70,
+  THE_636_B0_A691_FC509_CF468_A74_C1,
+  THE_636_A2_C62_A59_AB2_D87_F220_CD7,
+  THE_636_EB11_CB80_C9_F7627_DD84_B0
+}
+
+final userIdValues = EnumValues({
+  "636a1f40794aadae01b8af70": UserId.THE_636_A1_F40794_AADAE01_B8_AF70,
+  "636a2c62a59ab2d87f220cd7": UserId.THE_636_A2_C62_A59_AB2_D87_F220_CD7,
+  "636b0a691fc509cf468a74c1": UserId.THE_636_B0_A691_FC509_CF468_A74_C1,
+  "636eb11cb80c9f7627dd84b0": UserId.THE_636_EB11_CB80_C9_F7627_DD84_B0
+});
+
+enum Location { NAIROBI, MOON, NBI, EMPTY }
+
+final locationValues = EnumValues({
+  "": Location.EMPTY,
+  "Moon": Location.MOON,
+  "Nairobi": Location.NAIROBI,
+  "nbi": Location.NBI
+});
 
 class PasswordReset {
   PasswordReset({
@@ -285,29 +302,65 @@ class PasswordReset {
 
 class SocialMedia {
   SocialMedia({
+    required this.facebook,
     required this.twitter,
     required this.instagram,
     required this.tiktok,
-    required this.facebook,
   });
 
+  String facebook;
   String twitter;
   String instagram;
   String tiktok;
-  String facebook;
 
   factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
+        facebook: json["facebook"],
         twitter: json["twitter"],
         instagram: json["instagram"],
         tiktok: json["tiktok"],
-        facebook: json["facebook"],
       );
 
   Map<String, dynamic> toJson() => {
+        "facebook": facebook,
         "twitter": twitter,
         "instagram": instagram,
         "tiktok": tiktok,
-        "facebook": facebook,
+      };
+}
+
+class Reactions {
+  Reactions({
+    required this.likes,
+    required this.loves,
+    required this.smiles,
+    required this.rebooms,
+    required this.reports,
+  });
+
+  List<UserClass> likes;
+  List<UserClass> loves;
+  List<UserClass> smiles;
+  List<UserClass> rebooms;
+  List<dynamic> reports;
+
+  factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
+        likes: List<UserClass>.from(
+            json["likes"].map((x) => UserClass.fromJson(x))),
+        loves: List<UserClass>.from(
+            json["loves"].map((x) => UserClass.fromJson(x))),
+        smiles: List<UserClass>.from(
+            json["smiles"].map((x) => UserClass.fromJson(x))),
+        rebooms: List<UserClass>.from(
+            json["rebooms"].map((x) => UserClass.fromJson(x))),
+        reports: List<dynamic>.from(json["reports"].map((x) => x)),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "likes": List<dynamic>.from(likes.map((x) => x.toJson())),
+        "loves": List<dynamic>.from(loves.map((x) => x.toJson())),
+        "smiles": List<dynamic>.from(smiles.map((x) => x.toJson())),
+        "rebooms": List<dynamic>.from(rebooms.map((x) => x.toJson())),
+        "reports": List<dynamic>.from(reports.map((x) => x)),
       };
 }
 
@@ -317,4 +370,16 @@ class Page {
   factory Page.fromJson(Map<String, dynamic> json) => Page();
 
   Map<String, dynamic> toJson() => {};
+}
+
+class EnumValues<T> {
+  Map<String, T> map;
+  late Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    reverseMap;
+    return reverseMap;
+  }
 }

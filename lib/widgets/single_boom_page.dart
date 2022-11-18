@@ -146,7 +146,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           Get.to(
                                             () =>
                                                 const OtherUserProfileScreen(),
-                                            arguments: boom.boom.user,
+                                            arguments: boom.boom.user.id,
                                           );
                                         },
                                         child: Column(
@@ -697,7 +697,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     return SingleComment(
                                       comment:
                                           boom.boom.comments[index].message,
-                                      userName: boom.boom.comments[index].user,
+                                      userName: boom
+                                          .boom.comments[index].user.username,
                                       createdAt: boom
                                           .boom.comments[index].createdAt
                                           .toString(),

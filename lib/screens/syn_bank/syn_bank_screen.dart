@@ -2,6 +2,7 @@ import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controll
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -41,7 +42,14 @@ class SyntheticBankScreen extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    await Clipboard.setData(
+                        ClipboardData(text: myCtrl.user!.syncBank.syncId));
+
+                    Get.snackbar("Copied", "Sync Bank Id Copied to clipboard",
+                        backgroundColor: kPrimaryColor,
+                        snackPosition: SnackPosition.BOTTOM);
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black45, width: 0.5),
@@ -157,6 +165,31 @@ class SyntheticBankScreen extends StatelessWidget {
               alignment: Alignment.center,
               child: Text(
                 "Withdraw",
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: getProportionateScreenHeight(15),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: getProportionateScreenHeight(20),
+            ),
+            Container(
+              width: SizeConfig.screenWidth,
+              height: getProportionateScreenHeight(40),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black38, width: 0.4),
+                borderRadius: BorderRadius.circular(4),
+                gradient: const LinearGradient(
+                  colors: [
+                    kPrimaryColor,
+                    kSecondaryColor,
+                  ],
+                ),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                "Deposit",
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: getProportionateScreenHeight(15),

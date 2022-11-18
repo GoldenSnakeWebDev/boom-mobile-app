@@ -1,15 +1,17 @@
 // To parse this JSON data, do
 //
-//     final userModel = userModelFromJson(jsonString);
+//     final otherUserModel = otherUserModelFromJson(jsonString);
 
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+OtherUserModel otherUserModelFromJson(String str) =>
+    OtherUserModel.fromJson(json.decode(str));
 
-String userModelToJson(UserModel data) => json.encode(data.toJson());
+String otherUserModelToJson(OtherUserModel data) => json.encode(data.toJson());
 
-class UserModel {
-  UserModel({
+class OtherUserModel {
+  OtherUserModel({
     required this.status,
     required this.user,
   });
@@ -17,7 +19,7 @@ class UserModel {
   String status;
   User user;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+  factory OtherUserModel.fromJson(Map<String, dynamic> json) => OtherUserModel(
         status: json["status"],
         user: User.fromJson(json["user"]),
       );

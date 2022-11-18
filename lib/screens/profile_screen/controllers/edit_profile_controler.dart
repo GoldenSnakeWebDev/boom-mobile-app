@@ -26,7 +26,7 @@ class EditProfileController extends GetxController {
   TextEditingController tiktokController = TextEditingController();
 
   final box = GetStorage();
-  final User? user = Get.arguments([0]);
+  User? user;
   final ImagePicker _picker = ImagePicker();
   XFile? headerImage;
   XFile? profileImage;
@@ -37,6 +37,7 @@ class EditProfileController extends GetxController {
 
   @override
   void onInit() {
+    user = Get.arguments[0];
     usernameController.text = user!.username;
     bioController.text = user!.bio;
     locationController.text = user!.location;
