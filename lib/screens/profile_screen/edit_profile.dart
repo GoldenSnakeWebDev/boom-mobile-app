@@ -80,7 +80,106 @@ class _EditProfileState extends State<EditProfile> {
                           left: 0,
                           child: GestureDetector(
                             onTap: () {
-                              controller.handlePickHeaderImage();
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return SizedBox(
+                                      height: SizeConfig.screenHeight * 0.3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "Choose from",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          15),
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      30),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              width:
+                                                  SizeConfig.screenWidth * 0.8,
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      30),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Camera",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            16)),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                controller
+                                                    .handlePickHeaderImage();
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                width: SizeConfig.screenWidth *
+                                                    0.8,
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        30),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Gallery",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              16)),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              width:
+                                                  SizeConfig.screenWidth * 0.8,
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      30),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Booms",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            16)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
+                              // controller.handlePickHeaderImage();
                             },
                             child: Container(
                               width: SizeConfig.screenWidth * 0.92,
@@ -137,7 +236,105 @@ class _EditProfileState extends State<EditProfile> {
                           left: 0,
                           child: GestureDetector(
                             onTap: () {
-                              controller.handlePickProfileImage();
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) {
+                                    return SizedBox(
+                                      height: SizeConfig.screenHeight * 0.3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "Choose from",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          15),
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            SizedBox(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      20),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              width:
+                                                  SizeConfig.screenWidth * 0.8,
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      30),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Camera",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            16)),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                controller
+                                                    .handlePickProfileImage();
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                width: SizeConfig.screenWidth *
+                                                    0.8,
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        30),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Gallery",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              16)),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 10),
+                                              width:
+                                                  SizeConfig.screenWidth * 0.8,
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      30),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                "Booms",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            16)),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
                             child: Container(
                               width: getProportionateScreenWidth(70),
