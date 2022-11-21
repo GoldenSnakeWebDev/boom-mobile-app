@@ -4,6 +4,7 @@ jobs:
   build-and-test: 
     runs-on: ubuntu-latest
     steps:
+  
     - uses: actions/checkout@v1 
     # The flutter action needs java so include it
     - uses: actions/setup-java@v1
@@ -13,6 +14,11 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'beta'  
+#     - uses: yegobox/secret-parser@v1.0.1
+#       with:
+#         filename: test.json
+#         secret-name: important_value
+#         secret-value: ${{ secrets.important_value }}
     # Get flutter packages
     - run: flutter pub get
     
