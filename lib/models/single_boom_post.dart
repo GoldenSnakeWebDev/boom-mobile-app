@@ -5,6 +5,7 @@ class SingleBoomPost {
   final String boomType;
   final String imgUrl;
   final String desc;
+  final String title;
   final String location;
   final String chain;
   int likes;
@@ -26,6 +27,7 @@ class SingleBoomPost {
     required this.chain,
     required this.imgUrl,
     required this.desc,
+    required this.title,
     required this.likes,
     required this.loves,
     required this.smiles,

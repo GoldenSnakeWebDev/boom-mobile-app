@@ -15,7 +15,7 @@ class ProfileService {
     while (true) {
       try {
         final res = await repo.fetchCurrUser(token);
-        log(res.body);
+
         if (res.statusCode == 200) {
           final user = User.fromJson(jsonDecode(res.body)["user"]);
           yield user;

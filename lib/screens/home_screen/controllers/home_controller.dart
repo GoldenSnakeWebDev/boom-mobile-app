@@ -99,6 +99,7 @@ class HomeController extends GetxController {
       chain: homeBooms![index].network.symbol,
       imgUrl: homeBooms![index].imageUrl,
       desc: homeBooms![index].description,
+      title: homeBooms![index].title,
       network: homeBooms![index].network,
       isLiked: isLiked,
       isLoves: isLoves,

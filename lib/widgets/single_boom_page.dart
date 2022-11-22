@@ -39,7 +39,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
   final box = GetStorage();
   final boomService = SingleBoomService();
 
-  final String boomId = Get.arguments;
+  final String boomId = Get.arguments[0];
+  final String boomTitle = Get.arguments[1];
   final boomController = Get.put(
     SingleBoomController(),
   );
@@ -59,7 +60,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
           ),
         ),
         title: Text(
-          "Boom",
+          boomTitle,
           style: TextStyle(
             color: Colors.black,
             fontSize: getProportionateScreenHeight(18),

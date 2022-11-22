@@ -29,7 +29,7 @@ class SingleBoomWidget extends StatelessWidget {
       onTap: () {
         Get.to(
           () => const SingleBoomPage(),
-          arguments: boomId,
+          arguments: [boomId, post.title],
         );
       },
       child: Container(
@@ -124,9 +124,10 @@ class SingleBoomWidget extends StatelessWidget {
                 height: getProportionateScreenHeight(15),
               ),
               Text(
-                post.desc,
+                post.title,
                 style: TextStyle(
-                  fontSize: getProportionateScreenHeight(14),
+                  fontSize: getProportionateScreenHeight(15),
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               SizedBox(
