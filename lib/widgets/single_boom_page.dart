@@ -39,7 +39,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
   final box = GetStorage();
   final boomService = SingleBoomService();
 
-  final String boomId = Get.arguments;
+  final String boomId = Get.arguments[0];
+  final String boomTitle = Get.arguments[1];
   final boomController = Get.put(
     SingleBoomController(),
   );
@@ -59,7 +60,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
           ),
         ),
         title: Text(
-          "Boom",
+          boomTitle,
           style: TextStyle(
             color: Colors.black,
             fontSize: getProportionateScreenHeight(18),
@@ -195,22 +196,26 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                MdiIcons.mapMarker,
-                                                size: 18,
-                                              ),
-                                              Text(
-                                                "Spain",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            15),
-                                                    fontWeight:
-                                                        FontWeight.w800),
-                                              )
-                                            ],
+                                          Visibility(
+                                            visible:
+                                                boom.boom.location.isNotEmpty,
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  MdiIcons.mapMarker,
+                                                  size: 18,
+                                                ),
+                                                Text(
+                                                  boom.boom.location,
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              15),
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                           SizedBox(
                                             height:
@@ -716,8 +721,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       createdAt: boom
                                           .boom.comments[index].createdAt
                                           .toString(),
-                                      imageUrl:
-                                          "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
+                                      imageUrl: boom.boom.comments[index].user
+                                              .photo.isNotEmpty
+                                          ? boom.boom.comments[index].user.photo
+                                          : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
                                     );
                                   },
                                 ),
@@ -725,69 +732,80 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               SizedBox(
                                 height: getProportionateScreenHeight(5),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: TextFormField(
-                                  controller: boomController.commentController,
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.all(12.0),
-                                    fillColor: const Color(0xFFF8F8F8),
-                                    filled: true,
-                                    hintText: boom.boom.comments.isEmpty
-                                        ? "No comments yet. Be the first"
-                                        : "Type a Comment...",
-                                    // prefixIcon: IconButton(
-                                    //   icon: const Icon(
-                                    //     MdiIcons.cameraOutline,
-                                    //     color: Color(0xFF454C4D),
-                                    //   ),
-                                    //   onPressed: () {},
-                                    // ),
-                                    suffixIcon: SizedBox(
-                                      width: getProportionateScreenWidth(100),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () async {
-                                              await boomController
-                                                  .commentOnPost(
-                                                boomController
-                                                    .commentController.text,
-                                                boomId,
-                                              );
-                                              boomController.commentController
-                                                  .clear();
-                                            },
-                                            child: const Icon(
-                                              MdiIcons.send,
-                                              color: Color(0xFF454C4D),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Expanded(
+                                  flex: 1,
+                                  child: TextFormField(
+                                    controller:
+                                        boomController.commentController,
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                          const EdgeInsets.all(12.0),
+                                      fillColor: const Color(0xFFF8F8F8),
+                                      filled: true,
+                                      hintText: boom.boom.comments.isEmpty
+                                          ? "No comments yet. Be the first"
+                                          : "Type a Comment...",
+                                      // prefixIcon: IconButton(
+                                      //   icon: const Icon(
+                                      //     MdiIcons.cameraOutline,
+                                      //     color: Color(0xFF454C4D),
+                                      //   ),
+                                      //   onPressed: () {},
+                                      // ),
+                                      suffixIcon: SizedBox(
+                                        width: getProportionateScreenWidth(100),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () async {
+                                                await boomController
+                                                    .commentOnPost(
+                                                  boomController
+                                                      .commentController.text,
+                                                  boomId,
+                                                );
+                                                boomController.commentController
+                                                    .clear();
+                                              },
+                                              child: boomController
+                                                      .commentLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: kPrimaryColor,
+                                                      strokeWidth: 2,
+                                                    )
+                                                  : const Icon(
+                                                      MdiIcons.send,
+                                                      color: Color(0xFF454C4D),
+                                                    ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: Colors.black45,
-                                        width: 0.2,
+                                      border: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Colors.black45,
+                                          width: 0.2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: Colors.black45,
-                                        width: 0.2,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Colors.black45,
+                                          width: 0.2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: const BorderSide(
-                                        color: Colors.black45,
-                                        width: 0.2,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                          color: Colors.black45,
+                                          width: 0.2,
+                                        ),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                 ),

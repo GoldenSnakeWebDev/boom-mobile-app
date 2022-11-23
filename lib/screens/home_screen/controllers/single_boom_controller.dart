@@ -23,6 +23,7 @@ class SingleBoomController extends GetxController {
   bool isLoves = false;
   bool isSmiles = false;
   bool isRebooms = false;
+  bool commentLoading = false;
   TextEditingController commentController = TextEditingController();
 
   syntheticallyMintBoom(String boomId) async {
@@ -97,6 +98,8 @@ class SingleBoomController extends GetxController {
   }
 
   commentOnPost(String text, String boomId) async {
+    commentLoading = true;
+
     String token = box.read("token");
     log("Comment Message $text");
     Map<String, dynamic> body = {
@@ -110,10 +113,12 @@ class SingleBoomController extends GetxController {
         },
         body: jsonEncode(body));
     if (res.statusCode == 201) {
+      commentLoading = false;
       log("Boom Commented On");
       log("message: ${res.body}");
       commentController.clear();
     } else {
+      commentLoading = false;
       log(res.body);
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not comment on Boom"],

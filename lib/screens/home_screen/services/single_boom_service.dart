@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 class SingleBoomService {
   final box = GetStorage();
 
-  String boomId = Get.arguments;
+  String boomId = Get.arguments[0];
 
   bool isLoading = true;
 

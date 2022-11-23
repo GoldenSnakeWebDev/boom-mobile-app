@@ -2,7 +2,6 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class SingleComment extends StatelessWidget {
   final String userName;
@@ -30,12 +29,12 @@ class SingleComment extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: 0),
                 child: SizedBox(
-                  width: getProportionateScreenWidth(32),
-                  height: getProportionateScreenHeight(32),
+                  width: getProportionateScreenWidth(40),
+                  height: getProportionateScreenHeight(40),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(12),
                     child: CachedNetworkImage(
                       imageUrl: imageUrl,
                       placeholder: (context, url) =>
@@ -48,7 +47,7 @@ class SingleComment extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: getProportionateScreenWidth(4),
+                width: getProportionateScreenWidth(8),
               ),
               Expanded(
                 flex: 9,
@@ -61,11 +60,11 @@ class SingleComment extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Expanded(
-                            flex: 1,
+                            flex: 2,
                             child: Text(
-                              userName,
+                              "!$userName",
                               style: TextStyle(
-                                fontSize: getProportionateScreenHeight(12),
+                                fontSize: getProportionateScreenHeight(14),
                                 fontWeight: FontWeight.w800,
                                 color: Colors.black,
                               ),
@@ -124,32 +123,32 @@ class SingleComment extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        MdiIcons.heartOutline,
-                        size: 16,
-                        color: Color(0xFF86878B),
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(2),
-                      ),
-                      Text(
-                        "234",
-                        style: TextStyle(
-                            fontFamily: "Quicksand",
-                            fontSize: getProportionateScreenHeight(12),
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF86878B)),
-                      )
-                    ],
-                  ),
-                ),
-              )
+              // Expanded(
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(top: 4),
+              //     child: Column(
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       children: [
+              //         const Icon(
+              //           MdiIcons.heartOutline,
+              //           size: 16,
+              //           color: Color(0xFF86878B),
+              //         ),
+              //         SizedBox(
+              //           height: getProportionateScreenHeight(2),
+              //         ),
+              //         Text(
+              //           "234",
+              //           style: TextStyle(
+              //               fontFamily: "Quicksand",
+              //               fontSize: getProportionateScreenHeight(12),
+              //               fontWeight: FontWeight.w500,
+              //               color: const Color(0xFF86878B)),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // )
             ],
           ),
         );

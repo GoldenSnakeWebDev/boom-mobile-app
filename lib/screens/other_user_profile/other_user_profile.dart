@@ -10,6 +10,7 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -119,7 +120,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                               padding: const EdgeInsets.only(
                                                   top: 6.0,
                                                   bottom: 6.0,
-                                                  right: 24.0),
+                                                  right: 12.0),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -165,11 +166,15 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                     ),
                                                   ),
                                                   const Spacer(),
-                                                  GestureDetector(
-                                                    onTap: () {},
-                                                    child: const Icon(
-                                                      MdiIcons.dotsVertical,
-                                                      size: 24,
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GestureDetector(
+                                                      onTap: () {},
+                                                      child: const Icon(
+                                                        MdiIcons.dotsVertical,
+                                                        size: 24,
+                                                      ),
                                                     ),
                                                   )
                                                 ],
@@ -468,37 +473,37 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                 //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/nudge.png",
                                                 //   ),
                                                 // ),
-                                                Positioned(
-                                                  top: 220,
-                                                  left: 30,
-                                                  child: Container(
-                                                    width:
-                                                        getProportionateScreenWidth(
-                                                            22),
-                                                    height:
-                                                        getProportionateScreenHeight(
-                                                            22),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: Colors.black),
-                                                      gradient:
-                                                          const LinearGradient(
-                                                        begin:
-                                                            Alignment.topLeft,
-                                                        end: Alignment
-                                                            .bottomRight,
-                                                        colors: [
-                                                          kPrimaryColor,
-                                                          kSecondaryColor,
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    child: const Icon(
-                                                      MdiIcons.swapVertical,
-                                                      size: 18,
-                                                    ),
-                                                  ),
-                                                ),
+                                                // Positioned(
+                                                //   top: 220,
+                                                //   left: 30,
+                                                //   child: Container(
+                                                //     width:
+                                                //         getProportionateScreenWidth(
+                                                //             22),
+                                                //     height:
+                                                //         getProportionateScreenHeight(
+                                                //             22),
+                                                //     decoration: BoxDecoration(
+                                                //       border: Border.all(
+                                                //           color: Colors.black),
+                                                //       gradient:
+                                                //           const LinearGradient(
+                                                //         begin:
+                                                //             Alignment.topLeft,
+                                                //         end: Alignment
+                                                //             .bottomRight,
+                                                //         colors: [
+                                                //           kPrimaryColor,
+                                                //           kSecondaryColor,
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //     child: const Icon(
+                                                //       MdiIcons.swapVertical,
+                                                //       size: 18,
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 Positioned(
                                                   top: 150,
                                                   left: 110,
@@ -514,10 +519,16 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
                                                                 .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: [
                                                           Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
                                                                     .start,
                                                             children: [
                                                               Column(
@@ -628,7 +639,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               SizedBox(
                                                                 width:
                                                                     getProportionateScreenWidth(
-                                                                        30),
+                                                                        40),
                                                               ),
                                                               Visibility(
                                                                 visible: !user
@@ -649,22 +660,35 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                         Container(
                                                                       width:
                                                                           getProportionateScreenWidth(
-                                                                              35),
+                                                                              40),
                                                                       height:
                                                                           getProportionateScreenHeight(
                                                                               25),
                                                                       alignment:
                                                                           Alignment
                                                                               .center,
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              8),
-                                                                          border:
-                                                                              Border.all(color: Colors.black12),
-                                                                          color: kSecondaryColor),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(6),
+                                                                        border: Border.all(
+                                                                            color:
+                                                                                Colors.black12),
+                                                                        gradient:
+                                                                            const LinearGradient(
+                                                                          begin:
+                                                                              Alignment.topLeft,
+                                                                          end: Alignment
+                                                                              .bottomRight,
+                                                                          colors: [
+                                                                            kPrimaryColor,
+                                                                            kSecondaryColor,
+                                                                          ],
+                                                                        ),
+                                                                      ),
                                                                       child:
                                                                           Text(
-                                                                        "Follow",
+                                                                        "Add",
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 getProportionateScreenHeight(13),
@@ -681,22 +705,143 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                 getProportionateScreenHeight(
                                                                     4),
                                                           ),
-                                                          user.user.bio.isEmpty
-                                                              ? const Text(
-                                                                  "User has no bio")
-                                                              : Column(
-                                                                  children: [
-                                                                    Row(
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              user.user.bio
+                                                                      .isEmpty
+                                                                  ? const Text(
+                                                                      "User has no bio")
+                                                                  : Column(
                                                                       children: [
-                                                                        // const Icon(MdiIcons
-                                                                        //     .circleSmall),
-                                                                        Text(user
-                                                                            .user
-                                                                            .bio)
+                                                                        Row(
+                                                                          children: [
+                                                                            // const Icon(MdiIcons
+                                                                            //     .circleSmall),
+                                                                            Text(user.user.bio)
+                                                                          ],
+                                                                        ),
                                                                       ],
                                                                     ),
-                                                                  ],
-                                                                )
+                                                              SizedBox(
+                                                                width:
+                                                                    getProportionateScreenWidth(
+                                                                        40),
+                                                              ),
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    showModalBottomSheet(
+                                                                        context:
+                                                                            context,
+                                                                        isScrollControlled:
+                                                                            true,
+                                                                        shape: const RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                                                        builder: (context) {
+                                                                          return Container(
+                                                                            margin:
+                                                                                EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                            decoration:
+                                                                                const BoxDecoration(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(20),
+                                                                                topRight: Radius.circular(20),
+                                                                              ),
+                                                                            ),
+                                                                            height:
+                                                                                SizeConfig.screenHeight * 0.3,
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.all(16.0),
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: [
+                                                                                  Center(
+                                                                                    child: Text(
+                                                                                      "Tip This User",
+                                                                                      style: TextStyle(
+                                                                                        fontWeight: FontWeight.w800,
+                                                                                        fontSize: getProportionateScreenHeight(20),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: getProportionateScreenHeight(15),
+                                                                                  ),
+                                                                                  Text(
+                                                                                    "Enter Amount to Tip",
+                                                                                    style: TextStyle(
+                                                                                      fontSize: getProportionateScreenHeight(15),
+                                                                                      fontWeight: FontWeight.w600,
+                                                                                      color: Colors.black54,
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: getProportionateScreenHeight(8),
+                                                                                  ),
+                                                                                  TextFormField(
+                                                                                    controller: otherProfileService.amountController,
+                                                                                    decoration: InputDecoration(
+                                                                                      contentPadding: const EdgeInsets.all(4.0),
+                                                                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    height: getProportionateScreenHeight(15),
+                                                                                  ),
+                                                                                  Center(
+                                                                                    child: GestureDetector(
+                                                                                      onTap: () async {
+                                                                                        Get.back();
+                                                                                        await otherProfileService.tipUser(userId);
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        width: SizeConfig.screenWidth * 0.8,
+                                                                                        height: getProportionateScreenHeight(45),
+                                                                                        decoration: BoxDecoration(
+                                                                                          borderRadius: BorderRadius.circular(8),
+                                                                                          color: kSecondaryColor,
+                                                                                        ),
+                                                                                        alignment: Alignment.center,
+                                                                                        child: Padding(
+                                                                                          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                                                                                          child: Text(
+                                                                                            "Tip User",
+                                                                                            style: TextStyle(
+                                                                                              fontWeight: FontWeight.w800,
+                                                                                              fontSize: getProportionateScreenHeight(16),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        });
+                                                                    // otherProfileService
+                                                                    //     .tipUser();
+                                                                  },
+                                                                  child:
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                    height:
+                                                                        getProportionateScreenHeight(
+                                                                            22),
+                                                                    "assets/icons/tip.svg",
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
 
                                                           // const ListTile(
                                                           //   leading: Icon(MdiIcons.circleSmall),
