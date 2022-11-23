@@ -6,7 +6,7 @@ import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controll
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/controllers/other_profile_controller.dart';
-import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/camera_controller.dart';

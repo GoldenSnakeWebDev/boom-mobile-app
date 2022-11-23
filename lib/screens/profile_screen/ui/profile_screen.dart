@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SliverToBoxAdapter(
                         child: RefreshIndicator(
                           onRefresh: () async {
-                            await controller.fetchProfile();
+                            await controller.fetchMyBooms();
                           },
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -141,7 +141,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ConnectionState.done) {
                                     if (snapshot.hasError) {
                                       return const Center(
-                                        child: Text("Could not fecch boom"),
+                                        child: Text(
+                                            "Could not fecch user profile"),
                                       );
                                     }
                                     return Column(
@@ -161,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             padding: const EdgeInsets.only(
                                                 top: 6.0,
                                                 bottom: 6.0,
-                                                right: 24.0),
+                                                right: 10.0),
                                             child: Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
@@ -834,34 +835,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: SizeConfig.screenWidth,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: boomController.myBooms.isEmpty
-                          ? Center(
-                              child: Text(
-                                "You have no Booms Yet",
-                                style: TextStyle(
-                                    fontSize: getProportionateScreenHeight(17),
-                                    fontWeight: FontWeight.w700),
-                              ),
+                      child: controller.isLoadingBooms
+                          ? const Center(
+                              child: CircularProgressIndicator(),
                             )
-                          : ListView.builder(
-                              itemCount: boomController.myBooms.length,
-                              itemBuilder: (context, index) {
-                                //Temp Solutiuon to change this later to only my Booms
+                          : controller.myBooms!.booms.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    "You have no Booms Yet",
+                                    style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(17),
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: controller.myBooms!.booms.length,
+                                  itemBuilder: (context, index) {
+                                    //Temp Solutiuon to change this later to only my Booms
 
-                                final singlePostDets =
-                                    Get.find<HomeController>();
-                                SingleBoomPost boomPost =
-                                    singlePostDets.getSingleBoomDetails(index);
-                                return SingleBoomWidget(
-                                  post: boomPost,
-                                  controller: Get.find<HomeController>(),
-                                  boomId: Get.find<HomeController>()
-                                      .allBooms!
-                                      .booms[index]
-                                      .id,
-                                );
-                              },
-                            ),
+                                    SingleBoomPost boomPost =
+                                        controller.getSingleBoomDetails(
+                                            controller.myBooms!.booms[index],
+                                            index);
+                                    return SingleBoomWidget(
+                                      post: boomPost,
+                                      controller: Get.find<HomeController>(),
+                                      boomId:
+                                          controller.myBooms!.booms[index].id,
+                                    );
+                                  },
+                                ),
                     ),
                   ),
                 ));

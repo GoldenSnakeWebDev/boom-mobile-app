@@ -14,7 +14,7 @@ class SingleBoomPost {
   int rebooms;
   int reported;
   final int comments;
-  final Network? network;
+  final Network network;
   bool isLiked;
   bool isLoves;
   bool isSmiles;
@@ -34,7 +34,7 @@ class SingleBoomPost {
     required this.rebooms,
     required this.reported,
     required this.comments,
-    this.network,
+    required this.network,
     required this.isLiked,
     required this.isLoves,
     required this.isSmiles,
