@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/pick_from_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -152,26 +153,32 @@ class _EditProfileState extends State<EditProfile> {
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              width:
-                                                  SizeConfig.screenWidth * 0.8,
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      30),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Booms",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            16)),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.to(
+                                                    () => const PickFromBoom());
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                width: SizeConfig.screenWidth *
+                                                    0.8,
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        30),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Booms",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              16)),
+                                                ),
                                               ),
                                             ),
                                           ],

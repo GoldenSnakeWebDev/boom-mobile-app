@@ -734,78 +734,72 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               ),
                               Align(
                                 alignment: Alignment.bottomCenter,
-                                child: Expanded(
-                                  flex: 1,
-                                  child: TextFormField(
-                                    controller:
-                                        boomController.commentController,
-                                    decoration: InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.all(12.0),
-                                      fillColor: const Color(0xFFF8F8F8),
-                                      filled: true,
-                                      hintText: boom.boom.comments.isEmpty
-                                          ? "No comments yet. Be the first"
-                                          : "Type a Comment...",
-                                      // prefixIcon: IconButton(
-                                      //   icon: const Icon(
-                                      //     MdiIcons.cameraOutline,
-                                      //     color: Color(0xFF454C4D),
-                                      //   ),
-                                      //   onPressed: () {},
-                                      // ),
-                                      suffixIcon: SizedBox(
-                                        width: getProportionateScreenWidth(100),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () async {
-                                                await boomController
-                                                    .commentOnPost(
-                                                  boomController
-                                                      .commentController.text,
-                                                  boomId,
-                                                );
-                                                boomController.commentController
-                                                    .clear();
-                                              },
-                                              child: boomController
-                                                      .commentLoading
-                                                  ? const CircularProgressIndicator(
-                                                      color: kPrimaryColor,
-                                                      strokeWidth: 2,
-                                                    )
-                                                  : const Icon(
-                                                      MdiIcons.send,
-                                                      color: Color(0xFF454C4D),
-                                                    ),
-                                            ),
-                                          ],
-                                        ),
+                                child: TextFormField(
+                                  controller: boomController.commentController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(12.0),
+                                    fillColor: const Color(0xFFF8F8F8),
+                                    filled: true,
+                                    hintText: boom.boom.comments.isEmpty
+                                        ? "No comments yet. Be the first"
+                                        : "Type a Comment...",
+                                    // prefixIcon: IconButton(
+                                    //   icon: const Icon(
+                                    //     MdiIcons.cameraOutline,
+                                    //     color: Color(0xFF454C4D),
+                                    //   ),
+                                    //   onPressed: () {},
+                                    // ),
+                                    suffixIcon: SizedBox(
+                                      width: getProportionateScreenWidth(100),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              await boomController
+                                                  .commentOnPost(
+                                                boomController
+                                                    .commentController.text,
+                                                boomId,
+                                              );
+                                              boomController.commentController
+                                                  .clear();
+                                            },
+                                            child: boomController.commentLoading
+                                                ? const CircularProgressIndicator(
+                                                    color: kPrimaryColor,
+                                                    strokeWidth: 2,
+                                                  )
+                                                : const Icon(
+                                                    MdiIcons.send,
+                                                    color: Color(0xFF454C4D),
+                                                  ),
+                                          ),
+                                        ],
                                       ),
-                                      border: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Colors.black45,
-                                          width: 0.2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.black45,
+                                        width: 0.2,
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Colors.black45,
-                                          width: 0.2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.black45,
+                                        width: 0.2,
                                       ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                          color: Colors.black45,
-                                          width: 0.2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                        color: Colors.black45,
+                                        width: 0.2,
                                       ),
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
                                 ),
