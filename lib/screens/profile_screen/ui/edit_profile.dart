@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/pick_from_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -155,6 +155,7 @@ class _EditProfileState extends State<EditProfile> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
+                                                Get.back();
                                                 Get.to(
                                                     () => const PickFromBoom());
                                               },

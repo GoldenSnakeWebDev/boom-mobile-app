@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controler.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';

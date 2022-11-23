@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:boom_mobile/models/network_model.dart';
+
 OtherUserBooms otherUserBoomsFromJson(String str) =>
     OtherUserBooms.fromJson(json.decode(str));
 
@@ -221,19 +223,19 @@ class User {
         "funs": List<dynamic>.from(funs.map((x) => x)),
         "first_name": firstName,
         "last_name": lastName,
-        "username": usernameValues.reverse[username],
+        "username": username,
         "photo": photo,
         "cover": cover,
         "email": email,
         "bio": bio,
         "location": location,
-        "user_type": userTypeValues.reverse[userType],
+        "user_type": userType,
         "booms": List<dynamic>.from(booms.map((x) => x)),
         "followers": List<dynamic>.from(followers.map((x) => x)),
         "following": List<dynamic>.from(following.map((x) => x)),
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
-        "sync_bank": syncBankValues.reverse[syncBank],
+        "sync_bank": syncBank,
         "id": id,
       };
 }
@@ -279,65 +281,6 @@ class SocialMedia {
         "instagram": instagram,
         "tiktok": tiktok,
         "facebook": facebook,
-      };
-}
-
-enum SyncBank {
-  THE_636_B0_A691_FC509_CF468_A74_C2,
-  THE_636_A1_F40794_AADAE01_B8_AF71,
-  THE_636_A2_C62_A59_AB2_D87_F220_CD8,
-  THE_636_EB11_DB80_C9_F7627_DD84_B1
-}
-
-final syncBankValues = EnumValues({
-  "636a1f40794aadae01b8af71": SyncBank.THE_636_A1_F40794_AADAE01_B8_AF71,
-  "636a2c62a59ab2d87f220cd8": SyncBank.THE_636_A2_C62_A59_AB2_D87_F220_CD8,
-  "636b0a691fc509cf468a74c2": SyncBank.THE_636_B0_A691_FC509_CF468_A74_C2,
-  "636eb11db80c9f7627dd84b1": SyncBank.THE_636_EB11_DB80_C9_F7627_DD84_B1
-});
-
-enum UserType { NORMAL }
-
-final userTypeValues = EnumValues({"normal": UserType.NORMAL});
-
-enum Username { DREAMANDBOA, RENNY, CORNELIUS, LANGAT }
-
-final usernameValues = EnumValues({
-  "cornelius": Username.CORNELIUS,
-  "Dreamandboa": Username.DREAMANDBOA,
-  "langat": Username.LANGAT,
-  "renny": Username.RENNY
-});
-
-class Network {
-  Network({
-    required this.name,
-    required this.imageUrl,
-    required this.symbol,
-    required this.isActive,
-    required this.id,
-  });
-
-  String name;
-  String imageUrl;
-  String symbol;
-  bool isActive;
-  String id;
-
-  factory Network.fromJson(Map<String, dynamic> json) => Network(
-        name: json["name"],
-        imageUrl: json["image_url"],
-        symbol: json["symbol"],
-        isActive: json["is_active"],
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "image_url": imageUrl,
-        "symbol": symbol,
-        "is_active": isActive,
-        "id": id,
       };
 }
 

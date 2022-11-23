@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
+import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -34,6 +36,11 @@ class EditProfileController extends GetxController {
   File? pickedProfileImage;
   String headerUrl = "";
   String profileUrl = "";
+  bool isLoadingBooms = false;
+  AllBooms? myBooms;
+  List<String> boomsURL = [];
+  String selectedHeaderImage = "";
+  String selectedProfileImage = "";
 
   @override
   void onInit() {
@@ -45,6 +52,7 @@ class EditProfileController extends GetxController {
     facebookController.text = user!.socialMedia.facebook;
     instagramController.text = user!.socialMedia.instagram;
     tiktokController.text = user!.socialMedia.tiktok;
+    fetchMyBooms();
     super.onInit();
   }
 
@@ -62,6 +70,39 @@ class EditProfileController extends GetxController {
       pickedProfileImage = File(profileImage!.path);
     }
     update();
+  }
+
+  loadBoomImages() async {
+    for (var item in myBooms!.booms) {
+      if (item.boomType == "image") {
+        boomsURL.add(item.imageUrl);
+      }
+    }
+    update();
+  }
+
+  fetchMyBooms() async {
+    String token = box.read("token");
+    String userId = box.read("userId");
+    isLoadingBooms = true;
+    final res = await http.get(
+      Uri.parse("${baseURL}fetch-user-booms/$userId?page=all"),
+      headers: {"Authorization": token},
+    );
+    if (res.statusCode == 200) {
+      myBooms = AllBooms.fromJson(jsonDecode(res.body));
+      await loadBoomImages();
+      isLoadingBooms = false;
+      update();
+    } else {
+      isLoadingBooms = false;
+      log("My Booms res${res.body}");
+      CustomSnackBar.showCustomSnackBar(
+        errorList: ["Could not fetch your booms"],
+        msg: ["Error"],
+        isError: true,
+      );
+    }
   }
 
   uploadPhoto(File photo, String successMessage) async {

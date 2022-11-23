@@ -15,11 +15,11 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 class SingleBoomWidget extends StatelessWidget {
   final SingleBoomPost post;
   final String boomId;
-  final HomeController controller;
+  final HomeController? controller;
   const SingleBoomWidget({
     Key? key,
     required this.post,
-    required this.controller,
+    this.controller,
     required this.boomId,
   }) : super(key: key);
 
@@ -47,7 +47,7 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    imageUrl: post.network?.imageUrl ?? "",
+                    imageUrl: post.network.imageUrl,
                     errorWidget: (context, url, error) => SvgPicture.asset(
                       'assets/images/Error.svg',
                       height: getProportionateScreenHeight(20),
@@ -145,11 +145,11 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
-                        isLiked: controller.isLiked,
+                        isLiked: controller?.isLiked,
                         onTap: (isLiked) async {
-                          controller.reactToBoom("likes", boomId, post.index);
+                          controller?.reactToBoom("likes", boomId, post.index);
                           // controller.reactChange("like");
-                          return controller.isLiked = !isLiked;
+                          return controller?.isLiked = !isLiked;
                         },
                         // likeCount: post.likes,
                         likeBuilder: ((isLiked) {
@@ -180,7 +180,7 @@ class SingleBoomWidget extends StatelessWidget {
                             dotSecondaryColor: kSecondaryColor),
                         isLiked: post.isLoves,
                         onTap: (isLoves) async {
-                          controller.reactToBoom("loves", boomId, post.index);
+                          controller?.reactToBoom("loves", boomId, post.index);
                           // controller.reactChange("love");
 
                           return post.isLoves = isLoves;
@@ -210,11 +210,11 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
-                        isLiked: controller.isSmiles,
+                        isLiked: controller?.isSmiles,
                         onTap: (isSmiles) async {
                           log(isSmiles.toString());
-                          controller.reactToBoom("smiles", boomId, post.index);
-                          return controller.isSmiles = isSmiles;
+                          controller?.reactToBoom("smiles", boomId, post.index);
+                          return controller?.isSmiles = isSmiles;
                         },
                         // likeCount: post.smiles,
                         // countPostion: CountPostion.bottom,
@@ -240,12 +240,12 @@ class SingleBoomWidget extends StatelessWidget {
                       LikeButton(
                           animationDuration: const Duration(milliseconds: 600),
                           size: getProportionateScreenHeight(20),
-                          isLiked: controller.isRebooms,
+                          isLiked: controller?.isRebooms,
                           onTap: (isRebooms) async {
-                            controller.reactToBoom(
+                            controller?.reactToBoom(
                                 "rebooms", boomId, post.index);
                             post.rebooms++;
-                            return controller.isRebooms = isRebooms;
+                            return controller?.isRebooms = isRebooms;
                           },
                           bubblesColor: const BubblesColor(
                               dotPrimaryColor: kPrimaryColor,

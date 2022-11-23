@@ -61,7 +61,7 @@ class OtherUserProfileController extends GetxController {
       imgUrl: boom.imageUrl,
       desc: boom.description,
       title: boom.title,
-      // network: boom.network,
+      network: boom.network,
       isLiked: isLiked,
       isLoves: isLoves,
       isRebooms: isRebooms,
