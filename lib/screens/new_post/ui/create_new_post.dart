@@ -557,7 +557,7 @@ class CreateNewPost extends GetView<NewPostController> {
                             height: getProportionateScreenHeight(10),
                           ),
                           TextFormField(
-                            controller: controller.tags,
+                            controller: controller.location,
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(4),
                               // hintText: "Enter title about your art",

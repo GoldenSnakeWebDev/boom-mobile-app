@@ -39,6 +39,7 @@ class Boom {
     required this.boomState,
     required this.isMinted,
     required this.description,
+    required this.location,
     required this.network,
     required this.comments,
     required this.user,
@@ -57,6 +58,7 @@ class Boom {
   String boomState;
   bool isMinted;
   String description;
+  String location;
   Network network;
   List<Comment> comments;
   User user;
@@ -75,6 +77,7 @@ class Boom {
         boomState: json["boom_state"],
         isMinted: json["is_minted"],
         description: json["description"],
+        location: json["location"],
         network: Network.fromJson(json["network"]),
         comments: List<Comment>.from(
             json["comments"].map((x) => Comment.fromJson(x))),
@@ -95,6 +98,7 @@ class Boom {
         "boom_state": boomState,
         "is_minted": isMinted,
         "description": description,
+        "location": location,
         "network": network.toJson(),
         "comments": List<dynamic>.from(comments.map((x) => x.toJson())),
         "user": user.toJson(),

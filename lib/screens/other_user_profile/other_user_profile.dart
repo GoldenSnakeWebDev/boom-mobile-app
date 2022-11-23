@@ -120,7 +120,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                               padding: const EdgeInsets.only(
                                                   top: 6.0,
                                                   bottom: 6.0,
-                                                  right: 24.0),
+                                                  right: 12.0),
                                               child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
@@ -166,11 +166,15 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                     ),
                                                   ),
                                                   const Spacer(),
-                                                  GestureDetector(
-                                                    onTap: () {},
-                                                    child: const Icon(
-                                                      MdiIcons.dotsVertical,
-                                                      size: 24,
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: GestureDetector(
+                                                      onTap: () {},
+                                                      child: const Icon(
+                                                        MdiIcons.dotsVertical,
+                                                        size: 24,
+                                                      ),
                                                     ),
                                                   )
                                                 ],
@@ -469,37 +473,37 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                 //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/nudge.png",
                                                 //   ),
                                                 // ),
-                                                Positioned(
-                                                  top: 220,
-                                                  left: 30,
-                                                  child: Container(
-                                                    width:
-                                                        getProportionateScreenWidth(
-                                                            22),
-                                                    height:
-                                                        getProportionateScreenHeight(
-                                                            22),
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: Colors.black),
-                                                      gradient:
-                                                          const LinearGradient(
-                                                        begin:
-                                                            Alignment.topLeft,
-                                                        end: Alignment
-                                                            .bottomRight,
-                                                        colors: [
-                                                          kPrimaryColor,
-                                                          kSecondaryColor,
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    child: const Icon(
-                                                      MdiIcons.swapVertical,
-                                                      size: 18,
-                                                    ),
-                                                  ),
-                                                ),
+                                                // Positioned(
+                                                //   top: 220,
+                                                //   left: 30,
+                                                //   child: Container(
+                                                //     width:
+                                                //         getProportionateScreenWidth(
+                                                //             22),
+                                                //     height:
+                                                //         getProportionateScreenHeight(
+                                                //             22),
+                                                //     decoration: BoxDecoration(
+                                                //       border: Border.all(
+                                                //           color: Colors.black),
+                                                //       gradient:
+                                                //           const LinearGradient(
+                                                //         begin:
+                                                //             Alignment.topLeft,
+                                                //         end: Alignment
+                                                //             .bottomRight,
+                                                //         colors: [
+                                                //           kPrimaryColor,
+                                                //           kSecondaryColor,
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //     child: const Icon(
+                                                //       MdiIcons.swapVertical,
+                                                //       size: 18,
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 Positioned(
                                                   top: 150,
                                                   left: 110,
@@ -663,15 +667,28 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                       alignment:
                                                                           Alignment
                                                                               .center,
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
-                                                                              8),
-                                                                          border:
-                                                                              Border.all(color: Colors.black12),
-                                                                          color: kSecondaryColor),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(6),
+                                                                        border: Border.all(
+                                                                            color:
+                                                                                Colors.black12),
+                                                                        gradient:
+                                                                            const LinearGradient(
+                                                                          begin:
+                                                                              Alignment.topLeft,
+                                                                          end: Alignment
+                                                                              .bottomRight,
+                                                                          colors: [
+                                                                            kPrimaryColor,
+                                                                            kSecondaryColor,
+                                                                          ],
+                                                                        ),
+                                                                      ),
                                                                       child:
                                                                           Text(
-                                                                        "Follow",
+                                                                        "Add",
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 getProportionateScreenHeight(13),

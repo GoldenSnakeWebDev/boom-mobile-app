@@ -72,6 +72,7 @@ class NewPostController extends GetxController {
   TextEditingController quantity = TextEditingController();
   TextEditingController fixedPrice = TextEditingController();
   TextEditingController price = TextEditingController();
+  TextEditingController location = TextEditingController();
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   String? selectedNetwork;
   Network? selectedNetworkModel;
