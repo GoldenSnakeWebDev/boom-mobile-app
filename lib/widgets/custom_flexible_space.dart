@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:boom_mobile/screens/profile_screen/edit_profile.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/edit_profile.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

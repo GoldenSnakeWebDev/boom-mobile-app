@@ -10,7 +10,7 @@ import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controll
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
-import 'package:boom_mobile/screens/profile_screen/profile_screen.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/profile_screen.dart';
 import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';

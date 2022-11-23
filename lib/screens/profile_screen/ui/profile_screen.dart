@@ -2,7 +2,7 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
-import 'package:boom_mobile/screens/profile_screen/edit_profile.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/edit_profile.dart';
 import 'package:boom_mobile/screens/profile_screen/service/profile_service.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';

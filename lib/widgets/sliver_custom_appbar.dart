@@ -1,4 +1,4 @@
-import 'package:boom_mobile/screens/profile_screen/sliver_app_bar_delegate.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/sliver_app_bar_delegate.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_flexible_space.dart';
 import 'package:boom_mobile/widgets/profile_picture_avatar.dart';
