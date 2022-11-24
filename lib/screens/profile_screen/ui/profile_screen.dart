@@ -665,8 +665,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     children: [
                                                                       // const Icon(MdiIcons
                                                                       //     .circleSmall),
-                                                                      Text(user
-                                                                          .bio)
+
+                                                                      Text(
+                                                                        user.bio,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      )
                                                                     ],
                                                                   ),
                                                                 ],

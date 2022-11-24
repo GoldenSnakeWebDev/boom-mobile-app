@@ -248,81 +248,181 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          showMenu(
-                                            context: context,
-                                            position: RelativeRect.fromLTRB(
-                                              SizeConfig.screenWidth * 0.6,
-                                              SizeConfig.screenHeight * 0.45,
-                                              SizeConfig.screenWidth * 0.35,
-                                              60,
-                                            ),
-                                            constraints: BoxConstraints(
-                                                maxWidth:
+                                          box.read("userId") ==
+                                                  boom.boom.user.id
+                                              ? showMenu(
+                                                  context: context,
+                                                  position:
+                                                      RelativeRect.fromLTRB(
+                                                          SizeConfig
+                                                                  .screenWidth *
+                                                              0.6,
+                                                          SizeConfig
+                                                                  .screenHeight *
+                                                              0.45,
+                                                          SizeConfig
+                                                                  .screenWidth *
+                                                              0.35,
+                                                          60),
+                                                  items: [
+                                                    PopupMenuItem(
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: kBlueColor
+                                                              .withOpacity(0.8),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  16.0,
+                                                                  4.0,
+                                                                  16.0,
+                                                                  4.0),
+                                                          child: Text(
+                                                            "More",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      14),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    PopupMenuItem(
+                                                      onTap: () {
+                                                        Get.snackbar(
+                                                            "Coming Soon",
+                                                            "Hang in there we are working on it",
+                                                            backgroundColor:
+                                                                kPrimaryColor);
+                                                      },
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: kBlueColor
+                                                              .withOpacity(0.8),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  16.0,
+                                                                  4.0,
+                                                                  16.0,
+                                                                  4.0),
+                                                          child: Text(
+                                                            "Export",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      14),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              : showMenu(
+                                                  context: context,
+                                                  position:
+                                                      RelativeRect.fromLTRB(
                                                     SizeConfig.screenWidth *
-                                                        0.35),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            items: [
-                                              PopupMenuItem(
-                                                onTap: () async {
-                                                  //Function to synthetically Mint the NFT
-                                                  await boomController
-                                                      .syntheticallyMintBoom(
-                                                          boom.boom.id);
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: kBlueColor
-                                                        .withOpacity(0.8),
+                                                        0.6,
+                                                    SizeConfig.screenHeight *
+                                                        0.45,
+                                                    SizeConfig.screenWidth *
+                                                        0.35,
+                                                    60,
                                                   ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        16.0, 4.0, 16.0, 4.0),
-                                                    child: Text(
-                                                      "Syn. NFT",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            getProportionateScreenHeight(
-                                                                14),
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: SizeConfig
+                                                              .screenWidth *
+                                                          0.35),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  items: [
+                                                    PopupMenuItem(
+                                                      onTap: () async {
+                                                        //Function to synthetically Mint the NFT
+                                                        await boomController
+                                                            .syntheticallyMintBoom(
+                                                                boom.boom.id);
+                                                      },
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: kBlueColor
+                                                              .withOpacity(0.8),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  16.0,
+                                                                  4.0,
+                                                                  16.0,
+                                                                  4.0),
+                                                          child: Text(
+                                                            "Syn. NFT",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      14),
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                              PopupMenuItem(
-                                                onTap: () async {
-                                                  Get.snackbar("Hang in there",
-                                                      "We are working on this feature",
-                                                      backgroundColor:
-                                                          kPrimaryColor);
-                                                },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color: kBlueColor
-                                                        .withOpacity(0.8),
-                                                  ),
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        16.0, 4.0, 16.0, 4.0),
-                                                    child: Text(
-                                                      "Mint NFT",
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize:
-                                                            getProportionateScreenHeight(
-                                                                14),
+                                                    PopupMenuItem(
+                                                      onTap: () async {
+                                                        Get.snackbar(
+                                                            "Hang in there",
+                                                            "We are working on this feature",
+                                                            backgroundColor:
+                                                                kPrimaryColor);
+                                                      },
+                                                      child: Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: kBlueColor
+                                                              .withOpacity(0.8),
+                                                        ),
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .fromLTRB(
+                                                                  16.0,
+                                                                  4.0,
+                                                                  16.0,
+                                                                  4.0),
+                                                          child: Text(
+                                                            "Mint NFT",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      14),
+                                                            ),
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          );
+                                                  ],
+                                                );
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
