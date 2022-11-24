@@ -6,6 +6,7 @@ import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../authentication/login/models/user_model.dart';
 import 'package:http/http.dart' as http;
@@ -79,6 +81,66 @@ class EditProfileController extends GetxController {
       }
     }
     update();
+  }
+
+  selectHeaderImage(String imgURL) {
+    selectedHeaderImage = imgURL;
+    update();
+  }
+
+  selectProfileImage(String imgURL) {
+    selectedProfileImage = imgURL;
+    update();
+  }
+
+  proceedWithUpload(String? image, String imgType) async {
+    // await instragram.downloadMedia(media);
+
+    if (image == null) {
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Please Select an Image"], msg: ["Error"], isError: true);
+    } else {
+      HttpClient client = HttpClient();
+      try {
+        EasyLoading.show(status: "Downloading Image");
+        var request = await client.getUrl(Uri.parse(image));
+        var response = await request.close();
+        if (response.statusCode == 200) {
+          var bytes = await consolidateHttpClientResponseBytes(response);
+          Directory dir = await getApplicationDocumentsDirectory();
+          String date = DateTime.now().millisecondsSinceEpoch.toString();
+
+          if (imgType == "header") {
+            String filePath = '${dir.path}/$date.jpg';
+            pickedHeaderImage = File(filePath);
+            await pickedHeaderImage!.writeAsBytes(bytes);
+            log(pickedHeaderImage!.exists().toString());
+            EasyLoading.dismiss();
+            Get.back();
+            update();
+          } else {
+            String filePath = '${dir.path}/$date.jpg';
+            pickedProfileImage = File(filePath);
+            await pickedProfileImage!.writeAsBytes(bytes);
+            log(pickedProfileImage!.exists().toString());
+            EasyLoading.dismiss();
+            Get.back();
+            update();
+          }
+        } else {
+          EasyLoading.dismiss();
+          CustomSnackBar.showCustomSnackBar(
+              errorList: ["Error Downloading Image"],
+              msg: ["Error"],
+              isError: true);
+        }
+      } catch (e) {
+        CustomSnackBar.showCustomSnackBar(
+            errorList: ["Error downloading image $e"],
+            msg: ["Download Error"],
+            isError: true);
+      }
+    }
   }
 
   fetchMyBooms() async {
@@ -164,7 +226,12 @@ class EditProfileController extends GetxController {
 
     EasyLoading.show(status: 'Updating profile...');
 
-    if (profileImage != null && headerImage != null) {
+    String twitter = twitterController.text.trim();
+    String facebook = facebookController.text.trim();
+    String instagram = instagramController.text.trim();
+    String tiktok = tiktokController.text.trim();
+
+    if (pickedProfileImage != null && pickedHeaderImage != null) {
       profileUrl =
           await uploadPhoto(pickedProfileImage!, 'Profile photo uploaded!');
       headerUrl =
@@ -182,10 +249,10 @@ class EditProfileController extends GetxController {
             "photo": profileUrl,
             "cover": headerUrl,
             "social_media": {
-              "facebook": "https://facebook.com/${facebookController.text}",
-              "twitter": "https://twitter.com/${twitterController.text}",
-              "instagram": "https://instagram.com/${instagramController.text}",
-              "tiktok": "https://tiktok.com./${tiktokController.text}",
+              "facebook": facebook,
+              "twitter": twitter,
+              "instagram": instagram,
+              "tiktok": tiktok
             },
           },
         ),
@@ -197,7 +264,7 @@ class EditProfileController extends GetxController {
         log(res.body);
         EasyLoading.showError('Error updating profile');
       }
-    } else if (profileImage != null) {
+    } else if (pickedProfileImage != null) {
       profileUrl =
           await uploadPhoto(pickedProfileImage!, 'Profile photo uploaded!');
       final res = await http.post(
@@ -212,10 +279,10 @@ class EditProfileController extends GetxController {
             // "website": websiteController.text,
             "photo": profileUrl,
             "social_media": {
-              "facebook": "https://facebook.com/${facebookController.text}",
-              "twitter": "https://twitter.com/${twitterController.text}",
-              "instagram": "https://instagram.com/${instagramController.text}",
-              "tiktok": "https://tiktok.com./${tiktokController.text}",
+              "facebook": facebook,
+              "twitter": twitter,
+              "instagram": instagram,
+              "tiktok": tiktok
             },
           },
         ),
@@ -227,7 +294,7 @@ class EditProfileController extends GetxController {
         log(res.body);
         EasyLoading.showError('Error updating profile');
       }
-    } else if (headerImage != null) {
+    } else if (pickedHeaderImage != null) {
       headerUrl =
           await uploadPhoto(pickedHeaderImage!, 'Profile photo uploaded!');
       final res = await http.post(
@@ -242,10 +309,10 @@ class EditProfileController extends GetxController {
             // "website": websiteController.text,
             "cover": headerUrl,
             "social_media": {
-              "facebook": "https://facebook.com/${facebookController.text}",
-              "twitter": "https://twitter.com/${twitterController.text}",
-              "instagram": "https://instagram.com/${instagramController.text}",
-              "tiktok": "https://tiktok.com./${tiktokController.text}",
+              "facebook": facebook,
+              "twitter": twitter,
+              "instagram": instagram,
+              "tiktok": tiktok
             },
           },
         ),
@@ -268,10 +335,10 @@ class EditProfileController extends GetxController {
             "bio": bioController.text,
             "location": locationController.text,
             "social_media": {
-              "facebook": "https://facebook.com/${facebookController.text}",
-              "twitter": "https://twitter.com/${twitterController.text}",
-              "instagram": "https://instagram.com/${instagramController.text}",
-              "tiktok": "https://tiktok.com./${tiktokController.text}",
+              "facebook": facebook,
+              "twitter": twitter,
+              "instagram": instagram,
+              "tiktok": tiktok
             },
           },
         ),

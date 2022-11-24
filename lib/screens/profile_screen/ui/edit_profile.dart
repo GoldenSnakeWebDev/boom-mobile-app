@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/pick_from_booms.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/pick_profile_from_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -316,26 +317,33 @@ class _EditProfileState extends State<EditProfile> {
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              width:
-                                                  SizeConfig.screenWidth * 0.8,
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      30),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Booms",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            16)),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                                Get.to(() =>
+                                                    const PickProfileImg());
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                width: SizeConfig.screenWidth *
+                                                    0.8,
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        30),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Booms",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              16)),
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -355,11 +363,12 @@ class _EditProfileState extends State<EditProfile> {
                                   width: 0.5,
                                 ),
                               ),
-                              child: controller.profileImage != null
+                              child: controller.pickedProfileImage != null
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(70),
                                       child: Image.file(
-                                        File(controller.profileImage!.path),
+                                        File(controller
+                                            .pickedProfileImage!.path),
                                         fit: BoxFit.cover,
                                       ),
                                     )
@@ -645,11 +654,22 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   // const Spacer(),
-                  TextButton(
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
                       onPressed: () {
                         Get.find<ProfileController>().signOut();
                       },
-                      child: const Text("Logout")),
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          color: Colors.red,
+                          fontSize: getProportionateScreenHeight(16),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: getProportionateScreenHeight(15),
                   ),

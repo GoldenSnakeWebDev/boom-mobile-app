@@ -36,9 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
       builder: (controller) {
-        Future.delayed(const Duration(seconds: 3)).then((value) =>
-            controller.getMyBooms(controller.allBooms, mainController.user!));
-
         return controller.isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
