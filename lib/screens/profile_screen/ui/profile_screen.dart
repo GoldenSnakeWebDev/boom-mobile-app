@@ -659,21 +659,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   "You have no Bio yet please add one",
                                                                 ),
                                                               )
-                                                            : Column(
-                                                                children: [
-                                                                  Row(
-                                                                    children: [
-                                                                      // const Icon(MdiIcons
-                                                                      //     .circleSmall),
-
-                                                                      Text(
-                                                                        user.bio,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ],
+                                                            : Text(
+                                                                user.bio,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                               )
 
                                                         // const ListTile(
