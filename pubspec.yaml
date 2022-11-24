@@ -117,6 +117,7 @@ dependencies:
   web3dart: ^2.4.1
   walletconnect_dart: ^0.0.11
   adapty_flutter: ^1.0.14
+  image_cropper: ^3.0.1
   
   
 

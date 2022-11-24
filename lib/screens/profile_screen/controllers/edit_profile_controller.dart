@@ -12,6 +12,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
@@ -58,18 +59,33 @@ class EditProfileController extends GetxController {
     super.onInit();
   }
 
-  handlePickHeaderImage() async {
-    headerImage = await _picker.pickImage(source: ImageSource.gallery);
+  handlePickHeaderImage(ImageSource theSource) async {
+    headerImage = await _picker.pickImage(source: theSource);
     if (headerImage != null) {
-      pickedHeaderImage = File(headerImage!.path);
+      // pickedHeaderImage = File(headerImage!.path);
+      // crop
+      final cropImageFile = await ImageCropper().cropImage(
+        sourcePath: headerImage!.path,
+        maxWidth: 300,
+        maxHeight: 360,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+      pickedHeaderImage = File(cropImageFile!.path);
     }
     update();
   }
 
-  handlePickProfileImage() async {
-    profileImage = await _picker.pickImage(source: ImageSource.gallery);
+  handlePickProfileImage(ImageSource theSource) async {
+    profileImage = await _picker.pickImage(source: theSource);
     if (profileImage != null) {
-      pickedProfileImage = File(profileImage!.path);
+      // pickedProfileImage = File(profileImage!.path);
+      final cropImageFile = await ImageCropper().cropImage(
+        sourcePath: profileImage!.path,
+        maxWidth: 300,
+        maxHeight: 360,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+      pickedProfileImage = File(cropImageFile!.path);
     }
     update();
   }

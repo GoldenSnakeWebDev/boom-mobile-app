@@ -8,6 +8,7 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -104,32 +105,44 @@ class _EditProfileState extends State<EditProfile> {
                                                   getProportionateScreenHeight(
                                                       30),
                                             ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              width:
-                                                  SizeConfig.screenWidth * 0.8,
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      30),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Camera",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            16)),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                                controller
+                                                    .handlePickHeaderImage(
+                                                  ImageSource.camera,
+                                                );
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                width: SizeConfig.screenWidth *
+                                                    0.8,
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        30),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Camera",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              16)),
+                                                ),
                                               ),
                                             ),
                                             GestureDetector(
                                               onTap: () {
+                                                Get.back();
                                                 controller
-                                                    .handlePickHeaderImage();
+                                                    .handlePickHeaderImage(
+                                                  ImageSource.gallery,
+                                                );
                                               },
                                               child: Container(
                                                 margin: const EdgeInsets.only(
@@ -267,32 +280,44 @@ class _EditProfileState extends State<EditProfile> {
                                                   getProportionateScreenHeight(
                                                       20),
                                             ),
-                                            Container(
-                                              margin: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              width:
-                                                  SizeConfig.screenWidth * 0.8,
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      30),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                "Camera",
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            16)),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Get.back();
+                                                controller
+                                                    .handlePickProfileImage(
+                                                  ImageSource.camera,
+                                                );
+                                              },
+                                              child: Container(
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 10),
+                                                width: SizeConfig.screenWidth *
+                                                    0.8,
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        30),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey[200],
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "Camera",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              16)),
+                                                ),
                                               ),
                                             ),
                                             GestureDetector(
                                               onTap: () {
+                                                Get.back();
                                                 controller
-                                                    .handlePickProfileImage();
+                                                    .handlePickProfileImage(
+                                                  ImageSource.gallery,
+                                                );
                                               },
                                               child: Container(
                                                 margin: const EdgeInsets.only(
@@ -434,6 +459,7 @@ class _EditProfileState extends State<EditProfile> {
                   TextFormField(
                     controller: controller.bioController,
                     maxLines: 5,
+                    maxLength: 180,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
                         top: 4.0,
