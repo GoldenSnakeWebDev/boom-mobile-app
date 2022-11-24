@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
-import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
@@ -112,11 +111,6 @@ class HomeController extends GetxController {
       reported: homeBooms![index].reactions.reports.length,
       comments: homeBooms![index].comments.length,
     );
-  }
-
-  getMyBooms(AllBooms? booms, User user) {
-    myBooms =
-        allBooms!.booms.where((element) => element.user.id == user.id).toList();
   }
 
   fetchAllBooms() async {

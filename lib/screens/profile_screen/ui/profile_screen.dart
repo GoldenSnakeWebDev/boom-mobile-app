@@ -338,8 +338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              user.socialMedia
-                                                                  .twitter,
+                                                              "https://twitter.com/${user.socialMedia.twitter}",
                                                             ),
                                                           );
                                                         },
@@ -359,8 +358,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              user.socialMedia
-                                                                  .facebook,
+                                                              "https://www.facebook.com/${user.socialMedia.facebook}",
                                                             ),
                                                           );
                                                         },
@@ -379,8 +377,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              user.socialMedia
-                                                                  .instagram,
+                                                              "https://instagram.com/${user.socialMedia.instagram}",
                                                             ),
                                                           );
                                                         },
@@ -389,7 +386,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           size: 18,
                                                           color: user
                                                                   .socialMedia
-                                                                  .twitter
+                                                                  .instagram
                                                                   .isEmpty
                                                               ? Colors.black26
                                                               : Colors
@@ -400,8 +397,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              user.socialMedia
-                                                                  .tiktok,
+                                                              "https://tiktok.com/${user.socialMedia.tiktok}",
                                                             ),
                                                           );
                                                         },
@@ -410,7 +406,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           size: 18,
                                                           color: user
                                                                   .socialMedia
-                                                                  .twitter
+                                                                  .tiktok
                                                                   .isEmpty
                                                               ? Colors.black26
                                                               : Colors

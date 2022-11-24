@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class PickFromBoom extends StatefulWidget {
-  const PickFromBoom({Key? key}) : super(key: key);
+class PickProfileImg extends StatefulWidget {
+  const PickProfileImg({Key? key}) : super(key: key);
 
   @override
-  State<PickFromBoom> createState() => _PickFromBoomState();
+  State<PickProfileImg> createState() => _PickImgFromBoomState();
 }
 
-class _PickFromBoomState extends State<PickFromBoom> {
+class _PickImgFromBoomState extends State<PickProfileImg> {
   var controller;
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _PickFromBoomState extends State<PickFromBoom> {
       return Scaffold(
           appBar: AppBar(
             title: Text(
-              'Pick Header Image',
+              'Pick Profile Image',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: getProportionateScreenHeight(16),
@@ -51,7 +51,7 @@ class _PickFromBoomState extends State<PickFromBoom> {
               TextButton(
                 onPressed: () {
                   controller.proceedWithUpload(
-                      controller.selectedHeaderImage, "header");
+                      controller.selectedProfileImage, "profile");
                 },
                 child: Text(
                   "Next",
@@ -88,12 +88,12 @@ class _PickFromBoomState extends State<PickFromBoom> {
                         return GestureDetector(
                           onTap: () {
                             controller
-                                .selectHeaderImage(controller.boomsURL[index]);
+                                .selectProfileImage(controller.boomsURL[index]);
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              border: controller.selectedHeaderImage ==
+                              border: controller.selectedProfileImage ==
                                       controller.boomsURL[index]
                                   ? Border.all(
                                       color: kPrimaryColor,
@@ -112,7 +112,7 @@ class _PickFromBoomState extends State<PickFromBoom> {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                controller.selectedHeaderImage !=
+                                controller.selectedProfileImage !=
                                         controller.boomsURL[index]
                                     ? const SizedBox()
                                     : Positioned(
