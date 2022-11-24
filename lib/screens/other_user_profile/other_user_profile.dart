@@ -1,4 +1,5 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/screens/fans_frens_screen/ui/fans_screen.dart';
 
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/controllers/other_profile_controller.dart';
@@ -101,6 +102,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                         child: Text("Could not fetch boom"),
                                       );
                                     } else if (snapshot.hasData) {
+                                      List<String> fans = [];
+                                      for (var item in user!.user.funs) {
+                                        fans.add(item.id.toString());
+                                      }
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -144,7 +149,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               left: 4.0,
                                                               right: 4.0),
                                                       child: Text(
-                                                        user?.user.location ??
+                                                        user.user.location ??
                                                             "Location",
                                                         style: const TextStyle(
                                                             fontWeight:
@@ -156,7 +161,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                   ),
                                                   const Spacer(),
                                                   Text(
-                                                    "!${user?.user.username ?? "username"}",
+                                                    "!${user.user.username ?? "username"}",
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -194,7 +199,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                        user!.user.cover,
+                                                        user.user.cover,
                                                       ),
                                                       fit: BoxFit.cover,
                                                     ),
@@ -567,37 +572,44 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                     getProportionateScreenWidth(
                                                                         40),
                                                               ),
-                                                              Column(
-                                                                children: [
-                                                                  Text(
-                                                                    user
-                                                                        .user
-                                                                        .followers
-                                                                        .length
-                                                                        .toString(),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w900,
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              16),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Get.to(
+                                                                      () =>
+                                                                          const FansScreen(),
+                                                                      arguments: [
+                                                                        user.user
+                                                                            .funs
+                                                                      ]);
+                                                                },
+                                                                child: Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      user
+                                                                          .user
+                                                                          .funs
+                                                                          .length
+                                                                          .toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w900,
+                                                                        fontSize:
+                                                                            getProportionateScreenHeight(16),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Text(
-                                                                    "Fans",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              12),
+                                                                    Text(
+                                                                      "Fans",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            getProportionateScreenHeight(12),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
                                                               SizedBox(
                                                                 width:
@@ -609,7 +621,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                   Text(
                                                                     user
                                                                         .user
-                                                                        .following
+                                                                        .friends
                                                                         .length
                                                                         .toString(),
                                                                     style:
@@ -642,9 +654,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                         40),
                                                               ),
                                                               Visibility(
-                                                                visible: !user
-                                                                    .user
-                                                                    .followers
+                                                                visible: !fans
                                                                     .contains(
                                                                         myUserId),
                                                                 child: Expanded(
@@ -714,16 +724,17 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                       .isEmpty
                                                                   ? const Text(
                                                                       "User has no bio")
-                                                                  : Column(
-                                                                      children: [
-                                                                        Row(
-                                                                          children: [
-                                                                            // const Icon(MdiIcons
-                                                                            //     .circleSmall),
-                                                                            Text(user.user.bio)
-                                                                          ],
-                                                                        ),
-                                                                      ],
+                                                                  : SizedBox(
+                                                                      width: SizeConfig
+                                                                              .screenWidth *
+                                                                          0.5,
+                                                                      child:
+                                                                          Text(
+                                                                        user.user
+                                                                            .bio,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                      ),
                                                                     ),
                                                               SizedBox(
                                                                 width:

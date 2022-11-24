@@ -174,8 +174,6 @@ class UserClass {
     required this.location,
     required this.userType,
     required this.booms,
-    required this.followers,
-    required this.following,
     required this.isAdmin,
     required this.passwordResetToken,
     required this.syncBank,
@@ -195,8 +193,8 @@ class UserClass {
   String location;
   String userType;
   List<dynamic> booms;
-  List<dynamic> followers;
-  List<dynamic> following;
+  List<dynamic>? followers;
+
   bool isAdmin;
   String passwordResetToken;
   String syncBank;
@@ -216,8 +214,6 @@ class UserClass {
         location: json["location"],
         userType: json["user_type"],
         booms: List<dynamic>.from(json["booms"].map((x) => x)),
-        followers: List<dynamic>.from(json["followers"].map((x) => x)),
-        following: List<dynamic>.from(json["following"].map((x) => x)),
         isAdmin: json["is_admin"],
         passwordResetToken: json["password_reset_token"],
         syncBank: json["sync_bank"],
@@ -238,51 +234,12 @@ class UserClass {
         "location": location,
         "user_type": userType,
         "booms": List<dynamic>.from(booms.map((x) => x)),
-        "followers": List<dynamic>.from(followers.map((x) => x)),
-        "following": List<dynamic>.from(following.map((x) => x)),
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
         "sync_bank": syncBank,
-        "id": id == null ? null : userIdValues.reverse[id],
+        "id": id ?? null,
       };
 }
-
-enum Email {
-  RENNYLNGT_GMAIL_COM,
-  DREAMANDBOA_GMAIL_COM,
-  MUFAMUFASAG_GMAIL_COM,
-  RENNY_GMAIL_COM
-}
-
-final emailValues = EnumValues({
-  "dreamandboa@gmail.com": Email.DREAMANDBOA_GMAIL_COM,
-  "mufamufasag@gmail.com": Email.MUFAMUFASAG_GMAIL_COM,
-  "rennylngt@gmail.com": Email.RENNYLNGT_GMAIL_COM,
-  "renny@gmail.com": Email.RENNY_GMAIL_COM
-});
-
-enum UserId {
-  THE_636_A1_F40794_AADAE01_B8_AF70,
-  THE_636_B0_A691_FC509_CF468_A74_C1,
-  THE_636_A2_C62_A59_AB2_D87_F220_CD7,
-  THE_636_EB11_CB80_C9_F7627_DD84_B0
-}
-
-final userIdValues = EnumValues({
-  "636a1f40794aadae01b8af70": UserId.THE_636_A1_F40794_AADAE01_B8_AF70,
-  "636a2c62a59ab2d87f220cd7": UserId.THE_636_A2_C62_A59_AB2_D87_F220_CD7,
-  "636b0a691fc509cf468a74c1": UserId.THE_636_B0_A691_FC509_CF468_A74_C1,
-  "636eb11cb80c9f7627dd84b0": UserId.THE_636_EB11_CB80_C9_F7627_DD84_B0
-});
-
-enum Location { NAIROBI, MOON, NBI, EMPTY }
-
-final locationValues = EnumValues({
-  "": Location.EMPTY,
-  "Moon": Location.MOON,
-  "Nairobi": Location.NAIROBI,
-  "nbi": Location.NBI
-});
 
 class PasswordReset {
   PasswordReset({

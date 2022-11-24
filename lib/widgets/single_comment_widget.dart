@@ -78,8 +78,8 @@ class SingleComment extends StatelessWidget {
                               d12,
                               style: TextStyle(
                                   fontSize: getProportionateScreenHeight(10),
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF86878B)),
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                             ),
                           )
                         ],

@@ -167,8 +167,6 @@ class User {
     required this.location,
     required this.userType,
     required this.booms,
-    required this.followers,
-    required this.following,
     required this.isAdmin,
     required this.passwordResetToken,
     required this.syncBank,
@@ -188,8 +186,7 @@ class User {
   String location;
   String userType;
   List<dynamic> booms;
-  List<dynamic> followers;
-  List<dynamic> following;
+
   bool isAdmin;
   String passwordResetToken;
   String syncBank;
@@ -209,8 +206,6 @@ class User {
         location: json["location"],
         userType: json["user_type"],
         booms: List<dynamic>.from(json["booms"].map((x) => x)),
-        followers: List<dynamic>.from(json["followers"].map((x) => x)),
-        following: List<dynamic>.from(json["following"].map((x) => x)),
         isAdmin: json["is_admin"],
         passwordResetToken: json["password_reset_token"],
         syncBank: json["sync_bank"],
@@ -231,8 +226,6 @@ class User {
         "location": location,
         "user_type": userType,
         "booms": List<dynamic>.from(booms.map((x) => x)),
-        "followers": List<dynamic>.from(followers.map((x) => x)),
-        "following": List<dynamic>.from(following.map((x) => x)),
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
         "sync_bank": syncBank,
