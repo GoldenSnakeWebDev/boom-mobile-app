@@ -185,8 +185,10 @@ class RegistrationScreen extends GetView<RegisterController> {
                                 obscureText: controller.isPassVisible.value,
                                 decoration: InputDecoration(
                                   hintText: "Password",
-                                  counterText:
+                                  helperText:
                                       "Must be over 6 characters long, contain an uppercase letter, special symbol and a number",
+                                  helperStyle: const TextStyle(
+                                      fontWeight: FontWeight.w800),
                                   prefixIcon: const Icon(
                                     Icons.lock,
                                     color: Colors.black,
@@ -203,6 +205,8 @@ class RegistrationScreen extends GetView<RegisterController> {
                                   ),
                                   fillColor: Colors.grey.shade300,
                                   filled: true,
+                                  hintMaxLines: 4,
+                                  helperMaxLines: 4,
                                   contentPadding: const EdgeInsets.all(4.0),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(

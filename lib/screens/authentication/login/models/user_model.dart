@@ -32,7 +32,91 @@ class User {
   User({
     required this.passwordReset,
     required this.socialMedia,
-    required this.funs,
+    required this.friends,
+    required this.firstName,
+    required this.lastName,
+    required this.username,
+    required this.photo,
+    required this.cover,
+    required this.email,
+    required this.bio,
+    required this.location,
+    required this.userType,
+    required this.booms,
+    required this.isAdmin,
+    required this.passwordResetToken,
+    required this.syncBank,
+    // this.funs,
+    required this.id,
+  });
+
+  PasswordReset passwordReset;
+  SocialMedia socialMedia;
+  List<dynamic> friends;
+  String firstName;
+  String lastName;
+  String username;
+  String photo;
+  String cover;
+  String email;
+  String bio;
+  String location;
+  String userType;
+  List<dynamic> booms;
+  bool isAdmin;
+  String passwordResetToken;
+  SyncBank syncBank;
+  // List<Fun>? funs;
+  String id;
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+        passwordReset: PasswordReset.fromJson(json["password_reset"]),
+        socialMedia: SocialMedia.fromJson(json["social_media"]),
+        friends: List<dynamic>.from(json["friends"].map((x) => x)),
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        username: json["username"],
+        photo: json["photo"],
+        cover: json["cover"],
+        email: json["email"],
+        bio: json["bio"],
+        location: json["location"],
+        userType: json["user_type"],
+        booms: List<dynamic>.from(json["booms"].map((x) => x)),
+        isAdmin: json["is_admin"],
+        passwordResetToken: json["password_reset_token"],
+        syncBank: SyncBank.fromJson(json["sync_bank"]),
+        // funs: List<Fun>.from(json["funs"].map((x) => Fun.fromJson(x))),
+        id: json["id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "password_reset": passwordReset.toJson(),
+        "social_media": socialMedia.toJson(),
+        "friends": List<dynamic>.from(friends.map((x) => x)),
+        "first_name": firstName,
+        "last_name": lastName,
+        "username": username,
+        "photo": photo,
+        "cover": cover,
+        "email": email,
+        "bio": bio,
+        "location": location,
+        "user_type": userType,
+        "booms": List<dynamic>.from(booms.map((x) => x)),
+        "is_admin": isAdmin,
+        "password_reset_token": passwordResetToken,
+        "sync_bank": syncBank.toJson(),
+        // "funs": List<dynamic>.from(funs!.map((x) => x.toJson())),
+        "id": id,
+      };
+}
+
+class Fun {
+  Fun({
+    this.passwordReset,
+    required this.socialMedia,
+    required this.friends,
     required this.firstName,
     required this.lastName,
     required this.username,
@@ -44,16 +128,14 @@ class User {
     required this.userType,
     required this.booms,
     required this.followers,
-    required this.following,
     required this.isAdmin,
     required this.passwordResetToken,
     required this.syncBank,
-    required this.id,
   });
 
-  PasswordReset passwordReset;
+  PasswordReset? passwordReset;
   SocialMedia socialMedia;
-  List<dynamic> funs;
+  List<dynamic> friends;
   String firstName;
   String lastName;
   String username;
@@ -65,16 +147,14 @@ class User {
   String userType;
   List<dynamic> booms;
   List<dynamic> followers;
-  List<dynamic> following;
   bool isAdmin;
   String passwordResetToken;
-  SyncBank syncBank;
-  String id;
+  String syncBank;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Fun.fromJson(Map<String, dynamic> json) => Fun(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
         socialMedia: SocialMedia.fromJson(json["social_media"]),
-        funs: List<dynamic>.from(json["funs"].map((x) => x)),
+        friends: List<dynamic>.from(json["friends"].map((x) => x)),
         firstName: json["first_name"],
         lastName: json["last_name"],
         username: json["username"],
@@ -86,17 +166,15 @@ class User {
         userType: json["user_type"],
         booms: List<dynamic>.from(json["booms"].map((x) => x)),
         followers: List<dynamic>.from(json["followers"].map((x) => x)),
-        following: List<dynamic>.from(json["following"].map((x) => x)),
         isAdmin: json["is_admin"],
         passwordResetToken: json["password_reset_token"],
-        syncBank: SyncBank.fromJson(json["sync_bank"]),
-        id: json["id"],
+        syncBank: json["sync_bank"],
       );
 
   Map<String, dynamic> toJson() => {
-        "password_reset": passwordReset.toJson(),
+        "password_reset": passwordReset?.toJson(),
         "social_media": socialMedia.toJson(),
-        "funs": List<dynamic>.from(funs.map((x) => x)),
+        "friends": List<dynamic>.from(friends.map((x) => x)),
         "first_name": firstName,
         "last_name": lastName,
         "username": username,
@@ -108,11 +186,9 @@ class User {
         "user_type": userType,
         "booms": List<dynamic>.from(booms.map((x) => x)),
         "followers": List<dynamic>.from(followers.map((x) => x)),
-        "following": List<dynamic>.from(following.map((x) => x)),
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
-        "sync_bank": syncBank.toJson(),
-        "id": id,
+        "sync_bank": syncBank,
       };
 }
 
@@ -134,29 +210,29 @@ class PasswordReset {
 
 class SocialMedia {
   SocialMedia({
+    required this.facebook,
     required this.twitter,
     required this.instagram,
     required this.tiktok,
-    required this.facebook,
   });
 
+  String facebook;
   String twitter;
   String instagram;
   String tiktok;
-  String facebook;
 
   factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
+        facebook: json["facebook"],
         twitter: json["twitter"],
         instagram: json["instagram"],
         tiktok: json["tiktok"],
-        facebook: json["facebook"],
       );
 
   Map<String, dynamic> toJson() => {
+        "facebook": facebook,
         "twitter": twitter,
         "instagram": instagram,
         "tiktok": tiktok,
-        "facebook": facebook,
       };
 }
 
