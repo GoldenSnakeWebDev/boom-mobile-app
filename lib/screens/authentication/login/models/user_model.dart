@@ -52,7 +52,7 @@ class User {
 
   PasswordReset? passwordReset;
   SocialMedia? socialMedia;
-  List<dynamic>? friends;
+  List<Fun>? friends;
   String? firstName;
   String? lastName;
   String? username;
@@ -72,7 +72,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
         socialMedia: SocialMedia.fromJson(json["social_media"]),
-        friends: List<dynamic>.from(json["friends"].map((x) => x)),
+        friends: List<Fun>.from(json["friends"].map((x) => x)),
         firstName: json["first_name"],
         lastName: json["last_name"],
         username: json["username"],

@@ -4,7 +4,9 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../models/network_model.dart';
 import '../../home_screen/models/all_booms.dart';
+import '../../main_screen/controllers/main_screen_controller.dart';
 
 class OtherUserProfileController extends GetxController {
   String? userId;
@@ -17,12 +19,22 @@ class OtherUserProfileController extends GetxController {
   bool isSmiles = false;
   bool isRebooms = false;
   bool isLiked = false;
+  NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
+  String? selectedNetwork;
+  Network? selectedNetworkModel;
+  List<Network> networks = [];
   final box = GetStorage();
   @override
   void onInit() {
     super.onInit();
     userId = Get.arguments;
-    log(userId.toString());
+    selectedNetwork = networkModel!.networks![0].symbol;
+    log("Selected network Controller: $selectedNetwork");
+    selectedNetworkModel = networkModel!.networks![0];
+    networks.clear();
+    for (var element in networkModel!.networks!) {
+      networks.add(element);
+    }
   }
 
   fetchReactionStatus(Boom boom) {
@@ -73,5 +85,15 @@ class OtherUserProfileController extends GetxController {
       reported: boom.reactions!.reports!.length,
       comments: boom.comments!.length,
     );
+  }
+
+  changeChain(String value) {
+    selectedNetwork = value;
+    for (var element in networkModel!.networks!) {
+      if (element.symbol == value) {
+        selectedNetworkModel = element;
+      }
+    }
+    update();
   }
 }

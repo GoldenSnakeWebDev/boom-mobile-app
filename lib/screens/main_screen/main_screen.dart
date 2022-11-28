@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
   int _currPage = 0;
   final List<IconData> _icons = [
     MdiIcons.home,
-    MdiIcons.lightningBoltOutline,
+    MdiIcons.magnify,
     MdiIcons.bellOutline,
     MdiIcons.account,
   ];
