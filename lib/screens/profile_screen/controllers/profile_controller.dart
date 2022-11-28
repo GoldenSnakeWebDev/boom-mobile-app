@@ -89,24 +89,24 @@ class ProfileController extends GetxController {
 
   fetchReactionStatus(Boom boom) {
     String userId = box.read("userId");
-    for (var item in boom.reactions.likes) {
+    for (var item in boom.reactions!.likes!) {
       if (item.id == userId) {
         isLiked = true;
       } else {
         isLiked = false;
       }
     }
-    for (var item in boom.reactions.loves) {
+    for (var item in boom.reactions!.loves!) {
       if (item.id == userId) {
         isLoves = true;
       }
     }
-    for (var item in boom.reactions.smiles) {
+    for (var item in boom.reactions!.smiles!) {
       if (item.id == userId) {
         isSmiles = true;
       }
     }
-    for (var item in boom.reactions.rebooms) {
+    for (var item in boom.reactions!.rebooms!) {
       if (item.id == userId) {
         isRebooms = true;
       }
@@ -117,23 +117,23 @@ class ProfileController extends GetxController {
     fetchReactionStatus(boom);
     return SingleBoomPost(
       index: index,
-      boomType: boom.boomType,
-      location: "Location",
-      chain: boom.network.symbol,
-      imgUrl: boom.imageUrl,
-      desc: boom.description,
-      title: boom.title,
-      network: boom.network,
+      boomType: "${boom.boomType}",
+      location: "${boom.location}",
+      chain: "${boom.network!.symbol}",
+      imgUrl: "${boom.imageUrl}",
+      desc: "${boom.description}",
+      title: "${boom.title}",
+      network: boom.network!,
       isLiked: isLiked,
       isLoves: isLoves,
       isRebooms: isRebooms,
       isSmiles: isSmiles,
-      likes: boom.reactions.likes.length,
-      loves: boom.reactions.loves.length,
-      smiles: boom.reactions.smiles.length,
-      rebooms: boom.reactions.rebooms.length,
-      reported: boom.reactions.reports.length,
-      comments: boom.comments.length,
+      likes: boom.reactions!.likes!.length,
+      loves: boom.reactions!.loves!.length,
+      smiles: boom.reactions!.smiles!.length,
+      rebooms: boom.reactions!.rebooms!.length,
+      reported: boom.reactions!.reports!.length,
+      comments: boom.comments!.length,
     );
   }
 

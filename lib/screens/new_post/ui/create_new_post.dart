@@ -367,7 +367,7 @@ class CreateNewPost extends GetView<NewPostController> {
                               width: getProportionateScreenWidth(4),
                             ),
                             Text(
-                              "0.00 ${controller.selectedNetwork}",
+                              "${controller.price.text.isNotEmpty ? double.parse(controller.price.text) / controller.priceValue : 0.00} ${controller.selectedNetwork}",
                               style: TextStyle(
                                 fontWeight: FontWeight.w900,
                                 fontSize: getProportionateScreenHeight(12),
@@ -392,14 +392,14 @@ class CreateNewPost extends GetView<NewPostController> {
                                             height:
                                                 getProportionateScreenHeight(
                                                     16),
-                                            imageUrl: e.imageUrl,
+                                            imageUrl: e.imageUrl!,
                                           ),
                                           SizedBox(
                                             width:
                                                 getProportionateScreenWidth(4),
                                           ),
                                           Text(
-                                            e.symbol,
+                                            e.symbol!,
                                             style: TextStyle(
                                               fontWeight: FontWeight.w900,
                                               fontSize:
@@ -411,7 +411,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                       ));
                                 }).toList(),
                                 onChanged: (value) {
-                                  controller.changeChain(value!.symbol);
+                                  controller.changeChain(value!.symbol!);
                                 }),
                           ],
                         ),

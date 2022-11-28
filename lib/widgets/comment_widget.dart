@@ -112,9 +112,9 @@ class _CommentWidgetState extends State<CommentWidget> {
                                     itemBuilder: (context, index) {
                                       return SingleComment(
                                         comment:
-                                            widget.comments![index].message,
+                                            widget.comments![index].message!,
                                         userName: widget
-                                            .comments![index].user.username,
+                                            .comments![index].user!.username!,
                                         createdAt: widget
                                             .comments![index].createdAt
                                             .toString(),
