@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -9,6 +10,7 @@ import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controlle
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
+import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +77,7 @@ class NewPostController extends GetxController {
   TextEditingController location = TextEditingController();
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   String? selectedNetwork;
+  double priceValue = 0.0;
   Network? selectedNetworkModel;
   List<Network> networks = [];
   final igController = Get.find<InstagramWebController>();
@@ -96,10 +99,10 @@ class NewPostController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    selectedNetwork = networkModel!.networks[0].symbol;
-    selectedNetworkModel = networkModel!.networks[0];
+    selectedNetwork = networkModel!.networks![0].symbol;
+    selectedNetworkModel = networkModel!.networks![0];
     networks.clear();
-    for (var element in networkModel!.networks) {
+    for (var element in networkModel!.networks!) {
       networks.add(element);
     }
     // image = null;
@@ -155,12 +158,24 @@ class NewPostController extends GetxController {
 
   changeChain(String value) {
     selectedNetwork = value;
-    for (var element in networkModel!.networks) {
+    for (var element in networkModel!.networks!) {
       if (element.symbol == value) {
         selectedNetworkModel = element;
       }
     }
+    getCryptoPrice(selectedNetworkModel!.symbol!);
     update();
+  }
+
+  getCryptoPrice(String cryptoName) async {
+    final res = await http.get(
+        Uri.parse("${baseURL}networks-pricing?symbok=$cryptoName&amount=1"));
+
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body);
+      priceValue = data['currentPrice'];
+      update();
+    }
   }
 
   fetchImageFromIG(File image) {
@@ -202,7 +217,7 @@ class NewPostController extends GetxController {
     log("Boom Type $postType");
     NewPostModel newPostModel = NewPostModel(
         boomType: postType,
-        network: selectedNetworkModel!.id,
+        network: selectedNetworkModel!.id!,
         description: description.text.trim(),
         title: title.text.trim(),
         imageUrl: imgURL,

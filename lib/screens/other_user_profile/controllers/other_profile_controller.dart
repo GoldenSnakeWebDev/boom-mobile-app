@@ -57,7 +57,7 @@ class OtherUserProfileController extends GetxController {
       index: index,
       boomType: boom.boomType,
       location: "Location",
-      chain: boom.network.symbol,
+      chain: boom.network.symbol!,
       imgUrl: boom.imageUrl,
       desc: boom.description,
       title: boom.title,

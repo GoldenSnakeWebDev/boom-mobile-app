@@ -544,7 +544,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 Text(
                                                                   controller
                                                                       .myBooms!
-                                                                      .booms
+                                                                      .booms!
                                                                       .length
                                                                       .toString(),
                                                                   style:
@@ -832,7 +832,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
-                          : controller.myBooms!.booms.isEmpty
+                          : controller.myBooms!.booms!.isEmpty
                               ? Center(
                                   child: Text(
                                     "You have no Booms Yet",
@@ -843,19 +843,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 )
                               : ListView.builder(
-                                  itemCount: controller.myBooms!.booms.length,
+                                  itemCount: controller.myBooms!.booms!.length,
                                   itemBuilder: (context, index) {
                                     //Temp Solutiuon to change this later to only my Booms
 
                                     SingleBoomPost boomPost =
                                         controller.getSingleBoomDetails(
-                                            controller.myBooms!.booms[index],
+                                            controller.myBooms!.booms![index],
                                             index);
                                     return SingleBoomWidget(
                                       post: boomPost,
                                       controller: Get.find<HomeController>(),
                                       boomId:
-                                          controller.myBooms!.booms[index].id,
+                                          controller.myBooms!.booms![index].id!,
                                     );
                                   },
                                 ),

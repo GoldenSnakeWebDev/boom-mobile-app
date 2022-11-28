@@ -816,15 +816,13 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     return SingleComment(
                                       comment:
                                           boom.boom.comments[index].message,
-                                      userName: boom
-                                          .boom.comments[index].user.username,
+                                      userName:
+                                          " ${boom.boom.comments[index].user.username}",
                                       createdAt: boom
                                           .boom.comments[index].createdAt
                                           .toString(),
-                                      imageUrl: boom.boom.comments[index].user
-                                              .photo.isNotEmpty
-                                          ? boom.boom.comments[index].user.photo
-                                          : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
+                                      imageUrl:
+                                          "${boom.boom.comments[index].user.photo!.isNotEmpty ? boom.boom.comments[index].user.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
                                     );
                                   },
                                 ),

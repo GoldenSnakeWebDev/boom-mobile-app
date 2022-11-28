@@ -320,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           post: boomPost,
                                           controller: controller,
                                           boomId:
-                                              controller.homeBooms![index].id,
+                                              controller.homeBooms![index].id!,
                                         );
                                       },
                                     ),
