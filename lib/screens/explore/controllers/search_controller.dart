@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:boom_mobile/screens/explore/services/search_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +23,6 @@ class SearchController extends GetxController {
       setLoading(true);
       final res = await _service.searchBooms(query);
       setLoading(false);
-      log("res: $res");
       _searchedBooms = res;
     } else {
       _searchedBooms = null;
