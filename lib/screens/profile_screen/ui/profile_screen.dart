@@ -579,10 +579,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             Column(
                                                               children: [
                                                                 Text(
-                                                                  // user.funs
-                                                                  //         ?.length
-                                                                  //         .toString() ??
-                                                                  "0",
+                                                                  user.funs
+                                                                          ?.length
+                                                                          .toString() ??
+                                                                      "0",
                                                                   style:
                                                                       TextStyle(
                                                                     fontWeight:

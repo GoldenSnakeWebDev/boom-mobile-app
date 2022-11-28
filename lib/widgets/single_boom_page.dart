@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/single_boom_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
@@ -146,10 +147,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       GestureDetector(
                                         onTap: () {
                                           Get.to(
-                                            () =>
-                                                const OtherUserProfileScreen(),
-                                            arguments: boom.boom.user!.id,
-                                          );
+                                              () =>
+                                                  const OtherUserProfileScreen(),
+                                              arguments: boom.boom.user!.id,
+                                              binding: AppBindings());
                                         },
                                         child: Column(
                                           children: [

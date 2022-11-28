@@ -58,39 +58,40 @@ class OtherProfileService {
     }
   }
 
-  tipUser(
-    String userId,
-  ) async {
-    EasyLoading.show(status: "Tipping User");
-    String token = box.read("token");
-    final Map<String, dynamic> body = {
-      "amount": amountController.text.trim(),
-      "user": userId,
-    };
-    final res = await http.post(
-      Uri.parse("${baseURL}sync-bank/tipping"),
-      headers: {
-        "Authorization": token,
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      },
-      body: jsonEncode(body),
-    );
-
-    if (res.statusCode == 200) {
-      amountController.clear();
-      EasyLoading.dismiss();
-      Get.snackbar("User Tipped", "User has been tipped successfully",
-          backgroundColor: kPrimaryColor);
-    } else {
-      EasyLoading.dismiss();
-      log(res.body);
-      log(res.statusCode.toString());
-      Get.snackbar(
-        "Error",
-        "Could not tip user",
-        backgroundColor: kredCancelLightColor,
+  tipUser(String userId, String network) async {
+    if (formKey.currentState!.validate()) {
+      EasyLoading.show(status: "Tipping User");
+      String token = box.read("token");
+      final Map<String, dynamic> body = {
+        "amount": amountController.text.trim(),
+        "user": userId,
+        "networkType": network
+      };
+      final res = await http.post(
+        Uri.parse("${baseURL}sync-bank/tipping"),
+        headers: {
+          "Authorization": token,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: jsonEncode(body),
       );
+
+      if (res.statusCode == 200) {
+        amountController.clear();
+        EasyLoading.dismiss();
+        Get.snackbar("User Tipped", "User has been tipped successfully",
+            backgroundColor: kPrimaryColor);
+      } else {
+        EasyLoading.dismiss();
+        log(res.body);
+        log(res.statusCode.toString());
+        Get.snackbar(
+          "Error",
+          "Could not tip user",
+          backgroundColor: kredCancelLightColor,
+        );
+      }
     }
   }
 

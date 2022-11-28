@@ -18,15 +18,18 @@ class NewPostModel {
   final String tags;
   final String fixedPrice;
   final String price;
+  final String timestamp;
 
-  NewPostModel(
-      {required this.boomType,
-      required this.network,
-      required this.description,
-      required this.title,
-      required this.imageUrl,
-      required this.quantity,
-      required this.tags,
-      required this.fixedPrice,
-      required this.price});
+  NewPostModel({
+    required this.boomType,
+    required this.network,
+    required this.description,
+    required this.title,
+    required this.imageUrl,
+    required this.quantity,
+    required this.tags,
+    required this.fixedPrice,
+    required this.price,
+    required this.timestamp,
+  });
 }
