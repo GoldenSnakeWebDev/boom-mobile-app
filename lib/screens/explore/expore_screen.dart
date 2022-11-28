@@ -9,6 +9,8 @@ import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'controllers/search_controller.dart';
+
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
 
@@ -19,6 +21,7 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   final mainController = Get.find<MainScreenController>();
   final homeController = Get.find<HomeController>();
+  final _searchController = Get.find<SearchController>();
   List<Boom>? _shuffledBooms;
 
   @override
@@ -52,6 +55,33 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Container(
+                        height: getProportionateScreenHeight(50),
+                        margin: EdgeInsets.only(
+                          bottom: getProportionateScreenHeight(15),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          controller: _searchController.searchFormController,
+                          onChanged: (value) {
+                            _searchController.searchBooms();
+                          },
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
+                            hintText: 'Search',
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
                       (_shuffledBooms!.isEmpty)
                           ? Column(
                               mainAxisAlignment: MainAxisAlignment.center,
