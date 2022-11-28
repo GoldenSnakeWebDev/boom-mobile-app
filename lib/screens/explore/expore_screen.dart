@@ -2,6 +2,7 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
@@ -144,28 +145,28 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                               child:
                                                   CircularProgressIndicator(),
                                             )
-                                          : const Text("Show search results"),
-                                      // Expanded(
-                                      //     child: ListView.builder(
-                                      //       itemCount: searchCtrller
-                                      //           .searchBoomResults?.length,
-                                      //       itemBuilder: (context, index) {
-                                      //         final singlePostDets = Get
-                                      //             .find<HomeController>();
-                                      //         SingleBoomPost boomPost =
-                                      //             singlePostDets
-                                      //                 .getSingleBoomDetails(
-                                      //                     index);
-                                      //         return SingleBoomWidget(
-                                      //           post: boomPost,
-                                      //           controller: homeController,
-                                      //           boomId:
-                                      //               _shuffledBooms![index]
-                                      //                   .id!,
-                                      //         );
-                                      //       },
-                                      //     ),
-                                      //   ),
+                                          : ListView.builder(
+                                              itemCount: searchCtrller
+                                                  .searchBoomResults?.length,
+                                              itemBuilder: (context, index) {
+                                                SingleBoomPost boomPost =
+                                                    Get.find<
+                                                            ProfileController>()
+                                                        .getSingleBoomDetails(
+                                                  searchCtrller
+                                                          .searchBoomResults![
+                                                      index],
+                                                  index,
+                                                );
+                                                return SingleBoomWidget(
+                                                  post: boomPost,
+                                                  controller: homeController,
+                                                  boomId: searchCtrller
+                                                      .searchBoomResults![index]
+                                                      .id!,
+                                                );
+                                              },
+                                            ),
                                     ),
                                   ),
                       ],
