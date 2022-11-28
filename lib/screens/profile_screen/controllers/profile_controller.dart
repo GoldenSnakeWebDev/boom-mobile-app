@@ -39,7 +39,7 @@ class ProfileController extends GetxController {
   void onInit() {
     user = Get.find<MainScreenController>().user;
     fetchMyBooms();
-    if (user != null && user!.bio.isNotEmpty) {
+    if (user != null && user!.bio!.isNotEmpty) {
       isNewUser = false;
     }
     super.onInit();

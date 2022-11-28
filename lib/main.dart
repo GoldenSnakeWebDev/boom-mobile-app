@@ -20,7 +20,7 @@ void main() async {
 configureLoader() {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
-    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..indicatorType = EasyLoadingIndicatorType.wave
     ..loadingStyle = EasyLoadingStyle.custom
     ..textColor = Colors.white
     ..indicatorColor = kPrimaryColor
