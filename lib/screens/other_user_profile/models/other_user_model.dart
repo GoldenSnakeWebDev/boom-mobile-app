@@ -46,7 +46,6 @@ class User {
     this.location,
     this.userType,
     this.booms,
-    this.followers,
     this.isAdmin,
     this.passwordResetToken,
     this.syncBank,
@@ -67,7 +66,7 @@ class User {
   String? location;
   String? userType;
   List<dynamic>? booms;
-  List<String>? followers;
+
   bool? isAdmin;
   String? passwordResetToken;
   SyncBank? syncBank;
@@ -88,7 +87,6 @@ class User {
         location: json["location"],
         userType: json["user_type"],
         booms: List<dynamic>.from(json["booms"].map((x) => x)),
-        followers: List<String>.from(json["followers"].map((x) => x)),
         isAdmin: json["is_admin"],
         passwordResetToken: json["password_reset_token"],
         syncBank: SyncBank.fromJson(json["sync_bank"]),
@@ -110,7 +108,6 @@ class User {
         "location": location,
         "user_type": userType,
         "booms": List<dynamic>.from(booms!.map((x) => x)),
-        "followers": List<dynamic>.from(followers!.map((x) => x)),
         "is_admin": isAdmin,
         "password_reset_token": passwordResetToken,
         "sync_bank": syncBank?.toJson(),
@@ -139,7 +136,7 @@ class Fun {
         lastName: json["last_name"],
         username: json["username"],
         photo: json["photo"],
-        id: json["id"] ?? null,
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -147,7 +144,7 @@ class Fun {
         "last_name": lastName,
         "username": username,
         "photo": photo,
-        "id": id ?? null,
+        "id": id,
       };
 }
 

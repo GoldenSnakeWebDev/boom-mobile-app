@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:boom_mobile/models/network_model.dart';
+import '../../home_screen/models/all_booms.dart';
 
 OtherUserBooms otherUserBoomsFromJson(String str) =>
     OtherUserBooms.fromJson(json.decode(str));
@@ -32,87 +32,6 @@ class OtherUserBooms {
         "status": status,
         "page": page.toJson(),
         "booms": List<dynamic>.from(booms.map((x) => x.toJson())),
-      };
-}
-
-class Boom {
-  Boom({
-    required this.reactions,
-    required this.boomType,
-    required this.title,
-    required this.boomState,
-    required this.isMinted,
-    required this.description,
-    required this.location,
-    required this.network,
-    required this.comments,
-    required this.user,
-    required this.imageUrl,
-    required this.price,
-    required this.fixedPrice,
-    required this.tags,
-    required this.isActive,
-    required this.createdAt,
-    required this.id,
-  });
-
-  Reactions reactions;
-  String boomType;
-  String title;
-  String boomState;
-  bool isMinted;
-  String description;
-  String location;
-  Network network;
-  List<Comment> comments;
-  User user;
-  String imageUrl;
-  String price;
-  String fixedPrice;
-  List<String> tags;
-  bool isActive;
-  DateTime createdAt;
-  String id;
-
-  factory Boom.fromJson(Map<String, dynamic> json) => Boom(
-        reactions: Reactions.fromJson(json["reactions"]),
-        boomType: json["boom_type"],
-        title: json["title"],
-        boomState: json["boom_state"],
-        isMinted: json["is_minted"],
-        description: json["description"],
-        location: json["location"],
-        network: Network.fromJson(json["network"]),
-        comments: List<Comment>.from(
-            json["comments"].map((x) => Comment.fromJson(x))),
-        user: User.fromJson(json["user"]),
-        imageUrl: json["image_url"],
-        price: json["price"],
-        fixedPrice: json["fixed_price"],
-        tags: List<String>.from(json["tags"].map((x) => x)),
-        isActive: json["is_active"],
-        createdAt: DateTime.parse(json["created_at"]),
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "reactions": reactions.toJson(),
-        "boom_type": boomType,
-        "title": title,
-        "boom_state": boomState,
-        "is_minted": isMinted,
-        "description": description,
-        "location": location,
-        "network": network.toJson(),
-        "comments": List<dynamic>.from(comments.map((x) => x.toJson())),
-        "user": user.toJson(),
-        "image_url": imageUrl,
-        "price": price,
-        "fixed_price": fixedPrice,
-        "tags": List<dynamic>.from(tags.map((x) => x)),
-        "is_active": isActive,
-        "created_at": createdAt.toIso8601String(),
-        "id": id,
       };
 }
 
