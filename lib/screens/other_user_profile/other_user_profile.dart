@@ -38,6 +38,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
     Get.put(OtherUserProfileController());
   }
 
+  int boomCount = 0;
   final boomController = Get.find<HomeController>();
   final otherProfileService = OtherProfileService();
 
@@ -544,9 +545,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               Column(
                                                                 children: [
                                                                   Text(
-                                                                    boomController
-                                                                        .myBooms
-                                                                        .length
+                                                                    boomCount
                                                                         .toString(),
                                                                     style:
                                                                         TextStyle(
@@ -903,6 +902,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                             if (snapshot.hasError) {
                               return const Center(child: Text("Error"));
                             } else {
+                              boomCount = booms!.booms.length;
                               return Container(
                                 color: kContBgColor,
                                 constraints: BoxConstraints(
@@ -912,7 +912,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                 width: SizeConfig.screenWidth,
                                 child: Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: booms!.booms.isEmpty
+                                  child: booms.booms.isEmpty
                                       ? Center(
                                           child: Text(
                                             "You have no Booms Yet",
@@ -939,7 +939,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                               post: boomPost,
                                               controller:
                                                   Get.find<HomeController>(),
-                                              boomId: booms.booms[index].id,
+                                              boomId: booms.booms[index].id!,
                                             );
                                           },
                                         ),

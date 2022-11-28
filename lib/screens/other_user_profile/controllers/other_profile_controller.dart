@@ -4,7 +4,7 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../models/other_user_booms.dart';
+import '../../home_screen/models/all_booms.dart';
 
 class OtherUserProfileController extends GetxController {
   String? userId;
@@ -26,25 +26,25 @@ class OtherUserProfileController extends GetxController {
   }
 
   fetchReactionStatus(Boom boom) {
-    userId = box.read("userId");
-    for (var item in boom.reactions.likes) {
+    String userId = box.read("userId");
+    for (var item in boom.reactions!.likes!) {
       if (item.id == userId) {
         isLiked = true;
       } else {
         isLiked = false;
       }
     }
-    for (var item in boom.reactions.loves) {
+    for (var item in boom.reactions!.loves!) {
       if (item.id == userId) {
         isLoves = true;
       }
     }
-    for (var item in boom.reactions.smiles) {
+    for (var item in boom.reactions!.smiles!) {
       if (item.id == userId) {
         isSmiles = true;
       }
     }
-    for (var item in boom.reactions.rebooms) {
+    for (var item in boom.reactions!.rebooms!) {
       if (item.id == userId) {
         isRebooms = true;
       }
@@ -55,23 +55,23 @@ class OtherUserProfileController extends GetxController {
     fetchReactionStatus(boom);
     return SingleBoomPost(
       index: index,
-      boomType: boom.boomType,
-      location: "Location",
-      chain: boom.network.symbol!,
-      imgUrl: boom.imageUrl,
-      desc: boom.description,
-      title: boom.title,
-      network: boom.network,
+      boomType: "${boom.boomType}",
+      location: "${boom.location}",
+      chain: "${boom.network!.symbol}",
+      imgUrl: "${boom.imageUrl}",
+      desc: "${boom.description}",
+      title: "${boom.title}",
+      network: boom.network!,
       isLiked: isLiked,
       isLoves: isLoves,
       isRebooms: isRebooms,
       isSmiles: isSmiles,
-      likes: boom.reactions.likes.length,
-      loves: boom.reactions.loves.length,
-      smiles: boom.reactions.smiles.length,
-      rebooms: boom.reactions.rebooms.length,
-      reported: boom.reactions.reports.length,
-      comments: boom.comments.length,
+      likes: boom.reactions!.likes!.length,
+      loves: boom.reactions!.loves!.length,
+      smiles: boom.reactions!.smiles!.length,
+      rebooms: boom.reactions!.rebooms!.length,
+      reported: boom.reactions!.reports!.length,
+      comments: boom.comments!.length,
     );
   }
 }
