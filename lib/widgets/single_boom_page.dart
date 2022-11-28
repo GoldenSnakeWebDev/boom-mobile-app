@@ -112,11 +112,11 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: snapshot.data!.boom.boomType == "text"
-                                      ? Text(boom.boom.imageUrl)
+                                      ? Text("${boom.boom.imageUrl}")
                                       : CachedNetworkImage(
                                           // height: getProportionateScreenHeight(200),
                                           width: SizeConfig.screenWidth,
-                                          imageUrl: boom.boom.imageUrl,
+                                          imageUrl: "${boom.boom.imageUrl}",
                                           errorWidget: (context, url, error) =>
                                               Container(
                                             height:
@@ -148,7 +148,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           Get.to(
                                             () =>
                                                 const OtherUserProfileScreen(),
-                                            arguments: boom.boom.user.id,
+                                            arguments: boom.boom.user!.id,
                                           );
                                         },
                                         child: Column(
@@ -163,10 +163,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                 width:
                                                     getProportionateScreenHeight(
                                                         45),
-                                                imageUrl: boom.boom.user.photo
-                                                        .isNotEmpty
-                                                    ? boom.boom.user.photo
-                                                    : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/",
+                                                imageUrl:
+                                                    "${boom.boom.user!.photo!.isNotEmpty ? boom.boom.user!.photo : "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"}",
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -176,7 +174,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                       5),
                                             ),
                                             Text(
-                                              "!${boom.boom.user.username}",
+                                              "!${boom.boom.user!.username}",
                                               style: TextStyle(
                                                 fontSize:
                                                     getProportionateScreenHeight(
@@ -198,7 +196,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         children: [
                                           Visibility(
                                             visible:
-                                                boom.boom.location.isNotEmpty,
+                                                boom.boom.location!.isNotEmpty,
                                             child: Row(
                                               children: [
                                                 const Icon(
@@ -206,7 +204,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                   size: 18,
                                                 ),
                                                 Text(
-                                                  boom.boom.location,
+                                                  boom.boom.location!,
                                                   style: TextStyle(
                                                       fontSize:
                                                           getProportionateScreenHeight(
@@ -229,7 +227,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           GestureDetector(
                                             onTap: () {
                                               _onShare(
-                                                  context, boom.boom.imageUrl);
+                                                  context, boom.boom.imageUrl!);
                                             },
                                             child: const Icon(
                                               MdiIcons.shareVariant,
@@ -249,7 +247,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       GestureDetector(
                                         onTap: () {
                                           box.read("userId") ==
-                                                  boom.boom.user.id
+                                                  boom.boom.user!.id
                                               ? showMenu(
                                                   context: context,
                                                   position:
@@ -357,7 +355,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                         //Function to synthetically Mint the NFT
                                                         await boomController
                                                             .syntheticallyMintBoom(
-                                                                boom.boom.id);
+                                                                boom.boom.id!);
                                                       },
                                                       child: Container(
                                                         decoration:
@@ -450,7 +448,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       Column(
                                         children: [
                                           Text(
-                                            boom.boom.fixedPrice,
+                                            boom.boom.fixedPrice!,
                                             style: TextStyle(
                                               fontSize:
                                                   getProportionateScreenHeight(
@@ -473,7 +471,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       CachedNetworkImage(
                                         height:
                                             getProportionateScreenHeight(20),
-                                        imageUrl: boom.boom.network.imageUrl,
+                                        imageUrl: boom.boom.network!.imageUrl,
                                       ),
                                       IconButton(
                                         onPressed: () {
@@ -530,7 +528,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 height: getProportionateScreenHeight(10),
                               ),
                               Text(
-                                boom.boom.description,
+                                boom.boom.description!,
                                 style: TextStyle(
                                     fontSize: getProportionateScreenHeight(16),
                                     fontWeight: FontWeight.w900),
@@ -539,7 +537,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 height: getProportionateScreenHeight(5),
                               ),
                               Text(
-                                boom.boom.tags[0],
+                                boom.boom.tags![0],
                                 style: TextStyle(
                                     fontSize: getProportionateScreenHeight(11),
                                     color: Colors.blue,
@@ -586,7 +584,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         }),
                                       ),
                                       Text(
-                                        "${boom.boom.reactions.likes.length}",
+                                        "${boom.boom.reactions!.likes.length}",
                                         style: TextStyle(
                                           fontSize:
                                               getProportionateScreenHeight(12),
@@ -624,7 +622,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         }),
                                       ),
                                       Text(
-                                        "${boom.boom.reactions.loves.length}",
+                                        "${boom.boom.reactions!.loves.length}",
                                         style: TextStyle(
                                           fontSize:
                                               getProportionateScreenHeight(12),
@@ -659,7 +657,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         }),
                                       ),
                                       Text(
-                                        "${boom.boom.reactions.smiles.length}",
+                                        "${boom.boom.reactions!.smiles.length}",
                                         style: TextStyle(
                                           fontSize:
                                               getProportionateScreenHeight(12),
@@ -695,7 +693,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             );
                                           }),
                                       Text(
-                                        "${boom.boom.reactions.rebooms.length}",
+                                        "${boom.boom.reactions!.rebooms.length}",
                                         style: TextStyle(
                                           fontSize:
                                               getProportionateScreenHeight(12),
@@ -741,7 +739,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         }),
                                       ),
                                       Text(
-                                        boom.boom.reactions.reports.length
+                                        boom.boom.reactions!.reports.length
                                             .toString(),
                                         style: TextStyle(
                                           fontSize:
@@ -788,7 +786,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         }),
                                       ),
                                       Text(
-                                        "${boom.boom.comments.length}",
+                                        "${boom.boom.comments!.length}",
                                         style: TextStyle(
                                           fontSize:
                                               getProportionateScreenHeight(12),
@@ -810,19 +808,19 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 flex: 3,
                                 child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: boom.boom.comments.length,
+                                  itemCount: boom.boom.comments!.length,
                                   // physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
                                     return SingleComment(
                                       comment:
-                                          boom.boom.comments[index].message,
+                                          boom.boom.comments![index].message,
                                       userName:
-                                          " ${boom.boom.comments[index].user.username}",
+                                          " ${boom.boom.comments![index].user.username}",
                                       createdAt: boom
-                                          .boom.comments[index].createdAt
+                                          .boom.comments![index].createdAt
                                           .toString(),
                                       imageUrl:
-                                          "${boom.boom.comments[index].user.photo!.isNotEmpty ? boom.boom.comments[index].user.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
+                                          "${boom.boom.comments![index].user.photo!.isNotEmpty ? boom.boom.comments![index].user.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
                                     );
                                   },
                                 ),
@@ -838,7 +836,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     contentPadding: const EdgeInsets.all(12.0),
                                     fillColor: const Color(0xFFF8F8F8),
                                     filled: true,
-                                    hintText: boom.boom.comments.isEmpty
+                                    hintText: boom.boom.comments!.isEmpty
                                         ? "No comments yet. Be the first"
                                         : "Type a Comment...",
                                     // prefixIcon: IconButton(

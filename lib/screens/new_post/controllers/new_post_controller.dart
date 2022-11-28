@@ -78,6 +78,7 @@ class NewPostController extends GetxController {
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   String? selectedNetwork;
   double priceValue = 0.0;
+  var cryptoAmount = '0.00'.obs;
   Network? selectedNetworkModel;
   List<Network> networks = [];
   final igController = Get.find<InstagramWebController>();
@@ -105,6 +106,7 @@ class NewPostController extends GetxController {
     for (var element in networkModel!.networks!) {
       networks.add(element);
     }
+    getCryptoPrice(selectedNetworkModel!.symbol!);
     // image = null;
     // pickedImage = null;
 
@@ -164,18 +166,34 @@ class NewPostController extends GetxController {
       }
     }
     getCryptoPrice(selectedNetworkModel!.symbol!);
+    // getCryptoPrice(selectedNetworkModel!.symbol!);
+
     update();
   }
 
   getCryptoPrice(String cryptoName) async {
     final res = await http.get(
-        Uri.parse("${baseURL}networks-pricing?symbok=$cryptoName&amount=1"));
+        Uri.parse("${baseURL}networks-pricing?symbol=$cryptoName&amount=1"));
+
+    log("Crypto Res ${res.body}");
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
-      priceValue = data['currentPrice'];
+      priceValue = data['currentUSDPrice'];
+      getCryptoAmount(price.text.trim());
       update();
     }
+  }
+
+  getCryptoAmount(String fiatAmount) {
+    if (fiatAmount.isNotEmpty) {
+      log("Fiat Amount $priceValue");
+      cryptoAmount.value = (double.parse(fiatAmount.toString()) /
+              double.parse(priceValue.toString()))
+          .toStringAsFixed(2);
+      update();
+    }
+    return cryptoAmount;
   }
 
   fetchImageFromIG(File image) {
