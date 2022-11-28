@@ -8,6 +8,7 @@ import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.d
 import 'package:boom_mobile/screens/other_user_profile/services/other_profile_service.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -46,18 +47,14 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
+        appBar: CustomAppBar(
+          leadingWidget: IconButton(
             onPressed: () => Get.back(),
             icon: const Icon(
               Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
             ),
           ),
-          centerTitle: false,
-          actions: const [],
         ),
         body: SafeArea(
           child: ConstrainedBox(

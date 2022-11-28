@@ -8,7 +8,11 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({Key? key}) : super(key: key);
+  final Widget? leadingWidget;
+  const CustomAppBar({
+    Key? key,
+    this.leadingWidget,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,23 +41,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             const SizedBox(
               width: 10,
             ),
-            const Image(
-              width: 45,
-              height: 40,
-              image: NetworkImage(
-                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
-              ),
-            ),
+            leadingWidget ??
+                const Image(
+                  width: 45,
+                  height: 40,
+                  image: NetworkImage(
+                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
+                  ),
+                ),
             const SizedBox(
               width: 10,
             ),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Colors.white70,
-              ),
-            ),
+            // IconButton(
+            //   onPressed: () {},
+            //   icon: const Icon(
+            //     Icons.search,
+            //     color: Colors.white70,
+            //   ),
+            // ),
             const Spacer(),
             IconButton(
               onPressed: () {
