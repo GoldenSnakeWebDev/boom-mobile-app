@@ -75,22 +75,22 @@ class SingleBoomController extends GetxController {
 
   fetchReactionStatus(SingleBoom boom) {
     String userId = box.read("userId");
-    for (var item in boom.boom.reactions.likes) {
+    for (var item in boom.boom.reactions!.likes) {
       if (item.id == userId) {
         isLiked = true;
       }
     }
-    for (var item in boom.boom.reactions.loves) {
+    for (var item in boom.boom.reactions!.loves) {
       if (item.id == userId) {
         isLoves = true;
       }
     }
-    for (var item in boom.boom.reactions.smiles) {
+    for (var item in boom.boom.reactions!.smiles) {
       if (item.id == userId) {
         isSmiles = true;
       }
     }
-    for (var item in boom.boom.reactions.rebooms) {
+    for (var item in boom.boom.reactions!.rebooms) {
       if (item.id == userId) {
         isRebooms = true;
       }

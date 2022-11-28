@@ -17,7 +17,6 @@ class AllBooms {
   });
 
   String? status;
-
   List<Boom>? booms;
 
   factory AllBooms.fromJson(Map<String, dynamic> json) => AllBooms(
@@ -112,14 +111,29 @@ class Boom {
       };
 }
 
-enum BoomState { UPLOAD }
+enum BoomState {
+  UPLOAD,
+  SYNTHETIC,
+  REAL_NFT,
+}
 
-final boomStateValues = EnumValues({"upload": BoomState.UPLOAD});
+final boomStateValues = EnumValues({
+  "upload": BoomState.UPLOAD,
+  "realnft": BoomState.REAL_NFT,
+  "synthetic": BoomState.SYNTHETIC
+});
 
-enum BoomType { IMAGE, TEXT }
+enum BoomType {
+  IMAGE,
+  TEXT,
+  VIDEO,
+}
 
-final boomTypeValues =
-    EnumValues({"image": BoomType.IMAGE, "text": BoomType.TEXT});
+final boomTypeValues = EnumValues({
+  "image": BoomType.IMAGE,
+  "text": BoomType.TEXT,
+  "video": BoomType.VIDEO,
+});
 
 class Comment {
   Comment({

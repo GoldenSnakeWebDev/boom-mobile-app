@@ -328,6 +328,9 @@ class CreateNewPost extends GetView<NewPostController> {
                   ),
                   TextFormField(
                     controller: controller.price,
+                    onChanged: (value) {
+                      controller.getCryptoAmount(value);
+                    },
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Please enter price";
@@ -366,11 +369,13 @@ class CreateNewPost extends GetView<NewPostController> {
                             SizedBox(
                               width: getProportionateScreenWidth(4),
                             ),
-                            Text(
-                              "${controller.price.text.isNotEmpty ? double.parse(controller.price.text) / controller.priceValue : 0.00} ${controller.selectedNetwork}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: getProportionateScreenHeight(12),
+                            Obx(
+                              () => Text(
+                                "${controller.cryptoAmount} ${controller.selectedNetwork}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  fontSize: getProportionateScreenHeight(12),
+                                ),
                               ),
                             ),
                             DropdownButton(
