@@ -23,6 +23,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   final homeController = Get.find<HomeController>();
   final _searchController = Get.find<SearchController>();
   List<Boom>? _shuffledBooms;
+  var _isSearching = false;
 
   @override
   void initState() {
@@ -51,80 +52,124 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: getProportionateScreenHeight(50),
-                        margin: EdgeInsets.only(
-                          bottom: getProportionateScreenHeight(15),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: TextFormField(
-                          controller: _searchController.searchFormController,
-                          onChanged: (value) {
-                            _searchController.searchBooms();
-                          },
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            ),
-                            hintText: 'Search',
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
+                  child: GetBuilder<SearchController>(
+                    init: SearchController(),
+                    builder: (searchCtrller) => Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: getProportionateScreenHeight(50),
+                          margin: EdgeInsets.only(
+                            bottom: getProportionateScreenHeight(15),
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextFormField(
+                            controller: searchCtrller.searchFormController,
+                            onChanged: (value) {
+                              if (value.isEmpty) {
+                                setState(() {
+                                  _isSearching = false;
+                                });
+                              } else {
+                                setState(() {
+                                  _isSearching = true;
+                                });
+                                _searchController.searchBooms();
+                              }
+                            },
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              ),
+                              hintText: 'Search',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      (_shuffledBooms!.isEmpty)
-                          ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.photo_album_outlined,
-                                  size: getProportionateScreenHeight(100),
-                                  color: kPrimaryColor,
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(20),
-                                ),
-                                Center(
-                                  child: Text(
-                                    'Feeds coming right up',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize:
-                                          getProportionateScreenHeight(14),
-                                      fontWeight: FontWeight.w400,
+                        (_shuffledBooms!.isEmpty)
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.photo_album_outlined,
+                                    size: getProportionateScreenHeight(100),
+                                    color: kPrimaryColor,
+                                  ),
+                                  SizedBox(
+                                    height: getProportionateScreenHeight(20),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'Feeds coming right up',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(14),
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                itemCount: _shuffledBooms!.length,
-                                itemBuilder: (context, index) {
-                                  final singlePostDets =
-                                      Get.find<HomeController>();
-                                  SingleBoomPost boomPost = singlePostDets
-                                      .getSingleBoomDetails(index);
-                                  return SingleBoomWidget(
-                                    post: boomPost,
-                                    controller: homeController,
-                                    boomId: _shuffledBooms![index].id!,
-                                  );
-                                },
-                              ),
-                            ),
-                    ],
+                                ],
+                              )
+                            : (_isSearching == false)
+                                ? Expanded(
+                                    child: ListView.builder(
+                                      itemCount: _shuffledBooms!.length,
+                                      itemBuilder: (context, index) {
+                                        final singlePostDets =
+                                            Get.find<HomeController>();
+                                        SingleBoomPost boomPost = singlePostDets
+                                            .getSingleBoomDetails(index);
+                                        return SingleBoomWidget(
+                                          post: boomPost,
+                                          controller: homeController,
+                                          boomId: _shuffledBooms![index].id!,
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : Expanded(
+                                    child: Obx(
+                                      () => searchCtrller.isLoading.value
+                                          ? const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : const Text("Show search results"),
+                                      // Expanded(
+                                      //     child: ListView.builder(
+                                      //       itemCount: searchCtrller
+                                      //           .searchBoomResults?.length,
+                                      //       itemBuilder: (context, index) {
+                                      //         final singlePostDets = Get
+                                      //             .find<HomeController>();
+                                      //         SingleBoomPost boomPost =
+                                      //             singlePostDets
+                                      //                 .getSingleBoomDetails(
+                                      //                     index);
+                                      //         return SingleBoomWidget(
+                                      //           post: boomPost,
+                                      //           controller: homeController,
+                                      //           boomId:
+                                      //               _shuffledBooms![index]
+                                      //                   .id!,
+                                      //         );
+                                      //       },
+                                      //     ),
+                                      //   ),
+                                    ),
+                                  ),
+                      ],
+                    ),
                   ),
                 ),
               ),
