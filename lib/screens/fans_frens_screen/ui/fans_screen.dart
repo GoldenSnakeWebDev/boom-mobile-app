@@ -49,7 +49,7 @@ class FansScreen extends StatelessWidget {
                         arguments: fans[index].id);
                   },
                   title: Text(
-                    fans[index].username,
+                    fans[index].username!,
                     style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: getProportionateScreenHeight(16)),
@@ -59,7 +59,7 @@ class FansScreen extends StatelessWidget {
                     child: CachedNetworkImage(
                       height: getProportionateScreenHeight(35),
                       width: getProportionateScreenWidth(35),
-                      imageUrl: fans[index].photo,
+                      imageUrl: fans[index].photo!,
                       fit: BoxFit.cover,
                     ),
                   ),

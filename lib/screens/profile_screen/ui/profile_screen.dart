@@ -224,7 +224,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               SizeConfig.screenHeight * 0.29,
                                           child: Stack(
                                             children: [
-                                              user!.cover.isEmpty
+                                              user!.cover!.isEmpty
                                                   ? GestureDetector(
                                                       onTap: () {
                                                         Get.to(
@@ -311,7 +311,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       decoration: BoxDecoration(
                                                         image: DecorationImage(
                                                           image: NetworkImage(
-                                                            user.cover,
+                                                            user.cover!,
                                                           ),
                                                           fit: BoxFit.cover,
                                                         ),
@@ -338,7 +338,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              "https://twitter.com/${user.socialMedia.twitter}",
+                                                              "https://twitter.com/${user.socialMedia!.twitter!}",
                                                             ),
                                                           );
                                                         },
@@ -346,8 +346,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           MdiIcons.twitter,
                                                           size: 18,
                                                           color: user
-                                                                  .socialMedia
-                                                                  .twitter
+                                                                  .socialMedia!
+                                                                  .twitter!
                                                                   .isEmpty
                                                               ? Colors.black26
                                                               : Colors
@@ -358,7 +358,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              "https://www.facebook.com/${user.socialMedia.facebook}",
+                                                              "https://www.facebook.com/${user.socialMedia!.facebook}",
                                                             ),
                                                           );
                                                         },
@@ -366,8 +366,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           MdiIcons.facebook,
                                                           size: 18,
                                                           color: user
-                                                                  .socialMedia
-                                                                  .facebook
+                                                                  .socialMedia!
+                                                                  .facebook!
                                                                   .isEmpty
                                                               ? Colors.grey
                                                               : Colors.blue,
@@ -377,7 +377,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              "https://instagram.com/${user.socialMedia.instagram}",
+                                                              "https://instagram.com/${user.socialMedia!.instagram}",
                                                             ),
                                                           );
                                                         },
@@ -385,8 +385,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           MdiIcons.instagram,
                                                           size: 18,
                                                           color: user
-                                                                  .socialMedia
-                                                                  .instagram
+                                                                  .socialMedia!
+                                                                  .instagram!
                                                                   .isEmpty
                                                               ? Colors.black26
                                                               : Colors
@@ -397,7 +397,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                         onTap: () async {
                                                           await launchUrl(
                                                             Uri.parse(
-                                                              "https://tiktok.com/${user.socialMedia.tiktok}",
+                                                              "https://tiktok.com/${user.socialMedia!.tiktok}",
                                                             ),
                                                           );
                                                         },
@@ -405,8 +405,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           MdiIcons.musicNote,
                                                           size: 18,
                                                           color: user
-                                                                  .socialMedia
-                                                                  .tiktok
+                                                                  .socialMedia!
+                                                                  .tiktok!
                                                                   .isEmpty
                                                               ? Colors.black26
                                                               : Colors
@@ -462,16 +462,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               width:
                                                                   getProportionateScreenWidth(
                                                                       55),
-                                                              user.photo.isEmpty
+                                                              user.photo!
+                                                                      .isEmpty
                                                                   ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
-                                                                  : user.photo,
+                                                                  : user.photo!,
                                                               fit: BoxFit.cover,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
                                                       Visibility(
-                                                        visible: user.isAdmin,
+                                                        visible: user.isAdmin!,
                                                         child: Positioned(
                                                           top: 0,
                                                           right: 0,
@@ -541,8 +542,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             Column(
                                                               children: [
                                                                 Text(
-                                                                  boomController
-                                                                      .myBooms
+                                                                  controller
+                                                                      .myBooms!
+                                                                      .booms
                                                                       .length
                                                                       .toString(),
                                                                   style:
@@ -645,7 +647,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               getProportionateScreenHeight(
                                                                   4),
                                                         ),
-                                                        user.bio.isEmpty
+                                                        user.bio!.isEmpty
                                                             ? TextButton(
                                                                 onPressed: () {
                                                                   Get.to(
@@ -661,7 +663,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 ),
                                                               )
                                                             : Text(
-                                                                user.bio,
+                                                                user.bio!,
                                                                 overflow:
                                                                     TextOverflow
                                                                         .ellipsis,

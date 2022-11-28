@@ -11,7 +11,7 @@ class SplashScreen extends GetView<SplashController> {
       builder: (controller) {
         return const Scaffold(
           body: Center(
-            child: CircularProgressIndicator(),
+            child: SizedBox(),
           ),
         );
       },

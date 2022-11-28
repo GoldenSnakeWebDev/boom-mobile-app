@@ -37,14 +37,14 @@ class SyntheticBankScreen extends StatelessWidget {
                 SizedBox(
                   width: SizeConfig.screenWidth * 0.4,
                   child: Text(
-                    "SYN ID: ${myCtrl.user!.syncBank.syncId}",
+                    "SYN ID: ${myCtrl.user!.syncBank!.syncId}",
                     style: const TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ),
                 GestureDetector(
                   onTap: () async {
                     await Clipboard.setData(
-                        ClipboardData(text: myCtrl.user!.syncBank.syncId));
+                        ClipboardData(text: myCtrl.user!.syncBank!.syncId));
 
                     Get.snackbar("Copied", "Sync Bank Id Copied to clipboard",
                         backgroundColor: kPrimaryColor,
@@ -96,32 +96,35 @@ class SyntheticBankScreen extends StatelessWidget {
                     height: getProportionateScreenHeight(20),
                     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png",
                   ),
-                  balance: "${myCtrl.user!.syncBank.amountBalance}",
-                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
+                  balance: "${myCtrl.user!.syncBank!.polygon!.amountBalance!}",
+                  fiatBalance:
+                      "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
                 ),
                 ChainBalanceWidget(
                   icon: Image.network(
                     height: getProportionateScreenHeight(20),
                     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ethereum.png",
                   ),
-                  balance: "${myCtrl.user!.syncBank.amountBalance}",
-                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
+                  balance: "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
+                  fiatBalance:
+                      "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
                 ),
                 ChainBalanceWidget(
                   icon: SvgPicture.asset(
                     height: getProportionateScreenHeight(20),
                     "assets/icons/bnb.svg",
                   ),
-                  balance: "${myCtrl.user!.syncBank.amountBalance}",
-                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
+                  balance: "${myCtrl.user!.syncBank!.binance!.amountBalance}",
+                  fiatBalance:
+                      "${myCtrl.user!.syncBank!.binance!.amountBalance}",
                 ),
                 ChainBalanceWidget(
                   icon: Image.network(
                     height: getProportionateScreenHeight(20),
                     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png",
                   ),
-                  balance: "${myCtrl.user!.syncBank.amountBalance}",
-                  fiatBalance: "${myCtrl.user!.syncBank.amountBalance}",
+                  balance: "${myCtrl.user!.syncBank!.tezos!.amountBalance}",
+                  fiatBalance: "${myCtrl.user!.syncBank!.tezos!.amountBalance}",
                 ),
               ],
             ),
@@ -138,7 +141,8 @@ class SyntheticBankScreen extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: "\$${myCtrl.user!.syncBank.amountBalance * 4}",
+                    text:
+                        "\$${myCtrl.user!.syncBank!.tezos!.amountBalance! + myCtrl.user!.syncBank!.polygon!.amountBalance! + myCtrl.user!.syncBank!.binance!.amountBalance!}",
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w800,

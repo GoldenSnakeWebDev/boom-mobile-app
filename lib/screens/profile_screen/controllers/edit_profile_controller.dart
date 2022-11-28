@@ -48,13 +48,13 @@ class EditProfileController extends GetxController {
   @override
   void onInit() {
     user = Get.arguments[0];
-    usernameController.text = user!.username;
-    bioController.text = user!.bio;
-    locationController.text = user!.location;
-    twitterController.text = user!.socialMedia.twitter;
-    facebookController.text = user!.socialMedia.facebook;
-    instagramController.text = user!.socialMedia.instagram;
-    tiktokController.text = user!.socialMedia.tiktok;
+    usernameController.text = user!.username!;
+    bioController.text = user!.bio!;
+    locationController.text = user!.location!;
+    twitterController.text = user!.socialMedia!.twitter!;
+    facebookController.text = user!.socialMedia!.facebook!;
+    instagramController.text = user!.socialMedia!.instagram!;
+    tiktokController.text = user!.socialMedia!.tiktok!;
     fetchMyBooms();
     super.onInit();
   }
