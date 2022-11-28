@@ -11,45 +11,45 @@ String networkModelToJson(NetworkModel data) => json.encode(data.toJson());
 
 class NetworkModel {
   NetworkModel({
-    required this.status,
-    required this.page,
-    required this.networks,
+    this.status,
+    this.networks,
   });
 
-  String status;
-  Page page;
-  List<Network> networks;
+  String? status;
+
+  List<Network>? networks;
 
   factory NetworkModel.fromJson(Map<String, dynamic> json) => NetworkModel(
         status: json["status"],
-        page: Page.fromJson(json["page"]),
         networks: List<Network>.from(
             json["networks"].map((x) => Network.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "page": page.toJson(),
-        "networks": List<dynamic>.from(networks.map((x) => x.toJson())),
+        "networks": List<dynamic>.from(networks!.map((x) => x.toJson())),
       };
 }
 
 class Network {
   Network({
-    required this.name,
-    required this.imageUrl,
-    required this.symbol,
-    required this.isActive,
-    required this.id,
+    this.price,
+    this.name,
+    this.imageUrl,
+    this.symbol,
+    this.isActive,
+    this.id,
   });
 
-  String name;
-  String imageUrl;
-  String symbol;
-  bool isActive;
-  String id;
+  double? price;
+  String? name;
+  String? imageUrl;
+  String? symbol;
+  bool? isActive;
+  String? id;
 
   factory Network.fromJson(Map<String, dynamic> json) => Network(
+        price: double.parse(json["price"].toString()),
         name: json["name"],
         imageUrl: json["image_url"],
         symbol: json["symbol"],
@@ -58,18 +58,11 @@ class Network {
       );
 
   Map<String, dynamic> toJson() => {
+        "price": price,
         "name": name,
         "image_url": imageUrl,
         "symbol": symbol,
         "is_active": isActive,
         "id": id,
       };
-}
-
-class Page {
-  Page();
-
-  factory Page.fromJson(Map<String, dynamic> json) => Page();
-
-  Map<String, dynamic> toJson() => {};
 }

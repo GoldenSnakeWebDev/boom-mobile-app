@@ -91,9 +91,9 @@ class EditProfileController extends GetxController {
   }
 
   loadBoomImages() async {
-    for (var item in myBooms!.booms) {
+    for (var item in myBooms!.booms!) {
       if (item.boomType == "image") {
-        boomsURL.add(item.imageUrl);
+        boomsURL.add(item.imageUrl!);
       }
     }
     update();

@@ -65,24 +65,24 @@ class HomeController extends GetxController {
 
   fetchReactionStatus(Boom boom) {
     userId = box.read("userId");
-    for (var item in boom.reactions.likes) {
+    for (var item in boom.reactions!.likes!) {
       if (item.id == userId) {
         isLiked = true;
       } else {
         isLiked = false;
       }
     }
-    for (var item in boom.reactions.loves) {
+    for (var item in boom.reactions!.loves!) {
       if (item.id == userId) {
         isLoves = true;
       }
     }
-    for (var item in boom.reactions.smiles) {
+    for (var item in boom.reactions!.smiles!) {
       if (item.id == userId) {
         isSmiles = true;
       }
     }
-    for (var item in boom.reactions.rebooms) {
+    for (var item in boom.reactions!.rebooms!) {
       if (item.id == userId) {
         isRebooms = true;
       }
@@ -93,23 +93,23 @@ class HomeController extends GetxController {
     fetchReactionStatus(homeBooms![index]);
     return SingleBoomPost(
       index: index,
-      boomType: homeBooms![index].boomType,
-      location: "Location",
-      chain: homeBooms![index].network.symbol,
-      imgUrl: homeBooms![index].imageUrl,
-      desc: homeBooms![index].description,
-      title: homeBooms![index].title,
-      network: homeBooms![index].network,
+      boomType: "${homeBooms![index].boomType}",
+      location: "${homeBooms![index].location}",
+      chain: "${homeBooms![index].network!.symbol}",
+      imgUrl: "${homeBooms![index].imageUrl}",
+      desc: "${homeBooms![index].description}",
+      title: "${homeBooms![index].title}",
+      network: homeBooms![index].network!,
       isLiked: isLiked,
       isLoves: isLoves,
       isRebooms: isRebooms,
       isSmiles: isSmiles,
-      likes: homeBooms![index].reactions.likes.length,
-      loves: homeBooms![index].reactions.loves.length,
-      smiles: homeBooms![index].reactions.smiles.length,
-      rebooms: homeBooms![index].reactions.rebooms.length,
-      reported: homeBooms![index].reactions.reports.length,
-      comments: homeBooms![index].comments.length,
+      likes: homeBooms![index].reactions!.likes!.length,
+      loves: homeBooms![index].reactions!.loves!.length,
+      smiles: homeBooms![index].reactions!.smiles!.length,
+      rebooms: homeBooms![index].reactions!.rebooms!.length,
+      reported: homeBooms![index].reactions!.reports!.length,
+      comments: homeBooms![index].comments!.length,
     );
   }
 

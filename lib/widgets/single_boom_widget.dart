@@ -47,7 +47,7 @@ class SingleBoomWidget extends StatelessWidget {
                 children: [
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    imageUrl: post.network.imageUrl,
+                    imageUrl: post.network.imageUrl!,
                     errorWidget: (context, url, error) => SvgPicture.asset(
                       'assets/images/Error.svg',
                       height: getProportionateScreenHeight(20),
