@@ -22,7 +22,7 @@ class SearchService {
       );
       if (response.statusCode == 200) {
         final allBooms = allBoomsFromJson(response.body);
-        return allBooms;
+        return allBooms.booms;
       } else {
         EasyLoading.showError('Error searching');
         return null;
