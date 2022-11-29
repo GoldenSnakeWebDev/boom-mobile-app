@@ -2,6 +2,7 @@ import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
 import 'package:boom_mobile/screens/back_pack_screen/controllers/backpack_controller.dart';
+import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
 import 'package:boom_mobile/screens/explore/controllers/search_controller.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
@@ -34,5 +35,6 @@ class AppBindings extends Bindings {
     Get.lazyPut<OtherUserProfileController>(() => OtherUserProfileController());
     Get.lazyPut<SearchController>(() => SearchController());
     Get.lazyPut<BackPackController>(() => BackPackController());
+    Get.lazyPut<DMCrontroller>(() => DMCrontroller());
   }
 }
