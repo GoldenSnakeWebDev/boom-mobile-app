@@ -14,6 +14,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class SingleBoomController extends GetxController {
   final box = GetStorage();
@@ -102,8 +103,10 @@ class SingleBoomController extends GetxController {
 
     String token = box.read("token");
     log("Comment Message $text");
+    var d12 = DateFormat('MM-dd-yyyy, hh:mm a').format(DateTime.now());
     Map<String, dynamic> body = {
       "message": text,
+      "timestamp": d12,
     };
     var res = await http.post(Uri.parse("${baseURL}booms/$boomId/comments"),
         headers: {
