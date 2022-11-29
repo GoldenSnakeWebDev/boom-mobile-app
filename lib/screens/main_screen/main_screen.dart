@@ -141,7 +141,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             ListTile(
                               onTap: () {
-                                Get.to(() => const DirectMessagesScreen());
+                                Get.to(() => DirectMessagesScreen());
                               },
                               leading: const Icon(Icons.mail),
                               title: const Text(

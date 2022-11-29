@@ -1,5 +1,7 @@
 import 'package:boom_mobile/models/network_model.dart';
 
+import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
+
 class SingleBoomPost {
   final int index;
   final String boomType;
@@ -8,6 +10,7 @@ class SingleBoomPost {
   final String title;
   final String location;
   final String chain;
+  final UserClass user;
   int likes;
   int loves;
   int smiles;
@@ -21,6 +24,7 @@ class SingleBoomPost {
   bool isRebooms;
 
   SingleBoomPost({
+    required this.user,
     required this.index,
     required this.boomType,
     required this.location,

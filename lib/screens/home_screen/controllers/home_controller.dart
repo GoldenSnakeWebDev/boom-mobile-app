@@ -103,6 +103,7 @@ class HomeController extends GetxController {
       desc: "${homeBooms![index].description}",
       title: "${homeBooms![index].title}",
       network: homeBooms![index].network!,
+      user: homeBooms![index].user!,
       isLiked: isLiked,
       isLoves: isLoves,
       isRebooms: isRebooms,
@@ -121,30 +122,28 @@ class HomeController extends GetxController {
     final res = await homeService.fetchBooms();
 
     if (res.statusCode == 200) {
+      videoPlayerControllers.clear();
       isLoading = false;
 
       // CustomSnackBar.showCustomSnackBar(
       //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
       allBooms = AllBooms.fromJson(jsonDecode(res.body));
       _homeBooms = allBooms!.booms;
-      for (var item in _homeBooms!) {
-        if (item.boomType == "video") {
-          if (item.imageUrl!.contains("mp4")) {
-            videoPlayerControllers.add(CachedVideoPlayerController.network(
-                "https://topitbackend.s3.us-east-2.amazonaws.com/1631832288865-1631832230476.mp4"));
-          }
-        }
-      }
-      for (var item in videoPlayerControllers) {
-        await item.initialize().then((value) {
-          item.play();
-        });
-      }
-      for (var item in videoPlayerControllers) {
-        log("Data Source ${item.dataSource}");
-      }
+
+      // for (var item in videoPlayerControllers) {
+      //   await item.initialize().then((value) {
+      //     item.play();
+      //     item.setLooping(true);
+      //   });
+      // }
+      // for (var item in videoPlayerControllers) {
+      //   log("Data Source ${item.dataSource}");
+      // }
+
       EasyLoading.dismiss();
       // getNetworkById(allBooms);
+
+      await initializeVideos();
 
       update();
     } else {
@@ -153,6 +152,15 @@ class HomeController extends GetxController {
           errorList: ["Could not fetch Booms"], msg: ["Error"], isError: true);
       EasyLoading.dismiss();
     }
+  }
+
+  initializeVideos() async {
+    videoPlayerControllers.add(
+      CachedVideoPlayerController.network(
+          "https://topitbackend.s3.us-east-2.amazonaws.com/1631832288865-1631832230476.mp4"),
+    );
+
+    await videoPlayerControllers[0].initialize();
   }
 
   reactToBoom(String reactType, String boomId, int index) async {

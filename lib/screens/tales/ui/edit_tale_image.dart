@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
+import 'package:boom_mobile/screens/tales/services/tales_service.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,8 +12,7 @@ class EditTaleImage extends StatelessWidget {
   EditTaleImage({Key? key, required this.imageFile}) : super(key: key);
 
   final _talesEpicsController = Get.find<TalesEpicsController>();
-  final _uploadController = Get.find<EditProfileController>();
-
+  final taleService = TalesService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -161,7 +160,8 @@ class EditTaleImage extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             // TODO: Upload tale image
-                            var imgURL = await _uploadController.uploadPhoto(
+
+                            var imgURL = await taleService.uploadPhoto(
                                 imageFile, "Image Uploaded");
 
                             await _talesEpicsController.postTale(imgURL);
