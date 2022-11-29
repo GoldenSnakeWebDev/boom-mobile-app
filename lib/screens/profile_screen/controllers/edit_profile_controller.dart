@@ -220,7 +220,9 @@ class EditProfileController extends GetxController {
         UploadPhotoModel uploadPhotoModel =
             UploadPhotoModel.fromJson(json.decode(respStr));
 
-        EasyLoading.showSuccess(successMessage);
+        successMessage.isNotEmpty
+            ? EasyLoading.showSuccess(successMessage)
+            : null;
         update();
         return uploadPhotoModel.url;
       } else {

@@ -19,7 +19,9 @@ class UploadService {
       "quantity": boom.quantity,
       "tags": boom.tags,
       "fixed_price": boom.fixedPrice,
-      "price": boom.price
+      "price": boom.price,
+      "location": boom.location,
+      "timestamp": boom.timestamp
     };
     log("Body $token");
     final res = http.post(

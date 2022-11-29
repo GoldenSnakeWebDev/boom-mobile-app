@@ -215,8 +215,7 @@ class NewPostController extends GetxController {
           ? postType = 'text'
           : postType = 'image';
       if (postType != 'text') {
-        imgURL = await EditProfileController()
-            .uploadPhoto(pickedImage!, "Boom Uploaded");
+        imgURL = await EditProfileController().uploadPhoto(pickedImage!, "");
       } else {
         imgURL = boomText.text.trim();
       }
@@ -231,6 +230,7 @@ class NewPostController extends GetxController {
         imageUrl: imgURL,
         quantity: quantity.text.trim(),
         tags: tags.text.trim(),
+        location: location.text.trim(),
         fixedPrice: price.text.trim(),
         price: price.text.trim(),
         timestamp: d12,
@@ -244,8 +244,12 @@ class NewPostController extends GetxController {
         Get.offAll(() => const MainScreen(), binding: AppBindings());
       } else {
         log(res.body);
+        List<String> errors = [];
+        for (var item in jsonDecode(res.body)["errors"]) {
+          errors.add(item["message"]);
+        }
         CustomSnackBar.showCustomSnackBar(
-            errorList: [""], msg: [""], isError: true);
+            errorList: errors, msg: [""], isError: true);
       }
       EasyLoading.dismiss();
     }

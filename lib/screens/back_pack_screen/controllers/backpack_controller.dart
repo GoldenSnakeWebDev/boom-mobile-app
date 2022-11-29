@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -24,7 +25,7 @@ class BackPackController extends GetxController {
   }
 
   fetchMyBooms() async {
-    isLoading = true;
+    EasyLoading.show(status: 'loading...');
     final res = await http.get(
         Uri.parse("${baseURL}fetch-user-booms/$userId?page=all"),
         headers: {
@@ -34,11 +35,12 @@ class BackPackController extends GetxController {
         });
 
     if (res.statusCode == 200) {
+      EasyLoading.dismiss();
       myBooms = AllBooms.fromJson(jsonDecode(res.body));
       isLoading = false;
       update();
     } else {
-      isLoading = false;
+      EasyLoading.dismiss();
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Something went wrong"], msg: ["Error"], isError: true);
       update();

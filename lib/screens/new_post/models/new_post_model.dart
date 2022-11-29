@@ -18,6 +18,7 @@ class NewPostModel {
   final String tags;
   final String fixedPrice;
   final String price;
+  final String location;
   final String timestamp;
 
   NewPostModel({
@@ -30,6 +31,7 @@ class NewPostModel {
     required this.tags,
     required this.fixedPrice,
     required this.price,
+    required this.location,
     required this.timestamp,
   });
 }
