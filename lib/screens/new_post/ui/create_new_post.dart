@@ -5,9 +5,11 @@ import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:video_player/video_player.dart';
 
 class CreateNewPost extends GetView<NewPostController> {
   const CreateNewPost({Key? key}) : super(key: key);
@@ -439,7 +441,85 @@ class CreateNewPost extends GetView<NewPostController> {
                                           ),
                                         ),
                                       )
-                                    : Container(),
+                                    : controller.pickedVideo != null
+                                        ? GestureDetector(
+                                            onTap: () {
+                                              controller.selectedVideoController
+                                                  .play();
+                                              showCupertinoDialog(
+                                                context: context,
+                                                builder: ((context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        "Video Preview"),
+                                                    content: SizedBox(
+                                                      height:
+                                                          getProportionateScreenHeight(
+                                                              300),
+                                                      width:
+                                                          getProportionateScreenWidth(
+                                                              300),
+                                                      child: VideoPlayer(controller
+                                                          .selectedVideoController),
+                                                    ),
+                                                    actions: [
+                                                      CupertinoDialogAction(
+                                                        child:
+                                                            const Text("Close"),
+                                                        onPressed: () {
+                                                          Get.back();
+                                                          controller
+                                                              .selectedVideoController
+                                                              .pause();
+                                                          controller
+                                                              .selectedVideoController
+                                                              .seekTo(
+                                                            const Duration(
+                                                                seconds: 0),
+                                                          );
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                }),
+                                              );
+                                            },
+                                            child: Container(
+                                                width:
+                                                    getProportionateScreenWidth(
+                                                        70),
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        40),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: kPrimaryColor,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.play_arrow,
+                                                      size: 30,
+                                                      color: kBlueColor,
+                                                    ),
+                                                    Text(
+                                                      "Preview Video",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              getProportionateScreenHeight(
+                                                                  9),
+                                                          fontWeight:
+                                                              FontWeight.w800),
+                                                    )
+                                                  ],
+                                                )),
+                                          )
+                                        : Container(),
                               ],
                             ),
                             SizedBox(

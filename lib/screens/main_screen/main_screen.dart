@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
+import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/explore/expore_screen.dart';
+import 'package:boom_mobile/screens/fans_frens_screen/ui/fans_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
@@ -137,17 +139,28 @@ class _MainScreenState extends State<MainScreen> {
                                 'Epics',
                               ),
                             ),
-                            const ListTile(
-                              leading: Icon(Icons.mail),
-                              title: Text(
+                            ListTile(
+                              onTap: () {
+                                Get.to(() => const DirectMessagesScreen());
+                              },
+                              leading: const Icon(Icons.mail),
+                              title: const Text(
                                 'DM',
                               ),
                             ),
-                            const ListTile(
-                              leading: FloatingActionWidget(
+                            ListTile(
+                              onTap: () {
+                                final controller = Get.put(
+                                    MainScreenController(repo: Get.find()));
+                                Get.to(
+                                  () => const FansScreen(),
+                                  arguments: [controller.user!.funs!],
+                                );
+                              },
+                              leading: const FloatingActionWidget(
                                 "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Fans',
                               ),
                             ),

@@ -20,6 +20,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:web3dart/crypto.dart';
 
@@ -47,6 +48,7 @@ class NewPostController extends GetxController {
   TextEditingController location = TextEditingController();
 
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
+  late VideoPlayerController selectedVideoController;
 
   String? selectedNetwork;
   double priceValue = 0.0;
@@ -149,6 +151,10 @@ class NewPostController extends GetxController {
     video = await _picker.pickVideo(source: ImageSource.gallery);
     if (video != null) {
       pickedVideo = File(video!.path);
+      selectedVideoController = VideoPlayerController.file(pickedVideo!)
+        ..initialize().then((_) {
+          update();
+        });
     }
     update();
   }
@@ -157,6 +163,10 @@ class NewPostController extends GetxController {
     video = await _picker.pickVideo(source: ImageSource.camera);
     if (video != null) {
       pickedVideo = File(video!.path);
+      selectedVideoController = VideoPlayerController.file(pickedVideo!)
+        ..initialize().then((_) {
+          update();
+        });
     }
     update();
   }
@@ -211,11 +221,20 @@ class NewPostController extends GetxController {
       EasyLoading.show(status: "Uploading");
       String postType = '';
       String imgURL = '';
-      pickedImage == null && boomText.text.trim().isNotEmpty
-          ? postType = 'text'
-          : postType = 'image';
-      if (postType != 'text') {
+      if (pickedImage == null && pickedVideo == null) {
+        postType = 'text';
+      } else if (pickedImage != null && pickedVideo == null) {
+        postType = 'image';
+      } else {
+        postType = 'video';
+      }
+      // pickedImage == null && boomText.text.trim().isNotEmpty
+      //     ? postType = 'text'
+      //     : postType = 'image';
+      if (postType == 'image') {
         imgURL = await EditProfileController().uploadPhoto(pickedImage!, "");
+      } else if (postType == "video") {
+        imgURL = await EditProfileController().uploadVideo(pickedVideo!, "");
       } else {
         imgURL = boomText.text.trim();
       }

@@ -33,7 +33,7 @@ class NetworkModel {
 
 class Network {
   Network({
-    this.price,
+    // this.price,
     this.name,
     this.imageUrl,
     this.symbol,
@@ -41,7 +41,7 @@ class Network {
     this.id,
   });
 
-  double? price;
+  // double? price;
   String? name;
   String? imageUrl;
   String? symbol;
@@ -49,7 +49,7 @@ class Network {
   String? id;
 
   factory Network.fromJson(Map<String, dynamic> json) => Network(
-        price: double.parse(json["price"].toString()),
+        // price: double.parse(json["price"].toString()),
         name: json["name"],
         imageUrl: json["image_url"],
         symbol: json["symbol"],
@@ -58,7 +58,7 @@ class Network {
       );
 
   Map<String, dynamic> toJson() => {
-        "price": price,
+        // "price": price,
         "name": name,
         "image_url": imageUrl,
         "symbol": symbol,

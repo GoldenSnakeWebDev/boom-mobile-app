@@ -118,7 +118,12 @@ dependencies:
   walletconnect_dart: ^0.0.11
   adapty_flutter: ^1.0.14
   image_cropper: ^3.0.1
+
+  cached_video_player: ^2.0.3
+  
+
   web_socket_channel: ^2.2.0
+
   
   
 

@@ -6,6 +6,7 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,6 +28,8 @@ class HomeController extends GetxController {
   bool hasReboomed = false;
   final box = GetStorage();
   String userId = '';
+  List<CachedVideoPlayerController> videoPlayerControllers = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -124,6 +127,22 @@ class HomeController extends GetxController {
       //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
       allBooms = AllBooms.fromJson(jsonDecode(res.body));
       _homeBooms = allBooms!.booms;
+      for (var item in _homeBooms!) {
+        if (item.boomType == "video") {
+          if (item.imageUrl!.contains("mp4")) {
+            videoPlayerControllers.add(CachedVideoPlayerController.network(
+                "https://topitbackend.s3.us-east-2.amazonaws.com/1631832288865-1631832230476.mp4"));
+          }
+        }
+      }
+      for (var item in videoPlayerControllers) {
+        await item.initialize().then((value) {
+          item.play();
+        });
+      }
+      for (var item in videoPlayerControllers) {
+        log("Data Source ${item.dataSource}");
+      }
       EasyLoading.dismiss();
       // getNetworkById(allBooms);
 
