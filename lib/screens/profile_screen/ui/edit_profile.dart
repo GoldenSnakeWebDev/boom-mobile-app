@@ -381,8 +381,9 @@ class _EditProfileState extends State<EditProfile> {
                               width: getProportionateScreenWidth(70),
                               height: getProportionateScreenHeight(70),
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
+                                // shape: BoxShape.circle,
                                 color: kContBgColor,
+                                borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: Colors.black12,
                                   width: 0.5,
@@ -390,7 +391,7 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                               child: controller.pickedProfileImage != null
                                   ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(70),
+                                      borderRadius: BorderRadius.circular(12),
                                       child: Image.file(
                                         File(controller
                                             .pickedProfileImage!.path),

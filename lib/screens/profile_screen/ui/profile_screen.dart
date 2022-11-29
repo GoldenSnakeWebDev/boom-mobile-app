@@ -562,11 +562,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                               Column(
                                                                 children: [
                                                                   Text(
-                                                                    controller
-                                                                        .myBooms!
-                                                                        .booms!
-                                                                        .length
-                                                                        .toString(),
+                                                                    "${controller.myBooms?.booms?.length ?? 0}",
                                                                     style:
                                                                         TextStyle(
                                                                       fontWeight:

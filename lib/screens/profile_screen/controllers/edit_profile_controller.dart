@@ -183,6 +183,56 @@ class EditProfileController extends GetxController {
     }
   }
 
+  uploadVideo(File video, String successMessage) async {
+    try {
+      String fileName = video.path.split('/').last;
+      final videoData = await video.readAsBytes();
+      final mime = lookupMimeType(video.path, headerBytes: videoData);
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse("${baseURL}helpers/docs-uploads"),
+      );
+
+      var stream = http.ByteStream(Stream.castFrom(video.openRead()));
+      var length = video.lengthSync();
+
+      var multipartFile = http.MultipartFile("doc", stream, length,
+          filename: basename(video.path), contentType: MediaType.parse(mime!));
+      Map<String, String> headers = {
+        "Content-Type": "multipart/form-data",
+        "Accept": "*/*",
+      };
+      request.headers.addAll(headers);
+
+      request.files.add(multipartFile);
+      // request.fields["doc"] = basename(photo.path);
+      log(basename(video.path));
+      var response = await request.send();
+
+      if (response.statusCode == 201) {
+        final respStr = await response.stream.bytesToString();
+        UploadPhotoModel uploadPhotoModel =
+            UploadPhotoModel.fromJson(json.decode(respStr));
+
+        successMessage.isNotEmpty
+            ? EasyLoading.showSuccess(successMessage)
+            : null;
+        update();
+        return uploadPhotoModel.url;
+      } else {
+        log('ErrorCode >> ${response.statusCode}');
+        EasyLoading.showError('Error uploading photo');
+        response.stream.transform(utf8.decoder).listen((event) {
+          log(event);
+        });
+      }
+    } catch (e) {
+      EasyLoading.showError('failed');
+      log('Upload exception >> $e');
+      return false;
+    }
+  }
+
   uploadPhoto(File photo, String successMessage) async {
     try {
       var request = http.MultipartRequest(
@@ -194,6 +244,7 @@ class EditProfileController extends GetxController {
       var length = photo.lengthSync();
       final mimeTypeData =
           lookupMimeType(photo.path, headerBytes: [0xFF, 0xD8])!.split('/');
+
       var multipartFile = http.MultipartFile(
         "doc",
         stream,

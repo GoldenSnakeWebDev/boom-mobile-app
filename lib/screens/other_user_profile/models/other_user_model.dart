@@ -66,7 +66,6 @@ class User {
   String? location;
   String? userType;
   List<dynamic>? booms;
-
   bool? isAdmin;
   String? passwordResetToken;
   SyncBank? syncBank;
