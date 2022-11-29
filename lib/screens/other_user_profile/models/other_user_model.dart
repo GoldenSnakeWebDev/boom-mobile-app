@@ -116,38 +116,6 @@ class User {
       };
 }
 
-class Fun {
-  Fun({
-    this.firstName,
-    this.lastName,
-    this.username,
-    this.photo,
-    this.id,
-  });
-
-  String? firstName;
-  String? lastName;
-  String? username;
-  String? photo;
-  String? id;
-
-  factory Fun.fromJson(Map<String, dynamic> json) => Fun(
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        username: json["username"],
-        photo: json["photo"],
-        id: json["id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "first_name": firstName,
-        "last_name": lastName,
-        "username": username,
-        "photo": photo,
-        "id": id,
-      };
-}
-
 class PasswordReset {
   PasswordReset({
     this.isChanged,

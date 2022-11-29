@@ -46,21 +46,76 @@ class ProfileController extends GetxController {
   }
 
   changeSelectedIndex(int index) {
-    index != 0
-        ? Get.snackbar(
-            "Hang in there.",
-            "Shipping soon..",
-            backgroundColor: kPrimaryColor,
-            snackPosition: SnackPosition.TOP,
-            colorText: Colors.black,
-            overlayBlur: 5.0,
-            margin: EdgeInsets.only(
-              top: SizeConfig.screenHeight * 0.05,
-              left: SizeConfig.screenWidth * 0.05,
-              right: SizeConfig.screenWidth * 0.05,
-            ),
-          )
-        : selectedTab = index;
+    switch (index) {
+      case 0:
+        selectedTab = index;
+        break;
+      case 1:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      case 2:
+        selectedTab = index;
+        break;
+      case 3:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      case 4:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      case 5:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      default:
+    }
+
     update();
   }
 
