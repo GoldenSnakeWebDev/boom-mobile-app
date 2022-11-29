@@ -1,4 +1,4 @@
-import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart';
+import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
