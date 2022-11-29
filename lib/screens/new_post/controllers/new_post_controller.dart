@@ -280,9 +280,10 @@ class WalletConnectEthereumCredentials extends CustomTransactionSender {
   WalletConnectEthereumCredentials({required this.provider});
 
   @override
-  Future<EthereumAddress> extractAddress() {
+  Future<EthereumAddress> extractAddress() async {
     // TODO: implement extractAddress
-    throw UnimplementedError();
+    return EthereumAddress.fromHex(provider.connector.session.accounts.first);
+    // throw UnimplementedError();
   }
 
   @override
@@ -303,8 +304,10 @@ class WalletConnectEthereumCredentials extends CustomTransactionSender {
 
   @override
   Future<MsgSignature> signToSignature(Uint8List payload,
-      {int? chainId, bool isEIP1559 = false}) {
+      {int? chainId, bool isEIP1559 = false}) async {
     // TODO: implement signToSignature
-    throw UnimplementedError();
+
+    var signature = MsgSignature(BigInt.one, BigInt.two, chainId!);
+    return signature;
   }
 }
