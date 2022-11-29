@@ -74,6 +74,7 @@ class OtherUserProfileController extends GetxController {
       desc: "${boom.description}",
       title: "${boom.title}",
       network: boom.network!,
+      user: boom.user!,
       isLiked: isLiked,
       isLoves: isLoves,
       isRebooms: isRebooms,

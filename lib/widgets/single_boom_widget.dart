@@ -47,6 +47,7 @@ class SingleBoomWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  Text("${post.user.username}"),
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
                     imageUrl: post.network.imageUrl!,
@@ -60,7 +61,7 @@ class SingleBoomWidget extends StatelessWidget {
                     width: getProportionateScreenWidth(5),
                   ),
                   Visibility(
-                    visible: post.location.isEmpty,
+                    visible: post.location.isNotEmpty,
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black38, width: 0.5),
@@ -97,21 +98,34 @@ class SingleBoomWidget extends StatelessWidget {
               post.boomType == "text"
                   ? Text(post.imgUrl)
                   : post.boomType == "video"
-                      ? AspectRatio(
-                          aspectRatio: controller!
-                              .videoPlayerControllers[0].value.aspectRatio,
-                          child: GestureDetector(
-                            onTap: () {
-                              log(controller!
-                                  .videoPlayerControllers[0].value.isPlaying
-                                  .toString());
-                              log(controller!
-                                  .videoPlayerControllers[0].dataSource
-                                  .toString());
-                              controller!.videoPlayerControllers[0].play();
-                            },
-                            child: CachedVideoPlayer(
-                                controller!.videoPlayerControllers[0]),
+                      ? SizedBox(
+                          width: SizeConfig.screenWidth,
+                          height: getProportionateScreenHeight(200),
+                          child: AspectRatio(
+                            aspectRatio: controller!.videoPlayerControllers[0]
+                                        .value.aspectRatio <
+                                    1
+                                ? 1
+                                : controller!.videoPlayerControllers[0].value
+                                    .aspectRatio,
+                            child: GestureDetector(
+                              onTap: () {
+                                log(controller!
+                                    .videoPlayerControllers[0].value.isPlaying
+                                    .toString());
+                                log(controller!
+                                    .videoPlayerControllers[0].value.aspectRatio
+                                    .toString());
+                                controller!.videoPlayerControllers[0].value
+                                        .isPlaying
+                                    ? controller!.videoPlayerControllers[0]
+                                        .pause()
+                                    : controller!.videoPlayerControllers[0]
+                                        .play();
+                              },
+                              child: CachedVideoPlayer(
+                                  controller!.videoPlayerControllers[0]),
+                            ),
                           ),
                         )
                       : ClipRRect(
