@@ -215,6 +215,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         .tales![
                                                                             index]
                                                                         .statues,
+                                                                    uname: ctrllr
+                                                                        .tales![
+                                                                            index]
+                                                                        .id!,
                                                                   ),
                                                                 );
                                                               },
