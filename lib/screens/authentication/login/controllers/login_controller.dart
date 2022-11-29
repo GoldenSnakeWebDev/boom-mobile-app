@@ -15,6 +15,7 @@ class LoginController extends GetxController {
   final GlobalKey<FormState> loginformKey = GlobalKey<FormState>();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   final box = GetStorage();
   UserModel? user;
 
@@ -80,6 +81,49 @@ class LoginController extends GetxController {
         return false;
       }
     } else {
+      return false;
+    }
+  }
+
+  Future<dynamic> resetPassword() async {
+    var headers = {'Content-Type': 'application/json'};
+
+    if (userNameController.text.isNotEmpty) {
+      try {
+        EasyLoading.show(status: "Initiating password reset...");
+        final res = await http.post(
+          Uri.parse("${baseURL}users/request-password-reset"),
+          headers: headers,
+          body: jsonEncode(
+            {
+              "email": userNameController.text.trim(),
+            },
+          ),
+        );
+        log("Reset password response: ${res.body}");
+        if (res.statusCode == 200) {
+          EasyLoading.dismiss();
+          CustomSnackBar.showCustomSnackBar(
+            errorList: [jsonDecode(res.body)["message"]],
+            msg: [],
+            isError: false,
+          );
+          return true;
+        } else {
+          EasyLoading.dismiss();
+          CustomSnackBar.showCustomSnackBar(
+            errorList: [jsonDecode(res.body)["errors"][0]["message"]],
+            msg: [],
+            isError: true,
+          );
+          return false;
+        }
+      } catch (e) {
+        EasyLoading.showError("Error: $e");
+        log(e.toString());
+      }
+    } else {
+      EasyLoading.showError("Please enter your email");
       return false;
     }
   }
