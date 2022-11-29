@@ -179,7 +179,13 @@ class SyntheticBankScreen extends StatelessWidget {
               height: getProportionateScreenHeight(20),
             ),
             GestureDetector(
-              onTap: () async {},
+              onTap: () async {
+                Get.snackbar(
+                  "Coming soon",
+                  "Hang tight our engineers are working on this",
+                  backgroundColor: kPrimaryColor,
+                );
+              },
               child: Container(
                 width: SizeConfig.screenWidth,
                 height: getProportionateScreenHeight(40),
