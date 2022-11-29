@@ -4,6 +4,9 @@ jobs:
   build-and-test: 
     runs-on: ubuntu-latest
     steps:
+    - uses: "actions/checkout@v3"
+    - name: "TODO to Issue"
+      uses: "alstr/todo-to-issue-action@master"
   
     - uses: actions/checkout@v1 
     # The flutter action needs java so include it
