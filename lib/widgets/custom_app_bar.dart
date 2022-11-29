@@ -62,7 +62,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             const Spacer(),
             IconButton(
               onPressed: () {
-                Get.to(() => const DirectMessagesScreen());
+                Get.to(() => DirectMessagesScreen());
               },
               icon: Icon(
                 Icons.mail,
