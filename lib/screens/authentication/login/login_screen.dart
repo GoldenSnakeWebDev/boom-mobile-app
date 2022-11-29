@@ -239,10 +239,12 @@ class LoginScreen extends GetView<LoginController> {
                                   SizedBox(
                                     height: getProportionateScreenHeight(15),
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Text(
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          _showPasswordResetDialog(context),
+                                      child: Text(
                                         "Forgot Password?",
                                         style: TextStyle(
                                           color: Colors.white,
@@ -250,7 +252,7 @@ class LoginScreen extends GetView<LoginController> {
                                               getProportionateScreenHeight(10),
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                   SizedBox(
                                     height: getProportionateScreenHeight(25),
@@ -390,5 +392,76 @@ class LoginScreen extends GetView<LoginController> {
         ),
       ),
     );
+  }
+
+  _showPasswordResetDialog(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "Reset Password",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "Enter your email address and click Proceed to reset your password",
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: controller.userNameController,
+                  decoration: InputDecoration(
+                    hintText: "Email",
+                    hintStyle: const TextStyle(
+                      color: Colors.black54,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    controller.resetPassword();
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      "Proceed",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
