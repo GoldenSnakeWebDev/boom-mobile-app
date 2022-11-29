@@ -47,7 +47,14 @@ class SingleBoomWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text("${post.user.username}"),
+                  Text(
+                    "!${post.user.username}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: getProportionateScreenHeight(15),
+                    ),
+                  ),
+                  const Spacer(),
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
                     imageUrl: post.network.imageUrl!,
@@ -93,7 +100,7 @@ class SingleBoomWidget extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: getProportionateScreenHeight(20),
+                height: getProportionateScreenHeight(10),
               ),
               post.boomType == "text"
                   ? Text(post.imgUrl)

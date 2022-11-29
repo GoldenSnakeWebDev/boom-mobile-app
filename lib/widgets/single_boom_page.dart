@@ -265,6 +265,9 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                           60),
                                                   items: [
                                                     PopupMenuItem(
+                                                      onTap: () {
+                                                        //TODDO: Delete Boom Post
+                                                      },
                                                       child: Container(
                                                         decoration:
                                                             BoxDecoration(
@@ -280,7 +283,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                                   16.0,
                                                                   4.0),
                                                           child: Text(
-                                                            "More",
+                                                            "Delete",
                                                             style: TextStyle(
                                                               color:
                                                                   Colors.white,
@@ -816,7 +819,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       comment:
                                           boom.boom.comments![index].message,
                                       userName:
-                                          " ${boom.boom.comments![index].user.username}",
+                                          "${boom.boom.comments![index].user.username}",
                                       createdAt: boom
                                           .boom.comments![index].createdAt
                                           .toString(),
