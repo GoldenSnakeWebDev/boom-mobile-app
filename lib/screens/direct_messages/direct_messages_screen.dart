@@ -39,6 +39,7 @@ class DirectMessagesScreen extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 itemCount: dmDetails.length,
+                physics: const BouncingScrollPhysics(),
                 itemBuilder: ((context, index) {
                   return ListTile(
                     onTap: () {
@@ -83,7 +84,9 @@ class DirectMessagesScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           dmDetails[index]["read"]
-                              ? const SizedBox()
+                              ? const SizedBox(
+                                  width: 10,
+                                )
                               : const Icon(
                                   Icons.circle_rounded,
                                   size: 10,

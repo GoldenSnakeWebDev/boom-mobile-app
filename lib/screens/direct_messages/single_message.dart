@@ -89,6 +89,7 @@ class SingleMessage extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       reverse: true,
+                      physics: const BouncingScrollPhysics(),
                       child: ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
