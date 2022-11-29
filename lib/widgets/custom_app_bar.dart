@@ -1,3 +1,4 @@
+import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/back_pack_screen/back_pack_screen.dart';
 import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
@@ -62,7 +63,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             const Spacer(),
             IconButton(
               onPressed: () {
-                Get.to(() => DirectMessagesScreen());
+                Get.to(
+                  () => const DirectMessagesScreen(),
+                  binding: AppBindings(),
+                );
               },
               icon: Icon(
                 Icons.mail,

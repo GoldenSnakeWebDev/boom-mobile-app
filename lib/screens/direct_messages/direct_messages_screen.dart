@@ -1,20 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:boom_mobile/screens/direct_messages/single_message.dart';
 import 'package:boom_mobile/utils/colors.dart';
-import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:intl/intl.dart';
 
-import 'single_message.dart';
+import 'controllers/dm_controller.dart';
+import 'models/boom_box_response.dart';
 
-class DirectMessagesScreen extends StatelessWidget {
-  DirectMessagesScreen({Key? key}) : super(key: key);
-
-  final IOWebSocketChannel channel = IOWebSocketChannel.connect(
-    'ws://170.16.2.44:4000',
-  );
+class DirectMessagesScreen extends GetView<DMCrontroller> {
+  const DirectMessagesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,52 +40,53 @@ class DirectMessagesScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: StreamBuilder(
-          stream: channel.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return const Text('No connection');
-              case ConnectionState.waiting:
-                return const Text('Connected');
-              case ConnectionState.active:
-                log('${snapshot.data}');
-                return _buildChatsList();
-              case ConnectionState.done:
-                return Text('${snapshot.data} (closed)');
-            }
-          },
-        ),
-      ),
+          child: Obx(() => (controller.isLoading.value)
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : _buildChatsList(controller.boomBoxes))),
     );
   }
 
-  _buildChatsList() {
+  _buildChatsList(List<BoomBox>? boomBoxes) {
     return Column(
       children: [
         Expanded(
           child: ListView.builder(
-            itemCount: dmDetails.length,
+            itemCount: boomBoxes?.length,
             physics: const BouncingScrollPhysics(),
             itemBuilder: ((context, index) {
               return ListTile(
-                onTap: () {
+                onTap: () async {
+                  log('Author :: ${boomBoxes[index].messages?.last.author?.id}');
+                  log('Recei :: ${boomBoxes[index].messages?.last.receiver?.id}');
+                  controller.channel.sink.add(
+                    jsonEncode({
+                      "box": "${boomBoxes[index].box}",
+                      "author": "${boomBoxes[index].messages?.last.author?.id}",
+                      "receiver":
+                          "${boomBoxes[index].messages?.last.receiver?.id}",
+                      "content": "ROOM",
+                      "command": "join_room"
+                    }),
+                  );
                   Get.to(
                     () => SingleMessage(
-                      username: dmDetails[index]["username"],
-                      img: dmDetails[index]["img"],
+                      username:
+                          "${boomBoxes[index].messages?.last.author?.username}",
+                      img:
+                          "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                     ),
                   );
                 },
-                leading: CircleAvatar(
+                leading: const CircleAvatar(
                   radius: 20,
                   backgroundImage: NetworkImage(
-                    dmDetails[index]["img"],
+                    "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                   ),
                 ),
                 title: Text(
-                  dmDetails[index]["username"],
+                  "${boomBoxes?[index].label}",
                   style: TextStyle(
                     fontSize: getProportionateScreenHeight(13),
                     fontWeight: FontWeight.w800,
@@ -95,7 +94,7 @@ class DirectMessagesScreen extends StatelessWidget {
                 ),
                 subtitle: RichText(
                   text: TextSpan(
-                    text: "${dmDetails[index]["message"]}  ",
+                    text: "${boomBoxes?[index].messages?.last.content}  ",
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(12),
                       color: Colors.black54,
@@ -103,8 +102,10 @@ class DirectMessagesScreen extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                          text: dmDetails[index]["time"],
-                          style: const TextStyle(fontWeight: FontWeight.w800)),
+                        text: DateFormat.yMEd().add_jms().format(
+                            boomBoxes![index].messages!.last.timestamp!),
+                        style: const TextStyle(fontWeight: FontWeight.w800),
+                      ),
                     ],
                   ),
                 ),
@@ -112,7 +113,7 @@ class DirectMessagesScreen extends StatelessWidget {
                   width: getProportionateScreenWidth(55),
                   child: Row(
                     children: [
-                      dmDetails[index]["read"]
+                      (boomBoxes[index].messages?.last.isDelete == true)
                           ? const SizedBox(
                               width: 10,
                             )
