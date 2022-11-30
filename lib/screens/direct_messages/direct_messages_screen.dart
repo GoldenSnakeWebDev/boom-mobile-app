@@ -1,15 +1,13 @@
-import 'dart:convert';
-import 'dart:developer';
-
-import 'package:boom_mobile/screens/direct_messages/single_message.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'controllers/dm_controller.dart';
 import 'models/boom_box_response.dart';
+import 'single_message.dart';
 
 class DirectMessagesScreen extends GetView<DMCrontroller> {
   const DirectMessagesScreen({Key? key}) : super(key: key);
@@ -40,11 +38,146 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
         ),
       ),
       body: SafeArea(
-          child: Obx(() => (controller.isLoading.value)
+        child: Obx(
+          () => (controller.isLoading.value)
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : _buildChatsList(controller.boomBoxes))),
+              : (controller.boomBoxes != null &&
+                      controller.boomBoxes!.isNotEmpty)
+                  ? _buildChatsList(controller.boomBoxes)
+                  : const Center(
+                      child: Text("No messages"),
+                    ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(
+                  getProportionateScreenHeight(15),
+                ),
+              ),
+            ),
+            context: context,
+            builder: (context) => Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(15),
+                vertical: getProportionateScreenHeight(20),
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                top: Radius.circular(
+                  getProportionateScreenHeight(15),
+                ),
+              )),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Container(
+                  //   height: getProportionateScreenHeight(50),
+                  //   margin: EdgeInsets.only(
+                  //     bottom: getProportionateScreenHeight(15),
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.grey[200],
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  //   child: TextFormField(
+                  //     onChanged: (value) {},
+                  //     decoration: const InputDecoration(
+                  //       border: InputBorder.none,
+                  //       prefixIcon: Icon(
+                  //         Icons.search,
+                  //         color: Colors.grey,
+                  //       ),
+                  //       hintText: 'Search',
+                  //       hintStyle: TextStyle(
+                  //         color: Colors.grey,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  Text(
+                    "New Message",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: getProportionateScreenHeight(16),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(15),
+                  ),
+                  Expanded(child: _buildUsersList()),
+                ],
+              ),
+            ),
+          );
+        },
+        child: const Icon(
+          MdiIcons.messageText,
+        ),
+      ),
+    );
+  }
+
+  _buildUsersList() {
+    return ListView.builder(
+      itemCount: controller.boxUsers?.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: CircleAvatar(
+            radius: getProportionateScreenHeight(20),
+            backgroundColor: Colors.grey[200],
+            child: const Icon(
+              MdiIcons.account,
+              color: Colors.grey,
+            ),
+          ),
+          title: Text(
+            "${controller.boxUsers![index].username}",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenHeight(14),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          // subtitle: Text(
+          //   "${controller.boxUsers![index].firstName} ${controller.boxUsers![index].lastName}",
+          //   style: TextStyle(
+          //     color: Colors.black,
+          //     fontSize: getProportionateScreenHeight(12),
+          //     fontWeight: FontWeight.w400,
+          //   ),
+          // ),
+          trailing: IconButton(
+            onPressed: () async {
+              Get.back();
+              var res = controller.chatWithUser(
+                "join_room",
+                "",
+                controller.boxUsers![index].id,
+              );
+            },
+            icon: const Icon(
+              MdiIcons.messageText,
+              color: Colors.black,
+            ),
+          ),
+          onTap: () {
+            Get.back();
+            var res = controller.chatWithUser(
+              "join_room",
+              "",
+              controller.boxUsers![index].userId,
+            );
+            // Get.to(() => SingleMessageScreen());
+          },
+        );
+      },
     );
   }
 
@@ -58,26 +191,17 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
             itemBuilder: ((context, index) {
               return ListTile(
                 onTap: () async {
-                  log('Author :: ${boomBoxes[index].messages?.last.author?.id}');
-                  log('Recei :: ${boomBoxes[index].messages?.last.receiver?.id}');
-                  controller.channel?.sink.add(
-                    jsonEncode({
-                      "box": "${boomBoxes[index].box}",
-                      "author": "${boomBoxes[index].messages?.last.author?.id}",
-                      "receiver":
-                          "${boomBoxes[index].messages?.last.receiver?.id}",
-                      "content": "ROOM",
-                      "command": "join_room"
-                    }),
-                  );
-                  Get.to(
-                    () => SingleMessage(
-                      username:
-                          "${boomBoxes[index].messages?.last.author?.username}",
-                      img:
-                          "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                    ),
-                  );
+                  var res = await controller.fetchDMs(boomBoxes[index].box!);
+                  if (res) {
+                    Get.to(
+                      () => SingleMessage(
+                        username:
+                            "${boomBoxes[index].messages?.last.author?.username}",
+                        img:
+                            "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                      ),
+                    );
+                  }
                 },
                 leading: const CircleAvatar(
                   radius: 20,
@@ -102,7 +226,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                     ),
                     children: [
                       TextSpan(
-                        text: DateFormat.yMEd().add_jms().format(
+                        text: DateFormat('EEE, MMM dd HH:mm a').format(
                             boomBoxes![index].messages!.last.timestamp!),
                         style: const TextStyle(fontWeight: FontWeight.w800),
                       ),

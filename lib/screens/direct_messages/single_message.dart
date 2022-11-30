@@ -1,7 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -10,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'models/messages_model.dart';
 
@@ -24,7 +20,6 @@ class SingleMessage extends GetView<DMCrontroller> {
   }) : super(key: key);
 
   final TextEditingController _messageController = TextEditingController();
-  final StreamController<dynamic> _controller = BehaviorSubject();
   final _storage = GetStorage();
   String? _boomBoxId;
   String? _receiverId;
@@ -104,41 +99,18 @@ class SingleMessage extends GetView<DMCrontroller> {
                 children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      reverse: true,
-                      physics: const BouncingScrollPhysics(),
-                      child: StreamBuilder(
-                        stream: controller.channel?.stream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          }
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Text('No connection');
-                            case ConnectionState.waiting:
-                              return const Text('Connected');
-                            case ConnectionState.active:
-                              final messagesData =
-                                  messagesDataFromJson(snapshot.data);
-                              _boomBoxId = messagesData.box;
-                              _receiverId =
-                                  messagesData.messages?[0].receiver?.id;
-                              return Obx(
-                                () => (controller.isLoading.value)
-                                    ? const Center(
-                                        child: CircularProgressIndicator(),
-                                      )
-                                    : _buildChatMessages(messagesData),
-                                // Text(
-                                //     snapshot.data.toString(),
-                                //   ),
-                              );
-                            case ConnectionState.done:
-                              return Text('${snapshot.data} (closed)');
-                          }
-                        },
-                      ),
-                    ),
+                        reverse: true,
+                        physics: const BouncingScrollPhysics(),
+                        child: Obx(
+                          () => (controller.isLoading.value)
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : _buildChatMessages(controller.dmMessages),
+                          // Text(
+                          //     snapshot.data.toString(),
+                          //   ),
+                        )),
                   ),
                   TextFormField(
                     controller: _messageController,
@@ -204,13 +176,12 @@ class SingleMessage extends GetView<DMCrontroller> {
     );
   }
 
-  _buildChatMessages(MessagesData messagesData) {
-    log("userid :: ${_storage.read('userId')}");
+  _buildChatMessages(List<DMMessage>? messages) {
     String userid = _storage.read('userId');
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: messagesData.messages?.length,
+      itemCount: messages!.length,
       itemBuilder: (context, index) {
         return Container(
           margin: EdgeInsets.only(
@@ -218,10 +189,9 @@ class SingleMessage extends GetView<DMCrontroller> {
             top: getProportionateScreenHeight(10),
           ),
           child: Row(
-            mainAxisAlignment:
-                (messagesData.messages![index].author!.id != userid)
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.end,
+            mainAxisAlignment: (messages[index].author!.id != userid)
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -229,31 +199,28 @@ class SingleMessage extends GetView<DMCrontroller> {
                   Container(
                     width: SizeConfig.screenWidth * 0.7,
                     decoration: BoxDecoration(
-                      color:
-                          (messagesData.messages![index].author!.id != userid)
-                              ? const Color(0xFFF8F8F8)
-                              : const Color(0XFF4B5259),
-                      borderRadius:
-                          (messagesData.messages![index].author!.id == userid)
-                              ? const BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                  bottomLeft: Radius.circular(12),
-                                )
-                              : const BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                  bottomRight: Radius.circular(12),
-                                ),
+                      color: (messages[index].author!.id != userid)
+                          ? const Color(0xFFF8F8F8)
+                          : const Color(0XFF4B5259),
+                      borderRadius: (messages[index].author!.id == userid)
+                          ? const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                              bottomLeft: Radius.circular(12),
+                            )
+                          : const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "${messagesData.messages?[index].content}",
+                        "${messages[index].content}",
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
-                          color: (messagesData.messages![index].author!.id !=
-                                  userid)
+                          color: (messages[index].author!.id != userid)
                               ? const Color(0xFF5F5F5F)
                               : Colors.white,
                         ),
@@ -261,8 +228,7 @@ class SingleMessage extends GetView<DMCrontroller> {
                     ),
                   ),
                   Text(
-                    DateFormat('HH:mm a')
-                        .format(messagesData.messages![index].timestamp!),
+                    DateFormat('HH:mm a').format(messages[index].timestamp!),
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),
