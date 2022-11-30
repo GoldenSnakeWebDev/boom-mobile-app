@@ -1,34 +1,32 @@
-//     final dmResponse = dmResponseFromJson(jsonString);
+// To parse this JSON data, do
+//
+//     final boomResponse = boomResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-DmResponse dmResponseFromJson(String str) =>
-    DmResponse.fromJson(json.decode(str));
+BoomResponse boomResponseFromJson(String str) =>
+    BoomResponse.fromJson(json.decode(str));
 
-String dmResponseToJson(DmResponse data) => json.encode(data.toJson());
+String boomResponseToJson(BoomResponse data) => json.encode(data.toJson());
 
-class DmResponse {
-  DmResponse({
+class BoomResponse {
+  BoomResponse({
     this.status,
-    this.page,
-    this.boomBoxes,
+    this.boomBox,
   });
 
   String? status;
-  Page? page;
-  List<BoomBox>? boomBoxes;
+  List<BoomBox>? boomBox;
 
-  factory DmResponse.fromJson(Map<String, dynamic> json) => DmResponse(
+  factory BoomResponse.fromJson(Map<String, dynamic> json) => BoomResponse(
         status: json["status"],
-        page: Page.fromJson(json["page"]),
-        boomBoxes: List<BoomBox>.from(
-            json["boom_boxes"].map((x) => BoomBox.fromJson(x))),
+        boomBox: List<BoomBox>.from(
+            json["boom_box"].map((x) => BoomBox.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "page": page?.toJson(),
-        "boom_boxes": List<dynamic>.from(boomBoxes!.map((x) => x.toJson())),
+        "boom_box": List<dynamic>.from(boomBox!.map((x) => x.toJson())),
       };
 }
 
@@ -38,8 +36,8 @@ class BoomBox {
     this.imageUrl,
     this.label,
     this.box,
-    this.isActive,
     this.messages,
+    this.isActive,
     this.createdAt,
     this.id,
   });
@@ -48,8 +46,8 @@ class BoomBox {
   String? imageUrl;
   String? label;
   String? box;
-  bool? isActive;
   List<Message>? messages;
+  bool? isActive;
   DateTime? createdAt;
   String? id;
 
@@ -58,9 +56,9 @@ class BoomBox {
         imageUrl: json["image_url"],
         label: json["label"],
         box: json["box"],
-        isActive: json["is_active"],
         messages: List<Message>.from(
             json["messages"].map((x) => Message.fromJson(x))),
+        isActive: json["is_active"],
         createdAt: DateTime.parse(json["created_at"]),
         id: json["id"],
       );
@@ -70,8 +68,8 @@ class BoomBox {
         "image_url": imageUrl,
         "label": label,
         "box": box,
-        "is_active": isActive,
         "messages": List<dynamic>.from(messages!.map((x) => x.toJson())),
+        "is_active": isActive,
         "created_at": createdAt?.toIso8601String(),
         "id": id,
       };
@@ -115,40 +113,36 @@ class Message {
 
 class Author {
   Author({
+    this.id,
     this.firstName,
     this.lastName,
     this.username,
     this.photo,
-    this.id,
+    this.authorId,
   });
 
+  String? id;
   String? firstName;
   String? lastName;
   String? username;
   String? photo;
-  String? id;
+  String? authorId;
 
   factory Author.fromJson(Map<String, dynamic> json) => Author(
+        id: json["_id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
         username: json["username"],
         photo: json["photo"],
-        id: json["id"],
+        authorId: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
+        "_id": id,
         "first_name": firstName,
         "last_name": lastName,
         "username": username,
         "photo": photo,
-        "id": id,
+        "id": authorId,
       };
-}
-
-class Page {
-  Page();
-
-  factory Page.fromJson(Map<String, dynamic> json) => Page();
-
-  Map<String, dynamic> toJson() => {};
 }
