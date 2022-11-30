@@ -397,11 +397,25 @@ class LoginScreen extends GetView<LoginController> {
   _showPasswordResetDialog(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(
+              getProportionateScreenHeight(20),
+            ),
+          ),
+        ),
         builder: (context) {
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
             margin: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(
+                  getProportionateScreenHeight(20),
+                ),
+              ),
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -6,7 +7,10 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'models/messages_model.dart';
 
@@ -20,6 +24,10 @@ class SingleMessage extends GetView<DMCrontroller> {
   }) : super(key: key);
 
   final TextEditingController _messageController = TextEditingController();
+  final StreamController<dynamic> _controller = BehaviorSubject();
+  final _storage = GetStorage();
+  String? _boomBoxId;
+  String? _receiverId;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +107,7 @@ class SingleMessage extends GetView<DMCrontroller> {
                       reverse: true,
                       physics: const BouncingScrollPhysics(),
                       child: StreamBuilder(
-                        stream: controller.channel.stream,
+                        stream: controller.channel?.stream,
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
@@ -110,92 +118,26 @@ class SingleMessage extends GetView<DMCrontroller> {
                             case ConnectionState.waiting:
                               return const Text('Connected');
                             case ConnectionState.active:
-                              log('SnapData :: ${snapshot.data}');
-                              if (snapshot.data != null) {
-                                final messagesData =
-                                    messagesDataFromJson(snapshot.data);
-                                log('messagesData :: $messagesData');
-                              }
-                              return Obx(() => (controller.isLoading.value)
-                                  ? const Center(
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : Text(
-                                      snapshot.data.toString(),
-                                    ));
+                              final messagesData =
+                                  messagesDataFromJson(snapshot.data);
+                              _boomBoxId = messagesData.box;
+                              _receiverId =
+                                  messagesData.messages?[0].receiver?.id;
+                              return Obx(
+                                () => (controller.isLoading.value)
+                                    ? const Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : _buildChatMessages(messagesData),
+                                // Text(
+                                //     snapshot.data.toString(),
+                                //   ),
+                              );
                             case ConnectionState.done:
                               return Text('${snapshot.data} (closed)');
                           }
                         },
                       ),
-
-                      //  ListView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //   itemCount: 30,
-                      //   itemBuilder: (context, index) {
-                      //     return Container(
-                      //       margin: EdgeInsets.only(
-                      //         bottom: getProportionateScreenHeight(10),
-                      //         top: getProportionateScreenHeight(10),
-                      //       ),
-                      //       child: Row(
-                      //         mainAxisAlignment: index % 2 == 0
-                      //             ? MainAxisAlignment.start
-                      //             : MainAxisAlignment.end,
-                      //         children: [
-                      //           Column(
-                      //             crossAxisAlignment: index % 2 == 0
-                      //                 ? CrossAxisAlignment.start
-                      //                 : CrossAxisAlignment.end,
-                      //             children: [
-                      //               Container(
-                      //                 width: SizeConfig.screenWidth * 0.7,
-                      //                 decoration: BoxDecoration(
-                      //                   color: index % 2 == 0
-                      //                       ? const Color(0xFFF8F8F8)
-                      //                       : const Color(0XFF4B5259),
-                      //                   borderRadius: index % 2 == 0
-                      //                       ? const BorderRadius.only(
-                      //                           topLeft: Radius.circular(12),
-                      //                           topRight: Radius.circular(12),
-                      //                           bottomLeft: Radius.circular(12),
-                      //                         )
-                      //                       : const BorderRadius.only(
-                      //                           topLeft: Radius.circular(12),
-                      //                           topRight: Radius.circular(12),
-                      //                           bottomRight:
-                      //                               Radius.circular(12),
-                      //                         ),
-                      //                 ),
-                      //                 child: Padding(
-                      //                   padding: const EdgeInsets.all(8.0),
-                      //                   child: Text(
-                      //                     "${index % 2 == 0 ? "Sender" : "Recepient"} These are some messages. Let's try to make it long enough to see how it looks like 😂😂😂🥳",
-                      //                     style: TextStyle(
-                      //                         fontSize:
-                      //                             getProportionateScreenHeight(
-                      //                                 12),
-                      //                         color: index % 2 == 0
-                      //                             ? const Color(0xFF5F5F5F)
-                      //                             : Colors.white),
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //               Text(
-                      //                 "Seen",
-                      //                 style: TextStyle(
-                      //                   fontSize:
-                      //                       getProportionateScreenHeight(10),
-                      //                 ),
-                      //               )
-                      //             ],
-                      //           )
-                      //         ],
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
                     ),
                   ),
                   TextFormField(
@@ -214,17 +156,16 @@ class SingleMessage extends GetView<DMCrontroller> {
                       ),
                       suffixIcon: IconButton(
                         onPressed: () async {
-                          log("SEND");
-
-                          controller.channel.sink.add(
+                          controller.channel?.sink.add(
                             jsonEncode({
-                              "box": "637615cb5c177f18f766123e:1669735699637",
-                              "author": "637615cb5c177f18f766123e",
-                              "receiver": "63629d1fca70d3e95d489a81",
+                              "box": "$_boomBoxId",
+                              "author": "${_storage.read('userId')}",
+                              "receiver": "$_receiverId",
                               "content": _messageController.text,
                               "command": "send_message"
                             }),
                           );
+                          _messageController.clear();
                         },
                         icon: const Icon(
                           MdiIcons.send,
@@ -260,6 +201,78 @@ class SingleMessage extends GetView<DMCrontroller> {
           );
         }),
       ),
+    );
+  }
+
+  _buildChatMessages(MessagesData messagesData) {
+    log("userid :: ${_storage.read('userId')}");
+    String userid = _storage.read('userId');
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: messagesData.messages?.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: EdgeInsets.only(
+            bottom: getProportionateScreenHeight(10),
+            top: getProportionateScreenHeight(10),
+          ),
+          child: Row(
+            mainAxisAlignment:
+                (messagesData.messages![index].author!.id != userid)
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.end,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    width: SizeConfig.screenWidth * 0.7,
+                    decoration: BoxDecoration(
+                      color:
+                          (messagesData.messages![index].author!.id != userid)
+                              ? const Color(0xFFF8F8F8)
+                              : const Color(0XFF4B5259),
+                      borderRadius:
+                          (messagesData.messages![index].author!.id == userid)
+                              ? const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12),
+                                )
+                              : const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12),
+                                ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "${messagesData.messages?[index].content}",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(12),
+                          color: (messagesData.messages![index].author!.id !=
+                                  userid)
+                              ? const Color(0xFF5F5F5F)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    DateFormat('HH:mm a')
+                        .format(messagesData.messages![index].timestamp!),
+                    style: TextStyle(
+                      fontSize: getProportionateScreenHeight(10),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
