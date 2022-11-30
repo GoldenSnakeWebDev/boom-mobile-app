@@ -8,9 +8,7 @@ import 'package:web_socket_channel/io.dart';
 class DMCrontroller extends GetxController {
   final _service = DMService();
 
-  final IOWebSocketChannel channel = IOWebSocketChannel.connect(
-    'ws://170.16.2.44:4000',
-  );
+  IOWebSocketChannel? channel;
 
   List<BoomBox>? _boomBoxes;
   List<BoomBox>? get boomBoxes => _boomBoxes;
@@ -24,17 +22,17 @@ class DMCrontroller extends GetxController {
   @override
   void onInit() {
     fetchBoomBoxMessages();
+    channel = IOWebSocketChannel.connect(
+      'ws://170.16.2.44:4000',
+    );
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    log('DMCrontroller onReady');
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
+  // @override
+  // void onClose() {
+  //   channel?.sink.close();
+  //   super.onClose();
+  // }
 
   // Fetch boom box messages
   Future<dynamic> fetchBoomBoxMessages() async {

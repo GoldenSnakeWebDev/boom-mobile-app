@@ -60,7 +60,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                 onTap: () async {
                   log('Author :: ${boomBoxes[index].messages?.last.author?.id}');
                   log('Recei :: ${boomBoxes[index].messages?.last.receiver?.id}');
-                  controller.channel.sink.add(
+                  controller.channel?.sink.add(
                     jsonEncode({
                       "box": "${boomBoxes[index].box}",
                       "author": "${boomBoxes[index].messages?.last.author?.id}",
