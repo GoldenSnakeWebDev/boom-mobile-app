@@ -7,10 +7,30 @@ import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:story/story.dart';
 
-class ViewStatusScreen extends StatelessWidget {
+class ViewStatusScreen extends StatefulWidget {
   final List<Statue>? imagesUrl;
   final String? uname;
   const ViewStatusScreen({super.key, required this.imagesUrl, this.uname});
+
+  @override
+  State<ViewStatusScreen> createState() => _ViewStatusScreenState();
+}
+
+class _ViewStatusScreenState extends State<ViewStatusScreen> {
+  late ValueNotifier<IndicatorAnimationCommand> indicatorAnimationController;
+
+  @override
+  void initState() {
+    super.initState();
+    indicatorAnimationController = ValueNotifier<IndicatorAnimationCommand>(
+        IndicatorAnimationCommand.resume);
+  }
+
+  @override
+  void dispose() {
+    indicatorAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,25 +41,40 @@ class ViewStatusScreen extends StatelessWidget {
           StoryPageView(
             backgroundColor: Colors.white,
             itemBuilder: (context, pageIndex, storyIndex) {
-              final imageUrl = imagesUrl![storyIndex].imageUrl;
+              final imageUrl = widget.imagesUrl![storyIndex].imageUrl;
               return Center(
                   child: CachedNetworkImage(
                 imageUrl: "$imageUrl",
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => const Icon(Icons.error),
-                placeholder: (context, url) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) {
+                  if (downloadProgress.progress != null &&
+                      downloadProgress.progress! < 100) {
+                    indicatorAnimationController.value =
+                        IndicatorAnimationCommand.pause;
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    indicatorAnimationController.value =
+                        IndicatorAnimationCommand.resume;
+                    return Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                    );
+                  }
+                },
               ));
             },
             storyLength: (pageIndex) {
-              return imagesUrl!.length;
+              return widget.imagesUrl!.length;
             },
             indicatorVisitedColor: kPrimaryColor,
-            pageLength: imagesUrl!.length,
+            pageLength: widget.imagesUrl!.length,
             onPageLimitReached: () {
               Get.back();
             },
+            indicatorAnimationController: indicatorAnimationController,
             gestureItemBuilder: (context, pageIndex, storyIndex) {
               return Align(
                 alignment: Alignment.topRight,
@@ -72,18 +107,18 @@ class ViewStatusScreen extends StatelessWidget {
                     onTap: () {
                       Get.snackbar(
                         "TODO",
-                        "Show $uname's profile",
+                        "Show ${widget.uname}'s profile",
                         backgroundColor: kPrimaryColor,
                         colorText: Colors.black,
                       );
                     },
                     child: CircleAvatar(
-                      radius: getProportionateScreenHeight(25),
+                      radius: getProportionateScreenHeight(20),
                       backgroundColor: Colors.red,
                       child: Icon(
                         MdiIcons.accountCircleOutline,
                         color: Colors.white,
-                        size: getProportionateScreenHeight(30),
+                        size: getProportionateScreenHeight(25),
                       ),
                     ),
                   ),
@@ -95,23 +130,11 @@ class ViewStatusScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '$uname',
+                        '${widget.uname}',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: getProportionateScreenHeight(16),
+                          fontSize: getProportionateScreenHeight(14),
                           fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Text(
-                        'Tap to view profile',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                          fontSize: getProportionateScreenHeight(12),
-                          fontStyle: FontStyle.italic,
                         ),
                       ),
                     ],

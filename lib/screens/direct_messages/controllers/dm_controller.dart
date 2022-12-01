@@ -8,7 +8,7 @@ import 'package:web_socket_channel/io.dart';
 import '../models/boom_users_model.dart';
 
 class DMCrontroller extends GetxController {
-  final _service = DMService();
+  final service = DMService();
   final _storage = GetStorage();
 
   IOWebSocketChannel? channel;
@@ -41,7 +41,7 @@ class DMCrontroller extends GetxController {
   // Fetch boom box messages
   Future<dynamic> fetchBoomBoxMessages() async {
     setLoading(true);
-    var ress = await _service.fetchBoomBoxMessages();
+    var ress = await service.fetchBoomBoxMessages();
     setLoading(false);
     if (ress != null) {
       _boomBoxes = [...ress];
@@ -50,21 +50,21 @@ class DMCrontroller extends GetxController {
   }
 
   Future<dynamic> fetchUsers() async {
-    var ress = await _service.fetchUsers();
+    var ress = await service.fetchUsers();
     if (ress != null) {
       _boxUsers = [...ress];
       update();
     }
   }
 
-  Future<dynamic> fetchDMs(String boomId) async {
-    var ress = await _service.fetchDMs(boomId);
-    if (ress != null) {
-      _dmMessages = ress.messages;
-      update();
-      return true;
-    }
-  }
+  // Future<dynamic> fetchDMs(String boomId) async {
+  //   var ress = await service.fetchDMs(boomId);
+  //   if (ress != null) {
+  //     _dmMessages = ress.messages;
+  //     update();
+  //     return true;
+  //   }
+  // }
 
   Future<dynamic> chatWithUser(
     String command,
@@ -72,7 +72,7 @@ class DMCrontroller extends GetxController {
     String? receiver,
   ) async {
     setLoading(true);
-    var ress = await _service.chatWithUser(
+    var ress = await service.chatWithUser(
       {
         "command": command,
         "content": "$content",

@@ -37,7 +37,7 @@ class DMService {
     }
   }
 
-  Future<dynamic> fetchDMs(String boomId) async {
+  Stream<DMBoomBox?> fetchDMs(String boomId) async* {
     var token = _storage.read('token');
     var headers = {
       'Content-Type': 'application/json',
@@ -53,14 +53,14 @@ class DMService {
       if (response.statusCode == 200) {
         log("get-dmssss >>>> ${response.body}");
         final dMsResponse = dMsResponseFromJson(response.body);
-        return dMsResponse.boomBox;
+        yield dMsResponse.boomBox;
       } else {
         EasyLoading.showError('Error gettting dms');
-        return null;
+        yield null;
       }
     } catch (e) {
       EasyLoading.showError('Error: $e');
-      return null;
+      yield null;
     }
   }
 
