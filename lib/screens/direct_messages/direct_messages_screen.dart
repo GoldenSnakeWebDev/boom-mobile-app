@@ -191,17 +191,15 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
             itemBuilder: ((context, index) {
               return ListTile(
                 onTap: () async {
-                  var res = await controller.fetchDMs(boomBoxes[index].box!);
-                  if (res) {
-                    Get.to(
-                      () => SingleMessage(
-                        username:
-                            "${boomBoxes[index].messages?.last.author?.username}",
-                        img:
-                            "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                      ),
-                    );
-                  }
+                  Get.to(
+                    () => SingleMessage(
+                      username:
+                          "${boomBoxes[index].messages?.last.receiver?.username}",
+                      img: boomBoxes[index].messages?.last.receiver?.photo ??
+                          "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                      boomBox: boomBoxes[index].box!,
+                    ),
+                  );
                 },
                 leading: const CircleAvatar(
                   radius: 20,

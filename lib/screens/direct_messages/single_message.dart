@@ -13,10 +13,12 @@ import 'models/messages_model.dart';
 class SingleMessage extends GetView<DMCrontroller> {
   final String username;
   final String img;
+  final String boomBox;
   SingleMessage({
     Key? key,
     required this.username,
     required this.img,
+    required this.boomBox,
   }) : super(key: key);
 
   final TextEditingController _messageController = TextEditingController();
@@ -40,28 +42,28 @@ class SingleMessage extends GetView<DMCrontroller> {
             Get.back();
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.snackbar(
-                "Hang in there.",
-                "Shipping soon..",
-                backgroundColor: kPrimaryColor,
-                snackPosition: SnackPosition.TOP,
-                colorText: Colors.black,
-                overlayBlur: 5.0,
-                margin: EdgeInsets.only(
-                  top: SizeConfig.screenHeight * 0.05,
-                  left: SizeConfig.screenWidth * 0.05,
-                  right: SizeConfig.screenWidth * 0.05,
-                ),
-              );
-            },
-            icon: const Icon(
-              MdiIcons.phone,
-              color: kPrimaryColor,
-            ),
-          ),
+        actions: const [
+          // IconButton(
+          //   onPressed: () {
+          //     Get.snackbar(
+          //       "Hang in there.",
+          //       "Shipping soon..",
+          //       backgroundColor: kPrimaryColor,
+          //       snackPosition: SnackPosition.TOP,
+          //       colorText: Colors.black,
+          //       overlayBlur: 5.0,
+          //       margin: EdgeInsets.only(
+          //         top: SizeConfig.screenHeight * 0.05,
+          //         left: SizeConfig.screenWidth * 0.05,
+          //         right: SizeConfig.screenWidth * 0.05,
+          //       ),
+          //     );
+          //   },
+          //   icon: const Icon(
+          //     MdiIcons.phone,
+          //     color: kPrimaryColor,
+          //   ),
+          // ),
         ],
         title: Row(
           children: [
@@ -98,19 +100,38 @@ class SingleMessage extends GetView<DMCrontroller> {
               child: Column(
                 children: [
                   Expanded(
-                    child: SingleChildScrollView(
-                        reverse: true,
-                        physics: const BouncingScrollPhysics(),
-                        child: Obx(
-                          () => (controller.isLoading.value)
-                              ? const Center(
-                                  child: CircularProgressIndicator(),
-                                )
-                              : _buildChatMessages(controller.dmMessages),
-                          // Text(
-                          //     snapshot.data.toString(),
-                          //   ),
-                        )),
+                    child: StreamBuilder<DMBoomBox?>(
+                      stream: controller.service.fetchDMs(boomBox),
+                      builder: (context, AsyncSnapshot<DMBoomBox?> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          ));
+                        } else if (snapshot.connectionState ==
+                                ConnectionState.active ||
+                            snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasError) {
+                            return const Center(child: Text('Error'));
+                          } else if (snapshot.hasData) {
+                            return _buildChatMessages(snapshot.data!.messages);
+                          } else {
+                            return const Center(
+                              child: Text(
+                                'Empty data',
+                              ),
+                            );
+                          }
+                        } else {
+                          return Center(
+                            child: Text(
+                              'State: ${snapshot.connectionState}',
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                   TextFormField(
                     controller: _messageController,
