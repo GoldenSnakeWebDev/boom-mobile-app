@@ -75,8 +75,8 @@ class RegisterController extends GetxController {
         return true;
       } else {
         EasyLoading.dismiss();
-        log("Error ${jsonDecode(res.body)}");
-        log("Error ${res.statusCode}");
+
+        log("Sing up Error ::: ${res.statusCode} ${res.body}");
         CustomSnackBar.showCustomSnackBar(
           errorList: [jsonDecode(res.body)["errors"][0]["message"]],
           msg: ["Sign up Error"],

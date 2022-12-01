@@ -34,7 +34,7 @@ class OtherProfileService {
 
           yield user;
         } else {
-          log("Error ${res.statusCode}");
+          log("Other User Profile Error ::: ${res.statusCode} ::: ${res.body}");
         }
       } catch (e) {
         log(e.toString());
@@ -114,7 +114,7 @@ class OtherProfileService {
 
           yield booms;
         } else {
-          log("Error ${res.statusCode}");
+          log("Other Profile Error ::: ${res.statusCode} ::: ${res.body}");
         }
       } catch (e) {
         log(e.toString());

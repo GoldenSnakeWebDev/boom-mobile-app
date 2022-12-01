@@ -24,6 +24,7 @@ class SingleBoomController extends GetxController {
   bool isLoves = false;
   bool isSmiles = false;
   bool isRebooms = false;
+  bool isReports = false;
   bool commentLoading = false;
   TextEditingController commentController = TextEditingController();
 
@@ -89,6 +90,11 @@ class SingleBoomController extends GetxController {
     for (var item in boom.boom.reactions!.smiles) {
       if (item.id == userId) {
         isSmiles = true;
+      }
+    }
+    for (var item in boom.boom.reactions!.reports) {
+      if (item.id == userId) {
+        isReports = true;
       }
     }
     for (var item in boom.boom.reactions!.rebooms) {

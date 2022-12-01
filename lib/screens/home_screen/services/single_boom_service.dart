@@ -30,7 +30,7 @@ class SingleBoomService {
           final singleBoom = SingleBoom.fromJson(jsonDecode(res.body));
           yield singleBoom;
         } else {
-          log("Error ${res.statusCode}");
+          log("Single Boom Error ::: ${res.statusCode} ::: ${res.body}");
         }
       } catch (e) {
         log(e.toString());

@@ -6,6 +6,7 @@ import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
 import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_shimmer.dart';
 import 'package:boom_mobile/widgets/single_comment_widget.dart';
@@ -582,8 +583,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             color: isLiked
                                                 ? kPrimaryColor
                                                 : Colors.black,
-                                            imageUrl:
-                                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                                            imageUrl: likeIconUrl,
                                           );
                                         }),
                                       ),
@@ -655,8 +655,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             height:
                                                 getProportionateScreenHeight(
                                                     22),
-                                            imageUrl:
-                                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
+                                            imageUrl: smileIconUrl,
                                           );
                                         }),
                                       ),
@@ -711,23 +710,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         animationDuration:
                                             const Duration(milliseconds: 600),
                                         size: getProportionateScreenHeight(20),
-                                        onTap: (_) async {
-                                          Get.snackbar(
-                                            "Hang in there.",
-                                            "Shipping soon..",
-                                            backgroundColor: kPrimaryColor,
-                                            snackPosition: SnackPosition.TOP,
-                                            colorText: Colors.black,
-                                            overlayBlur: 5.0,
-                                            margin: EdgeInsets.only(
-                                              top: SizeConfig.screenHeight *
-                                                  0.05,
-                                              left:
-                                                  SizeConfig.screenWidth * 0.05,
-                                              right:
-                                                  SizeConfig.screenWidth * 0.05,
-                                            ),
-                                          );
+                                        isLiked: boomController.isReports,
+                                        onTap: (isReports) async {
+                                          boomController.reactToBoom(
+                                              "reports", boomId);
                                           return null;
                                         },
                                         bubblesColor: const BubblesColor(
@@ -761,22 +747,6 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             const Duration(milliseconds: 600),
                                         size: getProportionateScreenHeight(20),
                                         onTap: (_) async {
-                                          Get.snackbar(
-                                            "Hang in there.",
-                                            "Shipping soon..",
-                                            backgroundColor: kPrimaryColor,
-                                            snackPosition: SnackPosition.TOP,
-                                            colorText: Colors.black,
-                                            overlayBlur: 5.0,
-                                            margin: EdgeInsets.only(
-                                              top: SizeConfig.screenHeight *
-                                                  0.05,
-                                              left:
-                                                  SizeConfig.screenWidth * 0.05,
-                                              right:
-                                                  SizeConfig.screenWidth * 0.05,
-                                            ),
-                                          );
                                           return null;
                                         },
                                         bubblesColor: const BubblesColor(
