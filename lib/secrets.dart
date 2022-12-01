@@ -21,3 +21,5 @@ List<String> mediaFields = [
 //NFT Storage API Keys
 const String nftStorageApiKey =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGFjNThmRWVGMDU4M2EzODZhQWE1MjU0NTVGMjAwZUI1ZTQxNkY1NDciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2NzM4Mzg3MjY0OCwibmFtZSI6ImJvb20ifQ.7K86oXzENWpUn3hq6G7k9UvKRzqXup4QQ3JJDTLKUpE";
+
+const String polygonTestApiKey = "369IPUUUS5ZZBYQMAZ5G3V1ZK7MHJTVF25";

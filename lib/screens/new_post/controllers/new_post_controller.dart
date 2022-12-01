@@ -10,6 +10,7 @@ import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controlle
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
+import 'package:boom_mobile/utils/erc721.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
@@ -46,6 +47,7 @@ class NewPostController extends GetxController {
   TextEditingController fixedPrice = TextEditingController();
   TextEditingController price = TextEditingController();
   TextEditingController location = TextEditingController();
+  TextEditingController nftContractAddress = TextEditingController();
 
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   late VideoPlayerController selectedVideoController;
@@ -71,6 +73,9 @@ class NewPostController extends GetxController {
   final web3Client = Web3Client(
       "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae",
       http.Client());
+
+  // final File abiFile = File('assets/files/erc721.json');
+
   @override
   void onInit() {
     super.onInit();
@@ -171,7 +176,24 @@ class NewPostController extends GetxController {
     update();
   }
 
-  connectWallet() async {
+  fetchNFT() async {
+    var addy = await connectWallet();
+    walletAddress = addy.toString();
+
+    log("Wallet Address $walletAddress");
+    // final abiCode = await abiFile.readAsString();
+    var contract = DeployedContract(
+        ContractAbi.fromJson(polygonSmartContract, '()'),
+        EthereumAddress.fromHex(nftContractAddress.text));
+    var balance = await client.call(
+        contract: contract,
+        function: contract.function('balanceOf'),
+        params: [EthereumAddress.fromHex(walletAddress)]);
+    log("Wallet Balance $balance");
+  }
+
+  Future<String?> connectWallet() async {
+    late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",
       clientMeta: const PeerMeta(
@@ -181,39 +203,60 @@ class NewPostController extends GetxController {
         url: "https://boomapp.io",
       ),
     );
-    connector.on('connect', (session) {
-      log("Connect $session");
-    });
+    connector.connect();
 
-    if (!connector.connected) {
+    if (connector.connected) {
+      for (var element in connector.session.accounts) {
+        log("Wallet Address $element");
+      }
+      log("Wallet is already connected ${connector.session.accounts.first}");
+
+      connector.on('connect', (SessionStatus session) {
+        provider = EthereumWalletConnectProvider(connector, chainId: 5);
+        final sender = EthereumAddress.fromHex(session.accounts.first);
+
+        credentials = WalletConnectEthereumCredentials(provider: provider!);
+        log("Sender $sender");
+      });
+
+      // final transaction = Transaction(
+      //   to: EthereumAddress.fromHex(
+      //       "0x6582436697029990185E7073f386769979aDbc14"),
+      //   from: sender,
+      //   gasPrice: EtherAmount.inWei(BigInt.one),
+      //   maxGas: 100000,
+      //   value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
+      // );
+
+      // log("Client is sending TX");
+      // final txBytes = await client.sendTransaction(credentials, transaction);
+      // log("Here we are");
+      // connector.connect();
+      // log(txBytes);
+
+      return credentials.provider.connector.session.accounts.first;
+    } else {
+      log("Wallet connection Not done yet");
       final session = await connector.createSession(
         chainId: 5,
         onDisplayUri: (uri) async {
           log(uri.toString());
           await launchUrl(Uri.parse(uri));
+          await connector.connect(chainId: 5);
         },
       );
-      connector.connect();
-      provider = EthereumWalletConnectProvider(connector, chainId: 5);
-      final sender = EthereumAddress.fromHex(session.accounts.first);
-
-      final transaction = Transaction(
-        to: EthereumAddress.fromHex(
-            "0x6582436697029990185E7073f386769979aDbc14"),
-        from: sender,
-        gasPrice: EtherAmount.inWei(BigInt.one),
-        maxGas: 100000,
-        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
-      );
-      final credentials = WalletConnectEthereumCredentials(provider: provider!);
-      log("Client is sending TX");
-      final txBytes = await client.sendTransaction(credentials, transaction);
-      log("Here we are");
-      connector.connect();
-      log(txBytes);
-
-      return txBytes;
+      await connector.connect(chainId: 5);
+      log("Attempting to connect");
+      connector.on('connect', (SessionStatus session) {
+        provider = EthereumWalletConnectProvider(connector, chainId: 5);
+        final sender = EthereumAddress.fromHex(session.accounts.first);
+        final credentials =
+            WalletConnectEthereumCredentials(provider: provider!);
+        log("Sender $sender");
+        return credentials.provider.connector.session.accounts.first;
+      });
     }
+    return null;
   }
 
   uploadNewBoom() async {

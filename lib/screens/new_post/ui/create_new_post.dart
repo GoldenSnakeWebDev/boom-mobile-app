@@ -41,7 +41,197 @@ class CreateNewPost extends GetView<NewPostController> {
           actions: [
             TextButton(
               onPressed: () async {
-                controller.connectWallet();
+                // controller.connectWallet();
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) {
+                      return GetBuilder<NewPostController>(
+                          builder: (controller) {
+                        return Container(
+                          height: SizeConfig.screenHeight * 0.3,
+                          width: SizeConfig.screenWidth,
+                          margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Import NFT from your wallet",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: getProportionateScreenHeight(15),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(25),
+                                ),
+                                TextFormField(
+                                  controller: controller.nftContractAddress,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return "Please enter the contract address";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(4),
+                                    hintText: "NFT Contract Address",
+                                    hintStyle: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(12),
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    suffixIcon: SizedBox(
+                                      width: SizeConfig.screenWidth * 0.4,
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            CachedNetworkImage(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      16),
+                                              imageUrl: controller
+                                                      .selectedNetworkModel
+                                                      ?.imageUrl ??
+                                                  "",
+                                            ),
+                                            SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      4),
+                                            ),
+                                            Obx(
+                                              () => Text(
+                                                "${controller.cryptoAmount} ${controller.selectedNetwork}",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          12),
+                                                ),
+                                              ),
+                                            ),
+                                            DropdownButton(
+                                                icon: const Icon(
+                                                  Icons
+                                                      .arrow_drop_down_circle_outlined,
+                                                  color: Colors.grey,
+                                                  size: 24,
+                                                ),
+                                                underline: const SizedBox(),
+                                                style: const TextStyle(
+                                                    color: Colors.black),
+                                                items: controller.networks
+                                                    .map((e) {
+                                                  return DropdownMenuItem(
+                                                      value: e,
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          CachedNetworkImage(
+                                                            height:
+                                                                getProportionateScreenHeight(
+                                                                    16),
+                                                            imageUrl:
+                                                                e.imageUrl!,
+                                                          ),
+                                                          SizedBox(
+                                                            width:
+                                                                getProportionateScreenWidth(
+                                                                    4),
+                                                          ),
+                                                          Text(
+                                                            e.symbol!,
+                                                            style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w900,
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      12),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ));
+                                                }).toList(),
+                                                onChanged: (value) {
+                                                  controller.changeChain(
+                                                      value!.symbol!);
+                                                }),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(40),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    await controller.fetchNFT();
+                                  },
+                                  child: Container(
+                                    width: SizeConfig.screenWidth,
+                                    height: getProportionateScreenHeight(35),
+                                    decoration: BoxDecoration(
+                                      color: kPrimaryColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: const Text("Import NFT"),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+                    });
               },
               child: Text(
                 "Import NFT",
