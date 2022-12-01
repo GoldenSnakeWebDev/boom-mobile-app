@@ -90,20 +90,21 @@ class DMService {
   }
 
   Future<dynamic> chatWithUser(Map<String, dynamic> boomBoxData) async {
-    EasyLoading.show(status: 'loading...');
     var token = _storage.read('token');
     var headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': '$token',
     };
+    log('boomBoxData: $boomBoxData');
     try {
       final response = await http.post(
         Uri.parse('${baseURL}boom-box'),
         headers: headers,
         body: jsonEncode(boomBoxData),
       );
-      log("bb response :: ${response.body}");
+      log("chatWithUser response :: ${response.body}");
+      log("chatWithUser code :: ${response.statusCode}");
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
       } else {

@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:developer';
 import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -12,19 +12,19 @@ import 'models/messages_model.dart';
 
 class SingleMessage extends GetView<DMCrontroller> {
   final String username;
+  final String receiverId;
   final String img;
   final String boomBox;
   SingleMessage({
     Key? key,
     required this.username,
+    required this.receiverId,
     required this.img,
     required this.boomBox,
   }) : super(key: key);
 
   final TextEditingController _messageController = TextEditingController();
   final _storage = GetStorage();
-  String? _boomBoxId;
-  String? _receiverId;
 
   @override
   Widget build(BuildContext context) {
@@ -147,23 +147,28 @@ class SingleMessage extends GetView<DMCrontroller> {
                         ),
                         onPressed: () {},
                       ),
-                      suffixIcon: IconButton(
-                        onPressed: () async {
-                          controller.channel?.sink.add(
-                            jsonEncode({
-                              "box": "$_boomBoxId",
-                              "author": "${_storage.read('userId')}",
-                              "receiver": "$_receiverId",
-                              "content": _messageController.text,
-                              "command": "send_message"
-                            }),
-                          );
-                          _messageController.clear();
-                        },
-                        icon: const Icon(
-                          MdiIcons.send,
-                          color: Color(0xFF454C4D),
-                        ),
+                      suffixIcon: Obx(
+                        () => (controller.isLoading.value)
+                            ? const CircularProgressIndicator(
+                                color: kPrimaryColor,
+                              )
+                            : IconButton(
+                                onPressed: () async {
+                                  var res = controller.chatWithUser(
+                                    "send_message",
+                                    _messageController.text,
+                                    receiverId,
+                                    boomBox,
+                                  );
+                                  log("send message response :: $res");
+                                  _messageController.clear();
+                                  FocusScope.of(context).unfocus();
+                                },
+                                icon: const Icon(
+                                  MdiIcons.send,
+                                  color: Color(0xFF454C4D),
+                                ),
+                              ),
                       ),
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(

@@ -160,6 +160,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                 "join_room",
                 "",
                 controller.boxUsers![index].id,
+                "",
               );
             },
             icon: const Icon(
@@ -173,6 +174,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
               "join_room",
               "",
               controller.boxUsers![index].userId,
+              "",
             );
             // Get.to(() => SingleMessageScreen());
           },
@@ -195,6 +197,8 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                     () => SingleMessage(
                       username:
                           "${boomBoxes[index].messages?.last.receiver?.username}",
+                      receiverId:
+                          "${boomBoxes[index].messages?.last.receiver?.id}",
                       img: boomBoxes[index].messages?.last.receiver?.photo ??
                           "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                       boomBox: boomBoxes[index].box!,
