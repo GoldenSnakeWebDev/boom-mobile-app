@@ -1,63 +1,79 @@
-//     final messagesData = messagesDataFromJson(jsonString);
+//     final dMsResponse = dMsResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-MessagesData messagesDataFromJson(String str) =>
-    MessagesData.fromJson(json.decode(str));
+DMsResponse dMsResponseFromJson(String str) =>
+    DMsResponse.fromJson(json.decode(str));
 
-String messagesDataToJson(MessagesData data) => json.encode(data.toJson());
+String dMsResponseToJson(DMsResponse data) => json.encode(data.toJson());
 
-class MessagesData {
-  MessagesData({
-    this.id,
+class DMsResponse {
+  DMsResponse({
+    this.status,
+    this.boomBox,
+  });
+
+  String? status;
+  DMBoomBox? boomBox;
+
+  factory DMsResponse.fromJson(Map<String, dynamic> json) => DMsResponse(
+        status: json["status"],
+        boomBox: DMBoomBox.fromJson(json["boom_box"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "boom_box": boomBox?.toJson(),
+      };
+}
+
+class DMBoomBox {
+  DMBoomBox({
     this.boxType,
     this.imageUrl,
     this.label,
     this.box,
-    this.isActive,
     this.messages,
+    this.isActive,
     this.createdAt,
-    this.v,
+    this.id,
   });
 
-  String? id;
   String? boxType;
   String? imageUrl;
   String? label;
   String? box;
+  List<DMMessage>? messages;
   bool? isActive;
-  List<Message>? messages;
   DateTime? createdAt;
-  int? v;
+  String? id;
 
-  factory MessagesData.fromJson(Map<String, dynamic> json) => MessagesData(
-        id: json["_id"],
+  factory DMBoomBox.fromJson(Map<String, dynamic> json) => DMBoomBox(
         boxType: json["box_type"],
         imageUrl: json["image_url"],
         label: json["label"],
         box: json["box"],
+        messages: List<DMMessage>.from(
+            json["messages"].map((x) => DMMessage.fromJson(x))),
         isActive: json["is_active"],
-        messages: List<Message>.from(
-            json["messages"].map((x) => Message.fromJson(x))),
         createdAt: DateTime.parse(json["created_at"]),
-        v: json["__v"],
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
         "box_type": boxType,
         "image_url": imageUrl,
         "label": label,
         "box": box,
-        "is_active": isActive,
         "messages": List<dynamic>.from(messages!.map((x) => x.toJson())),
+        "is_active": isActive,
         "created_at": createdAt?.toIso8601String(),
-        "__v": v,
+        "id": id,
       };
 }
 
-class Message {
-  Message({
+class DMMessage {
+  DMMessage({
     this.content,
     this.receiver,
     this.author,
@@ -73,7 +89,7 @@ class Message {
   bool? isDelete;
   String? id;
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
+  factory DMMessage.fromJson(Map<String, dynamic> json) => DMMessage(
         content: json["content"],
         receiver: Author.fromJson(json["receiver"]),
         author: Author.fromJson(json["author"]),
@@ -99,6 +115,7 @@ class Author {
     this.lastName,
     this.username,
     this.photo,
+    this.authorId,
   });
 
   String? id;
@@ -106,6 +123,7 @@ class Author {
   String? lastName;
   String? username;
   String? photo;
+  String? authorId;
 
   factory Author.fromJson(Map<String, dynamic> json) => Author(
         id: json["_id"],
@@ -113,6 +131,7 @@ class Author {
         lastName: json["last_name"],
         username: json["username"],
         photo: json["photo"],
+        authorId: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -121,5 +140,6 @@ class Author {
         "last_name": lastName,
         "username": username,
         "photo": photo,
+        "id": authorId,
       };
 }

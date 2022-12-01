@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'models/messages_model.dart';
@@ -13,13 +13,18 @@ import 'models/messages_model.dart';
 class SingleMessage extends GetView<DMCrontroller> {
   final String username;
   final String img;
+  final String boomBox;
   SingleMessage({
     Key? key,
     required this.username,
     required this.img,
+    required this.boomBox,
   }) : super(key: key);
 
   final TextEditingController _messageController = TextEditingController();
+  final _storage = GetStorage();
+  String? _boomBoxId;
+  String? _receiverId;
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +42,28 @@ class SingleMessage extends GetView<DMCrontroller> {
             Get.back();
           },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.snackbar(
-                "Hang in there.",
-                "Shipping soon..",
-                backgroundColor: kPrimaryColor,
-                snackPosition: SnackPosition.TOP,
-                colorText: Colors.black,
-                overlayBlur: 5.0,
-                margin: EdgeInsets.only(
-                  top: SizeConfig.screenHeight * 0.05,
-                  left: SizeConfig.screenWidth * 0.05,
-                  right: SizeConfig.screenWidth * 0.05,
-                ),
-              );
-            },
-            icon: const Icon(
-              MdiIcons.phone,
-              color: kPrimaryColor,
-            ),
-          ),
+        actions: const [
+          // IconButton(
+          //   onPressed: () {
+          //     Get.snackbar(
+          //       "Hang in there.",
+          //       "Shipping soon..",
+          //       backgroundColor: kPrimaryColor,
+          //       snackPosition: SnackPosition.TOP,
+          //       colorText: Colors.black,
+          //       overlayBlur: 5.0,
+          //       margin: EdgeInsets.only(
+          //         top: SizeConfig.screenHeight * 0.05,
+          //         left: SizeConfig.screenWidth * 0.05,
+          //         right: SizeConfig.screenWidth * 0.05,
+          //       ),
+          //     );
+          //   },
+          //   icon: const Icon(
+          //     MdiIcons.phone,
+          //     color: kPrimaryColor,
+          //   ),
+          // ),
         ],
         title: Row(
           children: [
@@ -95,107 +100,37 @@ class SingleMessage extends GetView<DMCrontroller> {
               child: Column(
                 children: [
                   Expanded(
-                    child: SingleChildScrollView(
-                      reverse: true,
-                      physics: const BouncingScrollPhysics(),
-                      child: StreamBuilder(
-                        stream: controller.channel.stream,
-                        builder: (context, snapshot) {
+                    child: StreamBuilder<DMBoomBox?>(
+                      stream: controller.service.fetchDMs(boomBox),
+                      builder: (context, AsyncSnapshot<DMBoomBox?> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator(
+                            color: kPrimaryColor,
+                          ));
+                        } else if (snapshot.connectionState ==
+                                ConnectionState.active ||
+                            snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
+                            return const Center(child: Text('Error'));
+                          } else if (snapshot.hasData) {
+                            return _buildChatMessages(snapshot.data!.messages);
+                          } else {
+                            return const Center(
+                              child: Text(
+                                'Empty data',
+                              ),
+                            );
                           }
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.none:
-                              return const Text('No connection');
-                            case ConnectionState.waiting:
-                              return const Text('Connected');
-                            case ConnectionState.active:
-                              log('SnapData :: ${snapshot.data}');
-                              if (snapshot.data != null) {
-                                final messagesData =
-                                    messagesDataFromJson(snapshot.data);
-                                log('messagesData :: $messagesData');
-                              }
-                              return Obx(() => (controller.isLoading.value)
-                                  ? const Center(
-                                      child: CircularProgressIndicator(),
-                                    )
-                                  : Text(
-                                      snapshot.data.toString(),
-                                    ));
-                            case ConnectionState.done:
-                              return Text('${snapshot.data} (closed)');
-                          }
-                        },
-                      ),
-
-                      //  ListView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //   itemCount: 30,
-                      //   itemBuilder: (context, index) {
-                      //     return Container(
-                      //       margin: EdgeInsets.only(
-                      //         bottom: getProportionateScreenHeight(10),
-                      //         top: getProportionateScreenHeight(10),
-                      //       ),
-                      //       child: Row(
-                      //         mainAxisAlignment: index % 2 == 0
-                      //             ? MainAxisAlignment.start
-                      //             : MainAxisAlignment.end,
-                      //         children: [
-                      //           Column(
-                      //             crossAxisAlignment: index % 2 == 0
-                      //                 ? CrossAxisAlignment.start
-                      //                 : CrossAxisAlignment.end,
-                      //             children: [
-                      //               Container(
-                      //                 width: SizeConfig.screenWidth * 0.7,
-                      //                 decoration: BoxDecoration(
-                      //                   color: index % 2 == 0
-                      //                       ? const Color(0xFFF8F8F8)
-                      //                       : const Color(0XFF4B5259),
-                      //                   borderRadius: index % 2 == 0
-                      //                       ? const BorderRadius.only(
-                      //                           topLeft: Radius.circular(12),
-                      //                           topRight: Radius.circular(12),
-                      //                           bottomLeft: Radius.circular(12),
-                      //                         )
-                      //                       : const BorderRadius.only(
-                      //                           topLeft: Radius.circular(12),
-                      //                           topRight: Radius.circular(12),
-                      //                           bottomRight:
-                      //                               Radius.circular(12),
-                      //                         ),
-                      //                 ),
-                      //                 child: Padding(
-                      //                   padding: const EdgeInsets.all(8.0),
-                      //                   child: Text(
-                      //                     "${index % 2 == 0 ? "Sender" : "Recepient"} These are some messages. Let's try to make it long enough to see how it looks like 😂😂😂🥳",
-                      //                     style: TextStyle(
-                      //                         fontSize:
-                      //                             getProportionateScreenHeight(
-                      //                                 12),
-                      //                         color: index % 2 == 0
-                      //                             ? const Color(0xFF5F5F5F)
-                      //                             : Colors.white),
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //               Text(
-                      //                 "Seen",
-                      //                 style: TextStyle(
-                      //                   fontSize:
-                      //                       getProportionateScreenHeight(10),
-                      //                 ),
-                      //               )
-                      //             ],
-                      //           )
-                      //         ],
-                      //       ),
-                      //     );
-                      //   },
-                      // ),
+                        } else {
+                          return Center(
+                            child: Text(
+                              'State: ${snapshot.connectionState}',
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ),
                   TextFormField(
@@ -214,17 +149,16 @@ class SingleMessage extends GetView<DMCrontroller> {
                       ),
                       suffixIcon: IconButton(
                         onPressed: () async {
-                          log("SEND");
-
-                          controller.channel.sink.add(
+                          controller.channel?.sink.add(
                             jsonEncode({
-                              "box": "637615cb5c177f18f766123e:1669735699637",
-                              "author": "637615cb5c177f18f766123e",
-                              "receiver": "63629d1fca70d3e95d489a81",
+                              "box": "$_boomBoxId",
+                              "author": "${_storage.read('userId')}",
+                              "receiver": "$_receiverId",
                               "content": _messageController.text,
                               "command": "send_message"
                             }),
                           );
+                          _messageController.clear();
                         },
                         icon: const Icon(
                           MdiIcons.send,
@@ -260,6 +194,72 @@ class SingleMessage extends GetView<DMCrontroller> {
           );
         }),
       ),
+    );
+  }
+
+  _buildChatMessages(List<DMMessage>? messages) {
+    String userid = _storage.read('userId');
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: messages!.length,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: EdgeInsets.only(
+            bottom: getProportionateScreenHeight(10),
+            top: getProportionateScreenHeight(10),
+          ),
+          child: Row(
+            mainAxisAlignment: (messages[index].author!.id != userid)
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.end,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    width: SizeConfig.screenWidth * 0.7,
+                    decoration: BoxDecoration(
+                      color: (messages[index].author!.id != userid)
+                          ? const Color(0xFFF8F8F8)
+                          : const Color(0XFF4B5259),
+                      borderRadius: (messages[index].author!.id == userid)
+                          ? const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                              bottomLeft: Radius.circular(12),
+                            )
+                          : const BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
+                              bottomRight: Radius.circular(12),
+                            ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "${messages[index].content}",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(12),
+                          color: (messages[index].author!.id != userid)
+                              ? const Color(0xFF5F5F5F)
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    DateFormat('HH:mm a').format(messages[index].timestamp!),
+                    style: TextStyle(
+                      fontSize: getProportionateScreenHeight(10),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }

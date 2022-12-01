@@ -110,7 +110,7 @@ dependencies:
 
   #v
   video_player: ^2.4.7
-  
+
   #w
   widget_and_text_animator: ^1.0.9
   wallet_connect: ^1.0.4
@@ -120,14 +120,8 @@ dependencies:
   image_cropper: ^3.0.1
 
   cached_video_player: ^2.0.3
-  
 
   web_socket_channel: ^2.2.0
-
-  
-  
-
-  
 
 dev_dependencies:
   flutter_test:
