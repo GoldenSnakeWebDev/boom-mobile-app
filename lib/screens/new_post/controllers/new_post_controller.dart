@@ -10,6 +10,7 @@ import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controlle
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/erc721.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -64,14 +65,15 @@ class NewPostController extends GetxController {
   bool isWalletConnected = false;
   EthereumWalletConnectProvider? provider;
   Web3Client client = Web3Client(
-      'https://goerli.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
-      http.Client());
+    'https://polygon-mumbai.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
+    http.Client(),
+  );
   // WCSessionStore? sessionStore;
 
   String rpc =
-      'wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae';
+      'https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8';
   final web3Client = Web3Client(
-      "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1?bridge=https%3A%2F%2Fbridge.walletconnect.org&key=91303dedf64285cbbaf9120f6e9d160a5c8aa3deb67017a3874cd272323f48ae",
+      "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
       http.Client());
 
   // final File abiFile = File('assets/files/erc721.json');
@@ -113,7 +115,7 @@ class NewPostController extends GetxController {
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
-      priceValue = data['currentUSDPrice'];
+      priceValue = double.parse(data['currentUSDPrice'].toString());
       getCryptoAmount(price.text.trim());
       update();
     }
@@ -192,14 +194,14 @@ class NewPostController extends GetxController {
     log("Wallet Balance $balance");
   }
 
-  Future<String?> connectWallet() async {
+  connectWallet() async {
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",
       clientMeta: const PeerMeta(
         name: "Boom",
         description: "Boom",
-        icons: ["https://boomapp.io/assets/images/logo.png"],
+        icons: [boomIconUrl],
         url: "https://boomapp.io",
       ),
     );
@@ -212,7 +214,7 @@ class NewPostController extends GetxController {
       log("Wallet is already connected ${connector.session.accounts.first}");
 
       connector.on('connect', (SessionStatus session) {
-        provider = EthereumWalletConnectProvider(connector, chainId: 5);
+        provider = EthereumWalletConnectProvider(connector, chainId: 80001);
         final sender = EthereumAddress.fromHex(session.accounts.first);
 
         credentials = WalletConnectEthereumCredentials(provider: provider!);
@@ -238,25 +240,25 @@ class NewPostController extends GetxController {
     } else {
       log("Wallet connection Not done yet");
       final session = await connector.createSession(
-        chainId: 5,
+        chainId: 80001,
         onDisplayUri: (uri) async {
           log(uri.toString());
           await launchUrl(Uri.parse(uri));
-          await connector.connect(chainId: 5);
+          await connector.connect(chainId: 80001);
         },
       );
-      await connector.connect(chainId: 5);
+      await connector.connect(chainId: 80001);
       log("Attempting to connect");
       connector.on('connect', (SessionStatus session) {
-        provider = EthereumWalletConnectProvider(connector, chainId: 5);
+        provider = EthereumWalletConnectProvider(connector, chainId: 80001);
         final sender = EthereumAddress.fromHex(session.accounts.first);
         final credentials =
             WalletConnectEthereumCredentials(provider: provider!);
         log("Sender $sender");
         return credentials.provider.connector.session.accounts.first;
       });
+      log("App jumped to this place");
     }
-    return null;
   }
 
   uploadNewBoom() async {

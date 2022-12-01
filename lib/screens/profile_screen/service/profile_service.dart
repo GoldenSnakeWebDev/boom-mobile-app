@@ -20,7 +20,7 @@ class ProfileService {
           final user = User.fromJson(jsonDecode(res.body)["user"]);
           yield user;
         } else {
-          log("Error ${res.statusCode}");
+          log("Profile Error ::: ${res.statusCode} ::: ${res.body}");
         }
       } catch (e) {
         log(e.toString());
