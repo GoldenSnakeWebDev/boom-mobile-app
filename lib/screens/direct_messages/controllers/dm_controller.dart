@@ -70,6 +70,7 @@ class DMCrontroller extends GetxController {
     String command,
     String? content,
     String? receiver,
+    String? box,
   ) async {
     setLoading(true);
     var ress = await service.chatWithUser(
@@ -78,6 +79,7 @@ class DMCrontroller extends GetxController {
         "content": "$content",
         "author": "${_storage.read('userId')}",
         "receiver": "$receiver",
+        "box": "$box",
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       },
     );
