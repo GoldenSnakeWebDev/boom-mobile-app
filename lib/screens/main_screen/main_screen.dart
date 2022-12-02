@@ -141,7 +141,7 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             ListTile(
                               onTap: () {
-                                Get.to(() => DirectMessagesScreen());
+                                Get.to(() => const DirectMessagesScreen());
                               },
                               leading: const Icon(Icons.mail),
                               title: const Text(
@@ -154,7 +154,7 @@ class _MainScreenState extends State<MainScreen> {
                                     MainScreenController(repo: Get.find()));
                                 Get.to(
                                   () => const FansScreen(),
-                                  arguments: [controller.user!.funs!],
+                                  arguments: [controller.user!.funs!, "Fans"],
                                 );
                               },
                               leading: const FloatingActionWidget(
@@ -164,11 +164,22 @@ class _MainScreenState extends State<MainScreen> {
                                 'Fans',
                               ),
                             ),
-                            const ListTile(
-                              leading: FloatingActionWidget(
+                            ListTile(
+                              onTap: () {
+                                final controller = Get.put(
+                                    MainScreenController(repo: Get.find()));
+                                Get.to(
+                                  () => const FansScreen(),
+                                  arguments: [
+                                    controller.user!.friends!,
+                                    "Frens"
+                                  ],
+                                );
+                              },
+                              leading: const FloatingActionWidget(
                                 "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Frens',
                               ),
                             ),

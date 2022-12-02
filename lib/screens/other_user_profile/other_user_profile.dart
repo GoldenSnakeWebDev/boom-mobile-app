@@ -582,13 +582,18 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                               ),
                                                               GestureDetector(
                                                                 onTap: () {
-                                                                  Get.to(
-                                                                      () =>
-                                                                          const FansScreen(),
-                                                                      arguments: [
-                                                                        user.user!
-                                                                            .funs
-                                                                      ]);
+                                                                  user
+                                                                          .user!
+                                                                          .funs!
+                                                                          .isNotEmpty
+                                                                      ? Get.to(
+                                                                          () =>
+                                                                              const FansScreen(),
+                                                                          arguments: [
+                                                                              user.user!.funs,
+                                                                              "Fans"
+                                                                            ])
+                                                                      : null;
                                                                 },
                                                                 child: Column(
                                                                   children: [
@@ -624,37 +629,49 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                     getProportionateScreenWidth(
                                                                         40),
                                                               ),
-                                                              Column(
-                                                                children: [
-                                                                  Text(
-                                                                    user
-                                                                        .user!
-                                                                        .friends!
-                                                                        .length
-                                                                        .toString(),
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w800,
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              16),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  user
+                                                                          .user!
+                                                                          .friends!
+                                                                          .isNotEmpty
+                                                                      ? Get.to(
+                                                                          () =>
+                                                                              const FansScreen(),
+                                                                          arguments: [
+                                                                              user.user!.friends,
+                                                                              "Frens"
+                                                                            ])
+                                                                      : null;
+                                                                },
+                                                                child: Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      user
+                                                                          .user!
+                                                                          .friends!
+                                                                          .length
+                                                                          .toString(),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w800,
+                                                                        fontSize:
+                                                                            getProportionateScreenHeight(16),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Text(
-                                                                    "Frens",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              12),
+                                                                    Text(
+                                                                      "Frens",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            getProportionateScreenHeight(12),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               ),
                                                               SizedBox(
                                                                 width:

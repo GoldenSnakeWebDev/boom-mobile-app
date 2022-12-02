@@ -598,7 +598,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                       () =>
                                                                           const FansScreen(),
                                                                       arguments: [
-                                                                        user.funs!
+                                                                        user.funs!,
+                                                                        "Fans"
                                                                       ]);
                                                                 },
                                                                 child: Column(
@@ -634,33 +635,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     getProportionateScreenWidth(
                                                                         40),
                                                               ),
-                                                              Column(
-                                                                children: [
-                                                                  Text(
-                                                                    "0",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w800,
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              16),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Get.to(
+                                                                      () =>
+                                                                          const FansScreen(),
+                                                                      arguments: [
+                                                                        user.friends!,
+                                                                        "Frens"
+                                                                      ]);
+                                                                },
+                                                                child: Column(
+                                                                  children: [
+                                                                    Text(
+                                                                      user.friends!
+                                                                              .length
+                                                                              .toString() ??
+                                                                          "0",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w800,
+                                                                        fontSize:
+                                                                            getProportionateScreenHeight(16),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Text(
-                                                                    "Frens",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          getProportionateScreenHeight(
-                                                                              12),
+                                                                    Text(
+                                                                      "Frens",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            getProportionateScreenHeight(12),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ],
+                                                                  ],
+                                                                ),
                                                               )
                                                             ],
                                                           ),

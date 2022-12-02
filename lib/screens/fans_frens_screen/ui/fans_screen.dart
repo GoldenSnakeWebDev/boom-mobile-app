@@ -11,11 +11,12 @@ class FansScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Fun> fans = Get.arguments[0];
+    String title = Get.arguments[1];
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Fans",
-          style: TextStyle(
+        title: Text(
+          title,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w800,
           ),
