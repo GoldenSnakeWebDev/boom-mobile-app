@@ -83,10 +83,9 @@ class DMCrontroller extends GetxController {
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       },
     );
+    fetchBoomBoxMessages();
     setLoading(false);
-    if (ress != null) {
-      fetchBoomBoxMessages();
-    }
+
     return ress;
   }
 }
