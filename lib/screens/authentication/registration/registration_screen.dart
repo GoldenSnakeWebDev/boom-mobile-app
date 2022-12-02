@@ -112,7 +112,7 @@ class RegistrationScreen extends GetView<RegisterController> {
                               decoration: InputDecoration(
                                 hintText: "Email",
                                 prefixIcon: const Icon(
-                                  Icons.person,
+                                  Icons.mail,
                                   color: Colors.black,
                                 ),
                                 fillColor: Colors.grey.shade300,
