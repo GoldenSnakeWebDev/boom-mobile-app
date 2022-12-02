@@ -75,7 +75,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
         socialMedia: SocialMedia.fromJson(json["social_media"]),
-        friends: List<Fun>.from(json["friends"].map((x) => x)),
+        friends: List<Fun>.from(json["friends"].map((x) => Fun.fromJson(x))),
         firstName: json["first_name"],
         lastName: json["last_name"],
         username: json["username"],
