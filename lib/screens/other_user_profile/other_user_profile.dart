@@ -182,7 +182,34 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             user.user!.id
                                                         ? const SizedBox()
                                                         : GestureDetector(
-                                                            onTap: () {},
+                                                            onTap: () {
+                                                              showMenu(
+                                                                context:
+                                                                    context,
+                                                                position: RelativeRect.fromLTRB(
+                                                                    SizeConfig
+                                                                        .screenHeight,
+                                                                    120,
+                                                                    SizeConfig
+                                                                        .screenHeight,
+                                                                    SizeConfig
+                                                                        .screenHeight),
+                                                                items: [
+                                                                  const PopupMenuItem(
+                                                                    value: 1,
+                                                                    child: Text(
+                                                                      "Block",
+                                                                    ),
+                                                                  ),
+                                                                  const PopupMenuItem(
+                                                                    value: 1,
+                                                                    child: Text(
+                                                                      "Report",
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
                                                             child: const Icon(
                                                               MdiIcons
                                                                   .dotsVertical,
@@ -692,7 +719,11 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                             GestureDetector(
                                                                           onTap:
                                                                               () async {
-                                                                            await otherProfileService.followUser(user.user!.id!);
+                                                                            if (!fans.contains(myUserId)) {
+                                                                              await otherProfileService.followUser(user.user!.id!);
+                                                                            } else {
+                                                                              await otherProfileService.unFollowUser(user.user!.id!);
+                                                                            }
                                                                           },
                                                                           child:
                                                                               Container(
@@ -717,7 +748,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                             ),
                                                                             child:
                                                                                 Text(
-                                                                              "Add",
+                                                                              !fans.contains(myUserId) ? "Add" : "UnAdd",
                                                                               style: TextStyle(fontSize: getProportionateScreenHeight(13), fontWeight: FontWeight.w600),
                                                                             ),
                                                                           ),
