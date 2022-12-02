@@ -44,7 +44,7 @@ class DMCrontroller extends GetxController {
     var ress = await service.fetchBoomBoxMessages();
     setLoading(false);
     if (ress != null) {
-      _boomBoxes = [...ress];
+      _boomBoxes = ress;
       update();
     }
   }
