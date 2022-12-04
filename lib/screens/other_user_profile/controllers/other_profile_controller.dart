@@ -19,6 +19,7 @@ class OtherUserProfileController extends GetxController {
   bool isSmiles = false;
   bool isRebooms = false;
   bool isLiked = false;
+  bool isReported = false;
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   String? selectedNetwork;
   Network? selectedNetworkModel;
@@ -49,16 +50,29 @@ class OtherUserProfileController extends GetxController {
     for (var item in boom.reactions!.loves!) {
       if (item.id == userId) {
         isLoves = true;
+      } else {
+        isLoves = false;
       }
     }
     for (var item in boom.reactions!.smiles!) {
       if (item.id == userId) {
         isSmiles = true;
+      } else {
+        isSmiles = false;
       }
     }
     for (var item in boom.reactions!.rebooms!) {
       if (item.id == userId) {
         isRebooms = true;
+      } else {
+        isRebooms = false;
+      }
+    }
+    for (var item in boom.reactions!.reports!) {
+      if (item.id == userId) {
+        isReported = true;
+      } else {
+        isReported = false;
       }
     }
   }
@@ -79,6 +93,7 @@ class OtherUserProfileController extends GetxController {
       isLoves: isLoves,
       isRebooms: isRebooms,
       isSmiles: isSmiles,
+      isReported: isReported,
       likes: boom.reactions!.likes!.length,
       loves: boom.reactions!.loves!.length,
       smiles: boom.reactions!.smiles!.length,

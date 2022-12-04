@@ -58,6 +58,22 @@ class OtherProfileService {
     }
   }
 
+  unFollowUser(String userId) async {
+    // String token = box.read("token");
+    // final res = await http.patch(
+    //   Uri.parse("${baseURL}friends/$userId"),
+    //   headers: {"Authorization": token},
+    // );
+
+    // if (res.statusCode == 200) {
+    //   log("Followed");
+    // } else {
+    //   log(res.body);
+    //   log(res.statusCode.toString());
+    //   Get.snackbar("Error", "Could not follow user");
+    // }
+  }
+
   tipUser(String userId, String network) async {
     if (formKey.currentState!.validate()) {
       EasyLoading.show(status: "Tipping User");

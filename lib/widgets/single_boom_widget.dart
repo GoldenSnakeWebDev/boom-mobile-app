@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -184,27 +185,26 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
-                        isLiked: controller?.isLiked,
+                        isLiked: post.isLiked,
                         onTap: (isLiked) async {
                           controller?.reactToBoom("likes", boomId, post.index);
+                          isLiked
+                              ? post.likes + 1
+                              : post.likes > 0
+                                  ? post.likes - 1
+                                  : post.likes;
                           // controller.reactChange("like");
-                          return controller?.isLiked = !isLiked;
+                          return post.isLiked = !isLiked;
                         },
-                        // likeCount: post.likes,
+                        likeCount: post.likes,
+                        countPostion: CountPostion.bottom,
                         likeBuilder: ((isLiked) {
                           return CachedNetworkImage(
                             height: getProportionateScreenHeight(26),
                             color: post.isLiked ? kPrimaryColor : Colors.black,
-                            imageUrl:
-                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/applaud.png",
+                            imageUrl: likeIconUrl,
                           );
                         }),
-                      ),
-                      Text(
-                        post.likes.toString(),
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
                       ),
                     ],
                   ),
@@ -218,12 +218,14 @@ class SingleBoomWidget extends StatelessWidget {
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
                         isLiked: post.isLoves,
-                        onTap: (isLoves) async {
+                        onTap: (isLiked) async {
                           controller?.reactToBoom("loves", boomId, post.index);
                           // controller.reactChange("love");
 
-                          return post.isLoves = isLoves;
+                          return post.isLoves = !isLiked;
                         },
+                        likeCount: post.loves,
+                        countPostion: CountPostion.bottom,
                         likeBuilder: ((isLoves) {
                           return SvgPicture.asset(
                             height: getProportionateScreenHeight(15),
@@ -231,12 +233,6 @@ class SingleBoomWidget extends StatelessWidget {
                             color: post.isLoves ? Colors.red : Colors.grey,
                           );
                         }),
-                      ),
-                      Text(
-                        post.loves.toString(),
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
                       ),
                     ],
                   ),
@@ -250,26 +246,19 @@ class SingleBoomWidget extends StatelessWidget {
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
                         isLiked: controller?.isSmiles,
-                        onTap: (isSmiles) async {
-                          log(isSmiles.toString());
+                        onTap: (isLiked) async {
                           controller?.reactToBoom("smiles", boomId, post.index);
-                          return controller?.isSmiles = isSmiles;
+                          return controller?.isSmiles = !isLiked;
                         },
-                        // likeCount: post.smiles,
-                        // countPostion: CountPostion.bottom,
-                        likeBuilder: ((isSmiles) {
+                        likeCount: post.smiles,
+                        countPostion: CountPostion.bottom,
+                        likeBuilder: ((isLiked) {
                           return CachedNetworkImage(
-                            height: getProportionateScreenHeight(22),
-                            imageUrl:
-                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/smile.png",
+                            height: getProportionateScreenHeight(26),
+                            imageUrl: smileIconUrl,
+                            color: isLiked ? Colors.pinkAccent : Colors.grey,
                           );
                         }),
-                      ),
-                      Text(
-                        post.smiles.toString(),
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
                       ),
                     ],
                   ),
@@ -280,27 +269,23 @@ class SingleBoomWidget extends StatelessWidget {
                           animationDuration: const Duration(milliseconds: 600),
                           size: getProportionateScreenHeight(20),
                           isLiked: controller?.isRebooms,
-                          onTap: (isRebooms) async {
+                          onTap: (isLiked) async {
                             controller?.reactToBoom(
                                 "rebooms", boomId, post.index);
-                            post.rebooms++;
-                            return controller?.isRebooms = isRebooms;
+
+                            return controller?.isRebooms = !isLiked;
                           },
                           bubblesColor: const BubblesColor(
                               dotPrimaryColor: kPrimaryColor,
                               dotSecondaryColor: kSecondaryColor),
-                          likeBuilder: (isRebooms) {
+                          likeCount: post.rebooms,
+                          countPostion: CountPostion.bottom,
+                          likeBuilder: (isLiked) {
                             return SvgPicture.asset(
-                              height: getProportionateScreenHeight(18),
-                              "assets/icons/reboom.svg",
-                            );
+                                height: getProportionateScreenHeight(18),
+                                "assets/icons/reboom.svg",
+                                color: isLiked ? kPrimaryColor : Colors.grey);
                           }),
-                      Text(
-                        post.rebooms.toString(),
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
-                      ),
                     ],
                   ),
                   Column(
@@ -308,22 +293,15 @@ class SingleBoomWidget extends StatelessWidget {
                       LikeButton(
                         animationDuration: const Duration(milliseconds: 600),
                         size: getProportionateScreenHeight(20),
-                        onTap: (_) async {
-                          Get.snackbar(
-                            "Hang in there.",
-                            "Shipping soon..",
-                            backgroundColor: kPrimaryColor,
-                            snackPosition: SnackPosition.TOP,
-                            colorText: Colors.black,
-                            overlayBlur: 5.0,
-                            margin: EdgeInsets.only(
-                              top: SizeConfig.screenHeight * 0.05,
-                              left: SizeConfig.screenWidth * 0.05,
-                              right: SizeConfig.screenWidth * 0.05,
-                            ),
-                          );
-                          return null;
+                        isLiked: post.isReported,
+                        onTap: (isLiked) async {
+                          controller?.reactToBoom(
+                              "reports", boomId, post.index);
+
+                          return controller?.isReported = !isLiked;
                         },
+                        likeCount: post.reported,
+                        countPostion: CountPostion.bottom,
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
@@ -333,12 +311,6 @@ class SingleBoomWidget extends StatelessWidget {
                             color: isReported ? kYellowTextColor : Colors.grey,
                           );
                         }),
-                      ),
-                      Text(
-                        post.reported.toString(),
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
                       ),
                     ],
                   ),

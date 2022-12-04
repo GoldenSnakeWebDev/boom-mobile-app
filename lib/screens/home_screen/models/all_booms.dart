@@ -251,7 +251,8 @@ class Reactions {
             json["smiles"].map((x) => UserClass.fromJson(x))),
         rebooms: List<UserClass>.from(
             json["rebooms"].map((x) => UserClass.fromJson(x))),
-        reports: List<dynamic>.from(json["reports"].map((x) => x)),
+        reports: List<UserClass>.from(
+            json["reports"].map((x) => UserClass.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

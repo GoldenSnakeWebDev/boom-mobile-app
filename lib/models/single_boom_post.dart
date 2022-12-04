@@ -22,6 +22,7 @@ class SingleBoomPost {
   bool isLoves;
   bool isSmiles;
   bool isRebooms;
+  bool isReported;
 
   SingleBoomPost({
     required this.user,
@@ -43,5 +44,6 @@ class SingleBoomPost {
     required this.isLoves,
     required this.isSmiles,
     required this.isRebooms,
+    required this.isReported,
   });
 }

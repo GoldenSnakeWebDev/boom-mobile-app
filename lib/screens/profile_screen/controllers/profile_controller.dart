@@ -26,6 +26,7 @@ class ProfileController extends GetxController {
   bool isLoves = false;
   bool isSmiles = false;
   bool isRebooms = false;
+  bool isReported = false;
   bool isLiked = false;
   User? user;
   AllBooms? myBooms;
@@ -154,16 +155,29 @@ class ProfileController extends GetxController {
     for (var item in boom.reactions!.loves!) {
       if (item.id == userId) {
         isLoves = true;
+      } else {
+        isLoves = false;
       }
     }
     for (var item in boom.reactions!.smiles!) {
       if (item.id == userId) {
         isSmiles = true;
+      } else {
+        isSmiles = false;
       }
     }
     for (var item in boom.reactions!.rebooms!) {
       if (item.id == userId) {
         isRebooms = true;
+      } else {
+        isRebooms = false;
+      }
+    }
+    for (var item in boom.reactions!.reports!) {
+      if (item.id == userId) {
+        isReported = true;
+      } else {
+        isReported = false;
       }
     }
   }
@@ -184,6 +198,7 @@ class ProfileController extends GetxController {
       isLoves: isLoves,
       isRebooms: isRebooms,
       isSmiles: isSmiles,
+      isReported: isReported,
       likes: boom.reactions!.likes!.length,
       loves: boom.reactions!.loves!.length,
       smiles: boom.reactions!.smiles!.length,

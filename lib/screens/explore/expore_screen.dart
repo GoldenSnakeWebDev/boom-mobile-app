@@ -128,10 +128,11 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                       itemBuilder: (context, index) {
                                         final singlePostDets =
                                             Get.find<HomeController>();
-                                        SingleBoomPost boomPost = singlePostDets
-                                            .getSingleBoomDetails(index);
+                                        List<SingleBoomPost> boomPost =
+                                            singlePostDets.getSingleBoomDetails(
+                                                _shuffledBooms!);
                                         return SingleBoomWidget(
-                                          post: boomPost,
+                                          post: boomPost[index],
                                           controller: homeController,
                                           boomId: _shuffledBooms![index].id!,
                                         );
