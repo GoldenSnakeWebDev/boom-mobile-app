@@ -22,6 +22,7 @@ class HomeController extends GetxController {
   bool isSmiles = false;
   bool isRebooms = false;
   bool isLiked = false;
+  bool isReported = false;
   bool hasLiked = false;
   bool hasLoved = false;
   bool hasSmiled = false;
@@ -78,43 +79,63 @@ class HomeController extends GetxController {
     for (var item in boom.reactions!.loves!) {
       if (item.id == userId) {
         isLoves = true;
+      } else {
+        isLoves = false;
       }
     }
     for (var item in boom.reactions!.smiles!) {
       if (item.id == userId) {
         isSmiles = true;
+      } else {
+        isSmiles = false;
       }
     }
     for (var item in boom.reactions!.rebooms!) {
       if (item.id == userId) {
         isRebooms = true;
+      } else {
+        isRebooms = false;
+      }
+    }
+    for (var item in boom.reactions!.reports!) {
+      if (item.id == userId) {
+        isReported = true;
+      } else {
+        isReported = false;
       }
     }
   }
 
-  SingleBoomPost getSingleBoomDetails(int index) {
-    fetchReactionStatus(homeBooms![index]);
-    return SingleBoomPost(
-      index: index,
-      boomType: "${homeBooms![index].boomType}",
-      location: "${homeBooms![index].location}",
-      chain: "${homeBooms![index].network!.symbol}",
-      imgUrl: "${homeBooms![index].imageUrl}",
-      desc: "${homeBooms![index].description}",
-      title: "${homeBooms![index].title}",
-      network: homeBooms![index].network!,
-      user: homeBooms![index].user!,
-      isLiked: isLiked,
-      isLoves: isLoves,
-      isRebooms: isRebooms,
-      isSmiles: isSmiles,
-      likes: homeBooms![index].reactions!.likes!.length,
-      loves: homeBooms![index].reactions!.loves!.length,
-      smiles: homeBooms![index].reactions!.smiles!.length,
-      rebooms: homeBooms![index].reactions!.rebooms!.length,
-      reported: homeBooms![index].reactions!.reports!.length,
-      comments: homeBooms![index].comments!.length,
-    );
+  List<SingleBoomPost> getSingleBoomDetails(List<Boom> boom) {
+    List<SingleBoomPost> singleBoomPost = [];
+    for (int i = 0; i < boom.length; i++) {
+      fetchReactionStatus(boom[i]);
+      var singleBoom = SingleBoomPost(
+        index: i,
+        boomType: "${homeBooms![i].boomType}",
+        location: "${homeBooms![i].location}",
+        chain: "${homeBooms![i].network!.symbol}",
+        imgUrl: "${homeBooms![i].imageUrl}",
+        desc: "${homeBooms![i].description}",
+        title: "${homeBooms![i].title}",
+        network: homeBooms![i].network!,
+        user: homeBooms![i].user!,
+        isLiked: isLiked,
+        isLoves: isLoves,
+        isRebooms: isRebooms,
+        isSmiles: isSmiles,
+        isReported: isReported,
+        likes: homeBooms![i].reactions!.likes!.length,
+        loves: homeBooms![i].reactions!.loves!.length,
+        smiles: homeBooms![i].reactions!.smiles!.length,
+        rebooms: homeBooms![i].reactions!.rebooms!.length,
+        reported: homeBooms![i].reactions!.reports!.length,
+        comments: homeBooms![i].comments!.length,
+      );
+      singleBoomPost.add(singleBoom);
+    }
+
+    return singleBoomPost;
   }
 
   fetchAllBooms() async {

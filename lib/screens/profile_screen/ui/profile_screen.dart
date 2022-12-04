@@ -649,9 +649,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   children: [
                                                                     Text(
                                                                       user.friends!
-                                                                              .length
-                                                                              .toString() ??
-                                                                          "0",
+                                                                          .length
+                                                                          .toString(),
                                                                       style:
                                                                           TextStyle(
                                                                         fontWeight:

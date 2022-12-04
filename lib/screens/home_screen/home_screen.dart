@@ -317,11 +317,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: ListView.builder(
                                       itemCount: controller.homeBooms!.length,
                                       itemBuilder: (context, index) {
-                                        SingleBoomPost boomPost = controller
-                                            .getSingleBoomDetails(index);
+                                        List<SingleBoomPost> boomPost =
+                                            controller.getSingleBoomDetails(
+                                                controller.homeBooms!);
 
                                         return SingleBoomWidget(
-                                          post: boomPost,
+                                          post: boomPost[index],
                                           controller: controller,
                                           boomId:
                                               controller.homeBooms![index].id!,
