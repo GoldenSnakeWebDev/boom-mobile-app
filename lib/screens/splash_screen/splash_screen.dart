@@ -1,17 +1,28 @@
 import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
+import 'package:boom_mobile/utils/constants.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
-class SplashScreen extends GetView<SplashController> {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(
       builder: (controller) {
-        return const Scaffold(
+        return Scaffold(
           body: Center(
-            child: SizedBox(),
+            child: SizedBox(
+              child: CachedNetworkImage(
+                imageUrl: boomIconUrl,
+                progressIndicatorBuilder: (context, url, progress) {
+                  return CircularProgressIndicator(
+                    value: progress.progress,
+                  );
+                },
+              ),
+            ),
           ),
         );
       },
