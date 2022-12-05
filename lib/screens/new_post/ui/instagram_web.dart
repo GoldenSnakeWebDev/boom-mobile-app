@@ -26,6 +26,9 @@ class InstagramWeb extends StatelessWidget {
           ),
         ),
       ),
+      clearCache: true,
+      clearCookies: true,
+      withJavascript: true,
       url: url,
     );
   }

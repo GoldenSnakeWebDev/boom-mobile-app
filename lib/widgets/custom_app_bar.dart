@@ -1,5 +1,6 @@
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/back_pack_screen/back_pack_screen.dart';
+import 'package:boom_mobile/screens/back_pack_screen/controllers/backpack_controller.dart';
 import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -86,6 +87,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   useSafeArea: true,
                   context: context,
                   builder: (context) {
+                    Get.put(BackPackController());
                     return const AlertDialog(
                       contentPadding: EdgeInsets.zero,
                       content: BackPackScreen(),

@@ -245,7 +245,7 @@ class SingleBoomWidget extends StatelessWidget {
                         bubblesColor: const BubblesColor(
                             dotPrimaryColor: kPrimaryColor,
                             dotSecondaryColor: kSecondaryColor),
-                        isLiked: controller?.isSmiles,
+                        isLiked: post.isSmiles,
                         onTap: (isLiked) async {
                           controller?.reactToBoom("smiles", boomId, post.index);
                           return controller?.isSmiles = !isLiked;
@@ -253,11 +253,16 @@ class SingleBoomWidget extends StatelessWidget {
                         likeCount: post.smiles,
                         countPostion: CountPostion.bottom,
                         likeBuilder: ((isLiked) {
-                          return CachedNetworkImage(
-                            height: getProportionateScreenHeight(26),
-                            imageUrl: smileIconUrl,
-                            color: isLiked ? Colors.pinkAccent : Colors.grey,
-                          );
+                          return isLiked
+                              ? CachedNetworkImage(
+                                  height: getProportionateScreenHeight(26),
+                                  imageUrl: smileIconUrl,
+                                )
+                              : CachedNetworkImage(
+                                  height: getProportionateScreenHeight(26),
+                                  imageUrl: smileIconUrl,
+                                  color: Colors.grey,
+                                );
                         }),
                       ),
                     ],
@@ -268,7 +273,7 @@ class SingleBoomWidget extends StatelessWidget {
                       LikeButton(
                           animationDuration: const Duration(milliseconds: 600),
                           size: getProportionateScreenHeight(20),
-                          isLiked: controller?.isRebooms,
+                          isLiked: post.isRebooms,
                           onTap: (isLiked) async {
                             controller?.reactToBoom(
                                 "rebooms", boomId, post.index);

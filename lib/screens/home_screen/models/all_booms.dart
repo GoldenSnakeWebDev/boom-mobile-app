@@ -240,7 +240,7 @@ class Reactions {
   List<UserClass>? loves;
   List<UserClass>? smiles;
   List<UserClass>? rebooms;
-  List<dynamic>? reports;
+  List<UserClass>? reports;
 
   factory Reactions.fromJson(Map<String, dynamic> json) => Reactions(
         likes: List<UserClass>.from(

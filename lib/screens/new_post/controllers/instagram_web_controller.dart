@@ -10,6 +10,7 @@ import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/new_post/ui/instagram_posts.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
@@ -22,16 +23,21 @@ class InstagramWebController extends GetxController {
   late StreamSubscription<String> onUrlChanged;
   InstagramService instragram = InstagramService();
   List<InstaMedia> medias = [];
+  List<InstaMedia> igPhotos = [];
+  List<InstaMedia> igVideos = [];
   List<Map<String, VideoPlayerController>> videoControllers = [];
   File? selectedIgImage;
   InstaMedia? selectedIgMedia;
   String filePath = '';
+  late TabController tabController;
 
   @override
   void onInit() async {
     super.onInit();
     await urlChanged();
   }
+
+  changeTabs() {}
 
   urlChanged() async {
     onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) async {
@@ -48,7 +54,8 @@ class InstagramWebController extends GetxController {
           // update();
 
           log("Fetched Posts of this number${medias.length}");
-          await initializeVideoControllers();
+          // await initializeVideoControllers();
+          sortMedia(medias);
 
           update();
 
@@ -61,6 +68,21 @@ class InstagramWebController extends GetxController {
         log("Not found token and user id");
       }
     });
+  }
+
+  sortMedia(List<InstaMedia> media) {
+    igPhotos = [];
+    igVideos = [];
+    for (var item in media) {
+      if (item.media_type == "VIDEO") {
+        igVideos.add(item);
+        update();
+      } else {
+        igPhotos.add(item);
+        update();
+      }
+    }
+    update();
   }
 
   initializeVideoControllers() async {
