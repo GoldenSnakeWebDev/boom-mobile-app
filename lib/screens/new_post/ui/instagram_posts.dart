@@ -8,7 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:video_player/video_player.dart';
+import 'package:video_thumbnail_imageview/video_thumbnail_imageview.dart';
 
 class InstagramPosts extends StatefulWidget {
   const InstagramPosts({
@@ -99,6 +99,7 @@ class _InstagramPostsState extends State<InstagramPosts>
                   tabs[0],
                   tabs[1],
                 ],
+                controller: _tabController,
                 unselectedLabelColor: Colors.black,
                 labelColor: kPrimaryColor,
                 labelStyle: TextStyle(
@@ -247,76 +248,102 @@ class IGVideosPage extends StatelessWidget {
                 crossAxisSpacing: 10,
               ),
               itemBuilder: (context, index) {
-                return controller.igVideos[index].media_type == "VIDEO"
-                    ? GestureDetector(
-                        onTap: () {
-                          log("Playing video");
-                          controller.videoControllers[0]
-                                  [controller.igVideos[index].id]!
-                              .play();
-                        },
-                        child: VideoPlayer(
-                          VideoPlayerController.network(
-                              controller.igVideos[index].media_url),
-                        ),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          controller.selectImage(controller.igVideos[index]);
-                        },
-                        onLongPress: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                PreviewIgPostDialog(
-                              image: controller.igVideos[index].media_url,
-                            ),
-                          );
-                        },
-                        child: Container(
-                          height: getProportionateScreenHeight(50),
-                          width: getProportionateScreenWidth(50),
-                          decoration: BoxDecoration(
-                            border: controller.selectedIgMedia != null &&
-                                    controller.selectedIgMedia ==
-                                        controller.igVideos[index]
-                                ? Border.all(
-                                    color: kPrimaryColor,
-                                    width: 2,
-                                  )
-                                : null,
-                          ),
-                          child: Stack(
-                            children: [
-                              CachedNetworkImage(
-                                height: getProportionateScreenHeight(400),
-                                width: getProportionateScreenWidth(250),
-                                imageUrl: controller.igVideos[index].media_url,
-                                fit: BoxFit.cover,
-                              ),
-                              controller.selectedIgMedia == null ||
-                                      controller.selectedIgMedia !=
-                                          controller.igVideos[index]
-                                  ? const SizedBox()
-                                  : Positioned(
-                                      bottom: 5,
-                                      right: 5,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color:
-                                                Colors.white.withOpacity(0.6),
-                                            shape: BoxShape.circle),
-                                        child: const Icon(
-                                          MdiIcons.check,
-                                          color: kPrimaryColor,
-                                          size: 16,
-                                        ),
-                                      ),
-                                    )
-                            ],
+                return VTImageView(
+                  videoUrl: controller.igVideos[index].media_url,
+                  height: getProportionateScreenHeight(200),
+                  width: getProportionateScreenWidth(200),
+                  assetPlaceHolder: "IG VIDEO",
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: getProportionateScreenHeight(200),
+                      width: getProportionateScreenWidth(200),
+                      color: Colors.grey,
+                      child: const Center(
+                        child: Text(
+                          "Error loading video",
+                          style: TextStyle(
+                            color: Colors.white,
                           ),
                         ),
-                      );
+                      ),
+                    );
+                  },
+                );
+                // height: getProportionateScreenHeight(400),
+                // width: getProportionateScreenWidth(250),
+                // imageUrl: controller.thumbNails[index],
+                // fit: BoxFit.cover,
+
+                // controller.igVideos[index].media_type == "VIDEO"
+                //     ? GestureDetector(
+                //         onTap: () {
+                //           log("Playing video");
+                //           controller.videoControllers[0]
+                //                   [controller.igVideos[index].id]!
+                //               .play();
+                //         },
+                //         child: VideoPlayer(
+                //           VideoPlayerController.network(
+                //               controller.igVideos[index].media_url),
+                //         ),
+                //       )
+                //     : GestureDetector(
+                //         onTap: () {
+                //           controller.selectImage(controller.igVideos[index]);
+                //         },
+                //         onLongPress: () {
+                //           showDialog(
+                //             context: context,
+                //             builder: (BuildContext context) =>
+                //                 PreviewIgPostDialog(
+                //               image: controller.igVideos[index].media_url,
+                //             ),
+                //           );
+                //         },
+                //         child: Container(
+                //           height: getProportionateScreenHeight(50),
+                //           width: getProportionateScreenWidth(50),
+                //           decoration: BoxDecoration(
+                //             border: controller.selectedIgMedia != null &&
+                //                     controller.selectedIgMedia ==
+                //                         controller.igVideos[index]
+                //                 ? Border.all(
+                //                     color: kPrimaryColor,
+                //                     width: 2,
+                //                   )
+                //                 : null,
+                //           ),
+                //           child: Stack(
+                //             children: [
+                //               CachedNetworkImage(
+                //                 height: getProportionateScreenHeight(400),
+                //                 width: getProportionateScreenWidth(250),
+                //                 imageUrl: controller.igVideos[index].media_url,
+                //                 fit: BoxFit.cover,
+                //               ),
+                //               controller.selectedIgMedia == null ||
+                //                       controller.selectedIgMedia !=
+                //                           controller.igVideos[index]
+                //                   ? const SizedBox()
+                //                   : Positioned(
+                //                       bottom: 5,
+                //                       right: 5,
+                //                       child: Container(
+                //                         decoration: BoxDecoration(
+                //                             color:
+                //                                 Colors.white.withOpacity(0.6),
+                //                             shape: BoxShape.circle),
+                //                         child: const Icon(
+                //                           MdiIcons.check,
+                //                           color: kPrimaryColor,
+                //                           size: 16,
+                //                         ),
+                //                       ),
+                //                     )
+                //             ],
+                //           ),
+                //         ),
+                //       );
               },
             ),
           ),

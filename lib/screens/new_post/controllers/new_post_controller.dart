@@ -49,6 +49,7 @@ class NewPostController extends GetxController {
   TextEditingController price = TextEditingController();
   TextEditingController location = TextEditingController();
   TextEditingController nftContractAddress = TextEditingController();
+  TextEditingController nftId = TextEditingController();
 
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   late VideoPlayerController selectedVideoController;
@@ -179,19 +180,40 @@ class NewPostController extends GetxController {
   }
 
   fetchNFT() async {
-    var addy = await connectWallet();
-    walletAddress = addy.toString();
+    EasyLoading.show(status: 'loading...');
+    Web3Client client = Web3Client(
+        "https://polygon-mumbai.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9",
+        http.Client());
 
-    log("Wallet Address $walletAddress");
-    // final abiCode = await abiFile.readAsString();
+    EthereumAddress account =
+        EthereumAddress.fromHex("0xE777148e471B5ffc5cbB61c0D00843Ce919eb997");
+
+    // var addy = await connectWallet();
+    // walletAddress = addy.toString();
+
+    // log("Wallet Address $walletAddress");
+    // // final abiCode = await abiFile.readAsString();
     var contract = DeployedContract(
-        ContractAbi.fromJson(polygonSmartContract, '()'),
+        ContractAbi.fromJson(polygonSmartContract, 'MFNT'),
         EthereumAddress.fromHex(nftContractAddress.text));
     var balance = await client.call(
         contract: contract,
         function: contract.function('balanceOf'),
-        params: [EthereumAddress.fromHex(walletAddress)]);
-    log("Wallet Balance $balance");
+        params: [
+          EthereumAddress.fromHex("0xE777148e471B5ffc5cbB61c0D00843Ce919eb997")
+        ]);
+
+    log("Wallet Balance ${BigInt.from(balance[0])}");
+
+    if ("${balance[0]}" != "0") {
+      var tokenURI = await client.call(
+          contract: contract,
+          function: contract.function('tokenURI'),
+          params: [nftId.text.trim()]);
+      log("Token URI $tokenURI");
+    }
+
+    EasyLoading.dismiss();
   }
 
   connectWallet() async {

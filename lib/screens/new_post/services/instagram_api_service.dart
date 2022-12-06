@@ -41,7 +41,7 @@ class InstagramService {
       userID = jsonDecode(response.body)['user_id'].toString();
       return (accessToken.isNotEmpty && userID.isNotEmpty) ? true : false;
     } else {
-      log("IG API Response ${response.body}");
+      log("IG API Error Response ${response.body}");
       return false;
     }
   }

@@ -26,6 +26,7 @@ class InstagramWebController extends GetxController {
   List<InstaMedia> igPhotos = [];
   List<InstaMedia> igVideos = [];
   List<Map<String, VideoPlayerController>> videoControllers = [];
+  final List<String?> thumbNails = [];
   File? selectedIgImage;
   InstaMedia? selectedIgMedia;
   String filePath = '';
@@ -70,7 +71,7 @@ class InstagramWebController extends GetxController {
     });
   }
 
-  sortMedia(List<InstaMedia> media) {
+  sortMedia(List<InstaMedia> media) async {
     igPhotos = [];
     igVideos = [];
     for (var item in media) {
@@ -79,9 +80,13 @@ class InstagramWebController extends GetxController {
         update();
       } else {
         igPhotos.add(item);
+
         update();
       }
     }
+
+    log("No of Photos ${igPhotos.length}");
+    log("No of Videos ${igVideos.length}");
     update();
   }
 

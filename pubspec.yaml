@@ -123,6 +123,8 @@ dependencies:
 
   web_socket_channel: ^2.2.0
   
+  video_thumbnail_imageview: ^0.0.5
+  
 
 dev_dependencies:
   flutter_test:
