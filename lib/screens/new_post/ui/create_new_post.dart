@@ -209,7 +209,41 @@ class CreateNewPost extends GetView<NewPostController> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: getProportionateScreenHeight(40),
+                                    height: getProportionateScreenHeight(12)),
+                                TextFormField(
+                                  controller: controller.nftId,
+                                  decoration: InputDecoration(
+                                    hintText: "NFT ID",
+                                    prefixIcon: const Icon(
+                                      MdiIcons.identifier,
+                                      color: Colors.black,
+                                    ),
+                                    contentPadding: const EdgeInsets.all(4.0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(28),
                                 ),
                                 GestureDetector(
                                   onTap: () async {
