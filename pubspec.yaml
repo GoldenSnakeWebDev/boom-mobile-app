@@ -37,6 +37,7 @@ dependencies:
 
   #a
   animated_bottom_navigation_bar: ^1.1.0
+  adapty_flutter: ^1.0.14
 
   #b
 
@@ -44,6 +45,7 @@ dependencies:
   camera: ^0.10.0+3
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.2.2
+  cached_video_player: ^2.0.3
 
   #d
 
@@ -71,6 +73,8 @@ dependencies:
   #i
   image_picker: ^0.8.6
   intl: ^0.17.0
+  image_cropper: ^3.0.1
+
 
   #j
   json_annotation: ^4.4.0
@@ -110,20 +114,15 @@ dependencies:
 
   #v
   video_player: ^2.4.7
+  video_thumbnail_imageview: ^0.0.5
+
 
   #w
   widget_and_text_animator: ^1.0.9
   wallet_connect: ^1.0.4
   web3dart: ^2.4.1
   walletconnect_dart: ^0.0.11
-  adapty_flutter: ^1.0.14
-  image_cropper: ^3.0.1
-
-  cached_video_player: ^2.0.3
-
   web_socket_channel: ^2.2.0
-  
-  video_thumbnail_imageview: ^0.0.5
   
 
 dev_dependencies:
