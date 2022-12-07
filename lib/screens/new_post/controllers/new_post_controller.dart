@@ -8,6 +8,7 @@ import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controll
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
+import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/utils/constants.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
@@ -37,6 +39,7 @@ class NewPostController extends GetxController {
   File? pickedImage;
   XFile? video;
   File? pickedVideo;
+  File? importedNFT;
   UploadService uploadService = UploadService();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -194,26 +197,77 @@ class NewPostController extends GetxController {
     // log("Wallet Address $walletAddress");
     // // final abiCode = await abiFile.readAsString();
     var contract = DeployedContract(
-        ContractAbi.fromJson(polygonSmartContract, 'MFNT'),
-        EthereumAddress.fromHex(nftContractAddress.text));
-    var balance = await client.call(
-        contract: contract,
-        function: contract.function('balanceOf'),
-        params: [
-          EthereumAddress.fromHex("0xE777148e471B5ffc5cbB61c0D00843Ce919eb997")
-        ]);
+      ContractAbi.fromJson(polygonSmartContract, 'MFNT'),
+      EthereumAddress.fromHex(nftContractAddress.text),
+    );
+    List<dynamic> balance = await client.call(
+      contract: contract,
+      function: contract.function('balanceOf'),
+      params: [
+        EthereumAddress.fromHex("0xE777148e471B5ffc5cbB61c0D00843Ce919eb997")
+      ],
+    );
 
-    log("Wallet Balance ${BigInt.from(balance[0])}");
-
-    if ("${balance[0]}" != "0") {
-      var tokenURI = await client.call(
+    // log("Wallet Balance ${BigInt.from(balance[0])}");
+    int bigValue = balance[0].toInt();
+    log("Valid Int ${bigValue.runtimeType}");
+    try {
+      if (bigValue > 0) {
+        var tokenURI = await client.call(
           contract: contract,
           function: contract.function('tokenURI'),
-          params: [nftId.text.trim()]);
-      log("Token URI $tokenURI");
-    }
+          params: [
+            BigInt.from(
+              double.parse(
+                nftId.text.trim(),
+              ),
+            ),
+          ],
+        );
 
-    EasyLoading.dismiss();
+        final res = await http.get(Uri.parse(tokenURI[0]));
+
+        if (res.statusCode == 200) {
+          WalletNft data = WalletNft.fromJson(jsonDecode(res.body));
+          HttpClient client = HttpClient();
+          try {
+            EasyLoading.show(status: "Downloading Image");
+            var request = await client.getUrl(Uri.parse(data.image));
+            var response = await request.close();
+            if (response.statusCode == 200) {
+              var bytes = await consolidateHttpClientResponseBytes(response);
+              Directory dir = await getApplicationDocumentsDirectory();
+              String filePath = '';
+              filePath = '${dir.path}/${data.name}.jpg';
+
+              importedNFT = File(filePath);
+              await importedNFT!.writeAsBytes(bytes);
+
+              EasyLoading.dismiss();
+              pickedImage = importedNFT;
+
+              update();
+              Get.back();
+            } else {
+              CustomSnackBar.showCustomSnackBar(
+                  errorList: ["Error Downloading Image"],
+                  msg: ["Error"],
+                  isError: true);
+            }
+          } catch (e) {
+            CustomSnackBar.showCustomSnackBar(
+                errorList: ["Error downloading image $e"],
+                msg: ["Download Error"],
+                isError: true);
+          }
+        }
+        log("Token URI ${tokenURI[0]}");
+      }
+      EasyLoading.dismiss();
+    } catch (e) {
+      log(e.toString());
+      EasyLoading.dismiss();
+    }
   }
 
   connectWallet() async {
