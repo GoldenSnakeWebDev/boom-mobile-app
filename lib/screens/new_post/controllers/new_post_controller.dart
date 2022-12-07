@@ -23,7 +23,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:web3dart/crypto.dart';
@@ -74,11 +74,13 @@ class NewPostController extends GetxController {
   );
   // WCSessionStore? sessionStore;
 
-  String rpc =
-      'https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8';
-  final web3Client = Web3Client(
-      "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
-      http.Client());
+  // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
+
+  int chainId = 80001;
+  // final web3Client = Web3Client(
+  //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
+  //   http.Client(),
+  // );
 
   // final File abiFile = File('assets/files/erc721.json');
 
@@ -182,20 +184,22 @@ class NewPostController extends GetxController {
     update();
   }
 
-  fetchNFT() async {
-    EasyLoading.show(status: 'loading...');
-    Web3Client client = Web3Client(
-        "https://polygon-mumbai.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9",
-        http.Client());
+  fetchNFT(String addy) async {
+    log("Starting on connection");
 
-    EthereumAddress account =
-        EthereumAddress.fromHex("0xE777148e471B5ffc5cbB61c0D00843Ce919eb997");
+    // Web3Client client = Web3Client(
+    //   "https://matic-testnet-archive-rpc.bwarelabs.com",
+    //   http.Client(),
+    // );
+    log("Account $addy");
+    EthereumAddress account = EthereumAddress.fromHex(addy);
 
     // var addy = await connectWallet();
     // walletAddress = addy.toString();
 
     // log("Wallet Address $walletAddress");
     // // final abiCode = await abiFile.readAsString();
+    EasyLoading.show(status: 'loading...');
     var contract = DeployedContract(
       ContractAbi.fromJson(polygonSmartContract, 'MFNT'),
       EthereumAddress.fromHex(nftContractAddress.text),
@@ -203,14 +207,12 @@ class NewPostController extends GetxController {
     List<dynamic> balance = await client.call(
       contract: contract,
       function: contract.function('balanceOf'),
-      params: [
-        EthereumAddress.fromHex("0xE777148e471B5ffc5cbB61c0D00843Ce919eb997")
-      ],
+      params: [account],
     );
 
     // log("Wallet Balance ${BigInt.from(balance[0])}");
     int bigValue = balance[0].toInt();
-    log("Valid Int ${bigValue.runtimeType}");
+    // log("Valid Int ${bigValue.runtimeType}");
     try {
       if (bigValue > 0) {
         var tokenURI = await client.call(
@@ -246,6 +248,8 @@ class NewPostController extends GetxController {
               EasyLoading.dismiss();
               pickedImage = importedNFT;
 
+              title.text = data.name;
+              description.text = data.description;
               update();
               Get.back();
             } else {
@@ -274,6 +278,7 @@ class NewPostController extends GetxController {
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",
+      // uri: rpc,
       clientMeta: const PeerMeta(
         name: "Boom",
         description: "Boom",
@@ -294,45 +299,54 @@ class NewPostController extends GetxController {
         final sender = EthereumAddress.fromHex(session.accounts.first);
 
         credentials = WalletConnectEthereumCredentials(provider: provider!);
-        log("Sender $sender");
+        log("Sender connected $sender");
       });
-
-      // final transaction = Transaction(
-      //   to: EthereumAddress.fromHex(
-      //       "0x6582436697029990185E7073f386769979aDbc14"),
-      //   from: sender,
-      //   gasPrice: EtherAmount.inWei(BigInt.one),
-      //   maxGas: 100000,
-      //   value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
-      // );
-
-      // log("Client is sending TX");
-      // final txBytes = await client.sendTransaction(credentials, transaction);
-      // log("Here we are");
-      // connector.connect();
-      // log(txBytes);
 
       return credentials.provider.connector.session.accounts.first;
     } else {
       log("Wallet connection Not done yet");
       final session = await connector.createSession(
-        chainId: 80001,
+        // chainId: chainId,
         onDisplayUri: (uri) async {
-          log(uri.toString());
-          await launchUrl(Uri.parse(uri));
-          await connector.connect(chainId: 80001);
+          final launchUri = 'metamask://wc?uri=$uri';
+          await launchUrlString(launchUri);
+          log(launchUri);
+          // await connector.connect(chainId: chainId);
+          connector.on('connect', (SessionStatus session) async {
+            provider =
+                EthereumWalletConnectProvider(connector, chainId: chainId);
+            final sender = EthereumAddress.fromHex(session.accounts.first);
+            final credentials =
+                WalletConnectEthereumCredentials(provider: provider!);
+            log("Sender $sender");
+            await fetchNFT(session.accounts.first);
+            return credentials.provider.connector.session.accounts.first;
+          });
         },
       );
-      await connector.connect(chainId: 80001);
-      log("Attempting to connect");
-      connector.on('connect', (SessionStatus session) {
-        provider = EthereumWalletConnectProvider(connector, chainId: 80001);
-        final sender = EthereumAddress.fromHex(session.accounts.first);
-        final credentials =
-            WalletConnectEthereumCredentials(provider: provider!);
-        log("Sender $sender");
-        return credentials.provider.connector.session.accounts.first;
-      });
+      // await connector.connect(
+      //   onDisplayUri: ((uri) async {
+      //     await launchUrlString(uri);
+      //     connector.on('connect', (SessionStatus session) {
+      //       provider =
+      //           EthereumWalletConnectProvider(connector, chainId: chainId);
+      //       final sender = EthereumAddress.fromHex(session.accounts.first);
+      //       final credentials =
+      //           WalletConnectEthereumCredentials(provider: provider!);
+      //       log("Sender $sender");
+      //       return credentials.provider.connector.session.accounts.first;
+      //     });
+      //   }),
+      // );
+      // log("Attempting to connect");
+      // connector.on('connect', (SessionStatus session) {
+      //   provider = EthereumWalletConnectProvider(connector, chainId: chainId);
+      //   final sender = EthereumAddress.fromHex(session.accounts.first);
+      //   final credentials =
+      //       WalletConnectEthereumCredentials(provider: provider!);
+      //   log("Sender $sender");
+      //   return credentials.provider.connector.session.accounts.first;
+      // });
       log("App jumped to this place");
     }
   }

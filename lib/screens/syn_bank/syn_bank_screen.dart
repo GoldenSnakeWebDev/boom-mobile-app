@@ -1,6 +1,7 @@
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -90,25 +91,27 @@ class SyntheticBankScreen extends StatelessWidget {
               height: getProportionateScreenHeight(20),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ChainBalanceWidget(
-                  icon: Image.network(
+                  icon: CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png",
+                    imageUrl:
+                        "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/polygon.png",
                   ),
                   balance: "${myCtrl.user!.syncBank!.polygon!.amountBalance!}",
                   fiatBalance:
                       "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
                 ),
-                ChainBalanceWidget(
-                  icon: Image.network(
-                    height: getProportionateScreenHeight(20),
-                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ethereum.png",
-                  ),
-                  balance: "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
-                  fiatBalance:
-                      "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
-                ),
+                // ChainBalanceWidget(
+                //   icon: Image.network(
+                //     height: getProportionateScreenHeight(20),
+                //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ethereum.png",
+                //   ),
+                //   balance: "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
+                //   fiatBalance:
+                //       "${myCtrl.user!.syncBank!.polygon!.amountBalance}",
+                // ),
                 ChainBalanceWidget(
                   icon: SvgPicture.asset(
                     height: getProportionateScreenHeight(20),
@@ -119,9 +122,10 @@ class SyntheticBankScreen extends StatelessWidget {
                       "${myCtrl.user!.syncBank!.binance!.amountBalance}",
                 ),
                 ChainBalanceWidget(
-                  icon: Image.network(
+                  icon: CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png",
+                    imageUrl:
+                        "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tezos.png",
                   ),
                   balance: "${myCtrl.user!.syncBank!.tezos!.amountBalance}",
                   fiatBalance: "${myCtrl.user!.syncBank!.tezos!.amountBalance}",
