@@ -123,6 +123,10 @@ dependencies:
   web3dart: ^2.4.1
   walletconnect_dart: ^0.0.11
   web_socket_channel: ^2.2.0
+  native_notify: ^0.0.16
+  firebase_core: ^1.24.0
+  firebase_core_platform_interface: 4.5.1
+  awesome_dialog: ^3.0.2
   
 
 dev_dependencies:

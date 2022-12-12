@@ -266,8 +266,89 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                           60),
                                                   items: [
                                                     PopupMenuItem(
-                                                      onTap: () {
+                                                      onTap: () async {
                                                         //TODDO: Delete Boom Post
+                                                        log("Trying to open dialog");
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 0),
+                                                            () async {
+                                                          // await AwesomeDialog(
+                                                          //   context: context,
+
+                                                          //   dialogType:
+                                                          //       DialogType.info,
+                                                          //   width:
+                                                          //       getProportionateScreenWidth(
+                                                          //           350),
+                                                          //   buttonsBorderRadius:
+                                                          //       BorderRadius
+                                                          //           .circular(
+                                                          //               8),
+
+                                                          //   animType:
+                                                          //       AnimType.scale,
+                                                          //   title:
+                                                          //       "Delete Boom",
+                                                          //   desc:
+                                                          //       "Are you sure you want to delete this Boom?",
+                                                          //   headerAnimationLoop:
+                                                          //       true,
+                                                          //   dismissOnBackKeyPress:
+                                                          //       true,
+                                                          //   dismissOnTouchOutside:
+                                                          //       true,
+                                                          //   btnCancelOnPress:
+                                                          //       () async {
+                                                          //     Get.back();
+                                                          //   },
+                                                          //   btnOkOnPress:
+                                                          //       () async {
+                                                          //     Get.back();
+                                                          //     Get.back();
+                                                          //     await boomService
+                                                          //         .deleteBoom(
+                                                          //             boomId);
+                                                          //   },
+                                                          // ).show();
+
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    "Delete Boom"),
+                                                                content: const Text(
+                                                                    "Are you sure you want to delete this Boom?"),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Cancel"),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await boomService
+                                                                          .deleteBoom(
+                                                                              boomId);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Delete"),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        });
+
+                                                        log("Dialog Open");
                                                       },
                                                       child: Container(
                                                         decoration:
@@ -436,7 +517,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 10, 4, 10, 4),
                                             child: Text(
-                                              "Obtain",
+                                              box.read("userId") ==
+                                                      boom.boom.user!.id
+                                                  ? "More"
+                                                  : "Obtain",
                                               style: TextStyle(
                                                 fontSize:
                                                     getProportionateScreenHeight(
