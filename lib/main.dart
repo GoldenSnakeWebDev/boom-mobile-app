@@ -7,9 +7,11 @@ import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:native_notify/native_notify.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NativeNotify.initialize(2277, '9hTWsh7G09bmUSDF1Oll6s', null, null);
   // Uncomment this line to disable screenshotting due to security policy
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   GetStorage.init();

@@ -247,7 +247,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await controller.fetchNFT();
+                                    await controller.connectWallet();
                                   },
                                   child: Container(
                                     width: SizeConfig.screenWidth,

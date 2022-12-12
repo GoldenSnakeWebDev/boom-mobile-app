@@ -195,9 +195,12 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                     SizeConfig
                                                                         .screenHeight),
                                                                 items: [
-                                                                  const PopupMenuItem(
+                                                                  PopupMenuItem(
+                                                                    onTap:
+                                                                        () async {},
                                                                     value: 1,
-                                                                    child: Text(
+                                                                    child:
+                                                                        const Text(
                                                                       "Block",
                                                                     ),
                                                                   ),
