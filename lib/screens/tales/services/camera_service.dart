@@ -7,7 +7,7 @@ class CameraService {
 
   Future<List<CameraDescription>> init() async {
     cameras = await availableCameras();
-    log("Camera Available${cameras.length}");
+    log("Camera Available ${cameras.length}");
     return cameras;
   }
 

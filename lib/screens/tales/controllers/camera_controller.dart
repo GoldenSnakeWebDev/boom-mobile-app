@@ -8,25 +8,32 @@ class TalesController extends GetxController {
   final cameraService = CameraService();
   List<CameraDescription> cameras = <CameraDescription>[];
   CameraController? cameraController;
-  FlashMode? flashMode = FlashMode.off;
+  FlashMode? flashMode;
 
   // loadDefaultCamera() async {}
 
   @override
-  void onInit() async {
-    cameraService.init().then((value) {
+  void onInit() {
+    initCameras();
+    super.onInit();
+  }
+
+  initCameras() async {
+    await cameraService.init().then((value) async {
       cameras = value;
-      cameraController = CameraController(
+      final CameraController controller = CameraController(
         cameras[0],
         ResolutionPreset.ultraHigh,
         enableAudio: true,
       );
-      cameraController?.initialize().then((value) {
+      cameraController = controller;
+      update();
+
+      await cameraController?.initialize().then((value) {
         log('Initialized');
         update();
       });
     });
-    super.onInit();
   }
 
   @override

@@ -9,8 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class CaptureTaleScreen extends GetView<TalesController> {
+class CaptureTaleScreen extends StatefulWidget {
   const CaptureTaleScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CaptureTaleScreen> createState() => _CaptureTaleScreenState();
+}
+
+class _CaptureTaleScreenState extends State<CaptureTaleScreen> {
+  @override
+  void initState() {
+    super.initState();
+    if (!mounted) {
+      Get.put(TalesController());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
