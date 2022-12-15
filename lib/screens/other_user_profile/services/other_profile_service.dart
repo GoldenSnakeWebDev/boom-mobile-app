@@ -58,6 +58,45 @@ class OtherProfileService {
     }
   }
 
+  blockUser(String userId) async {
+    String token = box.read("token");
+    EasyLoading.show(status: "Blocking User");
+    final res = await http.post(
+      Uri.parse("${baseURL}users/block"),
+      headers: {"Authorization": token},
+      body: {"userId": userId},
+    );
+
+    if (res.statusCode == 200) {
+      log("Blocked");
+      EasyLoading.dismiss();
+    } else {
+      EasyLoading.dismiss();
+      log(res.body);
+      log(res.statusCode.toString());
+      Get.snackbar("Error", "Could not block user");
+    }
+  }
+
+  reportUser(String userId) async {
+    String token = box.read("token");
+    EasyLoading.show(status: "Reporting User");
+    final res = await http.patch(
+      Uri.parse("${baseURL}report/$userId"),
+      headers: {"Authorization": token},
+    );
+
+    if (res.statusCode == 200) {
+      log("Blocked");
+      EasyLoading.dismiss();
+    } else {
+      EasyLoading.dismiss();
+      log(res.body);
+      log(res.statusCode.toString());
+      Get.snackbar("Error", "Could not block user");
+    }
+  }
+
   unFollowUser(String userId) async {
     // String token = box.read("token");
     // final res = await http.patch(

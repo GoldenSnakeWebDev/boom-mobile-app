@@ -9,6 +9,7 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -74,8 +75,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     children: [
                                                       GestureDetector(
                                                         onTap: () async {
-                                                          Get.to(() =>
-                                                              const CaptureTaleScreen());
+                                                          final List<
+                                                                  CameraDescription>
+                                                              cameras =
+                                                              await availableCameras();
+                                                          Get.to(
+                                                              () =>
+                                                                  const CaptureTaleScreen(),
+                                                              arguments: [
+                                                                cameras
+                                                              ]);
                                                         },
                                                         child: SizedBox(
                                                           height:

@@ -42,7 +42,7 @@ dependencies:
   #b
 
   #c
-  camera: ^0.10.0+3
+  camera: ^0.10.0+4
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.2.2
   cached_video_player: ^2.0.3

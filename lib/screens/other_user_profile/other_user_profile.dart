@@ -178,47 +178,114 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                   Align(
                                                     alignment:
                                                         Alignment.centerRight,
-                                                    child: myUserId ==
-                                                            user.user!.id
-                                                        ? const SizedBox()
-                                                        : GestureDetector(
-                                                            onTap: () {
-                                                              showMenu(
-                                                                context:
-                                                                    context,
-                                                                position: RelativeRect.fromLTRB(
-                                                                    SizeConfig
-                                                                        .screenHeight,
-                                                                    120,
-                                                                    SizeConfig
-                                                                        .screenHeight,
-                                                                    SizeConfig
-                                                                        .screenHeight),
-                                                                items: [
-                                                                  PopupMenuItem(
-                                                                    onTap:
-                                                                        () async {},
-                                                                    value: 1,
-                                                                    child:
-                                                                        const Text(
-                                                                      "Block",
-                                                                    ),
-                                                                  ),
-                                                                  const PopupMenuItem(
-                                                                    value: 1,
-                                                                    child: Text(
-                                                                      "Report",
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
-                                                            child: const Icon(
-                                                              MdiIcons
-                                                                  .dotsVertical,
-                                                              size: 24,
-                                                            ),
-                                                          ),
+                                                    child:
+                                                        myUserId ==
+                                                                user.user!.id
+                                                            ? const SizedBox()
+                                                            : GestureDetector(
+                                                                onTap: () {
+                                                                  showMenu(
+                                                                    context:
+                                                                        context,
+                                                                    position: RelativeRect.fromLTRB(
+                                                                        SizeConfig
+                                                                            .screenHeight,
+                                                                        120,
+                                                                        SizeConfig
+                                                                            .screenHeight,
+                                                                        SizeConfig
+                                                                            .screenHeight),
+                                                                    items: [
+                                                                      PopupMenuItem(
+                                                                        onTap:
+                                                                            () async {
+                                                                          Future
+                                                                              .delayed(
+                                                                            const Duration(seconds: 0),
+                                                                            () async {
+                                                                              showDialog(
+                                                                                context: context,
+                                                                                builder: (BuildContext context) {
+                                                                                  return AlertDialog(
+                                                                                    title: const Text("Block User"),
+                                                                                    content: Text("Are you sure you want to block !${user.user!.username}?"),
+                                                                                    actions: [
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: const Text("Cancel"),
+                                                                                      ),
+                                                                                      TextButton(
+                                                                                        onPressed: () async {
+                                                                                          await otherProfileService.blockUser(user.user!.id!);
+                                                                                        },
+                                                                                        child: const Text("Block"),
+                                                                                      ),
+                                                                                    ],
+                                                                                  );
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                        value:
+                                                                            1,
+                                                                        child:
+                                                                            const Text(
+                                                                          "Block",
+                                                                        ),
+                                                                      ),
+                                                                      PopupMenuItem(
+                                                                        value:
+                                                                            1,
+                                                                        child:
+                                                                            const Text(
+                                                                          "Report",
+                                                                        ),
+                                                                        onTap:
+                                                                            () async {
+                                                                          Future
+                                                                              .delayed(
+                                                                            const Duration(seconds: 0),
+                                                                            () async {
+                                                                              showDialog(
+                                                                                context: context,
+                                                                                builder: (BuildContext context) {
+                                                                                  return AlertDialog(
+                                                                                    title: const Text("Report User"),
+                                                                                    content: Text("Are you sure you want to report !${user.user!.username}?"),
+                                                                                    actions: [
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: const Text("Cancel"),
+                                                                                      ),
+                                                                                      TextButton(
+                                                                                        onPressed: () async {
+                                                                                          await otherProfileService.blockUser(user.user!.id!);
+                                                                                        },
+                                                                                        child: const Text("Report"),
+                                                                                      ),
+                                                                                    ],
+                                                                                  );
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    const Icon(
+                                                                  MdiIcons
+                                                                      .dotsVertical,
+                                                                  size: 24,
+                                                                ),
+                                                              ),
                                                   )
                                                 ],
                                               ),
@@ -550,7 +617,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                 //   ),
                                                 // ),
                                                 Positioned(
-                                                  top: 150,
+                                                  top: 155,
                                                   left: 110,
                                                   child: SizedBox(
                                                     width:
@@ -669,9 +736,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                           () =>
                                                                               const FansScreen(),
                                                                           arguments: [
-                                                                              user.user!.friends,
-                                                                              "Frens"
-                                                                            ])
+                                                                            user.user!.friends,
+                                                                            "Frens"
+                                                                          ],
+                                                                        )
                                                                       : null;
                                                                 },
                                                                 child: Column(
@@ -712,48 +780,49 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                       user.user!
                                                                           .id
                                                                   ? const SizedBox()
-                                                                  : Visibility(
-                                                                      visible: !fans
-                                                                          .contains(
-                                                                              myUserId),
+                                                                  : Expanded(
                                                                       child:
-                                                                          Expanded(
+                                                                          GestureDetector(
+                                                                        onTap:
+                                                                            () async {
+                                                                          if (!fans
+                                                                              .contains(myUserId)) {
+                                                                            await otherProfileService.followUser(user.user!.id!);
+                                                                          } else {
+                                                                            await otherProfileService.unFollowUser(user.user!.id!);
+                                                                          }
+                                                                        },
                                                                         child:
-                                                                            GestureDetector(
-                                                                          onTap:
-                                                                              () async {
-                                                                            if (!fans.contains(myUserId)) {
-                                                                              await otherProfileService.followUser(user.user!.id!);
-                                                                            } else {
-                                                                              await otherProfileService.unFollowUser(user.user!.id!);
-                                                                            }
-                                                                          },
+                                                                            Container(
+                                                                          width:
+                                                                              getProportionateScreenWidth(40),
+                                                                          height:
+                                                                              getProportionateScreenHeight(25),
+                                                                          alignment:
+                                                                              Alignment.center,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(6),
+                                                                            border:
+                                                                                Border.all(color: Colors.black12),
+                                                                            gradient:
+                                                                                const LinearGradient(
+                                                                              begin: Alignment.topLeft,
+                                                                              end: Alignment.bottomRight,
+                                                                              colors: [
+                                                                                kPrimaryColor,
+                                                                                kSecondaryColor,
+                                                                              ],
+                                                                            ),
+                                                                          ),
                                                                           child:
-                                                                              Container(
-                                                                            width:
-                                                                                getProportionateScreenWidth(40),
-                                                                            height:
-                                                                                getProportionateScreenHeight(25),
-                                                                            alignment:
-                                                                                Alignment.center,
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(6),
-                                                                              border: Border.all(color: Colors.black12),
-                                                                              gradient: const LinearGradient(
-                                                                                begin: Alignment.topLeft,
-                                                                                end: Alignment.bottomRight,
-                                                                                colors: [
-                                                                                  kPrimaryColor,
-                                                                                  kSecondaryColor,
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                            child:
-                                                                                Text(
-                                                                              !fans.contains(myUserId) ? "Add" : "UnAdd",
-                                                                              style: TextStyle(fontSize: getProportionateScreenHeight(13), fontWeight: FontWeight.w600),
-                                                                            ),
+                                                                              Text(
+                                                                            !fans.contains(myUserId)
+                                                                                ? "Add"
+                                                                                : "Unadd",
+                                                                            style:
+                                                                                TextStyle(fontSize: getProportionateScreenHeight(12), fontWeight: FontWeight.w600),
                                                                           ),
                                                                         ),
                                                                       ),
