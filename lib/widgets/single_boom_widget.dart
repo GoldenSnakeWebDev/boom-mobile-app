@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -7,7 +5,6 @@ import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -109,31 +106,33 @@ class SingleBoomWidget extends StatelessWidget {
                       ? SizedBox(
                           width: SizeConfig.screenWidth,
                           height: getProportionateScreenHeight(200),
-                          child: AspectRatio(
-                            aspectRatio: controller!.videoPlayerControllers[0]
-                                        .value.aspectRatio <
-                                    1
-                                ? 1
-                                : controller!.videoPlayerControllers[0].value
-                                    .aspectRatio,
-                            child: GestureDetector(
-                              onTap: () {
-                                log(controller!
-                                    .videoPlayerControllers[0].value.isPlaying
-                                    .toString());
-                                log(controller!
-                                    .videoPlayerControllers[0].value.aspectRatio
-                                    .toString());
-                                controller!.videoPlayerControllers[0].value
-                                        .isPlaying
-                                    ? controller!.videoPlayerControllers[0]
-                                        .pause()
-                                    : controller!.videoPlayerControllers[0]
-                                        .play();
-                              },
-                              child: CachedVideoPlayer(
-                                  controller!.videoPlayerControllers[0]),
-                            ),
+                          child: const AspectRatio(
+                            aspectRatio: 1,
+                            child: SizedBox(),
+                            // aspectRatio: controller!.videoPlayerControllers[0]
+                            //             .value.aspectRatio <
+                            //         1
+                            //     ? 1
+                            //     : controller!.videoPlayerControllers[0].value
+                            //         .aspectRatio,
+                            // child: GestureDetector(
+                            //   onTap: () {
+                            //     log(controller!
+                            //         .videoPlayerControllers[0].value.isPlaying
+                            //         .toString());
+                            //     log(controller!
+                            //         .videoPlayerControllers[0].value.aspectRatio
+                            //         .toString());
+                            //     controller!.videoPlayerControllers[0].value
+                            //             .isPlaying
+                            //         ? controller!.videoPlayerControllers[0]
+                            //             .pause()
+                            //         : controller!.videoPlayerControllers[0]
+                            //             .play();
+                            //   },
+                            //   child: CachedVideoPlayer(
+                            //     controller!.videoPlayerControllers[0],
+                            //   ),
                           ),
                         )
                       : ClipRRect(

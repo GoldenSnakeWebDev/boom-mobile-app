@@ -18,6 +18,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:read_more_text/read_more_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OtherUserProfileScreen extends StatefulWidget {
@@ -348,10 +349,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user
-                                                                    .user!
-                                                                    .socialMedia!
-                                                                    .twitter!,
+                                                                "https://www.twitter.com/${user.user!.socialMedia!.twitter!}",
                                                               ),
                                                             );
                                                           },
@@ -372,10 +370,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user
-                                                                    .user!
-                                                                    .socialMedia!
-                                                                    .facebook!,
+                                                                "https://www.facebook.com/${user.user!.socialMedia!.facebook!}",
                                                               ),
                                                             );
                                                           },
@@ -395,10 +390,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user
-                                                                    .user!
-                                                                    .socialMedia!
-                                                                    .instagram!,
+                                                                "https://www.instagram.com/${user.user!.socialMedia!.instagram!}",
                                                               ),
                                                             );
                                                           },
@@ -408,7 +400,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             color: user
                                                                     .user!
                                                                     .socialMedia!
-                                                                    .twitter!
+                                                                    .instagram!
                                                                     .isEmpty
                                                                 ? Colors.black26
                                                                 : Colors
@@ -419,10 +411,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                           onTap: () async {
                                                             await launchUrl(
                                                               Uri.parse(
-                                                                user
-                                                                    .user!
-                                                                    .socialMedia!
-                                                                    .tiktok!,
+                                                                "https://www.tiktok.com/${user.user!.socialMedia!.tiktok!}",
                                                               ),
                                                             );
                                                           },
@@ -432,7 +421,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             color: user
                                                                     .user!
                                                                     .socialMedia!
-                                                                    .twitter!
+                                                                    .tiktok!
                                                                     .isEmpty
                                                                 ? Colors.black26
                                                                 : Colors
@@ -848,11 +837,19 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                               .screenWidth *
                                                                           0.5,
                                                                       child:
-                                                                          Text(
+                                                                          ReadMoreText(
                                                                         user.user!
                                                                             .bio!,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
+                                                                        numLines:
+                                                                            2,
+                                                                        readMoreIcon:
+                                                                            const SizedBox(),
+                                                                        readLessIcon:
+                                                                            const SizedBox(),
+                                                                        readMoreText:
+                                                                            "See More",
+                                                                        readLessText:
+                                                                            "Read Less",
                                                                       ),
                                                                     ),
                                                               SizedBox(
