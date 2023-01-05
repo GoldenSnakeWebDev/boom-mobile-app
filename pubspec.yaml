@@ -38,6 +38,7 @@ dependencies:
   #a
   animated_bottom_navigation_bar: ^1.1.0
   adapty_flutter: ^1.0.14
+  awesome_dialog: ^3.0.2
 
   #b
 
@@ -60,6 +61,8 @@ dependencies:
   freezed_annotation: ^2.2.0
   flutter_easyloading: ^3.0.5
   flutter_downloader: ^1.9.1
+  firebase_core: ^1.24.0
+  firebase_core_platform_interface: 4.5.1
 
   #g
   get: ^4.6.5
@@ -89,6 +92,7 @@ dependencies:
   mime: ^1.0.2
 
   #n
+  native_notify: ^0.0.16
 
   #o
 
@@ -123,10 +127,10 @@ dependencies:
   web3dart: ^2.4.1
   walletconnect_dart: ^0.0.11
   web_socket_channel: ^2.2.0
-  native_notify: ^0.0.16
-  firebase_core: ^1.24.0
-  firebase_core_platform_interface: 4.5.1
-  awesome_dialog: ^3.0.2
+  read_more_text: ^0.0.5
+  
+  
+  
   
 
 dev_dependencies:

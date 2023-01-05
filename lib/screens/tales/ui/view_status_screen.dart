@@ -1,4 +1,5 @@
 import 'package:boom_mobile/models/fetch_tales_model.dart';
+import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,7 +11,9 @@ import 'package:story/story.dart';
 class ViewStatusScreen extends StatefulWidget {
   final List<Statue>? imagesUrl;
   final String? uname;
-  const ViewStatusScreen({super.key, required this.imagesUrl, this.uname});
+  final String? uid;
+  const ViewStatusScreen(
+      {super.key, required this.imagesUrl, this.uname, this.uid});
 
   @override
   State<ViewStatusScreen> createState() => _ViewStatusScreenState();
@@ -105,12 +108,8 @@ class _ViewStatusScreenState extends State<ViewStatusScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.snackbar(
-                        "TODO",
-                        "Show ${widget.uname}'s profile",
-                        backgroundColor: kPrimaryColor,
-                        colorText: Colors.black,
-                      );
+                      Get.to(() => const OtherUserProfileScreen(),
+                          arguments: widget.uid!);
                     },
                     child: CircleAvatar(
                       radius: getProportionateScreenHeight(20),

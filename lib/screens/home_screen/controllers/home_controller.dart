@@ -164,7 +164,7 @@ class HomeController extends GetxController {
       EasyLoading.dismiss();
       // getNetworkById(allBooms);
 
-      await initializeVideos();
+      // await initializeVideos();
 
       update();
     } else {
