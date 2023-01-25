@@ -21,7 +21,6 @@ class LoginController extends GetxController {
 
   @override
   void onInit() async {
-    // TODO: implement onInit
     super.onInit();
 
     await checkIfUserIsLoggedIn();
@@ -67,7 +66,7 @@ class LoginController extends GetxController {
           msg: [],
           isError: false,
         );
-        box.write("token", "Bearer " + jsonDecode(res.body)["token"]);
+        box.write("token", "Bearer ${jsonDecode(res.body)["token"]}");
         box.write("userId", user!.user!.id);
         update();
         return true;

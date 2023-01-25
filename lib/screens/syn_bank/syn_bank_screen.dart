@@ -1,4 +1,5 @@
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/screens/purchase_syn_coins/ui/purchase_syn_coins.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -184,11 +185,8 @@ class SyntheticBankScreen extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () async {
-                Get.snackbar(
-                  "Coming soon",
-                  "Hang tight our engineers are working on this",
-                  backgroundColor: kPrimaryColor,
-                );
+                Navigator.of(context).pop();
+                Get.to(() => const PurchaseSyntheticCoinsScreen());
               },
               child: Container(
                 width: SizeConfig.screenWidth,
