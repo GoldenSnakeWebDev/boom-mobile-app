@@ -70,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      extendBody: true,
+      extendBody: false,
       floatingActionButton: GestureDetector(
         onTap: () {
           showModalBottomSheet(
@@ -82,113 +82,127 @@ class _MainScreenState extends State<MainScreen> {
               constraints:
                   BoxConstraints(maxWidth: SizeConfig.screenWidth * 0.5),
               builder: (context) {
-                return Container(
-                  height: SizeConfig.screenHeight * 0.4,
-                  width: SizeConfig.screenWidth * 0.5,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          shrinkWrap: true,
+                return DraggableScrollableSheet(
+                    minChildSize: 0.15,
+                    initialChildSize: 0.45,
+                    expand: false,
+                    maxChildSize: 0.5,
+                    builder: ((context, scrollController) {
+                      return Container(
+                        height: SizeConfig.screenHeight * 0.4,
+                        width: SizeConfig.screenWidth * 0.5,
+                        decoration: const BoxDecoration(color: Colors.white),
+                        child: Column(
                           children: [
-                            ListTile(
-                              leading: const FloatingActionWidget(
-                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/post.png",
-                              ),
-                              title: const Text(
-                                'Post',
-                              ),
-                              onTap: () {
-                                Get.back();
-                                Get.find<NewPostController>().onInit();
-                                Get.to(() => const CreateNewPost(),
-                                    binding: AppBindings());
-                              },
-                            ),
-                            ListTile(
-                              leading: const FloatingActionWidget(
-                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
-                              ),
-                              onTap: () {
-                                Get.back();
-                                Get.to(() => const CaptureTaleScreen());
-                              },
-                              title: const Text(
-                                'Tales',
-                              ),
-                            ),
-                            ListTile(
-                              leading: SizedBox(
-                                width: getProportionateScreenWidth(50),
-                                child: Row(
-                                  children: [
-                                    const FloatingActionWidget(
+                            Expanded(
+                              child: ListView(
+                                shrinkWrap: true,
+                                children: [
+                                  ListTile(
+                                    leading: const FloatingActionWidget(
+                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/post.png",
+                                    ),
+                                    title: const Text(
+                                      'Post',
+                                    ),
+                                    onTap: () {
+                                      Get.back();
+                                      Get.find<NewPostController>().onInit();
+                                      Get.to(() => const CreateNewPost(),
+                                          binding: AppBindings());
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: const FloatingActionWidget(
                                       "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
                                     ),
-                                    SizedBox(
-                                      width: getProportionateScreenWidth(5),
+                                    onTap: () {
+                                      Get.back();
+                                      Get.to(() => const CaptureTaleScreen());
+                                    },
+                                    title: const Text(
+                                      'Tales',
                                     ),
-                                    const FloatingActionWidget(
-                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  ),
+                                  ListTile(
+                                    leading: SizedBox(
+                                      width: getProportionateScreenWidth(50),
+                                      child: Row(
+                                        children: [
+                                          const FloatingActionWidget(
+                                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(5),
+                                          ),
+                                          const FloatingActionWidget(
+                                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                              title: const Text(
-                                'Epics',
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {
-                                Get.to(() => const DirectMessagesScreen());
-                              },
-                              leading: const Icon(Icons.mail),
-                              title: const Text(
-                                'DM',
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {
-                                final controller = Get.put(
-                                    MainScreenController(repo: Get.find()));
-                                Get.to(
-                                  () => const FansScreen(),
-                                  arguments: [controller.user!.funs!, "Fans"],
-                                );
-                              },
-                              leading: const FloatingActionWidget(
-                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
-                              ),
-                              title: const Text(
-                                'Fans',
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () {
-                                final controller = Get.put(
-                                    MainScreenController(repo: Get.find()));
-                                Get.to(
-                                  () => const FansScreen(),
-                                  arguments: [
-                                    controller.user!.friends!,
-                                    "Frens"
-                                  ],
-                                );
-                              },
-                              leading: const FloatingActionWidget(
-                                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
-                              ),
-                              title: const Text(
-                                'Frens',
+                                    title: const Text(
+                                      'Epics',
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      Get.to(
+                                          () => const DirectMessagesScreen());
+                                    },
+                                    leading: const Icon(Icons.mail),
+                                    title: const Text(
+                                      'DM',
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      final controller = Get.put(
+                                          MainScreenController(
+                                              repo: Get.find()));
+                                      Get.to(
+                                        () => const FansScreen(),
+                                        arguments: [
+                                          controller.user!.funs!,
+                                          "Fans"
+                                        ],
+                                      );
+                                    },
+                                    leading: const FloatingActionWidget(
+                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
+                                    ),
+                                    title: const Text(
+                                      'Fans',
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      final controller = Get.put(
+                                          MainScreenController(
+                                              repo: Get.find()));
+                                      Get.to(
+                                        () => const FansScreen(),
+                                        arguments: [
+                                          controller.user!.friends!,
+                                          "Frens"
+                                        ],
+                                      );
+                                    },
+                                    leading: const FloatingActionWidget(
+                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
+                                    ),
+                                    title: const Text(
+                                      'Frens',
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                );
+                      );
+                    }));
               });
         },
         child: Container(

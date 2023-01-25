@@ -12,6 +12,7 @@ import 'package:boom_mobile/screens/notifications/controllers/notifications_cont
 import 'package:boom_mobile/screens/other_user_profile/controllers/other_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
+import 'package:boom_mobile/screens/purchase_syn_coins/controllers/purchase_coins_controller.dart';
 import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/camera_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
@@ -38,5 +39,6 @@ class AppBindings extends Bindings {
     Get.lazyPut<BackPackController>(() => BackPackController());
     Get.lazyPut<DMCrontroller>(() => DMCrontroller());
     Get.lazyPut<NotificationsController>(() => NotificationsController());
+    Get.lazyPut<PurchaseCoinsController>(() => PurchaseCoinsController());
   }
 }

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.boom_mobile">
+    package="dev.boom.boom_mobile">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -21,9 +21,9 @@
         android:largeHeap="true"
         android:supportsRtl="true">
 
-         <meta-data
+         <!-- <meta-data
               android:name="AdaptyPublicSdkKey"
-              android:value="public_live_nY5eYkL5.njPfrS2PcuPcyFWzGcQZ" />
+              android:value="public_live_nY5eYkL5.njPfrS2PcuPcyFWzGcQZ" /> -->
               
         <activity
             android:name=".MainActivity"
