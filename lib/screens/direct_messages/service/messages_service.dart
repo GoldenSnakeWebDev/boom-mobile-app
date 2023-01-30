@@ -5,6 +5,7 @@ import 'package:boom_mobile/screens/direct_messages/models/boom_box_response.dar
 import 'package:boom_mobile/screens/direct_messages/models/boom_users_model.dart';
 import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
+import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +25,7 @@ class DMService {
         Uri.parse('${baseURL}boom-boxes'),
         headers: headers,
       );
+      log("Boom box messages response: ${response.body}");
       if (response.statusCode == 200) {
         final boomResponse = boomResponseFromJson(response.body);
         return boomResponse.boomBox;
@@ -51,7 +53,6 @@ class DMService {
         headers: headers,
       );
       if (response.statusCode == 200) {
-        log("get-dmssss >>>> ${response.body}");
         final dMsResponse = dMsResponseFromJson(response.body);
         yield dMsResponse.boomBox;
       } else {
@@ -111,7 +112,12 @@ class DMService {
         boomBox = jsonDecode(response.body)["boom_box"]["box"];
         return boomBox;
       } else {
-        EasyLoading.showError('Error sending boom-box');
+        log(jsonDecode(response.body)["errors"][0]["message"]);
+        CustomSnackBar.showCustomSnackBar(
+          errorList: [jsonDecode(response.body)["errors"][0]["message"]],
+          msg: [jsonDecode(response.body)["errors"][0]["message"]],
+          isError: true,
+        );
         return null;
       }
     } catch (e) {

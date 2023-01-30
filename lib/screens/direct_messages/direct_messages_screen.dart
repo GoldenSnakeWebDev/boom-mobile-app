@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'controllers/dm_controller.dart';
-import 'models/boom_box_response.dart';
 import 'single_message.dart';
 
 class DirectMessagesScreen extends GetView<DMCrontroller> {
@@ -45,7 +44,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                 )
               : (controller.boomBoxes != null &&
                       controller.boomBoxes!.isNotEmpty)
-                  ? _buildChatsList(controller.boomBoxes)
+                  ? _buildChatsList()
                   : const Center(
                       child: Text("No messages"),
                     ),
@@ -158,7 +157,9 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
               Get.back();
               var res = controller.chatWithUser(
                 "join_room",
-                "join",
+
+                "Joined chat with ${controller.boxUsers![index].username}",
+
                 controller.boxUsers![index].id,
                 "",
               );
@@ -172,7 +173,9 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
             Get.back();
             var res = controller.chatWithUser(
               "join_room",
-              "join",
+
+              "Joined chat with ${controller.boxUsers![index].username}",
+
               controller.boxUsers![index].userId,
               "",
             );
@@ -191,86 +194,93 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
     );
   }
 
-  _buildChatsList(List<BoomBox>? boomBoxes) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: boomBoxes?.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: ((context, index) {
-              return ListTile(
-                onTap: () async {
-                  Get.to(
-                    () => SingleMessage(
-                      username:
-                          "${boomBoxes[index].messages?.last.receiver?.username}",
-                      receiverId:
-                          "${boomBoxes[index].messages?.last.receiver?.id}",
-                      img: boomBoxes[index].messages?.last.receiver?.photo ??
-                          "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                      boomBox: boomBoxes[index].box!,
+  _buildChatsList() {
+    return GetBuilder(
+      init: DMCrontroller(),
+      builder: (ctrllerr) => Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: ctrllerr.boomBoxes?.length,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: ((context, index) {
+                return ListTile(
+                  onTap: () async {
+                    Get.to(
+                      () => SingleMessage(
+                        username:
+                            "${ctrllerr.boomBoxes?[index].messages?.last.receiver?.username}",
+                        receiverId:
+                            "${ctrllerr.boomBoxes?[index].messages?.last.receiver?.id}",
+                        img: ctrllerr.boomBoxes?[index].messages?.last.receiver
+                                ?.photo ??
+                            "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                        boomBox: "${ctrllerr.boomBoxes?[index].box!}",
+                      ),
+                    );
+                  },
+                  leading: const CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(
+                      "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                     ),
-                  );
-                },
-                leading: const CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage(
-                    "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                   ),
-                ),
-                title: Text(
-                  "${boomBoxes?[index].label}",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenHeight(13),
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                subtitle: RichText(
-                  text: TextSpan(
-                    text: "${boomBoxes?[index].messages?.last.content}  ",
+                  title: Text(
+                    "${ctrllerr.boomBoxes?[index].label}",
                     style: TextStyle(
-                      fontSize: getProportionateScreenHeight(12),
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w500,
+                      fontSize: getProportionateScreenHeight(13),
+                      fontWeight: FontWeight.w800,
                     ),
-                    children: [
-                      TextSpan(
-                        text: DateFormat('EEE, MMM dd HH:mm a').format(
-                            boomBoxes![index].messages!.last.timestamp!),
-                        style: const TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                    ],
                   ),
-                ),
-                trailing: SizedBox(
-                  width: getProportionateScreenWidth(55),
-                  child: Row(
-                    children: [
-                      (boomBoxes[index].messages?.last.isDelete == true)
-                          ? const SizedBox(
-                              width: 10,
-                            )
-                          : const Icon(
-                              Icons.circle_rounded,
-                              size: 10,
-                              color: kBlueColor,
-                            ),
-                      SizedBox(
-                        width: getProportionateScreenWidth(20),
-                      ),
-                      const Icon(
-                        Icons.more_vert,
+                  subtitle: RichText(
+                    text: TextSpan(
+                      text:
+                          "${ctrllerr.boomBoxes?[index].messages?.last.content}  ",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenHeight(12),
                         color: Colors.black54,
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
+                      children: [
+                        TextSpan(
+                          text: DateFormat('EEE, MMM dd HH:mm a').format(
+                              ctrllerr
+                                  .boomBoxes![index].messages!.last.timestamp!),
+                          style: const TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }),
+                  trailing: SizedBox(
+                    width: getProportionateScreenWidth(55),
+                    child: Row(
+                      children: [
+                        (ctrllerr.boomBoxes?[index].messages?.last.isDelete ==
+                                true)
+                            ? const SizedBox(
+                                width: 10,
+                              )
+                            : const Icon(
+                                Icons.circle_rounded,
+                                size: 10,
+                                color: kBlueColor,
+                              ),
+                        SizedBox(
+                          width: getProportionateScreenWidth(20),
+                        ),
+                        const Icon(
+                          Icons.more_vert,
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
