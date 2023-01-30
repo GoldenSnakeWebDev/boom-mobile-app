@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -67,12 +66,21 @@ class SingleMessage extends GetView<DMCrontroller> {
         ],
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                img,
-              ),
-            ),
+            (img.isNotEmpty)
+                ? CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage(
+                      img,
+                    ),
+                  )
+                : const CircleAvatar(
+                    radius: 20,
+                    backgroundColor: kPrimaryColor,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                  ),
             SizedBox(
               width: getProportionateScreenWidth(10),
             ),
@@ -154,13 +162,12 @@ class SingleMessage extends GetView<DMCrontroller> {
                               )
                             : IconButton(
                                 onPressed: () async {
-                                  var res = controller.chatWithUser(
+                                  controller.chatWithUser(
                                     "send_message",
                                     _messageController.text,
                                     receiverId,
                                     boomBox,
                                   );
-                                  log("send message response :: $res");
                                   _messageController.clear();
                                   FocusScope.of(context).unfocus();
                                 },

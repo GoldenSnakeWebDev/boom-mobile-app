@@ -46,7 +46,7 @@ class DMCrontroller extends GetxController {
     var ress = await service.fetchBoomBoxMessages();
     setLoading(false);
     if (ress != null) {
-      _boomBoxes = [...ress];
+      _boomBoxes = ress;
       update();
     }
   }
@@ -85,11 +85,14 @@ class DMCrontroller extends GetxController {
         "timestamp": DateTime.now().millisecondsSinceEpoch,
       },
     );
+    fetchBoomBoxMessages();
     setLoading(false);
+
     if (ress != null) {
       fetchBoomBoxMessages();
       boomBox = ress;
     }
+
     return ress;
   }
 }
