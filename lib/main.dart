@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
-import 'package:boom_mobile/secrets.dart';
+import 'package:boom_mobile/secret.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
