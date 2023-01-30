@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:unique_identifier/unique_identifier.dart';
 
 class LoginController extends GetxController {
   final GlobalKey<FormState> loginformKey = GlobalKey<FormState>();
@@ -50,6 +52,16 @@ class LoginController extends GetxController {
 
   Future<bool> loginUser() async {
     var headers = {'Content-Type': 'application/json'};
+    String deviceId = '';
+    if (Platform.isAndroid) {
+      final device = await UniqueIdentifier.serial;
+      deviceId = device.toString();
+      log("Device ID: $deviceId");
+    } else {
+      final device = await UniqueIdentifier.serial;
+      deviceId = device.toString();
+      log("Device ID: $deviceId");
+    }
 
     if (loginformKey.currentState!.validate()) {
       EasyLoading.show(status: "Signing in...");
@@ -59,7 +71,8 @@ class LoginController extends GetxController {
         body: jsonEncode(
           {
             "email": userNameController.text.trim(),
-            "password": passwordController.text.trim()
+            "password": passwordController.text.trim(),
+            "deviceId": deviceId,
           },
         ),
       );
@@ -78,6 +91,7 @@ class LoginController extends GetxController {
         return true;
       } else {
         EasyLoading.dismiss();
+        log(res.body);
         CustomSnackBar.showCustomSnackBar(
           errorList: [jsonDecode(res.body)["errors"][0]["message"]],
           msg: [],
@@ -136,6 +150,39 @@ class LoginController extends GetxController {
   Future<dynamic> changePassword() async {
     var headers = {'Content-Type': 'application/json'};
 
-    if (resetPasswordFormKey.currentState!.validate()) {}
+    if (resetPasswordFormKey.currentState!.validate()) {
+      EasyLoading.show(status: "Changing password...");
+      final response = await http.post(
+        Uri.parse("${baseURL}users/password-reset"),
+        headers: headers,
+        body: jsonEncode(
+          {
+            "code": codeController.text.trim(),
+            "password": newPasswordController.text.trim(),
+            "confirm_password": confirmPasswordController.text.trim()
+          },
+        ),
+      );
+
+      if (response.statusCode == 201) {
+        EasyLoading.dismiss();
+        CustomSnackBar.showCustomSnackBar(
+          errorList: ["Password reset successful"],
+          msg: ["Password reset successful"],
+          isError: false,
+        );
+        return true;
+      } else {
+        EasyLoading.dismiss();
+        log(response.body);
+        CustomSnackBar.showCustomSnackBar(
+          errorList: [jsonDecode(response.body)["errors"][0]["message"]],
+          msg: [],
+          isError: true,
+        );
+        log(response.statusCode.toString());
+        return false;
+      }
+    }
   }
 }

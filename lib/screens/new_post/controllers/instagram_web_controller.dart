@@ -12,7 +12,8 @@ import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:flutter_webview_plugin_ios_android/flutter_webview_plugin_ios_android.dart';
+
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
