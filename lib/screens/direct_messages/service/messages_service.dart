@@ -90,7 +90,8 @@ class DMService {
     }
   }
 
-  Future<dynamic> chatWithUser(Map<String, dynamic> boomBoxData) async {
+  chatWithUser(Map<String, dynamic> boomBoxData) async {
+    String boomBox = "";
     var token = _storage.read('token');
     var headers = {
       'Content-Type': 'application/json',
@@ -108,6 +109,8 @@ class DMService {
       log("chatWithUser code :: ${response.statusCode}");
       if (response.statusCode == 200) {
         EasyLoading.dismiss();
+        boomBox = jsonDecode(response.body)["boom_box"]["box"];
+        return boomBox;
       } else {
         log(jsonDecode(response.body)["errors"][0]["message"]);
         CustomSnackBar.showCustomSnackBar(

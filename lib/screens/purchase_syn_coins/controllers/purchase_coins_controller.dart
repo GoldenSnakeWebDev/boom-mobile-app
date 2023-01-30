@@ -80,6 +80,7 @@ class PurchaseCoinsController extends GetxController {
     PurchaseDetails purchase = _hasUserPurchased(testID);
     if (purchase.status == PurchaseStatus.purchased) {
       Get.snackbar("Success", "You have purchased 100 Synthetic coins");
+      //Make a request to Boom Backend to deposit the Synthetic coins
     }
   }
 }

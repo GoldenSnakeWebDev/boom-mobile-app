@@ -8,9 +8,9 @@ import Foundation
 import firebase_core
 import firebase_messaging
 import in_app_purchase_storekit
-import path_provider_macos
+import path_provider_foundation
 import share_plus_macos
-import shared_preferences_macos
+import shared_preferences_foundation
 import sqflite
 import url_launcher_macos
 

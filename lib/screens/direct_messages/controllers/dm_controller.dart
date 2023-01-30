@@ -24,6 +24,8 @@ class DMCrontroller extends GetxController {
 
   var isLoading = false.obs;
 
+  String boomBox = '';
+
   setLoading(bool value) {
     isLoading.value = value;
   }
@@ -66,7 +68,7 @@ class DMCrontroller extends GetxController {
   //   }
   // }
 
-  Future<dynamic> chatWithUser(
+  chatWithUser(
     String command,
     String? content,
     String? receiver,
@@ -85,6 +87,11 @@ class DMCrontroller extends GetxController {
     );
     fetchBoomBoxMessages();
     setLoading(false);
+
+    if (ress != null) {
+      fetchBoomBoxMessages();
+      boomBox = ress;
+    }
 
     return ress;
   }

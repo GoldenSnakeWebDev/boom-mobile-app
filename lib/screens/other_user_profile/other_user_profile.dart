@@ -297,21 +297,22 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                 SizeConfig.screenHeight * 0.3,
                                             child: Stack(
                                               children: [
-                                                Container(
+                                                SizedBox(
                                                   width: SizeConfig.screenWidth,
                                                   height:
                                                       getProportionateScreenHeight(
                                                           125),
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        user.user!.cover!,
-                                                      ),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
+                                                  // decoration: BoxDecoration(
+                                                  //   image: DecorationImage(
+                                                  //     image: NetworkImage(
+                                                  //       user.user!.cover!,
+                                                  //     ),
+                                                  //     fit: BoxFit.cover,
+                                                  //   ),
+                                                  // ),
                                                   child: CachedNetworkImage(
                                                     imageUrl: user.user!.cover!,
+                                                    fit: BoxFit.cover,
                                                     errorWidget:
                                                         (context, url, error) =>
                                                             Container(

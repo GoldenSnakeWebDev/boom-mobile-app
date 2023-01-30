@@ -452,8 +452,15 @@ class LoginScreen extends GetView<LoginController> {
                   height: 20,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    controller.resetPassword();
+                  onTap: () async {
+                    final res = await controller.resetPassword();
+                    if (res) {
+                      controller.userNameController.clear();
+                      Navigator.pop(context);
+                      _showChangePasswordDIalog(context);
+                    } else {
+                      Get.snackbar("Error", "Please enter a registered email");
+                    }
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
@@ -477,5 +484,148 @@ class LoginScreen extends GetView<LoginController> {
             ),
           );
         });
+  }
+
+  //TODO: Bottom Sheet to reset the Password
+  _showChangePasswordDIalog(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.5,
+          minChildSize: 0.5,
+          maxChildSize: 0.8,
+          builder: (context, scrollController) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(
+                    getProportionateScreenHeight(20),
+                  ),
+                ),
+              ),
+              child: Form(
+                key: controller.resetPasswordFormKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Change Password",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      "Enter your code then new password and click Proceed to change your password",
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: controller.codeController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter the code";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Code",
+                        hintStyle: const TextStyle(
+                          color: Colors.black54,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: controller.newPasswordController,
+                      obscureText: true,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter the new password";
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "New Password",
+                        hintStyle: const TextStyle(
+                          color: Colors.black54,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      controller: controller.confirmPasswordController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter the confirm password";
+                        } else if (value !=
+                            controller.newPasswordController.text) {
+                          return "Passwords do not match";
+                        }
+                        return null;
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Confirm Password",
+                        hintStyle: const TextStyle(
+                          color: Colors.black54,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        controller.changePassword();
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          "Proceed",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }
