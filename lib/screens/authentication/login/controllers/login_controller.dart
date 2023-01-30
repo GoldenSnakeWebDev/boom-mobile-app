@@ -15,9 +15,15 @@ class LoginController extends GetxController {
   final GlobalKey<FormState> loginformKey = GlobalKey<FormState>();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController codeController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final box = GetStorage();
   UserModel? user;
+
+  GlobalKey<FormState> resetPasswordFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() async {
@@ -99,12 +105,12 @@ class LoginController extends GetxController {
             },
           ),
         );
-        log("Reset password response: ${res.body}");
-        if (res.statusCode == 200) {
+        log("Reset password response: ${res.statusCode}");
+        if (res.statusCode == 201) {
           EasyLoading.dismiss();
           CustomSnackBar.showCustomSnackBar(
-            errorList: [jsonDecode(res.body)["message"]],
-            msg: [],
+            errorList: ["Password reset code sent to your email"],
+            msg: ["Password reset code sent to your email"],
             isError: false,
           );
           return true;
@@ -125,5 +131,11 @@ class LoginController extends GetxController {
       EasyLoading.showError("Please enter your email");
       return false;
     }
+  }
+
+  Future<dynamic> changePassword() async {
+    var headers = {'Content-Type': 'application/json'};
+
+    if (resetPasswordFormKey.currentState!.validate()) {}
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
+import 'package:boom_mobile/secrets.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,11 +10,17 @@ import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:native_notify/native_notify.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NativeNotify.initialize(2277, '9hTWsh7G09bmUSDF1Oll6s', null, null);
+
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  OneSignal.shared.setAppId(oneSignalAppId);
+  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+    log("User has accpeted notifications: $accepted");
+  });
+
   // Uncomment this line to disable screenshotting due to security policy
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   GetStorage.init();

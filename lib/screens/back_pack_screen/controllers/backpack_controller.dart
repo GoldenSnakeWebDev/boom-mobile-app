@@ -13,12 +13,11 @@ class BackPackController extends GetxController {
   final box = GetStorage();
   String userId = '';
   String token = '';
-  bool isLoading = false;
+  bool isLoading = true;
 
   @override
   void onInit() {
     super.onInit();
-
     userId = box.read("userId");
     token = box.read("token");
     fetchMyBooms();
@@ -40,6 +39,7 @@ class BackPackController extends GetxController {
       isLoading = false;
       update();
     } else {
+      isLoading = false;
       EasyLoading.dismiss();
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Something went wrong"], msg: ["Error"], isError: true);

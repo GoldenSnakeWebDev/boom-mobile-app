@@ -158,7 +158,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
               Get.back();
               var res = controller.chatWithUser(
                 "join_room",
-                "",
+                "join",
                 controller.boxUsers![index].id,
                 "",
               );
@@ -172,11 +172,19 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
             Get.back();
             var res = controller.chatWithUser(
               "join_room",
-              "",
+              "join",
               controller.boxUsers![index].userId,
               "",
             );
-            // Get.to(() => SingleMessageScreen());
+
+            Get.to(
+              () => SingleMessage(
+                username: controller.boxUsers![index].username!,
+                boomBox: controller.boomBox,
+                img: controller.boxUsers![index].photo!,
+                receiverId: controller.boxUsers![index].userId!,
+              ),
+            );
           },
         );
       },
