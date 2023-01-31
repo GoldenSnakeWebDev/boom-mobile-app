@@ -161,7 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 //     .talesByUser[
                                                                 //         index]
                                                                 //     .containsKey(
-                                                                //         controller.userId),
+                                                                //         controller
+                                                                //             .userId),
                                                                 child:
                                                                     Positioned(
                                                                   bottom: 10,
@@ -281,11 +282,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             // shape: BoxShape.circle,
                                                                             borderRadius:
                                                                                 BorderRadius.circular(10),
-                                                                            image: DecorationImage(
-                                                                                image: NetworkImage(
-                                                                                  "${ctrllr.tales![index].statues![0].imageUrl}",
-                                                                                ),
-                                                                                fit: BoxFit.cover),
+                                                                            image:
+                                                                                DecorationImage(
+                                                                              image: CachedNetworkImageProvider(
+                                                                                "${ctrllr.tales![index].statues![0].imageUrl}",
+                                                                              ),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),

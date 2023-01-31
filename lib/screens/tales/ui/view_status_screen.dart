@@ -46,28 +46,29 @@ class _ViewStatusScreenState extends State<ViewStatusScreen> {
             itemBuilder: (context, pageIndex, storyIndex) {
               final imageUrl = widget.imagesUrl![storyIndex].imageUrl;
               return Center(
-                  child: CachedNetworkImage(
-                imageUrl: "$imageUrl",
-                fit: BoxFit.cover,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                progressIndicatorBuilder: (context, url, downloadProgress) {
-                  if (downloadProgress.progress != null &&
-                      downloadProgress.progress! < 100) {
-                    indicatorAnimationController.value =
-                        IndicatorAnimationCommand.pause;
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    indicatorAnimationController.value =
-                        IndicatorAnimationCommand.resume;
-                    return Center(
-                      child: CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                    );
-                  }
-                },
-              ));
+                child: CachedNetworkImage(
+                  imageUrl: "$imageUrl",
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  progressIndicatorBuilder: (context, url, downloadProgress) {
+                    if (downloadProgress.progress != null &&
+                        downloadProgress.progress! < 100) {
+                      indicatorAnimationController.value =
+                          IndicatorAnimationCommand.pause;
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      indicatorAnimationController.value =
+                          IndicatorAnimationCommand.resume;
+                      return Center(
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress),
+                      );
+                    }
+                  },
+                ),
+              );
             },
             storyLength: (pageIndex) {
               return widget.imagesUrl!.length;

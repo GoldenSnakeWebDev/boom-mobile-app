@@ -800,68 +800,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Container(
                                       color: kContBgColor,
                                       width: SizeConfig.screenWidth,
-                                      height: getProportionateScreenHeight(130),
+                                      // height: getProportionateScreenHeight(130),
                                       alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: GridView.builder(
-                                          itemCount: profileOptions.length,
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            childAspectRatio: 3,
-                                            crossAxisSpacing: 5,
-                                            mainAxisSpacing: 10,
-                                          ),
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                controller
-                                                    .changeSelectedIndex(index);
-                                              },
-                                              child: Container(
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        70),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        18),
-                                                margin: const EdgeInsets.all(2),
-                                                decoration: BoxDecoration(
-                                                  gradient: index ==
-                                                          controller.selectedTab
-                                                      ? const LinearGradient(
-                                                          begin:
-                                                              Alignment.topLeft,
-                                                          end: Alignment
-                                                              .bottomRight,
-                                                          colors: [
-                                                            kSecondaryColor,
-                                                            kPrimaryColor,
-                                                            kPrimaryColor,
-                                                            kPrimaryColor,
-                                                            kSecondaryColor
-                                                          ],
-                                                        )
-                                                      : null,
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  profileOptions[index],
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize:
-                                                        getProportionateScreenHeight(
-                                                            12),
-                                                  ),
+                                      child: GridView.builder(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              getProportionateScreenWidth(10),
+                                          vertical:
+                                              getProportionateScreenHeight(10),
+                                        ),
+                                        itemCount: profileOptions.length,
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          childAspectRatio: 3,
+                                          crossAxisSpacing: 5,
+                                          mainAxisSpacing: 10,
+                                        ),
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              controller
+                                                  .changeSelectedIndex(index);
+                                            },
+                                            child: Container(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      70),
+                                              // height:
+                                              //     getProportionateScreenHeight(
+                                              //         18),
+                                              margin: const EdgeInsets.all(2),
+                                              decoration: BoxDecoration(
+                                                gradient: index ==
+                                                        controller.selectedTab
+                                                    ? const LinearGradient(
+                                                        begin:
+                                                            Alignment.topLeft,
+                                                        end: Alignment
+                                                            .bottomRight,
+                                                        colors: [
+                                                          kSecondaryColor,
+                                                          kPrimaryColor,
+                                                          kPrimaryColor,
+                                                          kPrimaryColor,
+                                                          kSecondaryColor
+                                                        ],
+                                                      )
+                                                    : null,
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                profileOptions[index],
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          12),
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
