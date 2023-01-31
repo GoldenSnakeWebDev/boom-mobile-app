@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:boom_mobile/models/network_model.dart';
+import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/utils/url_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:http/http.dart' as http;
 
 class PurchaseCoinsController extends GetxController {
   final String testID = 'dev.boom.boom_mobile';
@@ -21,10 +27,35 @@ class PurchaseCoinsController extends GetxController {
 
   final int _coins = 0;
 
+  NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
+
+  String? selectedNetwork;
+  Network? selectedNetworkModel;
+  List<Network> networks = [];
+
+  final box = GetStorage();
+
   @override
   void onInit() {
+    selectedNetwork = networkModel!.networks![0].symbol;
+
+    selectedNetworkModel = networkModel!.networks![0];
+    networks.clear();
+    for (var element in networkModel!.networks!) {
+      networks.add(element);
+    }
     _initializeIAP();
     super.onInit();
+  }
+
+  changeChain(String value) {
+    selectedNetwork = value;
+    for (var element in networkModel!.networks!) {
+      if (element.symbol == value) {
+        selectedNetworkModel = element;
+      }
+    }
+    update();
   }
 
   _initializeIAP() async {
@@ -55,7 +86,7 @@ class PurchaseCoinsController extends GetxController {
     update();
   }
 
-  purchaseCoins(int index) async {
+  purchaseCoins(int index, String coins) async {
     final PurchaseParam purchaseParam =
         PurchaseParam(productDetails: _products[index]);
 
@@ -63,8 +94,7 @@ class PurchaseCoinsController extends GetxController {
         .buyConsumable(purchaseParam: purchaseParam, autoConsume: false)
         .then((value) {
       if (value) {
-        Get.snackbar("Success", "You have purchased 100 Synthetic coins",
-            backgroundColor: Colors.green);
+        callBackPurchase(coins);
       } else {
         Get.snackbar("Error", "Something went wrong",
             backgroundColor: Colors.red);
@@ -81,6 +111,33 @@ class PurchaseCoinsController extends GetxController {
     if (purchase.status == PurchaseStatus.purchased) {
       Get.snackbar("Success", "You have purchased 100 Synthetic coins");
       //Make a request to Boom Backend to deposit the Synthetic coins
+    }
+  }
+
+  callBackPurchase(String coins) async {
+    String token = box.read("token");
+    var time = DateTime.now().toString();
+    final response = await http.post(
+      Uri.parse("${baseURL}callback-urls/google-plays-tore"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "amount": coins,
+          "networkType": selectedNetwork,
+          "timestamp": time,
+          "actionType": "deposit"
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      Get.snackbar("Success", "You have purchased $coins Synthetic coins");
+    } else {
+      Get.snackbar("Error", "Something went wrong",
+          backgroundColor: Colors.red);
     }
   }
 }

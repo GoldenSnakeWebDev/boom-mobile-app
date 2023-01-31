@@ -1,6 +1,8 @@
 import 'package:boom_mobile/screens/purchase_syn_coins/controllers/purchase_coins_controller.dart';
+import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -148,7 +150,154 @@ class SynCoinOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        controller.purchaseCoins(index);
+        showModalBottomSheet(
+            context: context,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+            ),
+            builder: (context) {
+              return GetBuilder<PurchaseCoinsController>(builder: (controller) {
+                return DraggableScrollableSheet(
+                    initialChildSize: 0.45,
+                    expand: false,
+                    maxChildSize: 0.6,
+                    minChildSize: 0.4,
+                    builder: (context, scrollController) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8.0),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "Purchase $coinAmount Synthetic Coins",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: getProportionateScreenHeight(16),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(10),
+                            ),
+                            Text(
+                              "Please choose the chain you would like to purchase your synthetic coins on.",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: getProportionateScreenHeight(14),
+                                color: Colors.grey,
+                              ),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(15),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: getProportionateScreenWidth(10)),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.7),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  CachedNetworkImage(
+                                    height: getProportionateScreenHeight(16),
+                                    imageUrl: controller
+                                        .selectedNetworkModel!.imageUrl!,
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(5),
+                                  ),
+                                  Text(controller.selectedNetworkModel!.name!),
+                                  const Spacer(),
+                                  DropdownButton(
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down_circle_outlined,
+                                      color: Colors.grey,
+                                      size: 24,
+                                    ),
+                                    underline: const SizedBox(),
+                                    style: const TextStyle(color: Colors.black),
+                                    items: controller.networks.map((e) {
+                                      return DropdownMenuItem(
+                                          value: e,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              CachedNetworkImage(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        16),
+                                                imageUrl: e.imageUrl!,
+                                              ),
+                                              SizedBox(
+                                                width:
+                                                    getProportionateScreenWidth(
+                                                        4),
+                                              ),
+                                              Text(
+                                                e.symbol!,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          12),
+                                                ),
+                                              )
+                                            ],
+                                          ));
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      controller.changeChain(value!.symbol!);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(15),
+                            ),
+                            GestureDetector(
+                              onDoubleTap: () {
+                                controller.purchaseCoins(index, coinAmount);
+                              },
+                              child: Container(
+                                width: SizeConfig.screenWidth,
+                                height: getProportionateScreenHeight(40),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.black38, width: 0.4),
+                                  borderRadius: BorderRadius.circular(10),
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      kPrimaryColor,
+                                      kSecondaryColor,
+                                    ],
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Purhase",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: getProportionateScreenHeight(14),
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    });
+              });
+            });
       },
       child: Container(
         decoration: BoxDecoration(
