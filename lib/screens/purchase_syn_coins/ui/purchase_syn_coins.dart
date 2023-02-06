@@ -264,7 +264,7 @@ class SynCoinOption extends StatelessWidget {
                               height: getProportionateScreenHeight(15),
                             ),
                             GestureDetector(
-                              onDoubleTap: () {
+                              onTap: () {
                                 controller.purchaseCoins(index, coinAmount);
                               },
                               child: Container(
