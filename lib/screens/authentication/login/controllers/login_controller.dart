@@ -11,6 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
 class LoginController extends GetxController {
@@ -79,6 +80,11 @@ class LoginController extends GetxController {
 
       if (res.statusCode == 200) {
         user = UserModel.fromJson(jsonDecode(res.body));
+        await OneSignal.shared.setExternalUserId(deviceId).then((value) {
+          log("OneSignal External User ID: $deviceId");
+        }).catchError((error) {
+          log("OneSignal External User ID Error: $error");
+        });
         EasyLoading.dismiss();
         CustomSnackBar.showCustomSnackBar(
           errorList: [jsonDecode(res.body)["message"]],
