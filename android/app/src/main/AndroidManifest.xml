@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
    <application
         android:label="boom_mobile"
@@ -20,10 +22,6 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:supportsRtl="true">
-
-         <!-- <meta-data
-              android:name="AdaptyPublicSdkKey"
-              android:value="public_live_nY5eYkL5.njPfrS2PcuPcyFWzGcQZ" /> -->
               
         <activity
             android:name=".MainActivity"
