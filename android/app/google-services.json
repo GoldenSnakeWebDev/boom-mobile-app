@@ -29,6 +29,13 @@
             {
               "client_id": "312671216819-aqsrrve6vk2tjc9r8gkthn9ge6dccngu.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "312671216819-gpv67e8ctu4uub2n9doc0eva4q7lp97o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.boomMobile"
+              }
             }
           ]
         }

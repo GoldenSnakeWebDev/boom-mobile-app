@@ -36,16 +36,16 @@ class AllBooms {
 
 class Page {
   Page({
-    required this.prev,
-    required this.next,
-    required this.current,
-    required this.limit,
+    this.prev,
+    this.next,
+    this.current,
+    this.limit,
   });
 
-  int prev;
-  int next;
-  int current;
-  int limit;
+  int? prev;
+  int? next;
+  int? current;
+  int? limit;
 
   factory Page.fromJson(Map<String, dynamic> json) => Page(
         prev: json["prev"],
