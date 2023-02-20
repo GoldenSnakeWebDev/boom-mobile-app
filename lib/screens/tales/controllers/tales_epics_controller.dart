@@ -18,7 +18,7 @@ class TalesEpicsController extends GetxController {
 
   @override
   void onInit() async {
-    fetchTales();
+    // fetchTales();
 
     update();
     super.onInit();

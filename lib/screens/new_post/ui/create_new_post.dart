@@ -316,6 +316,7 @@ class CreateNewPost extends GetView<NewPostController> {
                               minLines: 3,
                               maxLines: 6,
                               maxLength: 320,
+                              enabled: false,
                               controller: controller.boomText,
                               decoration: InputDecoration(
                                 counterStyle: TextStyle(
@@ -335,10 +336,12 @@ class CreateNewPost extends GetView<NewPostController> {
                                   borderSide:
                                       const BorderSide(color: kPrimaryColor),
                                 ),
+                                filled: true,
+                                fillColor: Colors.grey.shade300,
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   borderSide:
-                                      const BorderSide(color: kPrimaryColor),
+                                      BorderSide(color: Colors.grey.shade400),
                                 ),
                               ),
                             ),
@@ -370,7 +373,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                         builder: (context) {
                                           return Container(
                                             height:
-                                                SizeConfig.screenHeight * 0.3,
+                                                SizeConfig.screenHeight * 0.2,
                                             decoration: const BoxDecoration(
                                               color: kContBgColor,
                                               borderRadius: BorderRadius.only(
@@ -388,7 +391,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                                     style: TextStyle(
                                                         fontSize:
                                                             getProportionateScreenHeight(
-                                                                15),
+                                                                16),
                                                         fontWeight:
                                                             FontWeight.w800),
                                                   ),
@@ -473,80 +476,80 @@ class CreateNewPost extends GetView<NewPostController> {
                                                           ),
                                                         ),
                                                       ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Get.back();
-                                                          controller
-                                                              .handlePickingVideo();
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          width: SizeConfig
-                                                                  .screenWidth *
-                                                              0.8,
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  30),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors
-                                                                .grey[200],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                            "Pick Video",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    getProportionateScreenHeight(
-                                                                        16)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Get.back();
-                                                          controller
-                                                              .handleRecordingVideo();
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          width: SizeConfig
-                                                                  .screenWidth *
-                                                              0.8,
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  30),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors
-                                                                .grey[200],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                            "Take Video",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    getProportionateScreenHeight(
-                                                                        16)),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                      // GestureDetector(
+                                                      //   onTap: () {
+                                                      //     Get.back();
+                                                      //     controller
+                                                      //         .handlePickingVideo();
+                                                      //   },
+                                                      //   child: Container(
+                                                      //     margin:
+                                                      //         const EdgeInsets
+                                                      //                 .only(
+                                                      //             bottom: 10),
+                                                      //     width: SizeConfig
+                                                      //             .screenWidth *
+                                                      //         0.8,
+                                                      //     height:
+                                                      //         getProportionateScreenHeight(
+                                                      //             30),
+                                                      //     decoration:
+                                                      //         BoxDecoration(
+                                                      //       color: Colors
+                                                      //           .grey[200],
+                                                      //       borderRadius:
+                                                      //           BorderRadius
+                                                      //               .circular(
+                                                      //                   10),
+                                                      //     ),
+                                                      //     alignment:
+                                                      //         Alignment.center,
+                                                      //     child: Text(
+                                                      //       "Pick Video",
+                                                      //       style: TextStyle(
+                                                      //           fontSize:
+                                                      //               getProportionateScreenHeight(
+                                                      //                   16)),
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
+                                                      // GestureDetector(
+                                                      //   onTap: () {
+                                                      //     Get.back();
+                                                      //     controller
+                                                      //         .handleRecordingVideo();
+                                                      //   },
+                                                      //   child: Container(
+                                                      //     margin:
+                                                      //         const EdgeInsets
+                                                      //                 .only(
+                                                      //             bottom: 10),
+                                                      //     width: SizeConfig
+                                                      //             .screenWidth *
+                                                      //         0.8,
+                                                      //     height:
+                                                      //         getProportionateScreenHeight(
+                                                      //             30),
+                                                      //     decoration:
+                                                      //         BoxDecoration(
+                                                      //       color: Colors
+                                                      //           .grey[200],
+                                                      //       borderRadius:
+                                                      //           BorderRadius
+                                                      //               .circular(
+                                                      //                   10),
+                                                      //     ),
+                                                      //     alignment:
+                                                      //         Alignment.center,
+                                                      //     child: Text(
+                                                      //       "Take Video",
+                                                      //       style: TextStyle(
+                                                      //           fontSize:
+                                                      //               getProportionateScreenHeight(
+                                                      //                   16)),
+                                                      //     ),
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   ),
                                                 ],
@@ -1262,7 +1265,7 @@ class PreviewDialog extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
+                    color: Theme.of(context).colorScheme.background,
                     shape: BoxShape.circle,
                     boxShadow: const [
                       BoxShadow(
