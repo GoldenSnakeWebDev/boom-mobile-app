@@ -1,6 +1,7 @@
 import 'package:boom_mobile/screens/direct_messages/models/boom_box_response.dart';
 import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:web_socket_channel/io.dart';
@@ -32,6 +33,9 @@ class DMCrontroller extends GetxController {
 
   @override
   void onInit() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "Direct Message Screen");
     fetchBoomBoxMessages();
     fetchUsers();
     channel = IOWebSocketChannel.connect(

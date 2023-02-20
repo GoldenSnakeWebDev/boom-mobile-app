@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/utils/url_container.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -37,6 +38,9 @@ class PurchaseCoinsController extends GetxController {
 
   @override
   void onInit() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "Buy Syn Coins Screen");
     selectedNetwork = networkModel!.networks![0].symbol;
 
     selectedNetworkModel = networkModel!.networks![0];

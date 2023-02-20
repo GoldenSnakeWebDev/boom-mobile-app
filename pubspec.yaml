@@ -132,6 +132,8 @@ dependencies:
   onesignal_flutter: ^3.5.0
   unique_identifier: ^0.3.0
   camerawesome: ^1.2.1
+  firebase_analytics: ^9.3.8
+  firebase_crashlytics: ^2.9.0
   
   
   

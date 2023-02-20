@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -28,6 +29,9 @@ class OtherUserProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "OtherUser Profile  Screen");
     userId = Get.arguments;
     selectedNetwork = networkModel!.networks![0].symbol;
     log("Selected network Controller: $selectedNetwork");

@@ -7,6 +7,7 @@ import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:cached_video_player/cached_video_player.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -38,6 +39,11 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.logLogin();
+    analytics.setCurrentScreen(screenName: "Home Screen");
+
     scrollController = ScrollController()
       ..addListener(() {
         loadMore();

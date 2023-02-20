@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "312671216819",
+    "project_id": "boom-social-1e158",
+    "storage_bucket": "boom-social-1e158.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312671216819:android:2bba7dc075370b1a23fcc6",
+        "android_client_info": {
+          "package_name": "dev.boom.boom_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312671216819-aqsrrve6vk2tjc9r8gkthn9ge6dccngu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2JXE4qsFfU44AzT53tB62qldgnMv_efQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312671216819-aqsrrve6vk2tjc9r8gkthn9ge6dccngu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

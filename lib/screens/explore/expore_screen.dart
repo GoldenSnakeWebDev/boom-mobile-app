@@ -7,6 +7,7 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,6 +30,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   void initState() {
     _shuffleBooms();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "Explore Screen");
     super.initState();
   }
 
