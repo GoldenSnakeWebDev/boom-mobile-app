@@ -22,9 +22,11 @@ class EditTaleImage extends StatelessWidget {
           children: [
             Positioned(
               top: 0,
+              left: 0,
+              right: 0,
               child: Image(
                 height: SizeConfig.screenHeight * 0.9,
-                fit: BoxFit.fill,
+                // fit: BoxFit.fill,
                 image: FileImage(imageFile),
               ),
             ),

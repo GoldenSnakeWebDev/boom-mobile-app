@@ -9,7 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:story/story.dart';
 
 class ViewStatusScreen extends StatefulWidget {
-  final List<Statue>? imagesUrl;
+  final List<Status>? imagesUrl;
   final String? uname;
   final String? uid;
   const ViewStatusScreen(
@@ -47,7 +47,7 @@ class _ViewStatusScreenState extends State<ViewStatusScreen> {
               final imageUrl = widget.imagesUrl![storyIndex].imageUrl;
               return Center(
                 child: CachedNetworkImage(
-                  imageUrl: "$imageUrl",
+                  imageUrl: imageUrl,
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   progressIndicatorBuilder: (context, url, downloadProgress) {

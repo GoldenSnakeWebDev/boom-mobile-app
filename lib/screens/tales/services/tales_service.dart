@@ -92,10 +92,13 @@ class TalesService {
 
         return fetchStatusModel.statuses;
       } else {
+        log("Tales error >> ${response.body}");
         EasyLoading.showError('Error fetching tales');
         return null;
       }
     } catch (e) {
+      log("Tales error caught >> $e");
+      log("Tales error caught >> $token");
       EasyLoading.showError('Error fetching tales');
       return null;
     }
@@ -124,6 +127,7 @@ class TalesService {
         EasyLoading.showSuccess("${postStatusModel.message}");
         return postStatusModel.statusData;
       } else {
+        log('Post tale error >> ${response.body}');
         EasyLoading.showError('Error posting tale');
         return null;
       }
