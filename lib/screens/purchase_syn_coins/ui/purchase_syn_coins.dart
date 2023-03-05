@@ -51,78 +51,97 @@ class PurchaseSyntheticCoinsScreen extends StatelessWidget {
                   SizedBox(
                     height: getProportionateScreenHeight(20),
                   ),
-                  SynCoinOption(
-                    coinAmount: "10",
-                    coinPrice: "2.50",
-                    index: 0,
-                    controller: controller,
+                  Expanded(
+                    child: controller.isLoading
+                        ? const SizedBox()
+                        : ListView.builder(
+                            itemCount:
+                                controller.stripeProducts.products.length,
+                            itemBuilder: (context, index) {
+                              return SynCoinOption(
+                                coinAmount: controller
+                                    .stripeProducts.products[index].description,
+                                coinPrice: controller
+                                    .stripeProducts.products[index].priceInCents
+                                    .toString(),
+                                index: index,
+                                controller: controller,
+                              );
+                            },
+                          ),
                   ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "20",
-                    coinPrice: "5.00",
-                    index: 1,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "40",
-                    coinPrice: "10.00",
-                    index: 2,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "50",
-                    coinPrice: "20.00",
-                    index: 3,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "60",
-                    coinPrice: "25.00",
-                    index: 4,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "75",
-                    coinPrice: "50.00",
-                    index: 5,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "100",
-                    coinPrice: "75.00",
-                    index: 6,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  SynCoinOption(
-                    coinAmount: "200",
-                    coinPrice: "100.00",
-                    index: 7,
-                    controller: controller,
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
+                  // SynCoinOption(
+                  //   coinAmount: "10",
+                  //   coinPrice: "2.50",
+                  //   index: 0,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "20",
+                  //   coinPrice: "5.00",
+                  //   index: 1,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "40",
+                  //   coinPrice: "10.00",
+                  //   index: 2,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "50",
+                  //   coinPrice: "20.00",
+                  //   index: 3,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "60",
+                  //   coinPrice: "25.00",
+                  //   index: 4,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "75",
+                  //   coinPrice: "50.00",
+                  //   index: 5,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "100",
+                  //   coinPrice: "75.00",
+                  //   index: 6,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
+                  // SynCoinOption(
+                  //   coinAmount: "200",
+                  //   coinPrice: "100.00",
+                  //   index: 7,
+                  //   controller: controller,
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(20),
+                  // ),
                 ],
               ),
             ),
@@ -160,15 +179,16 @@ class SynCoinOption extends StatelessWidget {
             builder: (context) {
               return GetBuilder<PurchaseCoinsController>(builder: (controller) {
                 return DraggableScrollableSheet(
-                    initialChildSize: 0.45,
+                    initialChildSize: 0.6,
                     expand: false,
-                    maxChildSize: 0.6,
-                    minChildSize: 0.4,
+                    maxChildSize: 0.7,
+                    minChildSize: 0.6,
                     builder: (context, scrollController) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8.0),
+                            horizontal: 12, vertical: 12.0),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Center(
                               child: Text(
@@ -261,11 +281,84 @@ class SynCoinOption extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
+                              height: getProportionateScreenHeight(30),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Wrap(
+                                alignment: WrapAlignment.start,
+                                spacing: getProportionateScreenWidth(40),
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.changeCheckoutMethod("Stripe");
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black38, width: 0.4),
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: LinearGradient(
+                                          colors: controller
+                                                      .selectedPaymentMethod ==
+                                                  "Stripe"
+                                              ? [
+                                                  kPrimaryColor,
+                                                  kSecondaryColor,
+                                                ]
+                                              : [Colors.grey, Colors.grey],
+                                        ),
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Stripe Checkout",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      controller.changeCheckoutMethod("Paypal");
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.black38, width: 0.4),
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: LinearGradient(
+                                          colors: controller
+                                                      .selectedPaymentMethod ==
+                                                  "Paypal"
+                                              ? [
+                                                  kPrimaryColor,
+                                                  kSecondaryColor,
+                                                ]
+                                              : [Colors.grey, Colors.grey],
+                                        ),
+                                      ),
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Paypal Checkout",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
                               height: getProportionateScreenHeight(15),
                             ),
                             GestureDetector(
                               onTap: () {
-                                controller.purchaseCoins(index, coinAmount);
+                                controller.checkout();
                               },
                               child: Container(
                                 width: SizeConfig.screenWidth,
@@ -300,6 +393,7 @@ class SynCoinOption extends StatelessWidget {
             });
       },
       child: Container(
+        margin: const EdgeInsets.only(bottom: 30),
         decoration: BoxDecoration(
           color: Colors.grey[200],
           borderRadius: BorderRadius.circular(10),
@@ -311,7 +405,7 @@ class SynCoinOption extends StatelessWidget {
             children: [
               const Icon(MdiIcons.circleMultiple),
               Text(
-                "$coinAmount Synthetic Coins",
+                coinAmount,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: getProportionateScreenHeight(14),
