@@ -209,38 +209,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             0,
                                                         itemBuilder:
                                                             (context, index) {
-                                                          List<String> imUrls =
-                                                              [];
-
-                                                          for (var item
-                                                              in ctrllr
-                                                                  .tales![index]
-                                                                  .statues) {
-                                                            imUrls.add(
-                                                                item.imageUrl);
-                                                          }
-
                                                           return GestureDetector(
                                                             onTap: () {
                                                               Get.to(
                                                                 () =>
                                                                     ViewStatusScreen(
-                                                                  imagesUrl: ctrllr
-                                                                      .tales![
-                                                                          index]
-                                                                      .statues,
-                                                                  uname: ctrllr
-                                                                      .tales![
-                                                                          index]
-                                                                      .id
-                                                                      .username,
-                                                                  uid: ctrllr
-                                                                      .tales![
-                                                                          index]
-                                                                      .statues[
-                                                                          0]
-                                                                      .id,
+                                                                  imagesUrl:
+                                                                      ctrllr
+                                                                          .tales!,
                                                                 ),
+                                                                arguments: [
+                                                                  index
+                                                                ],
                                                               );
                                                             },
                                                             child: Container(
