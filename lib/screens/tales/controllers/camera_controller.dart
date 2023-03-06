@@ -14,7 +14,7 @@ class TalesController extends GetxController {
   final cameraService = CameraService();
   List<CameraDescription> cameras = <CameraDescription>[];
   late PhotoCameraState photoCameraState;
-  late CameraController cameraController;
+  // late CameraController cameraController;
   bool isLoading = false;
   late String imagePath;
   final ImagePicker picker = ImagePicker();
@@ -23,12 +23,13 @@ class TalesController extends GetxController {
 
   @override
   void onInit() {
-    cameras = Get.arguments[0];
+    // cameras = Get.arguments[0];
     // initCameras();
     super.onInit();
   }
 
-  getPath(CaptureMode captureMode) async {
+  Future<String> getPath(CaptureMode captureMode) async {
+    log("Get path of image");
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     final Directory extDir = await getApplicationDocumentsDirectory();
     final dirPath =
@@ -43,6 +44,7 @@ class TalesController extends GetxController {
       () => EditTaleImage(imageFile: pickedImage),
       binding: AppBindings(),
     );
+    return imagePath;
   }
 
   pickPhoto() async {
@@ -60,44 +62,44 @@ class TalesController extends GetxController {
     }
   }
 
-  initCameras() async {
-    isLoading = true;
-    if (cameras.isNotEmpty) {
-      cameraController = CameraController(
-        cameras[0],
-        ResolutionPreset.ultraHigh,
-        enableAudio: true,
-      );
+  // initCameras() async {
+  //   isLoading = true;
+  //   if (cameras.isNotEmpty) {
+  //     cameraController = CameraController(
+  //       cameras[0],
+  //       ResolutionPreset.ultraHigh,
+  //       enableAudio: true,
+  //     );
 
-      update();
+  //     update();
 
-      Future.delayed(const Duration(seconds: 1), () async {
-        if (!cameraController.value.isInitialized) {
-          try {
-            await cameraController.initialize();
-            isLoading = false;
-            update();
-          } catch (e) {
-            isLoading = false;
-            log("Could not initialize camera due to  $e");
-          }
-          // await cameraController.initialize().then((_) {
-          //   log('Initialized');
-          //   isLoading = false;
-          //   update();
-          // });
-        }
-      });
-    } else {
-      isLoading = false;
-      log("Could not load cameras");
-      update();
-    }
-  }
+  //     Future.delayed(const Duration(seconds: 1), () async {
+  //       if (!cameraController.value.isInitialized) {
+  //         try {
+  //           await cameraController.initialize();
+  //           isLoading = false;
+  //           update();
+  //         } catch (e) {
+  //           isLoading = false;
+  //           log("Could not initialize camera due to  $e");
+  //         }
+  //         // await cameraController.initialize().then((_) {
+  //         //   log('Initialized');
+  //         //   isLoading = false;
+  //         //   update();
+  //         // });
+  //       }
+  //     });
+  //   } else {
+  //     isLoading = false;
+  //     log("Could not load cameras");
+  //     update();
+  //   }
+  // }
 
   @override
   void onClose() {
-    cameraController.dispose();
+    // cameraController.dispose();
     CamerawesomePlugin.stop();
     super.onClose();
   }

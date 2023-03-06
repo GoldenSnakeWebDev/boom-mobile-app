@@ -8,10 +8,10 @@ import 'package:intl/intl.dart';
 class HomeService {
   final box = GetStorage();
 
-  fetchBooms() async {
+  fetchBooms(int page) async {
     String token = box.read("token");
     final res = await http.get(
-      Uri.parse("${baseURL}booms?page=all"),
+      Uri.parse("${baseURL}booms?page=$page"),
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -21,6 +22,9 @@ class BackPackController extends GetxController {
     userId = box.read("userId");
     token = box.read("token");
     fetchMyBooms();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "BackPack Screen");
   }
 
   fetchMyBooms() async {

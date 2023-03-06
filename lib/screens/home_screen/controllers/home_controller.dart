@@ -7,6 +7,8 @@ import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:cached_video_player/cached_video_player.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -30,10 +32,22 @@ class HomeController extends GetxController {
   final box = GetStorage();
   String userId = '';
   List<CachedVideoPlayerController> videoPlayerControllers = [];
+  late int totalPages;
+  int currentPage = 0;
+  late ScrollController scrollController;
 
   @override
   void onInit() {
     super.onInit();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.logLogin();
+    analytics.setCurrentScreen(screenName: "Home Screen");
+
+    scrollController = ScrollController()
+      ..addListener(() {
+        loadMore();
+      });
     Future.delayed(const Duration(seconds: 1), () {
       userId = box.read("userId");
       fetchAllBooms();
@@ -140,7 +154,7 @@ class HomeController extends GetxController {
 
   fetchAllBooms() async {
     EasyLoading.show(status: "Loading");
-    final res = await homeService.fetchBooms();
+    final res = await homeService.fetchBooms(0);
 
     if (res.statusCode == 200) {
       videoPlayerControllers.clear();
@@ -149,6 +163,7 @@ class HomeController extends GetxController {
       // CustomSnackBar.showCustomSnackBar(
       //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
       allBooms = AllBooms.fromJson(jsonDecode(res.body));
+      totalPages = allBooms!.page?.limit ?? 0;
       _homeBooms = allBooms!.booms;
 
       // for (var item in videoPlayerControllers) {
@@ -175,6 +190,32 @@ class HomeController extends GetxController {
     }
   }
 
+  loadMore() async {
+    log("Loading More Data $currentPage");
+    if (currentPage <= totalPages &&
+        scrollController.position.extentAfter < 300) {
+      currentPage++;
+      update();
+      EasyLoading.show(status: "Loading More Booms");
+      final res = await homeService.fetchBooms(currentPage);
+
+      if (res.statusCode == 200) {
+        EasyLoading.dismiss();
+        allBooms = AllBooms.fromJson(jsonDecode(res.body));
+        _homeBooms!.addAll(allBooms!.booms!);
+        update();
+      } else {
+        EasyLoading.dismiss();
+        CustomSnackBar.showCustomSnackBar(
+            errorList: ["Could not fetch Booms"],
+            msg: ["Error"],
+            isError: true);
+      }
+    } else {
+      log("No More Data to Load");
+    }
+  }
+
   initializeVideos() async {
     videoPlayerControllers.add(
       CachedVideoPlayerController.network(
@@ -190,7 +231,6 @@ class HomeController extends GetxController {
 
     if (res.statusCode == 200) {
     } else {
-      log(res.body);
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not react to Boom"],
           msg: ["Error"],

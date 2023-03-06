@@ -16,11 +16,9 @@ class SplashScreen extends StatelessWidget {
             child: SizedBox(
               child: CachedNetworkImage(
                 imageUrl: boomIconUrl,
-                progressIndicatorBuilder: (context, url, progress) {
-                  return CircularProgressIndicator(
-                    value: progress.progress,
-                  );
-                },
+                fit: BoxFit.contain,
+                width: 180,
+                height: 180,
               ),
             ),
           ),

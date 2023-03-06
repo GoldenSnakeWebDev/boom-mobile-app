@@ -148,13 +148,13 @@ class SingleMessage extends GetView<DMCrontroller> {
                       fillColor: const Color(0xFFF8F8F8),
                       filled: true,
                       hintText: "Type a message...",
-                      prefixIcon: IconButton(
-                        icon: const Icon(
-                          MdiIcons.cameraOutline,
-                          color: Color(0xFF454C4D),
-                        ),
-                        onPressed: () {},
-                      ),
+                      // prefixIcon: IconButton(
+                      //   icon: const Icon(
+                      //     MdiIcons.cameraOutline,
+                      //     color: Color(0xFF454C4D),
+                      //   ),
+                      //   onPressed: () {},
+                      // ),
                       suffixIcon: Obx(
                         () => (controller.isLoading.value)
                             ? const CircularProgressIndicator(
@@ -227,7 +227,9 @@ class SingleMessage extends GetView<DMCrontroller> {
                 : MainAxisAlignment.end,
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: (messages[index].author!.id != userid)
+                    ? CrossAxisAlignment.start
+                    : CrossAxisAlignment.end,
                 children: [
                   Container(
                     width: SizeConfig.screenWidth * 0.7,

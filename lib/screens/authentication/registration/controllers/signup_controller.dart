@@ -78,7 +78,7 @@ class RegisterController extends GetxController {
 
         log("Sing up Error ::: ${res.statusCode} ${res.body}");
         CustomSnackBar.showCustomSnackBar(
-          errorList: [jsonDecode(res.body)["errors"][0]["message"]],
+          errorList: ["Sign up Error ${res.statusCode} ${res.body}"],
           msg: ["Sign up Error"],
           isError: true,
         );

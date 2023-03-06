@@ -11,6 +11,7 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -38,6 +39,9 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "Profile Screen");
     user = Get.find<MainScreenController>().user;
     fetchMyBooms();
     if (user != null && user!.bio!.isNotEmpty) {

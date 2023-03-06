@@ -1,6 +1,10 @@
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/size_config.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -15,6 +19,7 @@ class OtherUserProfileController extends GetxController {
   int numOfFans = 0;
   int numOfFrens = 0;
   int numOfBooms = 0;
+  int selectedTab = 0;
   bool isLoves = false;
   bool isSmiles = false;
   bool isRebooms = false;
@@ -28,6 +33,9 @@ class OtherUserProfileController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "OtherUser Profile  Screen");
     userId = Get.arguments;
     selectedNetwork = networkModel!.networks![0].symbol;
     log("Selected network Controller: $selectedNetwork");
@@ -110,6 +118,80 @@ class OtherUserProfileController extends GetxController {
         selectedNetworkModel = element;
       }
     }
+    update();
+  }
+
+  changeSelectedIndex(int index) {
+    switch (index) {
+      case 0:
+        selectedTab = index;
+        break;
+      case 1:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      case 2:
+        selectedTab = index;
+        break;
+      case 3:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      case 4:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      case 5:
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
+        break;
+      default:
+    }
+
     update();
   }
 }

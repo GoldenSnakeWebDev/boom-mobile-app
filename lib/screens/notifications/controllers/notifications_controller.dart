@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:boom_mobile/screens/notifications/models/notification_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,9 @@ class NotificationsController extends GetxController {
 
   @override
   void onInit() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "Notifications Screen");
     fetchAllNotifications();
     super.onInit();
   }

@@ -16,10 +16,10 @@ class _CaptureTaleScreenState extends State<CaptureTaleScreen> {
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      controller.initCameras();
-      setState(() {});
-    }
+    // if (mounted) {
+    //   controller.initCameras();
+    //   setState(() {});
+    // }
   }
 
   @override

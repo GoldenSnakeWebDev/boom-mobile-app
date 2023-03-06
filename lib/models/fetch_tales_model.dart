@@ -12,14 +12,14 @@ String fetchStatusModelToJson(FetchStatusModel data) =>
 
 class FetchStatusModel {
   FetchStatusModel({
-    this.status,
-    this.page,
-    this.statuses,
+    required this.status,
+    required this.page,
+    required this.statuses,
   });
 
-  String? status;
-  Page? page;
-  List<UserStatus>? statuses;
+  String status;
+  Page page;
+  List<UserStatus> statuses;
 
   factory FetchStatusModel.fromJson(Map<String, dynamic> json) =>
       FetchStatusModel(
@@ -31,8 +31,8 @@ class FetchStatusModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "page": page?.toJson(),
-        "statuses": List<dynamic>.from(statuses!.map((x) => x.toJson())),
+        "page": page.toJson(),
+        "statuses": List<Status>.from(statuses.map((x) => x.toJson())),
       };
 }
 
@@ -46,45 +46,73 @@ class Page {
 
 class UserStatus {
   UserStatus({
-    this.id,
-    this.count,
-    this.statues,
+    required this.id,
+    required this.count,
+    required this.statues,
   });
 
-  String? id;
-  int? count;
-  List<Statue>? statues;
+  Id id;
+  int count;
+  List<Status> statues;
 
   factory UserStatus.fromJson(Map<String, dynamic> json) => UserStatus(
-        id: json["_id"],
+        id: Id.fromJson(json["_id"]),
         count: json["count"],
         statues:
-            List<Statue>.from(json["statues"].map((x) => Statue.fromJson(x))),
+            List<Status>.from(json["statues"].map((x) => Status.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "_id": id,
+        "_id": id.toJson(),
         "count": count,
-        "statues": List<dynamic>.from(statues!.map((x) => x.toJson())),
+        "statues": List<dynamic>.from(statues.map((x) => x.toJson())),
       };
 }
 
-class Statue {
-  Statue({
-    this.id,
-    this.imageUrl,
+class Id {
+  Id({
+    required this.username,
+    required this.id,
+    required this.photo,
   });
 
-  String? id;
-  String? imageUrl;
+  String username;
+  String id;
+  String photo;
 
-  factory Statue.fromJson(Map<String, dynamic> json) => Statue(
+  factory Id.fromJson(Map<String, dynamic> json) => Id(
+        username: json["username"],
+        id: json["id"],
+        photo: json["photo"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "username": username,
+        "id": id,
+        "photo": photo,
+      };
+}
+
+class Status {
+  Status({
+    required this.id,
+    required this.imageUrl,
+    required this.views,
+  });
+
+  String id;
+  String imageUrl;
+  List<dynamic> views;
+
+  factory Status.fromJson(Map<String, dynamic> json) => Status(
         id: json["id"],
         imageUrl: json["image_url"],
+        views: List<dynamic>.from(json["views"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "image_url": imageUrl,
+        "views": List<dynamic>.from(views.map((x) => x)),
       };
 }

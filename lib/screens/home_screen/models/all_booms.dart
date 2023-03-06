@@ -13,20 +13,52 @@ String allBoomsToJson(AllBooms data) => json.encode(data.toJson());
 class AllBooms {
   AllBooms({
     this.status,
+    this.page,
     this.booms,
   });
 
   String? status;
+  Page? page;
   List<Boom>? booms;
 
   factory AllBooms.fromJson(Map<String, dynamic> json) => AllBooms(
         status: json["status"],
+        page: Page.fromJson(json["page"]),
         booms: List<Boom>.from(json["booms"].map((x) => Boom.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
+        "page": page!.toJson(),
         "booms": List<dynamic>.from(booms!.map((x) => x.toJson())),
+      };
+}
+
+class Page {
+  Page({
+    this.prev,
+    this.next,
+    this.current,
+    this.limit,
+  });
+
+  int? prev;
+  int? next;
+  int? current;
+  int? limit;
+
+  factory Page.fromJson(Map<String, dynamic> json) => Page(
+        prev: json["prev"],
+        next: json["next"],
+        current: json["current"],
+        limit: json["limit"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "prev": prev,
+        "next": next,
+        "current": current,
+        "limit": limit,
       };
 }
 

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -62,7 +61,6 @@ class _MainScreenState extends State<MainScreen> {
       const NotificationScreen(),
       const ProfileScreen(),
     ];
-    log(box.read("token"));
   }
 
   @override

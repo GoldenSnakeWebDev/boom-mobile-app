@@ -3,8 +3,11 @@ import 'dart:convert';
 
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/screens/purchase_syn_coins/models/products_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -32,11 +35,17 @@ class PurchaseCoinsController extends GetxController {
   String? selectedNetwork;
   Network? selectedNetworkModel;
   List<Network> networks = [];
+  late StripeProducts stripeProducts;
+  bool isLoading = false;
+  String selectedPaymentMethod = "Stripe";
 
   final box = GetStorage();
 
   @override
   void onInit() {
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+    analytics.setCurrentScreen(screenName: "Buy Syn Coins Screen");
     selectedNetwork = networkModel!.networks![0].symbol;
 
     selectedNetworkModel = networkModel!.networks![0];
@@ -44,6 +53,7 @@ class PurchaseCoinsController extends GetxController {
     for (var element in networkModel!.networks!) {
       networks.add(element);
     }
+    getStripeProducts();
     _initializeIAP();
     super.onInit();
   }
@@ -139,5 +149,121 @@ class PurchaseCoinsController extends GetxController {
       Get.snackbar("Error", "Something went wrong",
           backgroundColor: Colors.red);
     }
+  }
+
+  changeCheckoutMethod(String value) {
+    if (selectedPaymentMethod == value) {
+      return;
+    } else {
+      selectedPaymentMethod = value;
+    }
+
+    update();
+  }
+
+  // Get Stripe Products
+  getStripeProducts() async {
+    isLoading = true;
+    update();
+    String token = box.read("token");
+    final response = await http.get(
+      Uri.parse("${baseURL}stripe/products"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      stripeProducts = StripeProducts.fromJson(jsonDecode(response.body));
+      isLoading = false;
+      update();
+    } else {
+      isLoading = false;
+      Get.snackbar("Error", "Something went wrong",
+          backgroundColor: Colors.red);
+
+      update();
+    }
+  }
+
+  //Stripe Checkout
+  stripeCheckout() async {
+    String token = box.read("token");
+    final response = await http.post(
+      Uri.parse("${baseURL}stripe/checkout"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "items": [
+            {
+              "id": "",
+              "quantity": "",
+            }
+          ],
+          "networkType": selectedNetwork,
+          "timestamp": DateTime.now().toString(),
+          "actionType": "deposit"
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      Get.snackbar("Error", "Something went wrong",
+          backgroundColor: Colors.red);
+    }
+  }
+
+  //Paypal Checkout
+  paypalCheckout() async {
+    String token = box.read("token");
+    final response = await http.post(
+      Uri.parse("${baseURL}paypal/checkout"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "items": [
+            {
+              "id": "",
+              "quantity": "",
+            }
+          ],
+          "networkType": selectedNetwork,
+          "timestamp": DateTime.now().toString(),
+          "actionType": "deposit"
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      Get.snackbar("Error", "Something went wrong",
+          backgroundColor: Colors.red);
+    }
+  }
+
+  //Checkout
+
+  checkout() async {
+    EasyLoading.show(status: "Loading...");
+    Future.delayed(const Duration(seconds: 5), () {
+      EasyLoading.dismiss();
+      Get.snackbar("Browser error", "Error opening checkout page");
+    });
+
+    // if (selectedPaymentMethod == "Stripe") {
+    //   stripeCheckout();
+    // } else if (selectedPaymentMethod == "Paypal") {
+    //   paypalCheckout();
+    // }
   }
 }
