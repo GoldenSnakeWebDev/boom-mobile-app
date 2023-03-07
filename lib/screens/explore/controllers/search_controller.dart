@@ -1,16 +1,18 @@
+import 'dart:convert';
+
+import 'package:boom_mobile/screens/explore/models/search_result_model.dart';
 import 'package:boom_mobile/screens/explore/services/search_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../home_screen/models/all_booms.dart';
 
 class SearchController extends GetxController {
   final _service = SearchService();
 
   TextEditingController searchFormController = TextEditingController();
 
-  List<Boom>? _searchedBooms;
-  List<Boom>? get searchBoomResults => _searchedBooms;
+  SearchResults? _searchResults;
+  SearchResults? get searchResults => _searchResults;
+
   var isLoading = false.obs;
 
   setLoading(bool value) {
@@ -21,11 +23,13 @@ class SearchController extends GetxController {
     final query = searchFormController.text;
     if (query.isNotEmpty) {
       setLoading(true);
+
       final res = await _service.searchBooms(query);
+      _searchResults = SearchResults.fromJson(jsonDecode(res.body));
+
       setLoading(false);
-      _searchedBooms = res;
     } else {
-      _searchedBooms = null;
+      _searchResults = null;
     }
   }
 }
