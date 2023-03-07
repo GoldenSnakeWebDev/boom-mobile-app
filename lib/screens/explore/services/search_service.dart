@@ -1,4 +1,3 @@
-import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_storage/get_storage.dart';
@@ -21,8 +20,7 @@ class SearchService {
         headers: headers,
       );
       if (response.statusCode == 200) {
-        final allBooms = allBoomsFromJson(response.body);
-        return allBooms.booms;
+        return response;
       } else {
         EasyLoading.showError('Error searching');
         return null;

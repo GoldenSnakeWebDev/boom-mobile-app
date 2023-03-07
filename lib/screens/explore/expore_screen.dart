@@ -152,22 +152,26 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                             )
                                           : ListView.builder(
                                               itemCount: searchCtrller
-                                                  .searchBoomResults?.length,
+                                                  .searchResults
+                                                  ?.search
+                                                  .booms
+                                                  .length,
                                               itemBuilder: (context, index) {
                                                 SingleBoomPost boomPost =
                                                     Get.find<
                                                             ProfileController>()
                                                         .getSingleBoomDetails(
-                                                  searchCtrller
-                                                          .searchBoomResults![
-                                                      index],
+                                                  searchCtrller.searchResults!
+                                                      .search.booms[index],
                                                   index,
                                                 );
                                                 return SingleBoomWidget(
                                                   post: boomPost,
                                                   controller: homeController,
                                                   boomId: searchCtrller
-                                                      .searchBoomResults![index]
+                                                      .searchResults!
+                                                      .search
+                                                      .booms[index]
                                                       .id!,
                                                 );
                                               },
