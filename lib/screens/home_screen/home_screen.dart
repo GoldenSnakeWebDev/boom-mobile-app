@@ -327,6 +327,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 : Expanded(
                                     child: ListView.builder(
+                                      key: const PageStorageKey<String>(
+                                          "homeKey"),
                                       controller: controller.scrollController,
                                       itemCount: controller.homeBooms!.length,
                                       itemBuilder: (context, index) {

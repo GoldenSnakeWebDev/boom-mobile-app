@@ -124,7 +124,7 @@ class _ViewStatusScreenState extends State<ViewStatusScreen> {
                           onTap: () {
                             Get.to(() => const OtherUserProfileScreen(),
                                 arguments: widget
-                                    .imagesUrl![controller.storyIndex].id);
+                                    .imagesUrl![controller.storyIndex].id.id);
                           },
                           child: Container(
                             width: getProportionateScreenHeight(30),

@@ -76,10 +76,12 @@ class TalesEpicsController extends GetxController {
   // postTale
   Future<dynamic> postTale(String imageUrl) async {
     setLoading(true);
+
     var postTaleRess = await _talesService.postTale(imageUrl);
     setLoading(false);
     if (postTaleRess != null) {
       // _tales?.insert(0, postTaleRess);
+      fetchTales();
 
       update();
       Get.to(() => const MainScreen());
