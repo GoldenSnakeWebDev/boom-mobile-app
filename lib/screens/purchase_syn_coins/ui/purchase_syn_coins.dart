@@ -66,82 +66,12 @@ class PurchaseSyntheticCoinsScreen extends StatelessWidget {
                                     .toString(),
                                 index: index,
                                 controller: controller,
+                                productId: controller
+                                    .stripeProducts.products[index].id,
                               );
                             },
                           ),
                   ),
-                  // SynCoinOption(
-                  //   coinAmount: "10",
-                  //   coinPrice: "2.50",
-                  //   index: 0,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "20",
-                  //   coinPrice: "5.00",
-                  //   index: 1,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "40",
-                  //   coinPrice: "10.00",
-                  //   index: 2,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "50",
-                  //   coinPrice: "20.00",
-                  //   index: 3,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "60",
-                  //   coinPrice: "25.00",
-                  //   index: 4,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "75",
-                  //   coinPrice: "50.00",
-                  //   index: 5,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "100",
-                  //   coinPrice: "75.00",
-                  //   index: 6,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
-                  // SynCoinOption(
-                  //   coinAmount: "200",
-                  //   coinPrice: "100.00",
-                  //   index: 7,
-                  //   controller: controller,
-                  // ),
-                  // SizedBox(
-                  //   height: getProportionateScreenHeight(20),
-                  // ),
                 ],
               ),
             ),
@@ -156,6 +86,7 @@ class SynCoinOption extends StatelessWidget {
   final String coinAmount;
   final String coinPrice;
   final int index;
+  final String productId;
   final PurchaseCoinsController controller;
   const SynCoinOption({
     Key? key,
@@ -163,6 +94,7 @@ class SynCoinOption extends StatelessWidget {
     required this.coinPrice,
     required this.index,
     required this.controller,
+    required this.productId,
   }) : super(key: key);
 
   @override
@@ -357,8 +289,11 @@ class SynCoinOption extends StatelessWidget {
                               height: getProportionateScreenHeight(15),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                controller.checkout();
+                              onTap: () async {
+                                await controller.checkout(productId);
+                                if (controller.isSuccess) {
+                                  Navigator.of(context).pop();
+                                }
                               },
                               child: Container(
                                 width: SizeConfig.screenWidth,
@@ -376,7 +311,7 @@ class SynCoinOption extends StatelessWidget {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "Purhase",
+                                  "Purchase",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: getProportionateScreenHeight(14),
@@ -402,6 +337,7 @@ class SynCoinOption extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(MdiIcons.circleMultiple),
               Text(
