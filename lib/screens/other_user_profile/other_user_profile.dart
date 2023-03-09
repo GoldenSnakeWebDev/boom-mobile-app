@@ -84,7 +84,8 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                       SliverToBoxAdapter(
                         child: RefreshIndicator(
                           onRefresh: () async {
-                            // await controller.fetchProfile();
+                            otherProfileService.fetchotherUserProfile(userId);
+                            setState(() {});
                           },
                           child: StreamBuilder(
                             stream: otherProfileService

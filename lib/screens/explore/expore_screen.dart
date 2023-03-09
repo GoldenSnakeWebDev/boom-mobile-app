@@ -150,32 +150,50 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                               child:
                                                   CircularProgressIndicator(),
                                             )
-                                          : ListView.builder(
-                                              itemCount: searchCtrller
-                                                  .searchResults
-                                                  ?.search
-                                                  .booms
-                                                  .length,
-                                              itemBuilder: (context, index) {
-                                                SingleBoomPost boomPost =
-                                                    Get.find<
-                                                            ProfileController>()
+                                          : searchCtrller.searchResults!.search
+                                                  .booms.isEmpty
+                                              ? Center(
+                                                  child: Text(
+                                                    "No results",
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                17),
+                                                        color: Colors.grey,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                )
+                                              : ListView.builder(
+                                                  itemCount: searchCtrller
+                                                      .searchResults
+                                                      ?.search
+                                                      .booms
+                                                      .length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    SingleBoomPost boomPost = Get
+                                                            .find<
+                                                                ProfileController>()
                                                         .getSingleBoomDetails(
-                                                  searchCtrller.searchResults!
-                                                      .search.booms[index],
-                                                  index,
-                                                );
-                                                return SingleBoomWidget(
-                                                  post: boomPost,
-                                                  controller: homeController,
-                                                  boomId: searchCtrller
-                                                      .searchResults!
-                                                      .search
-                                                      .booms[index]
-                                                      .id!,
-                                                );
-                                              },
-                                            ),
+                                                      searchCtrller
+                                                          .searchResults!
+                                                          .search
+                                                          .booms[index],
+                                                      index,
+                                                    );
+                                                    return SingleBoomWidget(
+                                                      post: boomPost,
+                                                      controller:
+                                                          homeController,
+                                                      boomId: searchCtrller
+                                                          .searchResults!
+                                                          .search
+                                                          .booms[index]
+                                                          .id!,
+                                                    );
+                                                  },
+                                                ),
                                     ),
                                   ),
                       ],
