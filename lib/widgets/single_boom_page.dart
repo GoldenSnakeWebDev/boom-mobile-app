@@ -625,13 +625,24 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               SizedBox(
                                 height: getProportionateScreenHeight(5),
                               ),
-                              Text(
-                                boom.boom.tags![0],
-                                style: TextStyle(
-                                    fontSize: getProportionateScreenHeight(11),
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.w700),
+                              Row(
+                                children: boom.boom.tags!
+                                    .map((e) => Text(e,
+                                        style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    11),
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.w700)))
+                                    .toList(),
                               ),
+                              // Text(
+                              //   boom.boom.tags![0],
+                              //   style: TextStyle(
+                              //       fontSize: getProportionateScreenHeight(11),
+                              //       color: Colors.blue,
+                              //       fontWeight: FontWeight.w700),
+                              // ),
                               SizedBox(
                                 height: getProportionateScreenHeight(10),
                               ),
