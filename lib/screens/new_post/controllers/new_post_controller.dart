@@ -205,7 +205,7 @@ class NewPostController extends GetxController {
     // // final abiCode = await abiFile.readAsString();
     EasyLoading.show(status: 'loading...');
     var contract = DeployedContract(
-      ContractAbi.fromJson(polygonSmartContract, 'MFNT'),
+      ContractAbi.fromJson(polygonSmartContract, 'MFNFT'),
       EthereumAddress.fromHex(nftContractAddress.text),
     );
     List<dynamic> balance = await client.call(
@@ -274,6 +274,10 @@ class NewPostController extends GetxController {
       EasyLoading.dismiss();
     } catch (e) {
       log(e.toString());
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Error fetching NFT. $e"],
+          msg: ["Download Error"],
+          isError: true);
       EasyLoading.dismiss();
     }
   }
@@ -305,6 +309,8 @@ class NewPostController extends GetxController {
         credentials = WalletConnectEthereumCredentials(provider: provider!);
         log("Sender connected $sender");
       });
+
+      await fetchNFT(credentials.provider.connector.session.accounts.first);
 
       return credentials.provider.connector.session.accounts.first;
     } else {
@@ -351,7 +357,7 @@ class NewPostController extends GetxController {
       //   log("Sender $sender");
       //   return credentials.provider.connector.session.accounts.first;
       // });
-      log("App jumped to this place");
+      // log("App jumped to this place");
     }
   }
 
@@ -380,6 +386,11 @@ class NewPostController extends GetxController {
 
       log("Boom Type $postType");
       var d12 = DateFormat('MM-dd-yyyy, hh:mm a').format(DateTime.now());
+
+      String longTag = tags.text.trim().replaceAll(" ", "@");
+      List<String> tagList = longTag.split("@").toList();
+      String tagString = tagList.join(",");
+
       NewPostModel newPostModel = NewPostModel(
         boomType: postType,
         network: selectedNetworkModel!.id!,
@@ -387,7 +398,7 @@ class NewPostController extends GetxController {
         title: title.text.trim(),
         imageUrl: imgURL,
         quantity: quantity.text.trim(),
-        tags: tags.text.trim(),
+        tags: tagString,
         location: location.text.trim(),
         fixedPrice: price.text.trim(),
         price: price.text.trim(),

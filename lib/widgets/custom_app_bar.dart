@@ -6,7 +6,6 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leadingWidget;
@@ -68,18 +67,29 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   binding: AppBindings(),
                 );
               },
-              icon: Icon(
-                Icons.mail,
-                color: Colors.blueGrey.shade400,
+              icon: SizedBox(
+                width: getProportionateScreenWidth(30),
+                height: getProportionateScreenHeight(30),
+                child: Image.asset(
+                  "assets/icons/dm_icon.png",
+                  height: getProportionateScreenHeight(30),
+                  width: getProportionateScreenWidth(30),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             IconButton(
-              onPressed: () {},
-              icon: Icon(
-                MdiIcons.faceAgent,
-                color: Colors.blueGrey.shade500,
-              ),
-            ),
+                onPressed: () {},
+                icon: SizedBox(
+                  width: getProportionateScreenWidth(20),
+                  height: getProportionateScreenHeight(20),
+                  child: Image.asset(
+                    "assets/icons/support_icon.png",
+                    height: getProportionateScreenHeight(25),
+                    width: getProportionateScreenWidth(25),
+                    fit: BoxFit.cover,
+                  ),
+                )),
             IconButton(
               onPressed: () {
                 showDialog(
@@ -94,9 +104,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 );
               },
-              icon: const Icon(
-                MdiIcons.bagPersonal,
-                color: Colors.blue,
+              icon: SizedBox(
+                width: getProportionateScreenWidth(30),
+                height: getProportionateScreenHeight(30),
+                child: Image.asset(
+                  "assets/icons/backpack_icon.png",
+                  height: getProportionateScreenHeight(25),
+                  width: getProportionateScreenWidth(25),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             IconButton(
@@ -112,9 +128,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                 );
               },
-              icon: const Icon(
-                MdiIcons.bank,
-                color: Colors.blueGrey,
+              icon: SizedBox(
+                width: getProportionateScreenWidth(40),
+                height: getProportionateScreenHeight(40),
+                child: Image.asset(
+                  "assets/icons/syncBank_icon.png",
+                  height: getProportionateScreenHeight(40),
+                  width: getProportionateScreenWidth(40),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             // IconButton(

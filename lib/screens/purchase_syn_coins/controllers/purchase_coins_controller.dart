@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class PurchaseCoinsController extends GetxController {
   final String testID = 'dev.boom.boom_mobile';
@@ -41,6 +42,8 @@ class PurchaseCoinsController extends GetxController {
 
   final box = GetStorage();
 
+  bool isSuccess = false;
+
   @override
   void onInit() {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -54,7 +57,7 @@ class PurchaseCoinsController extends GetxController {
       networks.add(element);
     }
     getStripeProducts();
-    _initializeIAP();
+    // _initializeIAP();
     super.onInit();
   }
 
@@ -167,7 +170,7 @@ class PurchaseCoinsController extends GetxController {
     update();
     String token = box.read("token");
     final response = await http.get(
-      Uri.parse("${baseURL}stripe/products"),
+      Uri.parse("${baseURL}stripe/products?is_active=true"),
       headers: {
         "Authorization": token,
         "Content-Type": "application/json",
@@ -188,8 +191,9 @@ class PurchaseCoinsController extends GetxController {
   }
 
   //Stripe Checkout
-  stripeCheckout() async {
+  stripeCheckout(String id) async {
     String token = box.read("token");
+    EasyLoading.show(status: "Loading");
     final response = await http.post(
       Uri.parse("${baseURL}stripe/checkout"),
       headers: {
@@ -200,8 +204,8 @@ class PurchaseCoinsController extends GetxController {
         {
           "items": [
             {
-              "id": "",
-              "quantity": "",
+              "id": id,
+              "quantity": 1,
             }
           ],
           "networkType": selectedNetwork,
@@ -212,16 +216,20 @@ class PurchaseCoinsController extends GetxController {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
+      EasyLoading.dismiss();
+      String url = jsonDecode(response.body)["url"];
+      await launchURL(url);
     } else {
+      EasyLoading.dismiss();
       Get.snackbar("Error", "Something went wrong",
           backgroundColor: Colors.red);
     }
   }
 
   //Paypal Checkout
-  paypalCheckout() async {
+  paypalCheckout(String id) async {
     String token = box.read("token");
+    EasyLoading.show(status: "Loading");
     final response = await http.post(
       Uri.parse("${baseURL}paypal/checkout"),
       headers: {
@@ -232,8 +240,8 @@ class PurchaseCoinsController extends GetxController {
         {
           "items": [
             {
-              "id": "",
-              "quantity": "",
+              "id": id,
+              "quantity": 1,
             }
           ],
           "networkType": selectedNetwork,
@@ -244,8 +252,11 @@ class PurchaseCoinsController extends GetxController {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
+      EasyLoading.dismiss();
+      String url = jsonDecode(response.body)["url"];
+      await launchURL(url);
     } else {
+      EasyLoading.dismiss();
       Get.snackbar("Error", "Something went wrong",
           backgroundColor: Colors.red);
     }
@@ -253,17 +264,36 @@ class PurchaseCoinsController extends GetxController {
 
   //Checkout
 
-  checkout() async {
-    EasyLoading.show(status: "Loading...");
-    Future.delayed(const Duration(seconds: 5), () {
-      EasyLoading.dismiss();
-      Get.snackbar("Browser error", "Error opening checkout page");
-    });
+  checkout(String id) async {
+    // EasyLoading.show(status: "Loading...");
+    // Future.delayed(const Duration(seconds: 5), () {
+    //   EasyLoading.dismiss();
+    //   Get.snackbar("Browser error", "Error opening checkout page");
+    // });
 
-    // if (selectedPaymentMethod == "Stripe") {
-    //   stripeCheckout();
-    // } else if (selectedPaymentMethod == "Paypal") {
-    //   paypalCheckout();
-    // }
+    if (selectedPaymentMethod == "Stripe") {
+      stripeCheckout(id);
+    } else if (selectedPaymentMethod == "Paypal") {
+      paypalCheckout(id);
+    }
+  }
+
+  launchURL(String url) async {
+    if (url.isNotEmpty) {
+      final Uri uri = Uri.parse(url);
+      isSuccess = true;
+      update();
+      await launchUrl(
+        uri,
+        mode: LaunchMode.platformDefault,
+        webViewConfiguration: const WebViewConfiguration(
+          enableDomStorage: true,
+          enableJavaScript: true,
+        ),
+      );
+    } else {
+      EasyLoading.showError("Error opening checkout page");
+      throw 'Could not launch $url';
+    }
   }
 }
