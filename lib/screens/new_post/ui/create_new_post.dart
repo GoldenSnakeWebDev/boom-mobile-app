@@ -316,7 +316,7 @@ class CreateNewPost extends GetView<NewPostController> {
                               minLines: 3,
                               maxLines: 6,
                               maxLength: 320,
-                              enabled: false,
+                              // enabled: false,
                               controller: controller.boomText,
                               decoration: InputDecoration(
                                 counterStyle: TextStyle(
@@ -336,8 +336,8 @@ class CreateNewPost extends GetView<NewPostController> {
                                   borderSide:
                                       const BorderSide(color: kPrimaryColor),
                                 ),
-                                filled: true,
-                                fillColor: Colors.grey.shade300,
+                                // filled: true,
+                                // fillColor: Colors.grey.shade300,
                                 disabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                   borderSide:

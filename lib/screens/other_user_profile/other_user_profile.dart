@@ -296,7 +296,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: SizeConfig.screenHeight * 0.28,
+                                        height: SizeConfig.screenHeight * 0.29,
                                         child: Stack(
                                           children: [
                                             SizedBox(
@@ -847,6 +847,12 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                     user.user!
                                                                         .bio!,
                                                                     numLines: 2,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          getProportionateScreenHeight(
+                                                                              10),
+                                                                    ),
                                                                     readMoreIcon:
                                                                         const SizedBox(),
                                                                     readLessIcon:
@@ -855,6 +861,17 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                         "See More",
                                                                     readLessText:
                                                                         "Read Less",
+                                                                    readMoreAlign:
+                                                                        Alignment
+                                                                            .topRight,
+                                                                    readMoreTextStyle:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                      fontSize:
+                                                                          getProportionateScreenHeight(
+                                                                              10),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                           SizedBox(
