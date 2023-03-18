@@ -4,7 +4,6 @@ import 'package:boom_mobile/screens/direct_messages/service/messages_service.dar
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:web_socket_channel/io.dart';
 
 import '../models/boom_users_model.dart';
 
@@ -12,7 +11,7 @@ class DMCrontroller extends GetxController {
   final service = DMService();
   final _storage = GetStorage();
 
-  IOWebSocketChannel? channel;
+  // IOWebSocketChannel? channel;
 
   List<BoomBox>? _boomBoxes;
   List<BoomBox>? get boomBoxes => _boomBoxes;
@@ -27,6 +26,8 @@ class DMCrontroller extends GetxController {
 
   String boomBox = '';
 
+  final box = GetStorage();
+
   setLoading(bool value) {
     isLoading.value = value;
   }
@@ -38,9 +39,9 @@ class DMCrontroller extends GetxController {
     analytics.setCurrentScreen(screenName: "Direct Message Screen");
     fetchBoomBoxMessages();
     fetchUsers();
-    channel = IOWebSocketChannel.connect(
-      'ws://170.16.2.44:4000',
-    );
+    // channel = IOWebSocketChannel.connect(
+    //   'ws://170.16.2.44:4000',
+    // );
     super.onInit();
   }
 
@@ -57,8 +58,11 @@ class DMCrontroller extends GetxController {
 
   Future<dynamic> fetchUsers() async {
     var ress = await service.fetchUsers();
+    final myUserId = box.read("useId");
     if (ress != null) {
       _boxUsers = [...ress];
+      _boxUsers!.removeWhere((element) => element.id == myUserId);
+
       update();
     }
   }

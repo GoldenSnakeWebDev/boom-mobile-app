@@ -67,14 +67,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   binding: AppBindings(),
                 );
               },
-              icon: SizedBox(
-                width: getProportionateScreenWidth(30),
-                height: getProportionateScreenHeight(30),
-                child: Image.asset(
-                  "assets/icons/dm_icon.png",
-                  height: getProportionateScreenHeight(30),
+              icon: Badge(
+                child: SizedBox(
                   width: getProportionateScreenWidth(30),
-                  fit: BoxFit.cover,
+                  height: getProportionateScreenHeight(30),
+                  child: Image.asset(
+                    "assets/icons/dm_icon.png",
+                    height: getProportionateScreenHeight(30),
+                    width: getProportionateScreenWidth(30),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
