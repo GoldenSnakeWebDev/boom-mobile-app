@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:boom_mobile/di/app_bindings.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/single_boom_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
@@ -46,6 +47,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
   final boomController = Get.put(
     SingleBoomController(),
   );
+  late HomeController homeCtrl;
+  @override
+  void initState() {
+    homeCtrl = Get.put(HomeController());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +61,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
+            homeCtrl.fetchAllBooms();
             Navigator.pop(context);
           },
           icon: const Icon(
@@ -663,13 +671,16 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         bubblesColor: const BubblesColor(
                                             dotPrimaryColor: kPrimaryColor,
                                             dotSecondaryColor: kSecondaryColor),
-                                        isLiked: boomController.isLiked,
+                                        isLiked: boomController.isLikes,
                                         onTap: (isLiked) async {
-                                          log(isLiked.toString());
                                           boomController.reactToBoom(
                                               "likes", boomId);
-                                          return null;
+
+                                          return boomController.isLikes =
+                                              !isLiked;
                                         },
+                                        likeCount: boomController.likesCount,
+                                        countPostion: CountPostion.bottom,
                                         likeBuilder: ((isLiked) {
                                           return CachedNetworkImage(
                                             height:
@@ -681,13 +692,6 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             imageUrl: likeIconUrl,
                                           );
                                         }),
-                                      ),
-                                      Text(
-                                        "${boom.boom.reactions!.likes.length}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              getProportionateScreenHeight(12),
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -703,29 +707,27 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             dotPrimaryColor: kPrimaryColor,
                                             dotSecondaryColor: kSecondaryColor),
                                         isLiked: boomController.isLoves,
-                                        onTap: (isLoves) async {
+                                        onTap: (isLiked) async {
+                                          log("Loves Count: ${boomController.lovesCount}");
                                           boomController.reactToBoom(
                                               "loves", boomId);
-                                          return null;
+
+                                          return boomController.isLoves =
+                                              !isLiked;
                                         },
-                                        likeBuilder: ((isLoves) {
+                                        likeCount: boomController.lovesCount,
+                                        countPostion: CountPostion.bottom,
+                                        likeBuilder: ((isLiked) {
                                           return SvgPicture.asset(
                                             height:
                                                 getProportionateScreenHeight(
                                                     15),
                                             "assets/icons/love.svg",
-                                            color: isLoves
+                                            color: isLiked
                                                 ? Colors.red
                                                 : Colors.grey,
                                           );
                                         }),
-                                      ),
-                                      Text(
-                                        "${boom.boom.reactions!.loves.length}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              getProportionateScreenHeight(12),
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -740,26 +742,30 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             dotPrimaryColor: kPrimaryColor,
                                             dotSecondaryColor: kSecondaryColor),
                                         isLiked: boomController.isSmiles,
-                                        onTap: (isSmiles) async {
+                                        onTap: (isLiked) async {
                                           boomController.reactToBoom(
                                               "smiles", boomId);
-                                          return null;
+                                          return boomController.isSmiles =
+                                              !isLiked;
                                         },
-                                        likeBuilder: ((isSmiles) {
-                                          return CachedNetworkImage(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    22),
-                                            imageUrl: smileIconUrl,
-                                          );
+                                        likeCount: boomController.smilesCount,
+                                        countPostion: CountPostion.bottom,
+                                        likeBuilder: ((isLiked) {
+                                          return isLiked
+                                              ? CachedNetworkImage(
+                                                  height:
+                                                      getProportionateScreenHeight(
+                                                          26),
+                                                  imageUrl: smileIconUrl,
+                                                )
+                                              : CachedNetworkImage(
+                                                  height:
+                                                      getProportionateScreenHeight(
+                                                          26),
+                                                  imageUrl: smileIconUrl,
+                                                  color: Colors.grey,
+                                                );
                                         }),
-                                      ),
-                                      Text(
-                                        "${boom.boom.reactions!.smiles.length}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              getProportionateScreenHeight(12),
-                                        ),
                                       ),
                                     ],
                                   ),
@@ -773,30 +779,30 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           size:
                                               getProportionateScreenHeight(20),
                                           isLiked: boomController.isRebooms,
-                                          onTap: (isRebooms) async {
+                                          onTap: (isLiked) async {
                                             boomController.reactToBoom(
                                                 "rebooms", boomId);
-                                            return null;
+                                            return boomController.isRebooms =
+                                                !isLiked;
                                           },
+                                          likeCount:
+                                              boomController.reboomsCount,
+                                          countPostion: CountPostion.bottom,
                                           bubblesColor: const BubblesColor(
                                               dotPrimaryColor: kPrimaryColor,
                                               dotSecondaryColor:
                                                   kSecondaryColor),
-                                          likeBuilder: (isRebooms) {
+                                          likeBuilder: (isLiked) {
                                             return SvgPicture.asset(
                                               height:
                                                   getProportionateScreenHeight(
                                                       18),
                                               "assets/icons/reboom.svg",
+                                              color: isLiked
+                                                  ? kPrimaryColor
+                                                  : Colors.grey,
                                             );
                                           }),
-                                      Text(
-                                        "${boom.boom.reactions!.rebooms.length}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              getProportionateScreenHeight(12),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                   Column(
@@ -824,8 +830,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         }),
                                       ),
                                       Text(
-                                        boom.boom.reactions!.reports.length
-                                            .toString(),
+                                        boomController.reportsCount.toString(),
                                         style: TextStyle(
                                           fontSize:
                                               getProportionateScreenHeight(12),

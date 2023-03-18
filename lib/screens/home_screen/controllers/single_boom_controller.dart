@@ -20,12 +20,18 @@ class SingleBoomController extends GetxController {
   final box = GetStorage();
   HomeService homeService = HomeService();
   SingleBoomService singleBoomService = SingleBoomService();
-  bool isLiked = false;
+  bool isLikes = false;
   bool isLoves = false;
   bool isSmiles = false;
   bool isRebooms = false;
   bool isReports = false;
   bool commentLoading = false;
+  int likesCount = 0;
+  int lovesCount = 0;
+  int smilesCount = 0;
+  int reboomsCount = 0;
+  int reportsCount = 0;
+
   TextEditingController commentController = TextEditingController();
 
   syntheticallyMintBoom(String boomId) async {
@@ -58,7 +64,6 @@ class SingleBoomController extends GetxController {
   }
 
   Future<bool> reactToBoom(String reactType, String boomId) async {
-    log("$reactType to $boomId");
     final res = await homeService.reactToBoom(reactType, boomId);
 
     if (res.statusCode == 200) {
@@ -76,32 +81,49 @@ class SingleBoomController extends GetxController {
   }
 
   fetchReactionStatus(SingleBoom boom) {
+    likesCount = boom.boom.reactions!.likes.length;
+    lovesCount = boom.boom.reactions!.loves.length;
+    smilesCount = boom.boom.reactions!.smiles.length;
+    reboomsCount = boom.boom.reactions!.rebooms.length;
+    reportsCount = boom.boom.reactions!.reports.length;
+
     String userId = box.read("userId");
     for (var item in boom.boom.reactions!.likes) {
       if (item.id == userId) {
-        isLiked = true;
+        isLikes = true;
+      } else {
+        isLikes = false;
       }
     }
     for (var item in boom.boom.reactions!.loves) {
       if (item.id == userId) {
         isLoves = true;
+      } else {
+        isLoves = false;
       }
     }
     for (var item in boom.boom.reactions!.smiles) {
       if (item.id == userId) {
         isSmiles = true;
+      } else {
+        isSmiles = false;
       }
     }
     for (var item in boom.boom.reactions!.reports) {
       if (item.id == userId) {
         isReports = true;
+      } else {
+        isReports = false;
       }
     }
     for (var item in boom.boom.reactions!.rebooms) {
       if (item.id == userId) {
         isRebooms = true;
+      } else {
+        isRebooms = false;
       }
     }
+    update();
   }
 
   commentOnPost(String text, String boomId) async {

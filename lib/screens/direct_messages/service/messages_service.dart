@@ -25,7 +25,7 @@ class DMService {
         Uri.parse('${baseURL}boom-boxes'),
         headers: headers,
       );
-      log("Boom box messages response: ${response.body}");
+
       if (response.statusCode == 200) {
         final boomResponse = boomResponseFromJson(response.body);
         return boomResponse.boomBox;
