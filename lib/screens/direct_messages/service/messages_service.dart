@@ -121,7 +121,7 @@ class DMService {
         return null;
       }
     } catch (e) {
-      EasyLoading.showError('Error: $e');
+      // EasyLoading.showError('Error: $e');
       return null;
     }
   }

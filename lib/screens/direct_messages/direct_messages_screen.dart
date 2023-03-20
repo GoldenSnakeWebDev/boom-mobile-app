@@ -157,41 +157,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
             color: Colors.black,
           ),
           onTap: () {
-            //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
-            //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
-
-            for (var item in controller.boomBoxes!) {
-              if (controller.boxUsers![index].id ==
-                  item.messages!.last.receiver!.id) {
-                Get.back();
-                Get.to(
-                  () => SingleMessage(
-                    username: item.messages!.last.receiver!.username!,
-                    boomBox: item.box!,
-                    img: item.messages!.last.receiver!.photo ??
-                        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                    receiverId: item.messages!.last.receiver!.id!,
-                  ),
-                );
-              } else {
-                Get.back();
-                var res = controller.chatWithUser(
-                  "join_room",
-                  "Joined chat with ${controller.boxUsers![index].username}",
-                  controller.boxUsers![index].userId,
-                  "",
-                );
-
-                Get.to(
-                  () => SingleMessage(
-                    username: controller.boxUsers![index].username!,
-                    boomBox: controller.boomBox,
-                    img: controller.boxUsers![index].photo!,
-                    receiverId: controller.boxUsers![index].userId!,
-                  ),
-                );
-              }
-            }
+            controller.goToSingleUserMessage(index);
           },
         );
       },
