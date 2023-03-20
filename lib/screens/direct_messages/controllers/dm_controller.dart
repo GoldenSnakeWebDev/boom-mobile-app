@@ -52,6 +52,8 @@ class DMCrontroller extends GetxController {
     setLoading(false);
     if (ress != null) {
       _boomBoxes = ress;
+      _boomBoxes!.sort((a, b) =>
+          b.messages!.last.timestamp!.compareTo(a.messages!.last.timestamp!));
       update();
     }
   }

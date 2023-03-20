@@ -38,6 +38,7 @@ class SingleMessage extends GetView<DMCrontroller> {
             color: Colors.black,
           ),
           onPressed: () {
+            controller.fetchBoomBoxMessages();
             Get.back();
           },
         ),

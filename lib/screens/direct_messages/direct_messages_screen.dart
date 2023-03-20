@@ -209,6 +209,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
               physics: const BouncingScrollPhysics(),
               itemBuilder: ((context, index) {
                 return ListTile(
+                  minVerticalPadding: 10,
                   onTap: () async {
                     Get.to(
                       () => SingleMessage(
@@ -223,23 +224,26 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                       ),
                     );
                   },
-                  leading: const CircleAvatar(
+                  leading: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                      ctrllerr.boomBoxes?[index].messages?.last.receiver
+                              ?.photo ??
+                          "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                     ),
                   ),
                   title: Text(
                     "${ctrllerr.boomBoxes?[index].label}",
                     style: TextStyle(
-                      fontSize: getProportionateScreenHeight(13),
-                      fontWeight: FontWeight.w800,
+                      fontSize: getProportionateScreenHeight(15),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
                   subtitle: RichText(
                     text: TextSpan(
                       text:
-                          "${ctrllerr.boomBoxes?[index].messages?.last.content}  ",
+                          "${ctrllerr.boomBoxes?[index].messages?.last.content}   ",
                       style: TextStyle(
                         fontSize: getProportionateScreenHeight(12),
                         color: Colors.black54,
@@ -250,35 +254,48 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                           text: DateFormat('EEE, MMM dd HH:mm a').format(
                               ctrllerr
                                   .boomBoxes![index].messages!.last.timestamp!),
-                          style: const TextStyle(fontWeight: FontWeight.w800),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: getProportionateScreenHeight(10)),
                         ),
                       ],
                     ),
                   ),
-                  trailing: SizedBox(
-                    width: getProportionateScreenWidth(55),
-                    child: Row(
-                      children: [
-                        (ctrllerr.boomBoxes?[index].messages?.last.isDelete ==
-                                true)
-                            ? const SizedBox(
-                                width: 10,
-                              )
-                            : const Icon(
-                                Icons.circle_rounded,
-                                size: 10,
-                                color: kBlueColor,
-                              ),
-                        SizedBox(
-                          width: getProportionateScreenWidth(20),
-                        ),
-                        const Icon(
-                          Icons.more_vert,
-                          color: Colors.black54,
-                        ),
-                      ],
+                  trailing: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.more_vert,
+                      color: Colors.black54,
                     ),
                   ),
+
+                  // SizedBox(
+                  //   width: getProportionateScreenWidth(55),
+                  //   child: Row(
+                  //     children: [
+                  //       // (ctrllerr.boomBoxes?[index].messages?.last.isDelete ==
+                  //       //         true)
+                  //       //     ? const SizedBox(
+                  //       //         width: 10,
+                  //       //       )
+                  //       //     : const Icon(
+                  //       //         Icons.circle_rounded,
+                  //       //         size: 10,
+                  //       //         color: kBlueColor,
+                  //       //       ),
+                  //       // SizedBox(
+                  //       //   width: getProportionateScreenWidth(20),
+                  //       // ),
+                  //       IconButton(
+                  //         onPressed: () {},
+                  //         icon: const Icon(
+                  //           Icons.more_vert,
+                  //           color: Colors.black54,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 );
               }),
             ),
