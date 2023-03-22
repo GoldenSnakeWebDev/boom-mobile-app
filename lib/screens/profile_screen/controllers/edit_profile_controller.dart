@@ -29,6 +29,7 @@ class EditProfileController extends GetxController {
   TextEditingController facebookController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
   TextEditingController tiktokController = TextEditingController();
+  TextEditingController mediumController = TextEditingController();
 
   final box = GetStorage();
   User? user;
@@ -55,6 +56,7 @@ class EditProfileController extends GetxController {
     facebookController.text = user!.socialMedia!.facebook!;
     instagramController.text = user!.socialMedia!.instagram!;
     tiktokController.text = user!.socialMedia!.tiktok!;
+    mediumController.text = user!.socialMedia!.medium!;
     fetchMyBooms();
     super.onInit();
   }
@@ -65,11 +67,13 @@ class EditProfileController extends GetxController {
       // pickedHeaderImage = File(headerImage!.path);
       // crop
       final cropImageFile = await ImageCropper().cropImage(
-        sourcePath: headerImage!.path,
-        maxWidth: 300,
-        maxHeight: 360,
-        compressFormat: ImageCompressFormat.jpg,
-      );
+          sourcePath: headerImage!.path,
+          maxWidth: 400,
+          maxHeight: 300,
+          cropStyle: CropStyle.rectangle,
+          aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+          compressFormat: ImageCompressFormat.jpg,
+          compressQuality: 100);
       pickedHeaderImage = File(cropImageFile!.path);
     }
     update();
@@ -80,11 +84,9 @@ class EditProfileController extends GetxController {
     if (profileImage != null) {
       // pickedProfileImage = File(profileImage!.path);
       final cropImageFile = await ImageCropper().cropImage(
-        sourcePath: profileImage!.path,
-        maxWidth: 300,
-        maxHeight: 360,
-        compressFormat: ImageCompressFormat.jpg,
-      );
+          sourcePath: profileImage!.path,
+          compressFormat: ImageCompressFormat.jpg,
+          compressQuality: 100);
       pickedProfileImage = File(cropImageFile!.path);
     }
     update();
@@ -299,6 +301,7 @@ class EditProfileController extends GetxController {
     String facebook = facebookController.text.trim();
     String instagram = instagramController.text.trim();
     String tiktok = tiktokController.text.trim();
+    String medium = mediumController.text.trim();
 
     if (pickedProfileImage != null && pickedHeaderImage != null) {
       profileUrl =
@@ -310,7 +313,7 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            // "username": usernameController.text,
+            "username": usernameController.text,
             "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
@@ -321,7 +324,8 @@ class EditProfileController extends GetxController {
               "facebook": facebook,
               "twitter": twitter,
               "instagram": instagram,
-              "tiktok": tiktok
+              "tiktok": tiktok,
+              "medium": medium,
             },
           },
         ),
@@ -341,7 +345,7 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            // "username": usernameController.text,
+            "username": usernameController.text,
             "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
@@ -351,7 +355,8 @@ class EditProfileController extends GetxController {
               "facebook": facebook,
               "twitter": twitter,
               "instagram": instagram,
-              "tiktok": tiktok
+              "tiktok": tiktok,
+              "medium": medium,
             },
           },
         ),
@@ -371,7 +376,7 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            // "username": usernameController.text,
+            "username": usernameController.text,
             "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
@@ -381,7 +386,8 @@ class EditProfileController extends GetxController {
               "facebook": facebook,
               "twitter": twitter,
               "instagram": instagram,
-              "tiktok": tiktok
+              "tiktok": tiktok,
+              "medium": medium,
             },
           },
         ),
@@ -399,7 +405,7 @@ class EditProfileController extends GetxController {
         headers: {"Content-Type": "application/json", "Authorization": token},
         body: json.encode(
           {
-            // "username": usernameController.text,
+            "username": usernameController.text,
             "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
@@ -407,7 +413,8 @@ class EditProfileController extends GetxController {
               "facebook": facebook,
               "twitter": twitter,
               "instagram": instagram,
-              "tiktok": tiktok
+              "tiktok": tiktok,
+              "medium": medium,
             },
           },
         ),

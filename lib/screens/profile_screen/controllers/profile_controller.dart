@@ -23,6 +23,7 @@ class ProfileController extends GetxController {
   int numberOfBooms = 0;
   int numberOfFans = 0;
   int numberOfFrens = 0;
+  double bioFontSize = 14.0;
   bool isVerified = false;
   bool isLoves = false;
   bool isSmiles = false;
@@ -183,6 +184,14 @@ class ProfileController extends GetxController {
       } else {
         isReported = false;
       }
+    }
+  }
+
+  changeFontSize() {
+    if (bioFontSize == 14.0) {
+      bioFontSize = 11.0;
+    } else {
+      bioFontSize = 14.0;
     }
   }
 

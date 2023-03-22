@@ -11,7 +11,7 @@ class HomeService {
   fetchBooms(int page) async {
     String token = box.read("token");
     final res = await http.get(
-      Uri.parse("${baseURL}booms?page=$page"),
+      Uri.parse("${baseURL}booms/only-auth?page=$page"),
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",

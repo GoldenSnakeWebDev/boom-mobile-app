@@ -631,13 +631,13 @@ packages:
     source: hosted
     version: "3.0.5"
   flutter_inappwebview:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: flutter_inappwebview
-      sha256: f73505c792cf083d5566e1a94002311be497d984b5607f25be36d685cf6361cf
+      sha256: "06346ef71c25fdecf5d274b121d0e64d1f67248c151bb41d30161a8bf5cab7ab"
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.2+3"
+    version: "5.4.3"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
