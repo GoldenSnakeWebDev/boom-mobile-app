@@ -1,6 +1,7 @@
 import 'package:boom_mobile/screens/direct_messages/models/boom_box_response.dart';
 import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
+import 'package:boom_mobile/screens/direct_messages/single_message.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -84,7 +85,7 @@ class DMCrontroller extends GetxController {
     String? receiver,
     String? box,
   ) async {
-    setLoading(true);
+    // setLoading(true);
     var ress = await service.chatWithUser(
       {
         "command": command,
@@ -96,7 +97,7 @@ class DMCrontroller extends GetxController {
       },
     );
     fetchBoomBoxMessages();
-    setLoading(false);
+    // setLoading(false);
 
     if (ress != null) {
       fetchBoomBoxMessages();
@@ -104,5 +105,49 @@ class DMCrontroller extends GetxController {
     }
 
     return ress;
+  }
+
+  goToSingleUserMessage(int index) {
+    //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
+    //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
+
+    for (var item in boomBoxes!) {
+      if (boxUsers![index].id == item.messages!.last.receiver!.id) {
+        final userId = box.read("userId");
+        String receiverId = item.messages!.first.receiver!.id! != userId
+            ? item.messages!.first.receiver!.id!
+            : item.messages!.first.author!.id!;
+
+        Get.back();
+        boomBox = item.box!;
+        update();
+        Get.to(
+          () => SingleMessage(
+            username: item.messages!.last.receiver!.username!,
+            boomBox: item.box!,
+            img: item.messages!.last.receiver!.photo ??
+                "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+            receiverId: receiverId,
+          ),
+        );
+      } else {
+        Get.back();
+        var res = chatWithUser(
+          "join_room",
+          "Joined chat with ${boxUsers![index].username}",
+          boxUsers![index].userId,
+          "",
+        );
+
+        Get.to(
+          () => SingleMessage(
+            username: boxUsers![index].username!,
+            boomBox: boomBox,
+            img: boxUsers![index].photo!,
+            receiverId: boxUsers![index].userId!,
+          ),
+        );
+      }
+    }
   }
 }

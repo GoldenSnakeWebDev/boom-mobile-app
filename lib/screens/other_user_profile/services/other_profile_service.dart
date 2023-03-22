@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_booms.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -43,6 +44,7 @@ class OtherProfileService {
   }
 
   followUser(String userId) async {
+    EasyLoading.show(status: "Adding User");
     String token = box.read("token");
     final res = await http.patch(
       Uri.parse("${baseURL}friends/$userId"),
@@ -50,8 +52,10 @@ class OtherProfileService {
     );
 
     if (res.statusCode == 200) {
+      EasyLoading.dismiss();
       log("Followed");
     } else {
+      EasyLoading.dismiss();
       log(res.body);
       log(res.statusCode.toString());
       Get.snackbar("Error", "Could not follow user");
@@ -61,15 +65,24 @@ class OtherProfileService {
   blockUser(String userId) async {
     String token = box.read("token");
     EasyLoading.show(status: "Blocking User");
+    log("User Id $userId");
     final res = await http.post(
       Uri.parse("${baseURL}users/block"),
-      headers: {"Authorization": token},
-      body: {"userId": userId},
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(
+        {"userId": userId},
+      ),
     );
 
     if (res.statusCode == 200) {
-      log("Blocked");
       EasyLoading.dismiss();
+      EasyLoading.showSuccess("User Blocked").then((value) {
+        Get.back();
+        Get.offAll(const MainScreen());
+      });
     } else {
       EasyLoading.dismiss();
       log(res.body);
@@ -98,19 +111,22 @@ class OtherProfileService {
   }
 
   unFollowUser(String userId) async {
-    // String token = box.read("token");
-    // final res = await http.patch(
-    //   Uri.parse("${baseURL}friends/$userId"),
-    //   headers: {"Authorization": token},
-    // );
+    EasyLoading.show(status: "Unadding User");
+    String token = box.read("token");
+    final res = await http.patch(
+      Uri.parse("${baseURL}friends/$userId"),
+      headers: {"Authorization": token},
+    );
 
-    // if (res.statusCode == 200) {
-    //   log("Followed");
-    // } else {
-    //   log(res.body);
-    //   log(res.statusCode.toString());
-    //   Get.snackbar("Error", "Could not follow user");
-    // }
+    if (res.statusCode == 200) {
+      EasyLoading.dismiss();
+      log("Followed");
+    } else {
+      EasyLoading.dismiss();
+      log(res.body);
+      log(res.statusCode.toString());
+      Get.snackbar("Error", "Could not follow user");
+    }
   }
 
   tipUser(String userId, String network) async {
