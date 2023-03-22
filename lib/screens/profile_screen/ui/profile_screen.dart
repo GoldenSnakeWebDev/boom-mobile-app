@@ -12,6 +12,7 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:read_more_text/read_more_text.dart';
@@ -350,7 +351,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     child: Container(
                                                       height:
                                                           getProportionateScreenHeight(
-                                                              130),
+                                                              145),
                                                       width:
                                                           getProportionateScreenWidth(
                                                               30),
@@ -446,7 +447,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                   : Colors
                                                                       .pinkAccent,
                                                             ),
-                                                          )
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () async {
+                                                              await launchUrl(
+                                                                Uri.parse(
+                                                                  "https://medium.com/@${user.socialMedia!.medium}",
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: SvgPicture
+                                                                .asset(
+                                                              "assets/icons/medium_icon_1.svg",
+                                                              width: 18,
+                                                              color: user
+                                                                      .socialMedia!
+                                                                      .medium!
+                                                                      .isEmpty
+                                                                  ? Colors
+                                                                      .black12
+                                                                  : Colors
+                                                                      .black,
+                                                            ),
+                                                          ),
                                                         ],
                                                       ),
                                                     ),
@@ -714,6 +737,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 : ReadMoreText(
                                                                     user.bio!,
                                                                     numLines: 2,
+                                                                    onReadMoreClicked:
+                                                                        () {
+                                                                    controller
+                                                                        .changeFontSize();
+                                                                  },
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            controller
+                                                                                .bioFontSize),
                                                                     readMoreIcon:
                                                                         const SizedBox(),
                                                                     readLessIcon:

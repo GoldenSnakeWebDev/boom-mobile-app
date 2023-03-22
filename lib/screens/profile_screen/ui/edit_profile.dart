@@ -459,7 +459,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   TextFormField(
                     controller: controller.bioController,
-                    maxLines: 5,
+                    maxLines: 3,
                     maxLength: 180,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
@@ -656,6 +656,45 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   TextFormField(
                     controller: controller.tiktokController,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(
+                        top: 4.0,
+                        bottom: 4.0,
+                        left: 4.0,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black12),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black12),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        borderSide: const BorderSide(color: Colors.black12),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(15),
+                  ),
+                  Text(
+                    "Medium Username",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenHeight(14),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(5),
+                  ),
+                  TextFormField(
+                    controller: controller.mediumController,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
                         top: 4.0,

@@ -334,7 +334,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                               child: Container(
                                                 height:
                                                     getProportionateScreenHeight(
-                                                        130),
+                                                        140),
                                                 width:
                                                     getProportionateScreenWidth(
                                                         30),
@@ -425,7 +425,27 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             ? Colors.black26
                                                             : Colors.pinkAccent,
                                                       ),
-                                                    )
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        await launchUrl(
+                                                          Uri.parse(
+                                                            "https://medium.com/@${user.user!.socialMedia!.medium}",
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                        "assets/icons/medium_icon_1.svg",
+                                                        width: 18,
+                                                        color: user
+                                                                .user!
+                                                                .socialMedia!
+                                                                .medium!
+                                                                .isEmpty
+                                                            ? Colors.black12
+                                                            : Colors.black,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
