@@ -56,7 +56,7 @@ class DMService {
         final dMsResponse = dMsResponseFromJson(response.body);
         yield dMsResponse.boomBox;
       } else {
-        EasyLoading.showError('Error gettting dms');
+        // EasyLoading.showError('Error gettting dms');
         yield null;
       }
     } catch (e) {
@@ -74,7 +74,7 @@ class DMService {
     };
     try {
       final response = await http.get(
-        Uri.parse('${baseURL}users'),
+        Uri.parse('${baseURL}users-only-funs-or-frens'),
         headers: headers,
       );
       if (response.statusCode == 200) {

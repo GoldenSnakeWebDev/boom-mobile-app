@@ -10,6 +10,7 @@ import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controlle
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/notifications/controllers/notifications_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/controllers/other_profile_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/boomBox_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/purchase_syn_coins/controllers/purchase_coins_controller.dart';
@@ -42,5 +43,6 @@ class AppBindings extends Bindings {
     Get.lazyPut<NotificationsController>(() => NotificationsController());
     Get.lazyPut<PurchaseCoinsController>(() => PurchaseCoinsController());
     Get.lazyPut<ViewTalesController>(() => ViewTalesController());
+    Get.lazyPut<BoomBoxController>(() => BoomBoxController());
   }
 }
