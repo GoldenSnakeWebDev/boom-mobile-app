@@ -130,10 +130,11 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
         return ListTile(
           leading: CircleAvatar(
             radius: getProportionateScreenHeight(20),
-            backgroundColor: Colors.grey[200],
-            child: const Icon(
-              MdiIcons.account,
-              color: Colors.grey,
+            // backgroundColor: Colors.grey[200],
+            backgroundImage: NetworkImage(
+              controller.boxUsers![index].photo != ""
+                  ? controller.boxUsers![index].photo.toString()
+                  : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
             ),
           ),
           title: Text(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:boom_mobile/screens/direct_messages/models/boom_users_model.dart';
+import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -15,12 +17,17 @@ class BackPackController extends GetxController {
   String userId = '';
   String token = '';
   bool isLoading = true;
+  final dmService = DMService();
+
+  List<User>? _boxUsers;
+  List<User>? get boxUsers => _boxUsers;
 
   @override
   void onInit() {
     super.onInit();
     userId = box.read("userId");
     token = box.read("token");
+    fetchUsers();
     fetchMyBooms();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
@@ -47,6 +54,53 @@ class BackPackController extends GetxController {
       EasyLoading.dismiss();
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Something went wrong"], msg: ["Error"], isError: true);
+      update();
+    }
+  }
+
+  onTapYesSendBoom(int index, int receiverId) async {
+    EasyLoading.show(status: 'loading...');
+    final res = await http.post(
+      Uri.parse("${baseURL}transfer-my-boom/${myBooms!.booms![index].id}"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: jsonEncode(
+        {
+          "receiver": _boxUsers![receiverId].id,
+        },
+      ),
+    );
+
+    if (res.statusCode == 200) {
+      EasyLoading.dismiss();
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Boom sent successfully"],
+          msg: ["Success"],
+          isError: false);
+      fetchMyBooms();
+
+      update();
+      return true;
+    } else {
+      EasyLoading.dismiss();
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Something went wrong"], msg: ["Error"], isError: true);
+
+      update();
+      return false;
+    }
+  }
+
+  Future<dynamic> fetchUsers() async {
+    var ress = await dmService.fetchUsers();
+    final myUserId = box.read("useId");
+    if (ress != null) {
+      _boxUsers = [...ress];
+      _boxUsers!.removeWhere((element) => element.id == myUserId);
+
       update();
     }
   }

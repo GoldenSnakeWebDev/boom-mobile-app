@@ -20,6 +20,12 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
   }
 
   @override
+  void dispose() {
+    BoomBoxController().onClose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<BoomBoxController>(
       builder: (controller) {
@@ -39,73 +45,92 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                       ),
                       context: context,
                       builder: (context) {
-                        return SizedBox(
+                        return Container(
                           height: SizeConfig.screenHeight * 0.25,
+                          margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: Padding(
                             padding: const EdgeInsets.all(16),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Create Your Box',
-                                  style: TextStyle(
-                                    fontSize: getProportionateScreenHeight(16),
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(20),
-                                ),
-                                TextFormField(
-                                  controller: controller.boomBoxNameController,
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.all(8.0),
-                                    hintText: "Box Name",
-                                    hintStyle: const TextStyle(
-                                      color: Colors.black54,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                            child: Form(
+                              key: controller.formKey,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Create Your Box',
+                                    style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(16),
+                                      fontWeight: FontWeight.w800,
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: getProportionateScreenHeight(20),
-                                ),
-                                GestureDetector(
-                                  onTap: () async {},
-                                  child: Container(
-                                    width: SizeConfig.screenWidth * 0.7,
-                                    height: getProportionateScreenHeight(35),
-                                    decoration: BoxDecoration(
-                                      color: kPrimaryColor,
-                                      borderRadius: BorderRadius.circular(10),
+                                  SizedBox(
+                                    height: getProportionateScreenHeight(20),
+                                  ),
+                                  TextFormField(
+                                    controller:
+                                        controller.boomBoxNameController,
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Please enter a name';
+                                      }
+                                      return null;
+                                    },
+                                    decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.all(8.0),
+                                      hintText: "Box Name",
+                                      hintStyle: const TextStyle(
+                                        color: Colors.black54,
+                                      ),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Create your box",
-                                          style: TextStyle(
-                                            fontSize:
-                                                getProportionateScreenHeight(
-                                                    14),
-                                            fontWeight: FontWeight.w700,
+                                  ),
+                                  SizedBox(
+                                    height: getProportionateScreenHeight(20),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      if (controller.formKey.currentState!
+                                          .validate()) {
+                                        Get.snackbar("Correct", "message");
+                                      }
+                                    },
+                                    child: Container(
+                                      width: SizeConfig.screenWidth * 0.7,
+                                      height: getProportionateScreenHeight(35),
+                                      decoration: BoxDecoration(
+                                        color: kPrimaryColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Create your box",
+                                            style: TextStyle(
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      14),
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: getProportionateScreenWidth(7),
-                                        ),
-                                        const Icon(
-                                          MdiIcons.cog,
-                                          size: 20,
-                                          color: Colors.black,
-                                        )
-                                      ],
+                                          SizedBox(
+                                            width:
+                                                getProportionateScreenWidth(7),
+                                          ),
+                                          const Icon(
+                                            MdiIcons.cog,
+                                            size: 20,
+                                            color: Colors.black,
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );
