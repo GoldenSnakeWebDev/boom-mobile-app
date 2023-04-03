@@ -107,7 +107,7 @@ class DMCrontroller extends GetxController {
     return ress;
   }
 
-  goToSingleUserMessage(int index) {
+  goToSingleUserMessage(int index) async {
     //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
     //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
 
@@ -132,7 +132,8 @@ class DMCrontroller extends GetxController {
         );
       } else {
         Get.back();
-        var res = chatWithUser(
+
+        var res = await chatWithUser(
           "join_room",
           "Joined chat with ${boxUsers![index].username}",
           boxUsers![index].userId,
@@ -142,7 +143,7 @@ class DMCrontroller extends GetxController {
         Get.to(
           () => SingleMessage(
             username: boxUsers![index].username!,
-            boomBox: boomBox,
+            boomBox: res,
             img: boxUsers![index].photo!,
             receiverId: boxUsers![index].userId!,
           ),
