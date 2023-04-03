@@ -408,6 +408,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                     ),
                                                     GestureDetector(
                                                       onTap: () async {
+                                                        log("TikTok${user.user!.socialMedia!.tiktok!}");
                                                         await launchUrl(
                                                           Uri.parse(
                                                             "https://www.tiktok.com/${user.user!.socialMedia!.tiktok!}",

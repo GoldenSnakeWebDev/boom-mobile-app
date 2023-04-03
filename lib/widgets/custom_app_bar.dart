@@ -69,29 +69,30 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               },
               icon: Badge(
                 child: SizedBox(
-                  width: getProportionateScreenWidth(30),
-                  height: getProportionateScreenHeight(30),
+                  width: getProportionateScreenWidth(60),
+                  height: getProportionateScreenHeight(60),
                   child: Image.asset(
                     "assets/icons/dm_icon.png",
-                    height: getProportionateScreenHeight(30),
-                    width: getProportionateScreenWidth(30),
+                    height: getProportionateScreenHeight(60),
+                    width: getProportionateScreenWidth(60),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
             IconButton(
-                onPressed: () {},
-                icon: SizedBox(
-                  width: getProportionateScreenWidth(20),
-                  height: getProportionateScreenHeight(20),
-                  child: Image.asset(
-                    "assets/icons/support_icon.png",
-                    height: getProportionateScreenHeight(25),
-                    width: getProportionateScreenWidth(25),
-                    fit: BoxFit.cover,
-                  ),
-                )),
+              onPressed: () {},
+              icon: SizedBox(
+                width: getProportionateScreenWidth(20),
+                height: getProportionateScreenHeight(20),
+                child: Image.asset(
+                  "assets/icons/support_icon.png",
+                  height: getProportionateScreenHeight(25),
+                  width: getProportionateScreenWidth(25),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             IconButton(
               onPressed: () {
                 showDialog(

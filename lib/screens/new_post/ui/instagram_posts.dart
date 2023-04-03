@@ -52,88 +52,88 @@ class _InstagramPostsState extends State<InstagramPosts>
         _currentTabIndex = _tabController.index;
       });
     });
-    // return GetBuilder<InstagramWebController>(
-    //     init: InstagramWebController(),
-    //     builder: (controller) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: TextButton(
-          child: const Text("Cancel"),
-          onPressed: () {
-            Get.off(() => const CreateNewPost());
-          },
-        ),
-        leadingWidth: getProportionateScreenWidth(70),
-        title: Text(
-          "Title",
-          // '${controller.medias.isNotEmpty ? controller.medias[0].username : ""} Instagram ${_currentTabIndex == 0 ? "Photos" : "Videos"}',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w700,
-            fontSize: getProportionateScreenHeight(12),
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          TextButton(
-              onPressed: () {
-                // controller.proceedWithUpload(controller.selectedIgMedia);
-              },
-              child: const Text(
-                "Next",
-                style: TextStyle(color: Colors.blue),
-              ))
-        ],
-      ),
-      body: DefaultTabController(
-        length: tabViews.length,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              child: TabBar(
-                tabs: [
-                  tabs[0],
-                  tabs[1],
-                ],
-                controller: _tabController,
-                unselectedLabelColor: Colors.black,
-                labelColor: kPrimaryColor,
-                labelStyle: TextStyle(
-                  fontSize: getProportionateScreenHeight(20),
-                  fontWeight: FontWeight.w700,
-                  color: kPrimaryColor,
-                ),
-                unselectedLabelStyle: TextStyle(
-                  fontSize: getProportionateScreenHeight(20),
-                  fontWeight: FontWeight.w700,
+    return GetBuilder<InstagramWebController>(
+        init: InstagramWebController(),
+        builder: (controller) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              leading: TextButton(
+                child: const Text("Cancel"),
+                onPressed: () {
+                  Get.off(() => const CreateNewPost());
+                },
+              ),
+              leadingWidth: getProportionateScreenWidth(70),
+              title: Text(
+                // "Title",
+                '${controller.medias.isNotEmpty ? controller.medias[0].username : ""} Instagram ${_currentTabIndex == 0 ? "Photos" : "Videos"}',
+                style: TextStyle(
                   color: Colors.black,
+                  fontWeight: FontWeight.w700,
+                  fontSize: getProportionateScreenHeight(12),
                 ),
-                indicatorColor: Colors.transparent,
-                isScrollable: true,
+              ),
+              centerTitle: true,
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      controller.proceedWithUpload(controller.selectedIgMedia);
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(color: Colors.blue),
+                    ))
+              ],
+            ),
+            body: DefaultTabController(
+              length: tabViews.length,
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    child: TabBar(
+                      tabs: [
+                        tabs[0],
+                        tabs[1],
+                      ],
+                      controller: _tabController,
+                      unselectedLabelColor: Colors.black,
+                      labelColor: kPrimaryColor,
+                      labelStyle: TextStyle(
+                        fontSize: getProportionateScreenHeight(20),
+                        fontWeight: FontWeight.w700,
+                        color: kPrimaryColor,
+                      ),
+                      unselectedLabelStyle: TextStyle(
+                        fontSize: getProportionateScreenHeight(20),
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                      indicatorColor: Colors.transparent,
+                      isScrollable: true,
+                    ),
+                  ),
+                  Positioned(
+                    top: getProportionateScreenHeight(40),
+                    child: SizedBox(
+                      height: SizeConfig.screenHeight * 0.9,
+                      width: SizeConfig.screenWidth,
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: _tabController,
+                        children: tabs.map((Tab e) {
+                          return tabViews[_currentTabIndex];
+                        }).toList(),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Positioned(
-              top: getProportionateScreenHeight(40),
-              child: SizedBox(
-                height: SizeConfig.screenHeight * 0.9,
-                width: SizeConfig.screenWidth,
-                child: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _tabController,
-                  children: tabs.map((Tab e) {
-                    return tabViews[_currentTabIndex];
-                  }).toList(),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-    // });
+          );
+        });
     // const IGPhotosPage();
   }
 }

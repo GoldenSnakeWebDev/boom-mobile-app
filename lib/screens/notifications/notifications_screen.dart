@@ -67,7 +67,6 @@ class NotificationScreen extends GetView<NotificationsController> {
                             child: ListView.builder(
                               itemCount: controller
                                   .notificationsModel!.notifications!.length,
-                              reverse: true,
                               itemBuilder: ((context, index) {
                                 var d12 = DateFormat('MM-dd-yyyy, hh:mm a')
                                     .format(DateTime.parse(controller
