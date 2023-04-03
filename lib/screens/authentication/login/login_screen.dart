@@ -213,8 +213,12 @@ class LoginScreen extends GetView<LoginController> {
                                     onTap: () async {
                                       bool res = await controller.loginUser();
                                       if (res) {
-                                        Get.offAll(() => const MainScreen(),
-                                            binding: AppBindings());
+                                        Future.delayed(
+                                          const Duration(milliseconds: 500),
+                                        ).then((value) {
+                                          Get.offAll(() => const MainScreen(),
+                                              binding: AppBindings());
+                                        });
                                       }
                                     },
                                     child: Container(

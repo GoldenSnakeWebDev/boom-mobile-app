@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
-import 'package:boom_mobile/screens/tales/services/tales_service.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,7 @@ class EditTaleImage extends StatelessWidget {
   EditTaleImage({Key? key, required this.imageFile}) : super(key: key);
 
   final _talesEpicsController = Get.find<TalesEpicsController>();
-  final taleService = TalesService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -149,44 +148,95 @@ class EditTaleImage extends StatelessWidget {
             Positioned(
               bottom: 0,
               child: Container(
-                  height: SizeConfig.screenHeight * 0.1,
-                  width: SizeConfig.screenWidth,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            // TODO: Upload tale image
+                height: SizeConfig.screenHeight * 0.1,
+                width: SizeConfig.screenWidth,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          // TODO: Upload tale image
 
-                            var imgURL = await taleService.uploadPhoto(
-                                imageFile, "Image Uploaded");
-
-                            await _talesEpicsController.postTale(imgURL);
-                          },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                            ),
-                            alignment: Alignment.center,
-                            child: const Padding(
-                              padding: EdgeInsets.all(6.0),
-                              child: Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 16,
-                                color: Colors.black,
-                              ),
+                          await _talesEpicsController.postTale(
+                              imageFile, "tale");
+                        },
+                        child: Container(
+                          height: getProportionateScreenHeight(30),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Post Tale",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(15),
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                  size: 16,
+                                  color: Colors.black,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  )),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(20),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          // TODO: Upload tale image
+
+                          await _talesEpicsController.postTale(
+                              imageFile, "epic");
+                        },
+                        child: Container(
+                          height: getProportionateScreenHeight(30),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          alignment: Alignment.center,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Post Epic",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(15),
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                  size: 16,
+                                  color: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             )
           ],
         ),

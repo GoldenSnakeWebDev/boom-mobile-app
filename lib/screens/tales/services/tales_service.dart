@@ -104,7 +104,7 @@ class TalesService {
     }
   }
 
-  Future<dynamic> postTale(String imageUrl) async {
+  Future<dynamic> postTale(String imageUrl, String statusType) async {
     EasyLoading.show(status: 'Posting tale...');
     var token = _storage.read('token');
     var headers = {
@@ -117,7 +117,7 @@ class TalesService {
         Uri.parse('${baseURL}statuses'),
         headers: headers,
         body: jsonEncode({
-          "status_type": "tale",
+          "status_type": statusType,
           "image_url": imageUrl,
         }),
       );

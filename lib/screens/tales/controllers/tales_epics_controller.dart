@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:boom_mobile/models/fetch_tales_model.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/tales/services/tales_service.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class TalesEpicsController extends GetxController {
@@ -11,6 +14,8 @@ class TalesEpicsController extends GetxController {
   // final List<Map<String, List<UserStatus>>> talesByUser = [];
 
   var isLoading = false.obs;
+
+  final taleService = TalesService();
 
   setLoading(bool value) {
     isLoading.value = value;
@@ -74,17 +79,20 @@ class TalesEpicsController extends GetxController {
   // }
 
   // postTale
-  Future<dynamic> postTale(String imageUrl) async {
+  Future<dynamic> postTale(File imageFile, String statusType) async {
     setLoading(true);
+    EasyLoading.show(status: "Uploading ${statusType.capitalizeFirst}...");
+    var imgURL = await taleService.uploadPhoto(imageFile, "Image Uploaded");
 
-    var postTaleRess = await _talesService.postTale(imageUrl);
+    var postTaleRess = await _talesService.postTale(imgURL, statusType);
     setLoading(false);
     if (postTaleRess != null) {
       // _tales?.insert(0, postTaleRess);
       fetchTales();
-
+      EasyLoading.dismiss();
       update();
       Get.to(() => const MainScreen());
     }
+    EasyLoading.dismiss();
   }
 }

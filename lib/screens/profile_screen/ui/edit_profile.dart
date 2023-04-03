@@ -567,7 +567,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: getProportionateScreenHeight(15),
                   ),
                   Text(
-                    "Facebook Username",
+                    "Facebook Link",
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(14),
                       fontWeight: FontWeight.w700,
@@ -684,7 +684,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: getProportionateScreenHeight(15),
                   ),
                   Text(
-                    "Medium Username",
+                    "Medium Link",
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(14),
                       fontWeight: FontWeight.w700,

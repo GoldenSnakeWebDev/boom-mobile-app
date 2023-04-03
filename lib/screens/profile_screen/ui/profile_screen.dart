@@ -387,9 +387,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           ),
                                                           GestureDetector(
                                                             onTap: () async {
+                                                              String url = user
+                                                                      .socialMedia!
+                                                                      .facebook!
+                                                                      .contains(
+                                                                          "https")
+                                                                  ? user
+                                                                      .socialMedia!
+                                                                      .facebook!
+                                                                      .toString()
+                                                                  : "https://www.facebook.com/${user.socialMedia!.facebook}";
                                                               await launchUrl(
                                                                 Uri.parse(
-                                                                  "https://www.facebook.com/${user.socialMedia!.facebook}",
+                                                                  url,
                                                                 ),
                                                               );
                                                             },
@@ -450,9 +460,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           ),
                                                           GestureDetector(
                                                             onTap: () async {
+                                                              String url = user
+                                                                      .socialMedia!
+                                                                      .medium!
+                                                                      .contains(
+                                                                          "https://")
+                                                                  ? user
+                                                                      .socialMedia!
+                                                                      .medium
+                                                                      .toString()
+                                                                  : "https://www.medium.com/@${user.socialMedia!.medium}";
                                                               await launchUrl(
                                                                 Uri.parse(
-                                                                  "https://medium.com/@${user.socialMedia!.medium}",
+                                                                  url,
                                                                 ),
                                                               );
                                                             },

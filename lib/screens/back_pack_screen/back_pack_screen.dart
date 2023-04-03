@@ -324,15 +324,16 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                                           ),
                                                           decoration:
                                                               BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .vertical(
-                                                            top:
-                                                                Radius.circular(
-                                                              getProportionateScreenHeight(
-                                                                  15),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .vertical(
+                                                              top: Radius
+                                                                  .circular(
+                                                                getProportionateScreenHeight(
+                                                                    15),
+                                                              ),
                                                             ),
-                                                          )),
+                                                          ),
                                                           child: Column(
                                                             mainAxisSize:
                                                                 MainAxisSize

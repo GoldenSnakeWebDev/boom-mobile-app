@@ -128,7 +128,7 @@ class SingleMessage extends GetView<DMCrontroller> {
                           } else {
                             return const Center(
                               child: Text(
-                                'Empty data',
+                                'No Messages',
                               ),
                             );
                           }
