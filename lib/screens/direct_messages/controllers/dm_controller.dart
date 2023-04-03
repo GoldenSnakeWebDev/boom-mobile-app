@@ -108,9 +108,6 @@ class DMCrontroller extends GetxController {
   }
 
   goToSingleUserMessage(int index) async {
-    //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
-    //TODO: check if user has a chat with this user then go to that chat or else Start a new chat
-
     for (var item in boomBoxes!) {
       if (boxUsers![index].id == item.messages!.last.receiver!.id) {
         final userId = box.read("userId");

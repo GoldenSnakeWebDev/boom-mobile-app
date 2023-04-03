@@ -460,8 +460,11 @@ class LoginScreen extends GetView<LoginController> {
                     final res = await controller.resetPassword();
                     if (res) {
                       controller.userNameController.clear();
-                      Navigator.pop(context);
-                      _showChangePasswordDIalog(context);
+                      Future.delayed(const Duration(milliseconds: 100))
+                          .then((value) {
+                        Navigator.pop(context);
+                        _showChangePasswordDIalog(context);
+                      });
                     } else {
                       Get.snackbar("Error", "Please enter a registered email");
                     }
@@ -490,7 +493,6 @@ class LoginScreen extends GetView<LoginController> {
         });
   }
 
-  //TODO: Bottom Sheet to reset the Password
   _showChangePasswordDIalog(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -612,7 +614,8 @@ class LoginScreen extends GetView<LoginController> {
                         controller.codeController.clear();
                         controller.newPasswordController.clear();
                         controller.confirmPasswordController.clear();
-                        Navigator.pop(context);
+                        Future.delayed(const Duration(milliseconds: 100))
+                            .then((value) => Navigator.pop(context));
                       } else {
                         Get.snackbar("Error", "Please enter a valid code");
                       }

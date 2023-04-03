@@ -537,7 +537,10 @@ class _BackPackScreenState extends State<BackPackScreen> {
                       final res =
                           await controller.onTapYesSendBoom(boomIndex, index);
                       if (res) {
-                        Navigator.of(context).pop();
+                        Future.delayed(const Duration(milliseconds: 50))
+                            .then((value) {
+                          Navigator.of(context).pop();
+                        });
                       }
                     },
                     child: const Text("Yes"),
