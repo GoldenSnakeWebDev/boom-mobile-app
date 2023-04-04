@@ -848,7 +848,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             const Duration(milliseconds: 600),
                                         size: getProportionateScreenHeight(20),
                                         onTap: (_) async {
+                                          FocusScope.of(context).requestFocus(
+                                              boomController.commentFocusNode);
                                           return null;
+                                          // return null;
                                         },
                                         bubblesColor: const BubblesColor(
                                             dotPrimaryColor: kPrimaryColor,
@@ -907,6 +910,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 alignment: Alignment.bottomCenter,
                                 child: TextFormField(
                                   controller: boomController.commentController,
+                                  focusNode: boomController.commentFocusNode,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(12.0),
                                     fillColor: const Color(0xFFF8F8F8),

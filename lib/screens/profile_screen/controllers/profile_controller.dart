@@ -129,8 +129,9 @@ class ProfileController extends GetxController {
     String token = box.read("token");
     String userId = box.read("userId");
     isLoadingBooms = true;
+    update();
     final res = await http.get(
-      Uri.parse("${baseURL}fetch-user-booms/$userId?page=all"),
+      Uri.parse("${baseURL}booms/mine?page=all"),
       headers: {"Authorization": token},
     );
     if (res.statusCode == 200) {
@@ -145,6 +146,7 @@ class ProfileController extends GetxController {
         msg: ["Error"],
         isError: true,
       );
+      update();
     }
   }
 
