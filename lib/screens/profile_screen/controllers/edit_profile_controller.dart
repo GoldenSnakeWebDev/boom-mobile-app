@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'dart:math' as Math;
 
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
@@ -68,15 +69,31 @@ class EditProfileController extends GetxController {
       // crop
       final cropImageFile = await ImageCropper().cropImage(
           sourcePath: headerImage!.path,
-          maxWidth: 400,
-          maxHeight: 300,
+          // maxWidth: 400,
+          // maxHeight: 300,
           cropStyle: CropStyle.rectangle,
-          aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
-          compressFormat: ImageCompressFormat.jpg,
-          compressQuality: 100);
+          // aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+          compressFormat: ImageCompressFormat.png,
+          compressQuality: 0);
       pickedHeaderImage = File(cropImageFile!.path);
+
+      // final imgSize = File(cropImageFile.path);
+      // final fileSize = await getFileSize(imgSize);
+      // log(fileSize);
+
+      // 211.77 KB
+      // 851.33 KB
     }
     update();
+  }
+
+  getFileSize(File file) async {
+    int size = await file.length();
+    if (size <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = (Math.log(size) / Math.log(1024)).floor();
+
+    return "${((size / Math.pow(1024, i))).toStringAsFixed(2)} ${suffixes[i]}";
   }
 
   handlePickProfileImage(ImageSource theSource) async {
@@ -84,9 +101,10 @@ class EditProfileController extends GetxController {
     if (profileImage != null) {
       // pickedProfileImage = File(profileImage!.path);
       final cropImageFile = await ImageCropper().cropImage(
-          sourcePath: profileImage!.path,
-          compressFormat: ImageCompressFormat.jpg,
-          compressQuality: 100);
+        sourcePath: profileImage!.path,
+        compressFormat: ImageCompressFormat.png,
+        compressQuality: 10,
+      );
       pickedProfileImage = File(cropImageFile!.path);
     }
     update();

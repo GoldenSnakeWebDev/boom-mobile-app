@@ -6,9 +6,7 @@ class IGPostController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-
     medias.addAll(Get.arguments as List<InstaMedia>);
+    super.onInit();
   }
 }

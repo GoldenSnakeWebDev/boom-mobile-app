@@ -48,7 +48,7 @@ class SingleBoomService {
         Uri.parse("${baseURL}booms/$boomId"),
         headers: {"Authorization": token},
       );
-      if (res.statusCode == 200) {
+      if (res.statusCode == 204) {
         EasyLoading.dismiss();
         EasyLoading.showSuccess("Boom Deleted");
         Get.back();
@@ -59,6 +59,7 @@ class SingleBoomService {
             msg: ["Could not delete boom"],
             isError: true);
       }
+      log("Error ::: ${res.statusCode} ::: ${res.body}");
     } catch (e) {
       log(e.toString());
     }

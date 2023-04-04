@@ -2,13 +2,10 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
-import 'package:boom_mobile/utils/colors.dart';
-import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -51,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: RefreshIndicator(
                       onRefresh: () async {
                         await controller.fetchAllBooms();
-                        //TODO: Fetch tales and Booms in a single request using pagination
+
                         // await TalesEpicsController().fetchTales();
                       },
                       child: Padding(
@@ -350,27 +347,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _buildTalesShimmer() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: kPrimaryColor,
-      child: ListView.builder(
-        itemCount: 5,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, i) => Container(
-          height: getProportionateScreenHeight(40),
-          width: getProportionateScreenWidth(75),
-          margin: EdgeInsets.only(
-            right: getProportionateScreenWidth(10),
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.white,
-          ),
-          child: const Text(""),
-        ),
-      ),
-    );
-  }
+  // _buildTalesShimmer() {
+  //   return Shimmer.fromColors(
+  //     baseColor: Colors.grey[300]!,
+  //     highlightColor: kPrimaryColor,
+  //     child: ListView.builder(
+  //       itemCount: 5,
+  //       shrinkWrap: true,
+  //       scrollDirection: Axis.horizontal,
+  //       itemBuilder: (context, i) => Container(
+  //         height: getProportionateScreenHeight(40),
+  //         width: getProportionateScreenWidth(75),
+  //         margin: EdgeInsets.only(
+  //           right: getProportionateScreenWidth(10),
+  //         ),
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(12),
+  //           color: Colors.white,
+  //         ),
+  //         child: const Text(""),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
