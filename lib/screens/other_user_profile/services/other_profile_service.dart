@@ -62,7 +62,7 @@ class OtherProfileService {
     }
   }
 
-  blockUser(String userId) async {
+  blockUser(String userId, String action) async {
     String token = box.read("token");
     EasyLoading.show(status: "Blocking User");
     log("User Id $userId");
@@ -79,7 +79,7 @@ class OtherProfileService {
 
     if (res.statusCode == 200) {
       EasyLoading.dismiss();
-      EasyLoading.showSuccess("User Blocked").then((value) {
+      EasyLoading.showSuccess("User $action").then((value) {
         Get.back();
         Get.offAll(const MainScreen());
       });
@@ -100,13 +100,16 @@ class OtherProfileService {
     );
 
     if (res.statusCode == 200) {
-      log("Blocked");
       EasyLoading.dismiss();
+      EasyLoading.showSuccess("User reported").then((value) {
+        Get.back();
+        Get.offAll(const MainScreen());
+      });
     } else {
       EasyLoading.dismiss();
       log(res.body);
       log(res.statusCode.toString());
-      Get.snackbar("Error", "Could not block user");
+      Get.snackbar("Error", "Could not report user");
     }
   }
 

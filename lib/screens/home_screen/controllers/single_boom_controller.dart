@@ -33,6 +33,7 @@ class SingleBoomController extends GetxController {
   int reportsCount = 0;
 
   TextEditingController commentController = TextEditingController();
+  FocusNode commentFocusNode = FocusNode();
 
   syntheticallyMintBoom(String boomId) async {
     EasyLoading.show(status: "Minting...");

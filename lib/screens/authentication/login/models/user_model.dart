@@ -47,6 +47,7 @@ class User {
     this.passwordResetToken,
     this.syncBank,
     this.funs,
+    this.blockedUsers,
     this.id,
   });
 
@@ -67,6 +68,7 @@ class User {
   String? passwordResetToken;
   SyncBank? syncBank;
   List<Fun>? funs;
+  List<String>? blockedUsers;
   String? id;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -87,6 +89,7 @@ class User {
         passwordResetToken: json["password_reset_token"],
         syncBank: SyncBank.fromJson(json["sync_bank"]),
         funs: List<Fun>.from(json["funs"].map((x) => Fun.fromJson(x))),
+        blockedUsers: List<String>.from(json["blocked_users"].map((x) => x)),
         id: json["id"],
       );
 
@@ -108,6 +111,7 @@ class User {
         "password_reset_token": passwordResetToken,
         "sync_bank": syncBank?.toJson(),
         "funs": List<dynamic>.from(funs!.map((x) => x.toJson())),
+        "blocked_users": List<dynamic>.from(blockedUsers!.map((x) => x)),
         "id": id,
       };
 }

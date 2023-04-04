@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
+import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -50,8 +51,10 @@ class SingleBoomService {
       );
       if (res.statusCode == 204) {
         EasyLoading.dismiss();
-        EasyLoading.showSuccess("Boom Deleted");
-        Get.back();
+        EasyLoading.showSuccess("Boom deleted").then((value) {
+          Get.back();
+          Get.offAll(const MainScreen());
+        });
       } else {
         EasyLoading.dismiss();
         CustomSnackBar.showCustomSnackBar(

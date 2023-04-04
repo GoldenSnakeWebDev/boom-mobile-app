@@ -1,16 +1,21 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
+
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:boom_mobile/utils/url_container.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../models/network_model.dart';
+import '../../authentication/login/models/user_model.dart';
 import '../../home_screen/models/all_booms.dart';
 import '../../main_screen/controllers/main_screen_controller.dart';
+import 'package:http/http.dart' as http;
 
 class OtherUserProfileController extends GetxController {
   String? userId;
@@ -29,20 +34,40 @@ class OtherUserProfileController extends GetxController {
   String? selectedNetwork;
   Network? selectedNetworkModel;
   List<Network> networks = [];
+  bool isBlockedUser = true;
   final box = GetStorage();
+
   @override
   void onInit() {
     super.onInit();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
     analytics.setCurrentScreen(screenName: "OtherUser Profile  Screen");
     userId = Get.arguments;
+    fetchMyDetails();
     selectedNetwork = networkModel!.networks![0].symbol;
     log("Selected network Controller: $selectedNetwork");
     selectedNetworkModel = networkModel!.networks![0];
     networks.clear();
     for (var element in networkModel!.networks!) {
       networks.add(element);
+    }
+  }
+
+  fetchMyDetails() async {
+    String token = box.read("token");
+    var res = await http.get(Uri.parse("${baseURL}users/currentuser"),
+        headers: {"Authorization": token});
+    if (res.statusCode == 200) {
+      final user = User.fromJson(jsonDecode(res.body)["user"]);
+      if (user.blockedUsers!.contains(userId)) {
+        isBlockedUser = true;
+        update();
+      } else {
+        isBlockedUser = false;
+        update();
+      }
+    } else {
+      log("Error in fetching my details");
     }
   }
 
