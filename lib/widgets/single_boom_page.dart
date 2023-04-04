@@ -256,6 +256,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                          log("User ID ${box.read("userId")}");
                                           box.read("userId") ==
                                                   boom.boom.user!.id
                                               ? showMenu(

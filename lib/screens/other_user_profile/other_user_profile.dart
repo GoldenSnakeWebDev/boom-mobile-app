@@ -411,7 +411,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                         log("TikTok${user.user!.socialMedia!.tiktok!}");
                                                         await launchUrl(
                                                           Uri.parse(
-                                                            "https://www.tiktok.com/${user.user!.socialMedia!.tiktok!}",
+                                                            "https://www.tiktok.com/@${user.user!.socialMedia!.tiktok!}",
                                                           ),
                                                         );
                                                       },

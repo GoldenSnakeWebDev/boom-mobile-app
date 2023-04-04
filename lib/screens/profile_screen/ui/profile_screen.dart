@@ -440,7 +440,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             onTap: () async {
                                                               await launchUrl(
                                                                 Uri.parse(
-                                                                  "https://tiktok.com/${user.socialMedia!.tiktok}",
+                                                                  "https://tiktok.com/@${user.socialMedia!.tiktok}",
                                                                 ),
                                                               );
                                                             },
