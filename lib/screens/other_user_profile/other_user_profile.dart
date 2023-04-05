@@ -876,7 +876,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
-                                                                              getProportionateScreenHeight(10),
+                                                                              getProportionateScreenHeight(12),
                                                                         ),
                                                                         readMoreIcon:
                                                                             const SizedBox(),

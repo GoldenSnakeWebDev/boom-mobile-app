@@ -44,7 +44,7 @@ class InstagramWebController extends GetxController {
   urlChanged() async {
     onUrlChanged = flutterWebViewPlugin.onUrlChanged.listen((String url) async {
       log("New Url $url");
-      if (url.startsWith("https://rennylangat.github.io/")) {
+      if (url.startsWith("https://www.boooooooooom.com/")) {
         String authorizationCode = instragram.getAuthorizationCode(url);
 
         bool isTokenFetched =
