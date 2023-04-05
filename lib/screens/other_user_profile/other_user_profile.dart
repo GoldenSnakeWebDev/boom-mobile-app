@@ -302,7 +302,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.screenHeight * 0.29,
+                                                SizeConfig.screenHeight * 0.31,
                                             child: Stack(
                                               children: [
                                                 SizedBox(
