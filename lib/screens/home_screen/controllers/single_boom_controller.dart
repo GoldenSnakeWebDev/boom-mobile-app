@@ -70,9 +70,11 @@ class SingleBoomController extends GetxController {
     if (res.statusCode == 200) {
       log("Boom Reacted To : $reactType");
       log("message: ${res.body}");
+      update();
       return true;
     } else {
-      log(res.body);
+      log("Reaction Body ${res.body}");
+      log("Reaction Code ${res.statusCode}");
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not react to Boom"],
           msg: ["Error"],

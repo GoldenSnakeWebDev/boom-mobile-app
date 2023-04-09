@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:boom_mobile/screens/direct_messages/models/boom_users_model.dart';
+import '../../authentication/login/models/user_model.dart' as usr;
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -21,12 +23,14 @@ class BackPackController extends GetxController {
 
   List<User>? _boxUsers;
   List<User>? get boxUsers => _boxUsers;
+  late usr.User user;
 
   @override
   void onInit() {
     super.onInit();
     userId = box.read("userId");
     token = box.read("token");
+    fetchMyDetails();
     fetchUsers();
     fetchMyBooms();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -34,15 +38,26 @@ class BackPackController extends GetxController {
     analytics.setCurrentScreen(screenName: "BackPack Screen");
   }
 
+  fetchMyDetails() async {
+    String token = box.read("token");
+    var res = await http.get(Uri.parse("${baseURL}users/currentuser"),
+        headers: {"Authorization": token});
+    if (res.statusCode == 200) {
+      user = usr.User.fromJson(jsonDecode(res.body)["user"]);
+      update();
+    } else {
+      log("Error in fetching my details");
+    }
+  }
+
   fetchMyBooms() async {
     EasyLoading.show(status: 'loading...');
-    final res = await http.get(
-        Uri.parse("${baseURL}fetch-user-booms/$userId?page=all"),
-        headers: {
-          "Authorization": token,
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        });
+    final res =
+        await http.get(Uri.parse("${baseURL}booms/mine?page=all"), headers: {
+      "Authorization": token,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    });
 
     if (res.statusCode == 200) {
       EasyLoading.dismiss();

@@ -401,7 +401,7 @@ class NewPostController extends GetxController {
         tags: tagString,
         location: location.text.trim(),
         fixedPrice: price.text.trim(),
-        price: price.text.trim(),
+        price: cryptoAmount.value.toString(),
         timestamp: d12,
       );
 

@@ -546,25 +546,27 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       Column(
                                         children: [
                                           Text(
-                                            boom.boom.fixedPrice!,
+                                            "${boom.boom.price!} ${boom.boom.network!.symbol}",
                                             style: TextStyle(
                                               fontSize:
                                                   getProportionateScreenHeight(
-                                                      18),
+                                                      15),
                                               fontWeight: FontWeight.w900,
                                             ),
                                           ),
                                           Text(
-                                            "(\$${boom.boom.price})",
+                                            "( \$${boom.boom.fixedPrice} )",
                                             style: TextStyle(
-                                                fontSize:
-                                                    getProportionateScreenHeight(
-                                                        11)),
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      11),
+                                              fontWeight: FontWeight.w900,
+                                            ),
                                           )
                                         ],
                                       ),
                                       SizedBox(
-                                        width: getProportionateScreenWidth(5),
+                                        width: getProportionateScreenWidth(10),
                                       ),
                                       CachedNetworkImage(
                                         height:

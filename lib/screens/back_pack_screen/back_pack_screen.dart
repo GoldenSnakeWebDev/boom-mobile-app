@@ -67,11 +67,23 @@ class _BackPackScreenState extends State<BackPackScreen> {
                               GestureDetector(
                                 onTap: () async {
                                   await Clipboard.setData(
-                                    const ClipboardData(
+                                    ClipboardData(
                                       text:
-                                          "controller.user!.backPack!.backPackId",
+                                          "${controller.user.syncBank!.syncId}",
                                     ),
-                                  );
+                                  ).whenComplete(() {
+                                    Get.snackbar(
+                                      "Copied",
+                                      "Backpack ID copied to clipboard",
+                                      backgroundColor: kPrimaryColor,
+                                      snackPosition: SnackPosition.TOP,
+                                      colorText: Colors.black,
+                                      overlayBlur: 5.0,
+                                      margin: EdgeInsets.only(
+                                        top: getProportionateScreenHeight(50),
+                                      ),
+                                    );
+                                  });
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -115,16 +127,17 @@ class _BackPackScreenState extends State<BackPackScreen> {
                             height: getProportionateScreenHeight(15),
                           ),
                           RichText(
-                            text: const TextSpan(
+                            text: TextSpan(
                               text: "Backpack ID: ",
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                               children: [
                                 TextSpan(
-                                    text: "KA265890OQ",
-                                    style: TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w800,
-                                    )),
+                                  text: "${controller.user.syncBank!.syncId}",
+                                  style: const TextStyle(
+                                    color: Colors.black87,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -240,7 +253,7 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                                 height: 20,
                                               ),
                                               Text(
-                                                "${controller.myBooms!.booms![index].description!.isEmpty ? "No Description" : controller.myBooms!.booms![index].description}",
+                                                "${controller.myBooms!.booms![index].description!.isEmpty ? controller.myBooms!.booms![index].title : controller.myBooms!.booms![index].description}",
                                                 style: TextStyle(
                                                   fontSize:
                                                       getProportionateScreenHeight(

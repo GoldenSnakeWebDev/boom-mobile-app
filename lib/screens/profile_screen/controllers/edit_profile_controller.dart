@@ -31,6 +31,10 @@ class EditProfileController extends GetxController {
   TextEditingController instagramController = TextEditingController();
   TextEditingController tiktokController = TextEditingController();
   TextEditingController mediumController = TextEditingController();
+  TextEditingController currPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final box = GetStorage();
   User? user;
@@ -444,6 +448,35 @@ class EditProfileController extends GetxController {
         log(res.body);
         EasyLoading.showError('Error updating profile');
       }
+    }
+  }
+
+  changePassword() async {
+    EasyLoading.show(status: 'Updating password...');
+    final token = box.read("token");
+    final body = {
+      "current_password": currPasswordController.text.trim(),
+      "new_password": newPasswordController.text.trim(),
+      "confirm_password": confirmPasswordController.text.trim(),
+    };
+    final res = await http.post(
+      Uri.parse("${baseURL}users/currentuser-update-password"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(body),
+    );
+
+    if (res.statusCode == 200) {
+      EasyLoading.showSuccess('Password updated!');
+      Get.back();
+      return true;
+    } else {
+      log("Res Body ${res.body}");
+      log("Res Code ${res.statusCode}");
+      EasyLoading.showError("Error updating password");
+      return false;
     }
   }
 }

@@ -720,22 +720,210 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                   // const Spacer(),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        Get.find<ProfileController>().signOut();
-                      },
-                      child: Text(
-                        "Logout",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          color: Colors.red,
-                          fontSize: getProportionateScreenHeight(16),
+                  SizedBox(
+                    height: getProportionateScreenHeight(15),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            builder: (context) {
+                              //return Container to show change password form
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 24, vertical: 24),
+                                margin: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(
+                                      getProportionateScreenHeight(20),
+                                    ),
+                                  ),
+                                ),
+                                child: Form(
+                                  key: controller.formKey,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Text(
+                                          "Change Password",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        const Text(
+                                          "Enter your current password, new password, confirm it then click Proceed to change your password",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        TextFormField(
+                                          controller:
+                                              controller.currPasswordController,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return "Please enter the current password";
+                                            }
+                                            return null;
+                                          },
+                                          obscureText: true,
+                                          decoration: InputDecoration(
+                                            hintText: "Current Password",
+                                            hintStyle: const TextStyle(
+                                              color: Colors.black54,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        TextFormField(
+                                          controller:
+                                              controller.newPasswordController,
+                                          obscureText: true,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return "Please enter the new password";
+                                            }
+                                            return null;
+                                          },
+                                          decoration: InputDecoration(
+                                            hintText: "New Password",
+                                            hintStyle: const TextStyle(
+                                              color: Colors.black54,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        TextFormField(
+                                          controller: controller
+                                              .confirmPasswordController,
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return "Please enter the confirm password";
+                                            } else if (value !=
+                                                controller.newPasswordController
+                                                    .text) {
+                                              return "Passwords do not match";
+                                            }
+                                            return null;
+                                          },
+                                          obscureText: true,
+                                          decoration: InputDecoration(
+                                            hintText: "Confirm Password",
+                                            hintStyle: const TextStyle(
+                                              color: Colors.black54,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            if (controller.formKey.currentState!
+                                                .validate()) {
+                                              final res = await controller
+                                                  .changePassword();
+
+                                              if (res) {
+                                                controller
+                                                    .currPasswordController
+                                                    .clear();
+                                                controller.newPasswordController
+                                                    .clear();
+                                                controller
+                                                    .confirmPasswordController
+                                                    .clear();
+                                              }
+                                            }
+                                          },
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: 50,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Colors.blue,
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: const Text(
+                                              "Proceed",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          "Change Password",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Colors.blueAccent,
+                            fontSize: getProportionateScreenHeight(16),
+                          ),
                         ),
                       ),
-                    ),
+                      TextButton(
+                        onPressed: () {
+                          Get.find<ProfileController>().signOut();
+                        },
+                        child: Text(
+                          "Logout",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: Colors.red,
+                            fontSize: getProportionateScreenHeight(16),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+
                   SizedBox(
                     height: getProportionateScreenHeight(15),
                   ),
