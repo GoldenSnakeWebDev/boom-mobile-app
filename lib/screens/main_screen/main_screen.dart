@@ -12,7 +12,6 @@ import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dar
 import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/profile_screen.dart';
-import 'package:boom_mobile/screens/tales/ui/capture_tale_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -82,12 +81,12 @@ class _MainScreenState extends State<MainScreen> {
               builder: (context) {
                 return DraggableScrollableSheet(
                     minChildSize: 0.15,
-                    initialChildSize: 0.45,
+                    initialChildSize: 0.27,
                     expand: false,
                     maxChildSize: 0.5,
                     builder: ((context, scrollController) {
                       return Container(
-                        height: SizeConfig.screenHeight * 0.4,
+                        height: SizeConfig.screenHeight * 0.27,
                         width: SizeConfig.screenWidth * 0.5,
                         decoration: const BoxDecoration(color: Colors.white),
                         child: Column(
@@ -110,40 +109,40 @@ class _MainScreenState extends State<MainScreen> {
                                           binding: AppBindings());
                                     },
                                   ),
-                                  ListTile(
-                                    leading: const FloatingActionWidget(
-                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
-                                    ),
-                                    onTap: () {
-                                      Get.back();
-                                      Get.to(() => const CaptureTaleScreen());
-                                    },
-                                    title: const Text(
-                                      'Tales',
-                                    ),
-                                  ),
-                                  ListTile(
-                                    leading: SizedBox(
-                                      width: getProportionateScreenWidth(50),
-                                      child: Row(
-                                        children: [
-                                          const FloatingActionWidget(
-                                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
-                                          ),
-                                          SizedBox(
-                                            width:
-                                                getProportionateScreenWidth(5),
-                                          ),
-                                          const FloatingActionWidget(
-                                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    title: const Text(
-                                      'Epics',
-                                    ),
-                                  ),
+                                  // ListTile(
+                                  //   leading: const FloatingActionWidget(
+                                  //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  //   ),
+                                  //   onTap: () {
+                                  //     Get.back();
+                                  //     Get.to(() => const CaptureTaleScreen());
+                                  //   },
+                                  //   title: const Text(
+                                  //     'Tales',
+                                  //   ),
+                                  // ),
+                                  // ListTile(
+                                  //   leading: SizedBox(
+                                  //     width: getProportionateScreenWidth(50),
+                                  //     child: Row(
+                                  //       children: [
+                                  //         const FloatingActionWidget(
+                                  //           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  //         ),
+                                  //         SizedBox(
+                                  //           width:
+                                  //               getProportionateScreenWidth(5),
+                                  //         ),
+                                  //         const FloatingActionWidget(
+                                  //           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  //   title: const Text(
+                                  //     'Epics',
+                                  //   ),
+                                  // ),
                                   ListTile(
                                     onTap: () {
                                       Get.to(

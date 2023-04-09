@@ -35,6 +35,7 @@ class OtherUserProfileController extends GetxController {
   Network? selectedNetworkModel;
   List<Network> networks = [];
   bool isBlockedUser = true;
+  var bioExpanded = false.obs;
   final box = GetStorage();
 
   @override
@@ -69,6 +70,10 @@ class OtherUserProfileController extends GetxController {
     } else {
       log("Error in fetching my details");
     }
+  }
+
+  expandBio() {
+    bioExpanded.value = !bioExpanded.value;
   }
 
   fetchReactionStatus(Boom boom) {

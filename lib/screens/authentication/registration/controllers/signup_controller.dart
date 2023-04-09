@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -53,7 +52,6 @@ class RegisterController extends GetxController {
         "password": passwordController.text.trim(),
       };
 
-      log("Body ${jsonEncode(userData)}");
       EasyLoading.show(status: "Signing up...");
 
       final res = await http.post(
@@ -63,7 +61,6 @@ class RegisterController extends GetxController {
       );
 
       if (res.statusCode == 201) {
-        log("User registered successfully");
         EasyLoading.dismiss();
 
         CustomSnackBar.showCustomSnackBar(
@@ -76,9 +73,10 @@ class RegisterController extends GetxController {
       } else {
         EasyLoading.dismiss();
 
-        log("Sing up Error ::: ${res.statusCode} ${res.body}");
         CustomSnackBar.showCustomSnackBar(
-          errorList: ["Sign up Error ${res.statusCode} ${res.body}"],
+          errorList: [
+            "Sign up Error: ${jsonDecode(res.body)["errors"][0]["message"]}"
+          ],
           msg: ["Sign up Error"],
           isError: true,
         );
