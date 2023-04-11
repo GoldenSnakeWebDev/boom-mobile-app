@@ -320,7 +320,7 @@ class NewPostController extends GetxController {
         onDisplayUri: (uri) async {
           final launchUri = 'metamask://wc?uri=$uri';
           await launchUrlString(launchUri);
-          log(launchUri);
+          log("Metamask URI::: $launchUri");
           // await connector.connect(chainId: chainId);
           connector.on('connect', (SessionStatus session) async {
             provider =
