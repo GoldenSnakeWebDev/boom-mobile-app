@@ -89,6 +89,9 @@ class CreateNewPost extends GetView<NewPostController> {
                                     }
                                     return null;
                                   },
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(12),
+                                  ),
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(4),
                                     hintText: "NFT Contract Address",
@@ -99,7 +102,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                     filled: true,
                                     fillColor: Colors.white,
                                     suffixIcon: SizedBox(
-                                      width: SizeConfig.screenWidth * 0.4,
+                                      width: SizeConfig.screenWidth * 0.43,
                                       child: Padding(
                                         padding:
                                             const EdgeInsets.only(right: 8.0),
@@ -312,442 +315,473 @@ class CreateNewPost extends GetView<NewPostController> {
                             SizedBox(
                               height: getProportionateScreenHeight(5),
                             ),
-                            TextFormField(
-                              minLines: 3,
-                              maxLines: 6,
-                              maxLength: 320,
-                              // enabled: false,
-                              controller: controller.boomText,
-                              decoration: InputDecoration(
-                                counterStyle: TextStyle(
-                                    fontSize: getProportionateScreenHeight(9)),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide:
-                                      const BorderSide(color: kPrimaryColor),
+                            Obx(
+                              () => TextFormField(
+                                minLines: 3,
+                                maxLines: 6,
+                                maxLength: 320,
+                                enabled: !controller.imageSelected.value,
+                                controller: controller.boomText,
+                                decoration: InputDecoration(
+                                  counterStyle: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(9)),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        const BorderSide(color: kPrimaryColor),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        const BorderSide(color: kPrimaryColor),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        const BorderSide(color: kPrimaryColor),
+                                  ),
+                                  // filled: true,
+                                  // fillColor: Colors.grey.shade300,
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    borderSide:
+                                        BorderSide(color: Colors.grey.shade400),
+                                  ),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide:
-                                      const BorderSide(color: kPrimaryColor),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide:
-                                      const BorderSide(color: kPrimaryColor),
-                                ),
-                                // filled: true,
-                                // fillColor: Colors.grey.shade300,
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade400),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(10),
-                            ),
-                            Text(
-                              "OR",
-                              style: TextStyle(
-                                fontSize: getProportionateScreenHeight(12),
-                                fontWeight: FontWeight.w700,
                               ),
                             ),
                             SizedBox(
                               height: getProportionateScreenHeight(5),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                GestureDetector(
-                                  onTap: () async {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(25.0)),
-                                        ),
-                                        builder: (context) {
-                                          return Container(
-                                            height:
-                                                SizeConfig.screenHeight * 0.2,
-                                            decoration: const BoxDecoration(
-                                              color: kContBgColor,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(20),
-                                                topRight: Radius.circular(20),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  Text(
-                                                    "Add File From",
-                                                    style: TextStyle(
-                                                        fontSize:
-                                                            getProportionateScreenHeight(
-                                                                16),
-                                                        fontWeight:
-                                                            FontWeight.w800),
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        getProportionateScreenHeight(
-                                                            20),
-                                                  ),
-                                                  Column(
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Get.back();
-                                                          controller
-                                                              .handlePickingImage();
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          width: SizeConfig
-                                                                  .screenWidth *
-                                                              0.8,
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  30),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors
-                                                                .grey[200],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                            "Pick Image",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    getProportionateScreenHeight(
-                                                                        16)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Get.back();
-                                                          controller
-                                                              .handleTakingPhoto();
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 10),
-                                                          width: SizeConfig
-                                                                  .screenWidth *
-                                                              0.8,
-                                                          height:
-                                                              getProportionateScreenHeight(
-                                                                  30),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors
-                                                                .grey[200],
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                            "Take Photo",
-                                                            style: TextStyle(
-                                                                fontSize:
-                                                                    getProportionateScreenHeight(
-                                                                        16)),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      // GestureDetector(
-                                                      //   onTap: () {
-                                                      //     Get.back();
-                                                      //     controller
-                                                      //         .handlePickingVideo();
-                                                      //   },
-                                                      //   child: Container(
-                                                      //     margin:
-                                                      //         const EdgeInsets
-                                                      //                 .only(
-                                                      //             bottom: 10),
-                                                      //     width: SizeConfig
-                                                      //             .screenWidth *
-                                                      //         0.8,
-                                                      //     height:
-                                                      //         getProportionateScreenHeight(
-                                                      //             30),
-                                                      //     decoration:
-                                                      //         BoxDecoration(
-                                                      //       color: Colors
-                                                      //           .grey[200],
-                                                      //       borderRadius:
-                                                      //           BorderRadius
-                                                      //               .circular(
-                                                      //                   10),
-                                                      //     ),
-                                                      //     alignment:
-                                                      //         Alignment.center,
-                                                      //     child: Text(
-                                                      //       "Pick Video",
-                                                      //       style: TextStyle(
-                                                      //           fontSize:
-                                                      //               getProportionateScreenHeight(
-                                                      //                   16)),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                      // GestureDetector(
-                                                      //   onTap: () {
-                                                      //     Get.back();
-                                                      //     controller
-                                                      //         .handleRecordingVideo();
-                                                      //   },
-                                                      //   child: Container(
-                                                      //     margin:
-                                                      //         const EdgeInsets
-                                                      //                 .only(
-                                                      //             bottom: 10),
-                                                      //     width: SizeConfig
-                                                      //             .screenWidth *
-                                                      //         0.8,
-                                                      //     height:
-                                                      //         getProportionateScreenHeight(
-                                                      //             30),
-                                                      //     decoration:
-                                                      //         BoxDecoration(
-                                                      //       color: Colors
-                                                      //           .grey[200],
-                                                      //       borderRadius:
-                                                      //           BorderRadius
-                                                      //               .circular(
-                                                      //                   10),
-                                                      //     ),
-                                                      //     alignment:
-                                                      //         Alignment.center,
-                                                      //     child: Text(
-                                                      //       "Take Video",
-                                                      //       style: TextStyle(
-                                                      //           fontSize:
-                                                      //               getProportionateScreenHeight(
-                                                      //                   16)),
-                                                      //     ),
-                                                      //   ),
-                                                      // ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        });
-
-                                    // await controller.handlePickingImage();
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: kBlueColor.withOpacity(0.7),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                      child: Row(
-                                        children: [
-                                          const Icon(
-                                            MdiIcons.plus,
-                                            color: Colors.white,
-                                            size: 13,
-                                          ),
-                                          SizedBox(
-                                            width:
-                                                getProportionateScreenWidth(5),
-                                          ),
-                                          Text(
-                                            "Add File",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  getProportionateScreenHeight(
-                                                      12),
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                            Center(
+                              child: Column(children: [
+                                Text(
+                                  "OR",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(16),
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 SizedBox(
-                                  width: getProportionateScreenWidth(15),
+                                  height: getProportionateScreenHeight(7),
                                 ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    Get.off(() => InstagramWeb());
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(
-                                        color: Colors.blueAccent,
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                                      child: Row(
-                                        children: [
-                                          const Icon(
-                                            MdiIcons.plus,
-                                            color: Colors.blueAccent,
-                                            size: 13,
-                                          ),
-                                          SizedBox(
-                                            width:
-                                                getProportionateScreenWidth(3),
-                                          ),
-                                          Text(
-                                            "Instagram Import",
-                                            style: TextStyle(
-                                                fontSize:
-                                                    getProportionateScreenHeight(
-                                                        12),
-                                                color: Colors.blueAccent,
-                                                fontWeight: FontWeight.w600),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const Spacer(),
-                                (controller.pickedImage != null)
-                                    ? GestureDetector(
-                                        onTap: () => showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              PreviewDialog(
-                                            image: controller.pickedImage!,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Spacer(),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top: Radius.circular(
+                                                          25.0)),
+                                            ),
+                                            builder: (context) {
+                                              return Container(
+                                                height:
+                                                    SizeConfig.screenHeight *
+                                                        0.2,
+                                                decoration: const BoxDecoration(
+                                                  color: kContBgColor,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(20),
+                                                    topRight:
+                                                        Radius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        "Add File From",
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                getProportionateScreenHeight(
+                                                                    16),
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w800),
+                                                      ),
+                                                      SizedBox(
+                                                        height:
+                                                            getProportionateScreenHeight(
+                                                                20),
+                                                      ),
+                                                      Column(
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Get.back();
+                                                              controller
+                                                                  .handlePickingImage();
+                                                            },
+                                                            child: Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          10),
+                                                              width: SizeConfig
+                                                                      .screenWidth *
+                                                                  0.8,
+                                                              height:
+                                                                  getProportionateScreenHeight(
+                                                                      30),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .grey[200],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Text(
+                                                                "Pick Image",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        getProportionateScreenHeight(
+                                                                            16)),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              Get.back();
+                                                              controller
+                                                                  .handleTakingPhoto();
+                                                            },
+                                                            child: Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      bottom:
+                                                                          10),
+                                                              width: SizeConfig
+                                                                      .screenWidth *
+                                                                  0.8,
+                                                              height:
+                                                                  getProportionateScreenHeight(
+                                                                      30),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .grey[200],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                              ),
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child: Text(
+                                                                "Take Photo",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        getProportionateScreenHeight(
+                                                                            16)),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          // GestureDetector(
+                                                          //   onTap: () {
+                                                          //     Get.back();
+                                                          //     controller
+                                                          //         .handlePickingVideo();
+                                                          //   },
+                                                          //   child: Container(
+                                                          //     margin:
+                                                          //         const EdgeInsets
+                                                          //                 .only(
+                                                          //             bottom: 10),
+                                                          //     width: SizeConfig
+                                                          //             .screenWidth *
+                                                          //         0.8,
+                                                          //     height:
+                                                          //         getProportionateScreenHeight(
+                                                          //             30),
+                                                          //     decoration:
+                                                          //         BoxDecoration(
+                                                          //       color: Colors
+                                                          //           .grey[200],
+                                                          //       borderRadius:
+                                                          //           BorderRadius
+                                                          //               .circular(
+                                                          //                   10),
+                                                          //     ),
+                                                          //     alignment:
+                                                          //         Alignment.center,
+                                                          //     child: Text(
+                                                          //       "Pick Video",
+                                                          //       style: TextStyle(
+                                                          //           fontSize:
+                                                          //               getProportionateScreenHeight(
+                                                          //                   16)),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                          // GestureDetector(
+                                                          //   onTap: () {
+                                                          //     Get.back();
+                                                          //     controller
+                                                          //         .handleRecordingVideo();
+                                                          //   },
+                                                          //   child: Container(
+                                                          //     margin:
+                                                          //         const EdgeInsets
+                                                          //                 .only(
+                                                          //             bottom: 10),
+                                                          //     width: SizeConfig
+                                                          //             .screenWidth *
+                                                          //         0.8,
+                                                          //     height:
+                                                          //         getProportionateScreenHeight(
+                                                          //             30),
+                                                          //     decoration:
+                                                          //         BoxDecoration(
+                                                          //       color: Colors
+                                                          //           .grey[200],
+                                                          //       borderRadius:
+                                                          //           BorderRadius
+                                                          //               .circular(
+                                                          //                   10),
+                                                          //     ),
+                                                          //     alignment:
+                                                          //         Alignment.center,
+                                                          //     child: Text(
+                                                          //       "Take Video",
+                                                          //       style: TextStyle(
+                                                          //           fontSize:
+                                                          //               getProportionateScreenHeight(
+                                                          //                   16)),
+                                                          //     ),
+                                                          //   ),
+                                                          // ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+
+                                        // await controller.handlePickingImage();
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: kBlueColor.withOpacity(0.7),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8, 4),
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                MdiIcons.plus,
+                                                color: Colors.white,
+                                                size: 13,
+                                              ),
+                                              SizedBox(
+                                                width:
+                                                    getProportionateScreenWidth(
+                                                        5),
+                                              ),
+                                              Text(
+                                                "Add File",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          12),
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                        child: SizedBox(
-                                          height:
-                                              getProportionateScreenHeight(50),
-                                          width:
-                                              getProportionateScreenWidth(50),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.file(
-                                              controller.pickedImage!,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: getProportionateScreenWidth(15),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Get.off(() => InstagramWeb());
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          border: Border.all(
+                                            color: Colors.blueAccent,
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 4, 8, 4),
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                MdiIcons.plus,
+                                                color: Colors.blueAccent,
+                                                size: 13,
+                                              ),
+                                              SizedBox(
+                                                width:
+                                                    getProportionateScreenWidth(
+                                                        3),
+                                              ),
+                                              Text(
+                                                "Instagram Import",
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        getProportionateScreenHeight(
+                                                            12),
+                                                    color: Colors.blueAccent,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    (controller.pickedImage != null)
+                                        ? GestureDetector(
+                                            onTap: () => showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  PreviewDialog(
+                                                image: controller.pickedImage!,
+                                              ),
+                                            ),
+                                            child: SizedBox(
                                               height:
                                                   getProportionateScreenHeight(
                                                       50),
                                               width:
                                                   getProportionateScreenWidth(
                                                       50),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : controller.pickedVideo != null
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              controller.selectedVideoController
-                                                  .play();
-                                              showCupertinoDialog(
-                                                context: context,
-                                                builder: ((context) {
-                                                  return AlertDialog(
-                                                    title: const Text(
-                                                        "Video Preview"),
-                                                    content: SizedBox(
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              300),
-                                                      width:
-                                                          getProportionateScreenWidth(
-                                                              300),
-                                                      child: VideoPlayer(controller
-                                                          .selectedVideoController),
-                                                    ),
-                                                    actions: [
-                                                      CupertinoDialogAction(
-                                                        child:
-                                                            const Text("Close"),
-                                                        onPressed: () {
-                                                          Get.back();
-                                                          controller
-                                                              .selectedVideoController
-                                                              .pause();
-                                                          controller
-                                                              .selectedVideoController
-                                                              .seekTo(
-                                                            const Duration(
-                                                                seconds: 0),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ],
-                                                  );
-                                                }),
-                                              );
-                                            },
-                                            child: Container(
-                                                width:
-                                                    getProportionateScreenWidth(
-                                                        70),
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        40),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: kPrimaryColor,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.file(
+                                                  controller.pickedImage!,
+                                                  height:
+                                                      getProportionateScreenHeight(
+                                                          50),
+                                                  width:
+                                                      getProportionateScreenWidth(
+                                                          50),
+                                                  fit: BoxFit.cover,
                                                 ),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    const Icon(
-                                                      Icons.play_arrow,
-                                                      size: 30,
-                                                      color: kBlueColor,
-                                                    ),
-                                                    Text(
-                                                      "Preview Video",
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              getProportionateScreenHeight(
-                                                                  9),
-                                                          fontWeight:
-                                                              FontWeight.w800),
-                                                    )
-                                                  ],
-                                                )),
+                                              ),
+                                            ),
                                           )
-                                        : Container(),
-                              ],
+                                        : controller.pickedVideo != null
+                                            ? GestureDetector(
+                                                onTap: () {
+                                                  controller
+                                                      .selectedVideoController
+                                                      .play();
+                                                  showCupertinoDialog(
+                                                    context: context,
+                                                    builder: ((context) {
+                                                      return AlertDialog(
+                                                        title: const Text(
+                                                            "Video Preview"),
+                                                        content: SizedBox(
+                                                          height:
+                                                              getProportionateScreenHeight(
+                                                                  300),
+                                                          width:
+                                                              getProportionateScreenWidth(
+                                                                  300),
+                                                          child: VideoPlayer(
+                                                              controller
+                                                                  .selectedVideoController),
+                                                        ),
+                                                        actions: [
+                                                          CupertinoDialogAction(
+                                                            child: const Text(
+                                                                "Close"),
+                                                            onPressed: () {
+                                                              Get.back();
+                                                              controller
+                                                                  .selectedVideoController
+                                                                  .pause();
+                                                              controller
+                                                                  .selectedVideoController
+                                                                  .seekTo(
+                                                                const Duration(
+                                                                    seconds: 0),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }),
+                                                  );
+                                                },
+                                                child: Container(
+                                                    width:
+                                                        getProportionateScreenWidth(
+                                                            70),
+                                                    height:
+                                                        getProportionateScreenHeight(
+                                                            40),
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: kPrimaryColor,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.play_arrow,
+                                                          size: 30,
+                                                          color: kBlueColor,
+                                                        ),
+                                                        Text(
+                                                          "Preview Video",
+                                                          style: TextStyle(
+                                                              fontSize:
+                                                                  getProportionateScreenHeight(
+                                                                      9),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800),
+                                                        )
+                                                      ],
+                                                    )),
+                                              )
+                                            : Container(),
+                                  ],
+                                ),
+                              ]),
                             ),
                             SizedBox(
                               height: getProportionateScreenHeight(3),

@@ -69,15 +69,16 @@ class NewPostController extends GetxController {
   late String walletAddress, privateKey;
   bool isWalletConnected = false;
   EthereumWalletConnectProvider? provider;
-  Web3Client client = Web3Client(
-    'https://polygon-mumbai.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
-    http.Client(),
-  );
+  late Web3Client client;
+
+  var imageSelected = false.obs;
   // WCSessionStore? sessionStore;
 
   // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
 
-  int chainId = 80001;
+  int chainId = 56;
+
+  List<int> chainIds = [56, 137];
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
   //   http.Client(),
@@ -93,6 +94,10 @@ class NewPostController extends GetxController {
     analytics.setCurrentScreen(screenName: "New Post Screen");
     selectedNetwork = networkModel!.networks![0].symbol;
     selectedNetworkModel = networkModel!.networks![0];
+    client = Web3Client(
+      'https://bsc-dataseed1.binance.org/',
+      http.Client(),
+    );
     networks.clear();
     for (var element in networkModel!.networks!) {
       networks.add(element);
@@ -109,10 +114,30 @@ class NewPostController extends GetxController {
     for (var element in networkModel!.networks!) {
       if (element.symbol == value) {
         selectedNetworkModel = element;
+        switch (value) {
+          case "MATIC":
+            chainId = chainIds[1];
+            client = Web3Client(
+              'https://polygon-mainnet.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
+              http.Client(),
+            );
+            break;
+          case "BNB":
+            chainId = chainIds[0];
+            client = Web3Client(
+              'https://bsc-dataseed1.binance.org/',
+              http.Client(),
+            );
+            break;
+          default:
+            chainId = chainIds[1];
+        }
       }
     }
     getCryptoPrice(selectedNetworkModel!.symbol!);
     // getCryptoPrice(selectedNetworkModel!.symbol!);
+
+    log("Selected chain ${client.getChainId()}");
 
     update();
   }
@@ -145,6 +170,7 @@ class NewPostController extends GetxController {
   fetchImageFromIG(File image) {
     pickedImage = image;
 
+    imageSelected.value = true;
     update();
   }
 
@@ -152,6 +178,7 @@ class NewPostController extends GetxController {
     image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       pickedImage = File(image!.path);
+      imageSelected.value = true;
     }
     update();
   }
@@ -160,6 +187,7 @@ class NewPostController extends GetxController {
     image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       pickedImage = File(image!.path);
+      imageSelected.value = true;
     }
     update();
   }
@@ -208,11 +236,18 @@ class NewPostController extends GetxController {
       ContractAbi.fromJson(polygonSmartContract, 'MFNFT'),
       EthereumAddress.fromHex(nftContractAddress.text),
     );
-    List<dynamic> balance = await client.call(
-      contract: contract,
-      function: contract.function('balanceOf'),
-      params: [account],
-    );
+    List<dynamic> balance = [];
+    try {
+      balance = await client.call(
+        contract: contract,
+        function: contract.function('balanceOf'),
+        params: [account],
+      );
+    } catch (e) {
+      log("Error ${e.toString()}");
+      EasyLoading.dismiss();
+      Get.snackbar("Error", e.toString());
+    }
 
     // log("Wallet Balance ${BigInt.from(balance[0])}");
     int bigValue = balance[0].toInt();
@@ -254,6 +289,7 @@ class NewPostController extends GetxController {
 
               title.text = data.name;
               description.text = data.description;
+              imageSelected.value = true;
               update();
               Get.back();
             } else {
@@ -283,6 +319,7 @@ class NewPostController extends GetxController {
   }
 
   connectWallet() async {
+    log("Chain ID $chainId");
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",
@@ -294,7 +331,7 @@ class NewPostController extends GetxController {
         url: "https://boomapp.io",
       ),
     );
-    connector.connect();
+    connector.connect(chainId: chainId);
 
     if (connector.connected) {
       for (var element in connector.session.accounts) {
@@ -303,7 +340,7 @@ class NewPostController extends GetxController {
       log("Wallet is already connected ${connector.session.accounts.first}");
 
       connector.on('connect', (SessionStatus session) {
-        provider = EthereumWalletConnectProvider(connector, chainId: 80001);
+        provider = EthereumWalletConnectProvider(connector, chainId: chainId);
         final sender = EthereumAddress.fromHex(session.accounts.first);
 
         credentials = WalletConnectEthereumCredentials(provider: provider!);
@@ -316,12 +353,13 @@ class NewPostController extends GetxController {
     } else {
       log("Wallet connection Not done yet");
       final session = await connector.createSession(
-        // chainId: chainId,
+        chainId: chainId,
         onDisplayUri: (uri) async {
           final launchUri = 'metamask://wc?uri=$uri';
           await launchUrlString(launchUri);
           log("Metamask URI::: $launchUri");
           // await connector.connect(chainId: chainId);
+
           connector.on('connect', (SessionStatus session) async {
             provider =
                 EthereumWalletConnectProvider(connector, chainId: chainId);
