@@ -1,6 +1,7 @@
 import 'package:boom_mobile/screens/profile_screen/controllers/boomBox_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -29,150 +30,214 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
   Widget build(BuildContext context) {
     return GetBuilder<BoomBoxController>(
       builder: (controller) {
-        return SizedBox(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20),
+        return RefreshIndicator(
+          onRefresh: () async {
+            await controller.fetchUserBoomBoxes();
+          },
+          child: SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
                         ),
-                      ),
-                      context: context,
-                      builder: (context) {
-                        return Container(
-                          height: SizeConfig.screenHeight * 0.25,
-                          margin: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Form(
-                              key: controller.formKey,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    'Create Your Box',
-                                    style: TextStyle(
-                                      fontSize:
-                                          getProportionateScreenHeight(16),
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(20),
-                                  ),
-                                  TextFormField(
-                                    controller:
-                                        controller.boomBoxNameController,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please enter a name';
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.all(8.0),
-                                      hintText: "Box Name",
-                                      hintStyle: const TextStyle(
-                                        color: Colors.black54,
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            height: SizeConfig.screenHeight * 0.25,
+                            margin: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Form(
+                                key: controller.formKey,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Create Your Box',
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(16),
+                                        fontWeight: FontWeight.w800,
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(20),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      if (controller.formKey.currentState!
-                                          .validate()) {
-                                        Get.back();
-                                        _buildUsersList(controller
-                                            .boomBoxNameController.text
-                                            .trim());
-                                      }
-                                    },
-                                    child: Container(
-                                      width: SizeConfig.screenWidth * 0.7,
-                                      height: getProportionateScreenHeight(35),
-                                      decoration: BoxDecoration(
-                                        color: kPrimaryColor,
-                                        borderRadius: BorderRadius.circular(10),
+                                    SizedBox(
+                                      height: getProportionateScreenHeight(20),
+                                    ),
+                                    TextFormField(
+                                      controller:
+                                          controller.boomBoxNameController,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Please enter a name';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.all(8.0),
+                                        hintText: "Box Name",
+                                        hintStyle: const TextStyle(
+                                          color: Colors.black54,
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
                                       ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Create your box",
-                                            style: TextStyle(
-                                              fontSize:
-                                                  getProportionateScreenHeight(
-                                                      14),
-                                              fontWeight: FontWeight.w700,
+                                    ),
+                                    SizedBox(
+                                      height: getProportionateScreenHeight(20),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        if (controller.formKey.currentState!
+                                            .validate()) {
+                                          Get.back();
+
+                                          _buildChooseImage();
+                                          // _buildUsersList(controller
+                                          //     .boomBoxNameController.text
+                                          //     .trim());
+                                        }
+                                      },
+                                      child: Container(
+                                        width: SizeConfig.screenWidth * 0.7,
+                                        height:
+                                            getProportionateScreenHeight(35),
+                                        decoration: BoxDecoration(
+                                          color: kPrimaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Create your box",
+                                              style: TextStyle(
+                                                fontSize:
+                                                    getProportionateScreenHeight(
+                                                        14),
+                                                fontWeight: FontWeight.w700,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width:
-                                                getProportionateScreenWidth(7),
-                                          ),
-                                          const Icon(
-                                            MdiIcons.cog,
-                                            size: 20,
-                                            color: Colors.black,
-                                          )
-                                        ],
+                                            SizedBox(
+                                              width:
+                                                  getProportionateScreenWidth(
+                                                      7),
+                                            ),
+                                            const Icon(
+                                              MdiIcons.cog,
+                                              size: 20,
+                                              color: Colors.black,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      width: SizeConfig.screenWidth * 0.45,
+                      height: getProportionateScreenHeight(35),
+                      decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Create your box",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(14),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(
+                            width: getProportionateScreenWidth(7),
+                          ),
+                          const Icon(
+                            MdiIcons.cog,
+                            size: 20,
+                            color: Colors.black,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(10),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: controller.boomBoxes.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 15,
+                              mainAxisSpacing: 5),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: SizeConfig.screenWidth * 0.4,
+                            height: getProportionateScreenHeight(120),
+                            margin: const EdgeInsets.only(right: 5, bottom: 5),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: SizeConfig.screenWidth * 0.5,
+                                  height: getProportionateScreenHeight(120),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: CachedNetworkImage(
+                                      // width: getProportionateScreenWidth(120),
+                                      // height: getProportionateScreenHeight(50),
+                                      fit: BoxFit.cover,
+                                      imageUrl:
+                                          controller.boomBoxes[index].imageUrl,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: getProportionateScreenHeight(5),
+                                ),
+                                Text(
+                                  controller.boomBoxes[index].label,
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(15),
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         );
                       },
-                    );
-                  },
-                  child: Container(
-                    width: SizeConfig.screenWidth * 0.45,
-                    height: getProportionateScreenHeight(35),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Create your box",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenHeight(14),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        SizedBox(
-                          width: getProportionateScreenWidth(7),
-                        ),
-                        const Icon(
-                          MdiIcons.cog,
-                          size: 20,
-                          color: Colors.black,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const Expanded(
-                  child: SizedBox(),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -302,5 +367,41 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                 ));
           });
         });
+  }
+
+  _buildChooseImage() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return GetBuilder<BoomBoxController>(
+          builder: (controller) {
+            return Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(15),
+                vertical: getProportionateScreenHeight(20),
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(
+                    getProportionateScreenHeight(15),
+                  ),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Text(controller.boomBoxNameController.text),
+                  Container(
+                    decoration: const BoxDecoration(),
+                    child: Column(
+                      children: const [],
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

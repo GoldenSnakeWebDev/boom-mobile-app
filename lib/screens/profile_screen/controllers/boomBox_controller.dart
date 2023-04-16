@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/direct_messages/models/boom_box_response.dart';
-import 'package:boom_mobile/screens/direct_messages/models/boom_users_model.dart';
+import 'package:boom_mobile/screens/direct_messages/models/boom_users_model.dart'
+    as user;
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
+import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
+import 'package:boom_mobile/screens/profile_screen/service/boom_box_service.dart';
+import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -15,18 +18,19 @@ class BoomBoxController extends GetxController {
   final TextEditingController boomBoxNameController = TextEditingController();
   final box = GetStorage();
   final formKey = GlobalKey<FormState>();
-  late BoomUsers boomUsers;
+  late user.BoomUsers boomUsers;
   final dmService = DMService();
+  final boomBoxService = BoomBoxService();
 
   bool isLoading = false;
 
-  List<User>? _users;
-  List<User>? get users => _users;
+  List<user.User>? _users;
+  List<user.User>? get users => _users;
 
-  List<BoomBox>? _boomBoxes;
-  List<BoomBox>? get boomBoxes => _boomBoxes;
+  List<BoomBox> boomBoxes = [];
+  // List<BoomBoxModel>? get boomBoxes => _boomBoxes;
 
-  List<User> selectedUsers = [];
+  List<user.User> selectedUsers = [];
 
   @override
   void onInit() {
@@ -56,12 +60,22 @@ class BoomBoxController extends GetxController {
   fetchUserBoomBoxes() async {
     isLoading = true;
     update();
-    var ress = await dmService.fetchBoomBoxMessages();
+    final ress = await boomBoxService.fetchUserBoomBox();
+    boomBoxes.clear();
+    if (ress.statusCode == 200) {
+      for (var item in BoomBoxModel.fromJson(jsonDecode(ress.body)).boomBoxes) {
+        boomBoxes.add(item);
+      }
 
-    if (ress != null) {
-      _boomBoxes = ress;
-      _boomBoxes!.sort((a, b) =>
-          b.messages!.last.timestamp!.compareTo(a.messages!.last.timestamp!));
+      isLoading = false;
+      update();
+    } else {
+      Get.snackbar(
+        "Error",
+        "Error fetching boomboxes",
+        backgroundColor: kredCancelLightColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
       isLoading = false;
       update();
     }
