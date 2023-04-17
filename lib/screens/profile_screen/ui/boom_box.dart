@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:boom_mobile/screens/profile_screen/controllers/boomBox_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/ui/single_boom_box_message.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -195,14 +196,21 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 15,
-                              mainAxisSpacing: 5),
+                              mainAxisSpacing: 1),
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Get.to(
+                              () => const SingleBoomBoxMessage(),
+                              arguments: [
+                                controller.boomBoxes[index],
+                              ],
+                            );
+                          },
                           child: Container(
                             width: SizeConfig.screenWidth * 0.4,
                             height: getProportionateScreenHeight(120),
-                            margin: const EdgeInsets.only(right: 5, bottom: 5),
+                            margin: const EdgeInsets.only(right: 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -210,7 +218,10 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                                   width: SizeConfig.screenWidth * 0.5,
                                   height: getProportionateScreenHeight(120),
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10)),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                        color: Colors.black38, width: 0.5),
+                                  ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: CachedNetworkImage(
