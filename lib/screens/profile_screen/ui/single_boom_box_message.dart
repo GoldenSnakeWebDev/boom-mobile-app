@@ -1,5 +1,5 @@
-import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/single_box_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -109,24 +109,29 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: StreamBuilder<DMBoomBox?>(
-                        // stream: controller.service.fetchDMs(boomBox),
-                        builder: (context, AsyncSnapshot<DMBoomBox?> snapshot) {
+                      child: StreamBuilder(
+                        stream: controller.fetchMessages(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          // if (snapshot.connectionState ==
+                          //     ConnectionState.waiting) {
+                          //   return const Center(
+                          //       child: CircularProgressIndicator(
+                          //     color: kPrimaryColor,
+                          //   ));
+                          // } else
+
                           if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator(
-                              color: kPrimaryColor,
-                            ));
-                          } else if (snapshot.connectionState ==
                                   ConnectionState.active ||
+                              snapshot.connectionState ==
+                                  ConnectionState.waiting ||
                               snapshot.connectionState ==
                                   ConnectionState.done) {
                             if (snapshot.hasError) {
-                              return const Center(child: Text('Error'));
+                              return const Center(
+                                child: Text('Error'),
+                              );
                             } else if (snapshot.hasData) {
-                              return _buildChatMessages(
-                                  snapshot.data!.messages);
+                              return _buildChatMessages(snapshot.data!);
                             } else {
                               return const Center(
                                 child: Text(
@@ -145,7 +150,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                       ),
                     ),
                     TextFormField(
-                      // controller: _messageController,
+                      controller: controller.messageController,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(12.0),
                         fillColor: const Color(0xFFF8F8F8),
@@ -165,12 +170,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                 )
                               : IconButton(
                                   onPressed: () async {
-                                    controller.chatWithUser(
-                                      "send_message",
-                                      controller.messageController.text,
-                                      "",
-                                      controller.boomBoxModel.id,
-                                    );
+                                    controller.chatWithUser();
                                     controller.messageController.clear();
                                     FocusScope.of(context).unfocus();
                                   },
@@ -213,7 +213,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
     });
   }
 
-  _buildChatMessages(List<DMMessage>? messages) {
+  _buildChatMessages(List<Message>? messages) {
     String userid = _storage.read('userId');
     return ListView.builder(
       shrinkWrap: true,
@@ -226,22 +226,35 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
             top: getProportionateScreenHeight(10),
           ),
           child: Row(
-            mainAxisAlignment: (messages[index].author!.id != userid)
+            mainAxisAlignment: (messages[index].sender.id != userid)
                 ? MainAxisAlignment.start
                 : MainAxisAlignment.end,
             children: [
               Column(
-                crossAxisAlignment: (messages[index].author!.id != userid)
+                crossAxisAlignment: (messages[index].sender.id != userid)
                     ? CrossAxisAlignment.start
                     : CrossAxisAlignment.end,
                 children: [
+                  messages[index].sender.id != userid
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: Text(
+                            messages[index].sender.username,
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(12),
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                   Container(
                     width: SizeConfig.screenWidth * 0.7,
                     decoration: BoxDecoration(
-                      color: (messages[index].author!.id != userid)
+                      color: (messages[index].sender.id != userid)
                           ? const Color(0xFFF8F8F8)
                           : const Color(0XFF4B5259),
-                      borderRadius: (messages[index].author!.id == userid)
+                      borderRadius: (messages[index].sender.id == userid)
                           ? const BorderRadius.only(
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12),
@@ -256,10 +269,10 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "${messages[index].content}",
+                        messages[index].content,
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
-                          color: (messages[index].author!.id != userid)
+                          color: (messages[index].sender.id != userid)
                               ? const Color(0xFF5F5F5F)
                               : Colors.white,
                         ),
@@ -267,7 +280,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                     ),
                   ),
                   Text(
-                    DateFormat('HH:mm a').format(messages[index].timestamp!),
+                    DateFormat('HH:mm a').format(messages[index].createdAt),
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),
