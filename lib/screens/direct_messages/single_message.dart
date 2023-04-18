@@ -7,19 +7,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'models/messages_model.dart';
+import '../profile_screen/models/boom_box_model.dart';
 
 class SingleMessage extends GetView<DMCrontroller> {
-  final String username;
-  final String receiverId;
-  final String img;
-  final String boomBox;
+  final BoomBox boomBoxModel;
   SingleMessage({
     Key? key,
-    required this.username,
-    required this.receiverId,
-    required this.img,
-    required this.boomBox,
+    required this.boomBoxModel,
   }) : super(key: key);
 
   final TextEditingController _messageController = TextEditingController();
@@ -67,11 +61,11 @@ class SingleMessage extends GetView<DMCrontroller> {
         ],
         title: Row(
           children: [
-            (img.isNotEmpty)
+            (boomBoxModel.imageUrl.isNotEmpty)
                 ? CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      img,
+                      boomBoxModel.imageUrl,
                     ),
                   )
                 : const CircleAvatar(
@@ -86,7 +80,7 @@ class SingleMessage extends GetView<DMCrontroller> {
               width: getProportionateScreenWidth(10),
             ),
             Text(
-              username,
+              boomBoxModel.label,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: getProportionateScreenHeight(15),
@@ -109,9 +103,9 @@ class SingleMessage extends GetView<DMCrontroller> {
               child: Column(
                 children: [
                   Expanded(
-                    child: StreamBuilder<DMBoomBox?>(
-                      stream: controller.service.fetchDMs(boomBox),
-                      builder: (context, AsyncSnapshot<DMBoomBox?> snapshot) {
+                    child: StreamBuilder(
+                      stream: controller.service.fetchMessages(boomBoxModel.id),
+                      builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
@@ -124,7 +118,7 @@ class SingleMessage extends GetView<DMCrontroller> {
                           if (snapshot.hasError) {
                             return const Center(child: Text('Error'));
                           } else if (snapshot.hasData) {
-                            return _buildChatMessages(snapshot.data!.messages);
+                            return _buildChatMessages(snapshot.data!);
                           } else {
                             return const Center(
                               child: Text(
@@ -164,11 +158,7 @@ class SingleMessage extends GetView<DMCrontroller> {
                             : IconButton(
                                 onPressed: () async {
                                   controller.chatWithUser(
-                                    "send_message",
-                                    _messageController.text,
-                                    receiverId,
-                                    boomBox,
-                                  );
+                                      _messageController.text, boomBoxModel.id);
                                   _messageController.clear();
                                   FocusScope.of(context).unfocus();
                                 },
@@ -210,7 +200,7 @@ class SingleMessage extends GetView<DMCrontroller> {
     );
   }
 
-  _buildChatMessages(List<DMMessage>? messages) {
+  _buildChatMessages(List<Message>? messages) {
     String userid = _storage.read('userId');
     return ListView.builder(
       shrinkWrap: true,
@@ -223,22 +213,22 @@ class SingleMessage extends GetView<DMCrontroller> {
             top: getProportionateScreenHeight(10),
           ),
           child: Row(
-            mainAxisAlignment: (messages[index].author!.id != userid)
+            mainAxisAlignment: (messages[index].sender.id != userid)
                 ? MainAxisAlignment.start
                 : MainAxisAlignment.end,
             children: [
               Column(
-                crossAxisAlignment: (messages[index].author!.id != userid)
+                crossAxisAlignment: (messages[index].sender.id != userid)
                     ? CrossAxisAlignment.start
                     : CrossAxisAlignment.end,
                 children: [
                   Container(
                     width: SizeConfig.screenWidth * 0.7,
                     decoration: BoxDecoration(
-                      color: (messages[index].author!.id != userid)
+                      color: (messages[index].sender.id != userid)
                           ? const Color(0xFFF8F8F8)
                           : const Color(0XFF4B5259),
-                      borderRadius: (messages[index].author!.id == userid)
+                      borderRadius: (messages[index].sender.id == userid)
                           ? const BorderRadius.only(
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12),
@@ -253,10 +243,10 @@ class SingleMessage extends GetView<DMCrontroller> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "${messages[index].content}",
+                        messages[index].content,
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
-                          color: (messages[index].author!.id != userid)
+                          color: (messages[index].sender.id != userid)
                               ? const Color(0xFF5F5F5F)
                               : Colors.white,
                         ),
@@ -264,7 +254,7 @@ class SingleMessage extends GetView<DMCrontroller> {
                     ),
                   ),
                   Text(
-                    DateFormat('HH:mm a').format(messages[index].timestamp!),
+                    DateFormat('HH:mm a').format(messages[index].createdAt),
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),

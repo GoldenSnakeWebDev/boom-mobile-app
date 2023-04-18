@@ -1,12 +1,15 @@
-import 'package:boom_mobile/screens/direct_messages/models/boom_box_response.dart';
 import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
+import 'package:boom_mobile/screens/direct_messages/models/new_message_response.dart';
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
 import 'package:boom_mobile/screens/direct_messages/single_message.dart';
+import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../models/boom_users_model.dart';
+import '../models/boom_users_model.dart' as user;
 
 class DMCrontroller extends GetxController {
   final service = DMService();
@@ -14,11 +17,11 @@ class DMCrontroller extends GetxController {
 
   // IOWebSocketChannel? channel;
 
-  List<BoomBox>? _boomBoxes;
-  List<BoomBox>? get boomBoxes => _boomBoxes;
+  BoomBoxModel? _boomBoxes;
+  BoomBoxModel? get boomBoxes => _boomBoxes;
 
-  List<User>? _boxUsers;
-  List<User>? get boxUsers => _boxUsers;
+  List<user.User>? _boxUsers;
+  List<user.User>? get boxUsers => _boxUsers;
 
   List<DMMessage>? _dmMessages;
   List<DMMessage>? get dmMessages => _dmMessages;
@@ -53,8 +56,8 @@ class DMCrontroller extends GetxController {
     setLoading(false);
     if (ress != null) {
       _boomBoxes = ress;
-      _boomBoxes!.sort((a, b) =>
-          b.messages!.last.timestamp!.compareTo(a.messages!.last.timestamp!));
+      _boomBoxes!.boomBoxes.sort((a, b) =>
+          b.messages.last.createdAt.compareTo(a.messages.last.createdAt));
       update();
     }
   }
@@ -79,72 +82,62 @@ class DMCrontroller extends GetxController {
   //   }
   // }
 
-  chatWithUser(
-    String command,
-    String? content,
-    String? receiver,
-    String? box,
-  ) async {
+  chatWithUser(String message, String boomBoxId) async {
     // setLoading(true);
-    var ress = await service.chatWithUser(
-      {
-        "command": command,
-        "content": "$content",
-        "author": "${_storage.read('userId')}",
-        "receiver": "$receiver",
-        "box": "$box",
-        "timestamp": DateTime.now().millisecondsSinceEpoch,
-      },
-    );
+    var ress = await service.chatWithUser(message, boomBoxId);
     fetchBoomBoxMessages();
     // setLoading(false);
+    update();
 
     if (ress != null) {
       fetchBoomBoxMessages();
       boomBox = ress;
     }
-
     return ress;
   }
 
   goToSingleUserMessage(int index) async {
-    for (var item in boomBoxes!) {
-      if (boxUsers![index].id == item.messages!.last.receiver!.id) {
+    for (var item in boomBoxes!.boomBoxes) {
+      if (boxUsers![index].id == item.messages.last.sender.id) {
         final userId = box.read("userId");
-        String receiverId = item.messages!.first.receiver!.id! != userId
-            ? item.messages!.first.receiver!.id!
-            : item.messages!.first.author!.id!;
+        // String receiverId = item.boomBoxes.last.messages.last.sender.id != userId
+        //     ? item.messages!.first.receiver!.id!
+        //     : item.messages!.first.author!.id!;
 
         Get.back();
-        boomBox = item.box!;
+
         update();
         Get.to(
           () => SingleMessage(
-            username: item.messages!.last.receiver!.username!,
-            boomBox: item.box!,
-            img: item.messages!.last.receiver!.photo ??
-                "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-            receiverId: receiverId,
+            boomBoxModel: item,
           ),
         );
       } else {
         Get.back();
 
-        var res = await chatWithUser(
-          "join_room",
-          "Joined chat with ${boxUsers![index].username}",
-          boxUsers![index].userId,
-          "",
-        );
+        NewBoomBoxResponse? res = await service.createNewMessage(
+            boxUsers![index].id!,
+            boxUsers![index].photo!,
+            boxUsers![index].username!);
+        if (res != null) {
+          EasyLoading.dismiss();
 
-        Get.to(
-          () => SingleMessage(
-            username: boxUsers![index].username!,
-            boomBox: res,
-            img: boxUsers![index].photo!,
-            receiverId: boxUsers![index].userId!,
-          ),
-        );
+          Get.back();
+          fetchBoomBoxMessages();
+          final boomBox = res;
+          Get.to(
+            () => SingleMessage(
+              boomBoxModel: boomBox.boomBox,
+            ),
+          );
+        } else {
+          Get.snackbar(
+            "Error",
+            "Could not message User",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red,
+          );
+        }
       }
     }
   }

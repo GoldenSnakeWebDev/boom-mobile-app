@@ -43,7 +43,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                   child: CircularProgressIndicator(),
                 )
               : (controller.boomBoxes != null &&
-                      controller.boomBoxes!.isNotEmpty)
+                      controller.boomBoxes!.boomBoxes.isNotEmpty)
                   ? _buildChatsList()
                   : const Center(
                       child: Text("No messages"),
@@ -172,7 +172,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: ctrllerr.boomBoxes?.length,
+              itemCount: ctrllerr.boomBoxes?.boomBoxes.length,
               physics: const BouncingScrollPhysics(),
               itemBuilder: ((context, index) {
                 return ListTile(
@@ -180,27 +180,20 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                   onTap: () async {
                     Get.to(
                       () => SingleMessage(
-                        username:
-                            "${ctrllerr.boomBoxes?[index].messages?.last.receiver?.username}",
-                        receiverId:
-                            "${ctrllerr.boomBoxes?[index].messages?.last.receiver?.id}",
-                        img: ctrllerr.boomBoxes?[index].messages?.last.receiver
-                                ?.photo ??
-                            "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                        boomBox: "${ctrllerr.boomBoxes?[index].box!}",
+                        boomBoxModel: ctrllerr.boomBoxes!.boomBoxes[index],
                       ),
                     );
                   },
                   leading: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      ctrllerr.boomBoxes?[index].messages?.last.receiver
-                              ?.photo ??
+                      ctrllerr.boomBoxes?.boomBoxes[index].members.first.user
+                              .photo ??
                           "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                     ),
                   ),
                   title: Text(
-                    "${ctrllerr.boomBoxes?[index].label}",
+                    "${ctrllerr.boomBoxes?.boomBoxes[index].label}",
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(15),
                       color: Colors.black,
@@ -210,7 +203,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                   subtitle: RichText(
                     text: TextSpan(
                       text:
-                          "${ctrllerr.boomBoxes?[index].messages?.last.content}   ",
+                          "${ctrllerr.boomBoxes?.boomBoxes[index].messages.last.content}   ",
                       style: TextStyle(
                         fontSize: getProportionateScreenHeight(12),
                         color: Colors.black54,
@@ -219,8 +212,8 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                       children: [
                         TextSpan(
                           text: DateFormat('EEE, MMM dd HH:mm a').format(
-                              ctrllerr
-                                  .boomBoxes![index].messages!.last.timestamp!),
+                              ctrllerr.boomBoxes!.boomBoxes[index].messages.last
+                                  .createdAt),
                           style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: getProportionateScreenHeight(10)),
