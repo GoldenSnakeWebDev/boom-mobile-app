@@ -17,6 +17,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart';
 
@@ -167,12 +168,14 @@ class BoomBoxController extends GetxController {
     EasyLoading.show(status: "Creating BoomBox");
     final token = box.read("token");
     final userId = box.read("userId");
+    final format = DateFormat("MM/dd/yyyy, HH:mm:ss a");
+    var timeStamp = format.format(DateTime.now());
     final members = selectedUsers.map((e) => e.id).toList();
     final body = {
       "members": members,
       "image_url": imageUrl,
       "label": boomBoxNameController.text.trim(),
-      "timestamp": DateTime.now().millisecondsSinceEpoch,
+      "timestamp": timeStamp,
       "is_group_chat": true
     };
 
@@ -186,13 +189,10 @@ class BoomBoxController extends GetxController {
     );
     if (res.statusCode == 200) {
       //Enter the created boombox
-
-      EasyLoading.dismiss();
       EasyLoading.showSuccess("BoomBox created");
+      await fetchUserBoomBoxes();
+      EasyLoading.dismiss();
       Get.back();
-      fetchUserBoomBoxes();
-      Get.snackbar("Error", "Error entering boombox",
-          backgroundColor: Colors.red, snackPosition: SnackPosition.BOTTOM);
     } else {
       log(res.body);
       EasyLoading.dismiss();
