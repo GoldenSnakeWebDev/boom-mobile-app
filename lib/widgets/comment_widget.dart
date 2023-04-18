@@ -120,6 +120,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                                             .toString(),
                                         imageUrl:
                                             "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg",
+                                        userId:
+                                            widget.comments![index].user!.id!,
                                       );
                                     },
                                   )

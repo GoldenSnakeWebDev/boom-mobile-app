@@ -8,7 +8,7 @@ class BoomBoxService {
   fetchUserBoomBox() async {
     final token = box.read("token");
     final res = await http.get(
-      Uri.parse("${baseURL}boom-box"),
+      Uri.parse("${baseURL}boom-box?is_group=true"),
       headers: {
         "Authorization": token,
       },

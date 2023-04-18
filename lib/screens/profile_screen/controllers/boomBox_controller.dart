@@ -168,7 +168,7 @@ class BoomBoxController extends GetxController {
     EasyLoading.show(status: "Creating BoomBox");
     final token = box.read("token");
     final userId = box.read("userId");
-    final format = DateFormat("MM/dd/yyyy, HH:mm:ss a");
+    final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
     var timeStamp = format.format(DateTime.now());
     final members = selectedUsers.map((e) => e.id).toList();
     final body = {

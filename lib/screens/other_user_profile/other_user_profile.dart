@@ -848,7 +848,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                             child:
                                                                                 Text(
                                                                               !fans.contains(myUserId) ? "Add" : "Unadd",
-                                                                              style: TextStyle(fontSize: getProportionateScreenHeight(11), fontWeight: FontWeight.w800),
+                                                                              style: const TextStyle(fontWeight: FontWeight.w800),
                                                                             ),
                                                                           ),
                                                                         ),

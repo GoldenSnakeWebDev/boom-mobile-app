@@ -1,10 +1,13 @@
+import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class SingleComment extends StatelessWidget {
   final String userName;
+  final String userId;
   final String comment;
   final String imageUrl;
   final String createdAt;
@@ -14,6 +17,7 @@ class SingleComment extends StatelessWidget {
     required this.comment,
     required this.imageUrl,
     required this.createdAt,
+    required this.userId,
   }) : super(key: key);
 
   @override
@@ -30,18 +34,24 @@ class SingleComment extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 0),
-                child: SizedBox(
-                  width: getProportionateScreenWidth(40),
-                  height: getProportionateScreenHeight(40),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fit: BoxFit.cover,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => const OtherUserProfileScreen(),
+                        arguments: userId);
+                  },
+                  child: SizedBox(
+                    width: getProportionateScreenWidth(40),
+                    height: getProportionateScreenHeight(40),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

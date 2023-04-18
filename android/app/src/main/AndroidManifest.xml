@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+   
+
    <application
         android:label="Boom Social"
         android:name="${applicationName}"
@@ -22,6 +24,13 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:supportsRtl="true">
+         
+         <queries>
+            <intent>
+                <action android:name="android.intent.action.SENDTO" />
+                <data android:scheme="mailto" />
+            </intent>
+        </queries>
               
         <activity
             android:name=".MainActivity"

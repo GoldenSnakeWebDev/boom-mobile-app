@@ -265,8 +265,20 @@ class NewPostController extends GetxController {
             ),
           ],
         );
+        String token = tokenURI[0].toString();
 
-        final res = await http.get(Uri.parse(tokenURI[0]));
+        if (tokenURI[0].toString().startsWith("ipfs://")) {
+          tokenURI[0] =
+              "https://ipfs.io/ipfs/${tokenURI[0].toString().replaceAll("ipfs://", "")}";
+          final res = await http.get(Uri.parse(tokenURI[0]));
+
+          if (res.statusCode == 200) {
+            var result = jsonDecode(res.body)["image"];
+            token = "https://ipfs.io/ipfs/${result.toString().split("/").last}";
+          }
+        }
+
+        final res = await http.get(Uri.parse(token));
 
         if (res.statusCode == 200) {
           WalletNft data = WalletNft.fromJson(jsonDecode(res.body));

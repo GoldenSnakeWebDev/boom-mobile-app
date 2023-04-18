@@ -901,6 +901,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           .toString(),
                                       imageUrl:
                                           "${boom.boom.comments![index].user.photo!.isNotEmpty ? boom.boom.comments![index].user.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
+                                      userId:
+                                          boom.boom.comments![index].user.id!,
                                     );
                                   },
                                 ),
