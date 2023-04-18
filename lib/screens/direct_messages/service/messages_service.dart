@@ -210,7 +210,7 @@ class DMService {
       body: jsonEncode(body),
     );
     if (res.statusCode == 200) {
-      //Enter the created boombox
+      //TODO: add the new boombox to the list of boomboxes but User Object should be on response
       final boomBox = newRes.NewBoomBoxResponse.fromJson(jsonDecode(res.body));
 
       return boomBox;
