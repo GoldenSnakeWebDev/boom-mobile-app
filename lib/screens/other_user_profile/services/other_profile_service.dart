@@ -11,6 +11,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class OtherProfileService {
   final box = GetStorage();
@@ -19,8 +20,6 @@ class OtherProfileService {
 
   Stream<OtherUserModel?> fetchotherUserProfile(String userId) async* {
     String token = box.read("token");
-
-    log("User Id $userId");
 
     while (true) {
       try {
@@ -136,10 +135,13 @@ class OtherProfileService {
     if (formKey.currentState!.validate()) {
       EasyLoading.show(status: "Tipping User");
       String token = box.read("token");
+      final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
+      var timeStamp = format.format(DateTime.now());
       final Map<String, dynamic> body = {
         "amount": amountController.text.trim(),
         "user": userId,
-        "networkType": network
+        "networkType": network,
+        "timestamp": timeStamp
       };
       final res = await http.post(
         Uri.parse("${baseURL}sync-bank/tipping"),

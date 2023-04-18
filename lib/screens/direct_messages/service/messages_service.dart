@@ -121,7 +121,7 @@ class DMService {
 
   chatWithUser(String message, String boomBoxId) async {
     final token = _storage.read("token");
-    final format = DateFormat("MM/dd/yyyy, HH:mm:ss a");
+    final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
     var timeStamp = format.format(DateTime.now());
     final body = {
       "content": message,
@@ -140,6 +140,7 @@ class DMService {
     if (res.statusCode == 200) {
       log("Response ${res.body}");
     } else {
+      log("Response ${res.body} ${res.statusCode}");
       Get.snackbar(
         "Error",
         "Check your connection and try again",
@@ -188,8 +189,7 @@ class DMService {
       String userId, String imageUrl, String username) async {
     EasyLoading.show(status: "DMing...");
     final token = _storage.read("token");
-    final userId = _storage.read("userId");
-    final format = DateFormat("MM/dd/yyyy, HH:mm:ss a");
+    final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
     var timeStamp = format.format(DateTime.now());
     final members = [userId];
     final body = {
@@ -199,6 +199,8 @@ class DMService {
       "timestamp": timeStamp,
       "is_group_chat": false
     };
+
+    log("Body: $body");
 
     final res = await http.post(
       Uri.parse("${baseURL}boom-box"),
@@ -210,11 +212,13 @@ class DMService {
       body: jsonEncode(body),
     );
     if (res.statusCode == 200) {
-      //TODO: add the new boombox to the list of boomboxes but User Object should be on response
+      log("Create New Message: ${res.body}");
+      EasyLoading.dismiss();
       final boomBox = newRes.NewBoomBoxResponse.fromJson(jsonDecode(res.body));
 
       return boomBox;
     } else {
+      log("Create New Message: ${res.body}");
       EasyLoading.dismiss();
 
       return null;

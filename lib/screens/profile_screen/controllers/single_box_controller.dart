@@ -28,7 +28,7 @@ class SingleBoxController extends GetxController {
 
   chatWithUser() async {
     final token = storage.read("token");
-    final format = DateFormat("MM/dd/yyyy, HH:mm:ss a");
+    final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
     var timeStamp = format.format(DateTime.now());
     final body = {
       "content": messageController.text,

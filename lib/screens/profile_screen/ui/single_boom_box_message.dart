@@ -238,13 +238,26 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                   messages[index].sender.id != userid
                       ? Padding(
                           padding: const EdgeInsets.only(left: 8),
-                          child: Text(
-                            messages[index].sender.username,
-                            style: TextStyle(
-                              fontSize: getProportionateScreenHeight(12),
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black,
-                            ),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: getProportionateScreenWidth(10),
+                                backgroundImage: NetworkImage(
+                                  messages[index].sender.photo,
+                                ),
+                              ),
+                              SizedBox(
+                                width: getProportionateScreenWidth(5),
+                              ),
+                              Text(
+                                messages[index].sender.username,
+                                style: TextStyle(
+                                  fontSize: getProportionateScreenHeight(12),
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
+                                ),
+                              )
+                            ],
                           ),
                         )
                       : const SizedBox(),
@@ -267,15 +280,16 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                             ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 8.0),
                       child: Text(
                         messages[index].content,
                         style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                          color: (messages[index].sender.id != userid)
-                              ? const Color(0xFF5F5F5F)
-                              : Colors.white,
-                        ),
+                            fontSize: getProportionateScreenHeight(12),
+                            color: (messages[index].sender.id != userid)
+                                ? const Color(0xFF5F5F5F)
+                                : Colors.white,
+                            fontWeight: FontWeight.w800),
                       ),
                     ),
                   ),
@@ -284,7 +298,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),
-                  )
+                  ),
                 ],
               )
             ],

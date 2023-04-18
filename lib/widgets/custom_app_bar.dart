@@ -5,6 +5,7 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
 
 import '../di/app_bindings.dart';
@@ -86,7 +87,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        final Email email = Email(
+                          body: '',
+                          subject: 'Boom Mobile Support',
+                          recipients: ['letstalk@boooooooooom.com'],
+                          cc: [''],
+                          bcc: [''],
+                          isHTML: false,
+                        );
+                        await FlutterEmailSender.send(email);
+                      },
                       child: Image.asset(
                         "assets/icons/support_icon.png",
                         height: getProportionateScreenHeight(30),

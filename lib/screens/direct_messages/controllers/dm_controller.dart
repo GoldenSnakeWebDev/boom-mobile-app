@@ -1,4 +1,5 @@
-import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
+import 'dart:developer';
+
 import 'package:boom_mobile/screens/direct_messages/models/new_message_response.dart';
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
 import 'package:boom_mobile/screens/direct_messages/single_message.dart';
@@ -23,8 +24,9 @@ class DMCrontroller extends GetxController {
   List<user.User>? _boxUsers;
   List<user.User>? get boxUsers => _boxUsers;
 
-  List<DMMessage>? _dmMessages;
-  List<DMMessage>? get dmMessages => _dmMessages;
+  List<BoomBox> dmMessages = [];
+  List<BoomBox> groupMessages = [];
+  // List<BoomBox>? get dmMessages => _dmMessages;
 
   var isLoading = false.obs;
 
@@ -58,6 +60,17 @@ class DMCrontroller extends GetxController {
       _boomBoxes = ress;
       _boomBoxes!.boomBoxes.sort((a, b) =>
           b.messages.last.createdAt.compareTo(a.messages.last.createdAt));
+
+      dmMessages.clear();
+      groupMessages.clear();
+
+      for (var item in _boomBoxes!.boomBoxes) {
+        if (item.isGroup == false) {
+          dmMessages.add(item);
+        } else {
+          groupMessages.add(item);
+        }
+      }
       update();
     }
   }
@@ -97,46 +110,69 @@ class DMCrontroller extends GetxController {
   }
 
   goToSingleUserMessage(int index) async {
-    for (var item in boomBoxes!.boomBoxes) {
-      if (boxUsers![index].id == item.messages.last.sender.id) {
-        final userId = box.read("userId");
-        // String receiverId = item.boomBoxes.last.messages.last.sender.id != userId
-        //     ? item.messages!.first.receiver!.id!
-        //     : item.messages!.first.author!.id!;
+    if (boomBoxes!.boomBoxes.isEmpty) {
+      NewBoomBoxResponse? res = await service.createNewMessage(
+        boxUsers![index].id!,
+        boxUsers![index].photo!,
+        boxUsers![index].username!,
+      );
 
+      if (res != null) {
+        EasyLoading.dismiss();
         Get.back();
 
-        update();
+        final boomBox = res;
         Get.to(
           () => SingleMessage(
-            boomBoxModel: item,
+            boomBoxModel: boomBox.boomBox,
           ),
         );
-      } else {
-        Get.back();
-
-        NewBoomBoxResponse? res = await service.createNewMessage(
-            boxUsers![index].id!,
-            boxUsers![index].photo!,
-            boxUsers![index].username!);
-        if (res != null) {
-          EasyLoading.dismiss();
+        return;
+      }
+    } else {
+      for (var item in boomBoxes!.boomBoxes) {
+        log("Starting new Message");
+        if (boxUsers![index].id == item.members.last.user.id) {
+          final userId = box.read("userId");
+          // String receiverId = item.boomBoxes.last.messages.last.sender.id != userId
+          //     ? item.messages!.first.receiver!.id!
+          //     : item.messages!.first.author!.id!;
 
           Get.back();
-          fetchBoomBoxMessages();
-          final boomBox = res;
+
+          update();
           Get.to(
             () => SingleMessage(
-              boomBoxModel: boomBox.boomBox,
+              boomBoxModel: item,
             ),
           );
+          return;
         } else {
-          Get.snackbar(
-            "Error",
-            "Could not message User",
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red,
+          NewBoomBoxResponse? res = await service.createNewMessage(
+            boxUsers![index].id!,
+            boxUsers![index].photo!,
+            boxUsers![index].username!,
           );
+
+          if (res != null) {
+            EasyLoading.dismiss();
+            Get.back();
+
+            final boomBox = res;
+            Get.to(
+              () => SingleMessage(
+                boomBoxModel: boomBox.boomBox,
+              ),
+            );
+            return;
+          } else {
+            Get.snackbar(
+              "Error",
+              "Could not message User",
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.red,
+            );
+          }
         }
       }
     }
