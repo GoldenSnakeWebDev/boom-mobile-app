@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../profile_screen/models/boom_box_model.dart';
 import 'controllers/dm_controller.dart';
 import 'single_message.dart';
 
@@ -13,111 +14,155 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kContBgColor,
-      appBar: AppBar(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         backgroundColor: kContBgColor,
-        elevation: 0,
-        leading: IconButton(
+        appBar: AppBar(
+          backgroundColor: kContBgColor,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              color: Colors.black,
+            ),
+          ),
+          title: Text(
+            "Messages",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: getProportionateScreenHeight(16),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          centerTitle: true,
+          bottom: TabBar(
+            unselectedLabelColor: Colors.black,
+            labelColor: kPrimaryColor,
+            tabs: [
+              Tab(
+                child: Text(
+                  "Direct Message",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(14),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "BoomBox Message",
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(14),
+                      fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            SafeArea(
+              child: Obx(
+                () => (controller.isLoading.value)
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : (controller.boomBoxes != null &&
+                            controller.boomBoxes!.boomBoxes.isNotEmpty)
+                        ? _buildChatsList(controller.dmMessages)
+                        : const Center(
+                            child: Text("No messages"),
+                          ),
+              ),
+            ),
+            SafeArea(
+              child: Obx(
+                () => (controller.isLoading.value)
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : (controller.boomBoxes != null &&
+                            controller.boomBoxes!.boomBoxes.isNotEmpty)
+                        ? _buildChatsList(controller.groupMessages)
+                        : const Center(
+                            child: Text("No messages"),
+                          ),
+              ),
+            )
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.back();
+            showModalBottomSheet(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(
+                    getProportionateScreenHeight(15),
+                  ),
+                ),
+              ),
+              context: context,
+              builder: (context) => Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(15),
+                  vertical: getProportionateScreenHeight(20),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(
+                    getProportionateScreenHeight(15),
+                  ),
+                )),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Container(
+                    //   height: getProportionateScreenHeight(50),
+                    //   margin: EdgeInsets.only(
+                    //     bottom: getProportionateScreenHeight(15),
+                    //   ),
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.grey[200],
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: TextFormField(
+                    //     onChanged: (value) {},
+                    //     decoration: const InputDecoration(
+                    //       border: InputBorder.none,
+                    //       prefixIcon: Icon(
+                    //         Icons.search,
+                    //         color: Colors.grey,
+                    //       ),
+                    //       hintText: 'Search',
+                    //       hintStyle: TextStyle(
+                    //         color: Colors.grey,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    Text(
+                      "New Message",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenHeight(16),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(15),
+                    ),
+                    Expanded(child: _buildUsersList()),
+                  ],
+                ),
+              ),
+            );
           },
-          icon: const Icon(
-            Icons.arrow_back_ios_new_outlined,
-            color: Colors.black,
+          child: const Icon(
+            MdiIcons.messageText,
           ),
-        ),
-        title: Text(
-          "Direct Messages",
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: getProportionateScreenHeight(16),
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: Obx(
-          () => (controller.isLoading.value)
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : (controller.boomBoxes != null &&
-                      controller.boomBoxes!.boomBoxes.isNotEmpty)
-                  ? _buildChatsList()
-                  : const Center(
-                      child: Text("No messages"),
-                    ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(
-                  getProportionateScreenHeight(15),
-                ),
-              ),
-            ),
-            context: context,
-            builder: (context) => Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(15),
-                vertical: getProportionateScreenHeight(20),
-              ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.vertical(
-                top: Radius.circular(
-                  getProportionateScreenHeight(15),
-                ),
-              )),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Container(
-                  //   height: getProportionateScreenHeight(50),
-                  //   margin: EdgeInsets.only(
-                  //     bottom: getProportionateScreenHeight(15),
-                  //   ),
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.grey[200],
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   child: TextFormField(
-                  //     onChanged: (value) {},
-                  //     decoration: const InputDecoration(
-                  //       border: InputBorder.none,
-                  //       prefixIcon: Icon(
-                  //         Icons.search,
-                  //         color: Colors.grey,
-                  //       ),
-                  //       hintText: 'Search',
-                  //       hintStyle: TextStyle(
-                  //         color: Colors.grey,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
-                  Text(
-                    "New Message",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: getProportionateScreenHeight(16),
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(15),
-                  ),
-                  Expanded(child: _buildUsersList()),
-                ],
-              ),
-            ),
-          );
-        },
-        child: const Icon(
-          MdiIcons.messageText,
         ),
       ),
     );
@@ -165,14 +210,14 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
     );
   }
 
-  _buildChatsList() {
+  _buildChatsList(List<BoomBox> boomBoxes) {
     return GetBuilder(
       init: DMCrontroller(),
       builder: (ctrllerr) => Column(
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: ctrllerr.boomBoxes?.boomBoxes.length,
+              itemCount: boomBoxes.length,
               physics: const BouncingScrollPhysics(),
               itemBuilder: ((context, index) {
                 return ListTile(
@@ -180,20 +225,19 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                   onTap: () async {
                     Get.to(
                       () => SingleMessage(
-                        boomBoxModel: ctrllerr.boomBoxes!.boomBoxes[index],
+                        boomBoxModel: boomBoxes[index],
                       ),
                     );
                   },
                   leading: CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                      ctrllerr.boomBoxes?.boomBoxes[index].members.first.user
-                              .photo ??
+                      boomBoxes[index].imageUrl ??
                           "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                     ),
                   ),
                   title: Text(
-                    "${ctrllerr.boomBoxes?.boomBoxes[index].label}",
+                    boomBoxes[index].label,
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(15),
                       color: Colors.black,
@@ -202,8 +246,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                   ),
                   subtitle: RichText(
                     text: TextSpan(
-                      text:
-                          "${ctrllerr.boomBoxes?.boomBoxes[index].messages.last.content}   ",
+                      text: "${boomBoxes[index].messages.last.content}   ",
                       style: TextStyle(
                         fontSize: getProportionateScreenHeight(12),
                         color: Colors.black54,
@@ -211,9 +254,8 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                       ),
                       children: [
                         TextSpan(
-                          text: DateFormat('EEE, MMM dd HH:mm a').format(
-                              ctrllerr.boomBoxes!.boomBoxes[index].messages.last
-                                  .createdAt),
+                          text: DateFormat('EEE, MMM dd HH:mm a')
+                              .format(boomBoxes[index].messages.last.createdAt),
                           style: TextStyle(
                               fontWeight: FontWeight.w800,
                               fontSize: getProportionateScreenHeight(10)),

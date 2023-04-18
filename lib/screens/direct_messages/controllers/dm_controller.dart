@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/direct_messages/models/messages_model.dart';
 import 'package:boom_mobile/screens/direct_messages/models/new_message_response.dart';
 import 'package:boom_mobile/screens/direct_messages/service/messages_service.dart';
 import 'package:boom_mobile/screens/direct_messages/single_message.dart';
@@ -25,8 +24,9 @@ class DMCrontroller extends GetxController {
   List<user.User>? _boxUsers;
   List<user.User>? get boxUsers => _boxUsers;
 
-  List<DMMessage>? _dmMessages;
-  List<DMMessage>? get dmMessages => _dmMessages;
+  List<BoomBox> dmMessages = [];
+  List<BoomBox> groupMessages = [];
+  // List<BoomBox>? get dmMessages => _dmMessages;
 
   var isLoading = false.obs;
 
@@ -60,6 +60,17 @@ class DMCrontroller extends GetxController {
       _boomBoxes = ress;
       _boomBoxes!.boomBoxes.sort((a, b) =>
           b.messages.last.createdAt.compareTo(a.messages.last.createdAt));
+
+      dmMessages.clear();
+      groupMessages.clear();
+
+      for (var item in _boomBoxes!.boomBoxes) {
+        if (item.isGroup == false) {
+          dmMessages.add(item);
+        } else {
+          groupMessages.add(item);
+        }
+      }
       update();
     }
   }
