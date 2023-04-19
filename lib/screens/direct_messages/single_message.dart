@@ -1,4 +1,5 @@
 import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
+import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -71,35 +72,43 @@ class _SingleMessageState extends State<SingleMessage> {
             //   ),
             // ),
           ],
-          title: Row(
-            children: [
-              (widget.boomBoxModel.imageUrl.isNotEmpty)
-                  ? CircleAvatar(
-                      radius: 20,
-                      backgroundImage: NetworkImage(
-                        widget.boomBoxModel.imageUrl,
+          title: GestureDetector(
+            onTap: () {
+              Get.to(
+                () => const OtherUserProfileScreen(),
+                arguments: widget.boomBoxModel.members.first.user.id,
+              );
+            },
+            child: Row(
+              children: [
+                (widget.boomBoxModel.members.first.user.photo.isNotEmpty)
+                    ? CircleAvatar(
+                        radius: 20,
+                        backgroundImage: NetworkImage(
+                          widget.boomBoxModel.members.first.user.photo,
+                        ),
+                      )
+                    : const CircleAvatar(
+                        radius: 20,
+                        backgroundColor: kPrimaryColor,
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
                       ),
-                    )
-                  : const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: kPrimaryColor,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                    ),
-              SizedBox(
-                width: getProportionateScreenWidth(10),
-              ),
-              Text(
-                widget.boomBoxModel.label,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: getProportionateScreenHeight(15),
-                  fontWeight: FontWeight.w800,
+                SizedBox(
+                  width: getProportionateScreenWidth(10),
                 ),
-              ),
-            ],
+                Text(
+                  widget.boomBoxModel.members.first.user.username,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenHeight(15),
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
           ),
           centerTitle: false,
         ),

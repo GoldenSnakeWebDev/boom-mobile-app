@@ -576,6 +576,7 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                               if (controller.boomBoxImage == null) {
                                 return;
                               } else {
+                                Get.back();
                                 _buildUsersList(
                                     controller.boomBoxNameController.text);
                               }

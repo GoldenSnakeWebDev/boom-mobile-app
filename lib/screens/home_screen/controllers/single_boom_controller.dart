@@ -133,7 +133,7 @@ class SingleBoomController extends GetxController {
     commentLoading = true;
 
     String token = box.read("token");
-    log("Comment Message $text");
+
     var d12 = DateFormat('MM-dd-yyyy, hh:mm a').format(DateTime.now());
     Map<String, dynamic> body = {
       "message": text,
@@ -148,8 +148,7 @@ class SingleBoomController extends GetxController {
         body: jsonEncode(body));
     if (res.statusCode == 201) {
       commentLoading = false;
-      log("Boom Commented On");
-      log("message: ${res.body}");
+
       commentController.clear();
     } else {
       commentLoading = false;

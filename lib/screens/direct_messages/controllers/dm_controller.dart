@@ -110,7 +110,7 @@ class DMCrontroller extends GetxController {
   }
 
   goToSingleUserMessage(int index) async {
-    if (boomBoxes!.boomBoxes.isEmpty) {
+    if (dmMessages.isEmpty) {
       NewBoomBoxResponse? res = await service.createNewMessage(
         boxUsers![index].id!,
         boxUsers![index].photo!,
@@ -130,14 +130,12 @@ class DMCrontroller extends GetxController {
         return;
       }
     } else {
-      for (var item in boomBoxes!.boomBoxes) {
-        log("Starting new Message");
-        if (boxUsers![index].id == item.members.last.user.id) {
-          final userId = box.read("userId");
-          // String receiverId = item.boomBoxes.last.messages.last.sender.id != userId
-          //     ? item.messages!.first.receiver!.id!
-          //     : item.messages!.first.author!.id!;
+      for (var item in dmMessages) {
+        log("Dm Messages ${item.id}");
+        log("Box User ${boxUsers![index].id}");
+        log("List Id ${item.members.first.user.id}");
 
+        if (boxUsers![index].id == item.members.first.user.id) {
           Get.back();
 
           update();
@@ -147,33 +145,35 @@ class DMCrontroller extends GetxController {
             ),
           );
           return;
-        } else {
-          NewBoomBoxResponse? res = await service.createNewMessage(
-            boxUsers![index].id!,
-            boxUsers![index].photo!,
-            boxUsers![index].username!,
-          );
-
-          if (res != null) {
-            EasyLoading.dismiss();
-            Get.back();
-
-            final boomBox = res;
-            Get.to(
-              () => SingleMessage(
-                boomBoxModel: boomBox.boomBox,
-              ),
-            );
-            return;
-          } else {
-            Get.snackbar(
-              "Error",
-              "Could not message User",
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red,
-            );
-          }
         }
+      }
+
+      NewBoomBoxResponse? res = await service.createNewMessage(
+        boxUsers![index].id!,
+        boxUsers![index].photo!,
+        boxUsers![index].username!,
+      );
+
+      if (res != null) {
+        EasyLoading.dismiss();
+        Get.back();
+
+        final boomBox = res;
+        log("Boom Box ${boomBox.boomBox.id} ${boomBox.boomBox.members.first.user.id}");
+        Get.to(
+          () => SingleMessage(
+            boomBoxModel: boomBox.boomBox,
+          ),
+        );
+        return;
+      } else {
+        Get.snackbar(
+          "Error",
+          "Could not message User",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+        );
+        return;
       }
     }
   }
