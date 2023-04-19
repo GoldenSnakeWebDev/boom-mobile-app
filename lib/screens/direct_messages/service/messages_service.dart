@@ -200,8 +200,6 @@ class DMService {
       "is_group_chat": false
     };
 
-    log("Body: $body");
-
     final res = await http.post(
       Uri.parse("${baseURL}boom-box"),
       headers: {
@@ -212,7 +210,6 @@ class DMService {
       body: jsonEncode(body),
     );
     if (res.statusCode == 200) {
-      log("Create New Message: ${res.body}");
       EasyLoading.dismiss();
       final boomBox = newRes.NewBoomBoxResponse.fromJson(jsonDecode(res.body));
 

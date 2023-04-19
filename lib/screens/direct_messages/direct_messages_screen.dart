@@ -70,9 +70,8 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : (controller.boomBoxes != null &&
-                            controller.boomBoxes!.boomBoxes.isNotEmpty)
-                        ? _buildChatsList(controller.dmMessages)
+                    : (controller.dmMessages.isNotEmpty)
+                        ? _buildChatsList(controller.dmMessages, false)
                         : const Center(
                             child: Text("No messages"),
                           ),
@@ -84,9 +83,8 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : (controller.boomBoxes != null &&
-                            controller.boomBoxes!.boomBoxes.isNotEmpty)
-                        ? _buildChatsList(controller.groupMessages)
+                    : (controller.groupMessages.isNotEmpty)
+                        ? _buildChatsList(controller.groupMessages, true)
                         : const Center(
                             child: Text("No messages"),
                           ),
@@ -154,7 +152,9 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                     SizedBox(
                       height: getProportionateScreenHeight(15),
                     ),
-                    Expanded(child: _buildUsersList()),
+                    Expanded(
+                      child: _buildUsersList(),
+                    ),
                   ],
                 ),
               ),
@@ -210,7 +210,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
     );
   }
 
-  _buildChatsList(List<BoomBox> boomBoxes) {
+  _buildChatsList(List<BoomBox> boomBoxes, bool isGroup) {
     return GetBuilder(
       init: DMCrontroller(),
       builder: (ctrllerr) => Column(
@@ -233,7 +233,9 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                     radius: 20,
                     backgroundImage: NetworkImage(
                       boomBoxes[index].imageUrl != ""
-                          ? boomBoxes[index].imageUrl
+                          ? isGroup
+                              ? boomBoxes[index].imageUrl
+                              : boomBoxes[index].members.first.user.photo
                           : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                     ),
                   ),
