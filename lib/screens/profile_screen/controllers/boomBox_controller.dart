@@ -113,6 +113,7 @@ class BoomBoxController extends GetxController {
     File photo = File(boomBoxImage!.path);
 
     try {
+      EasyLoading.show(status: "Creating BoomBox");
       var request = http.MultipartRequest(
         'POST',
         Uri.parse("${baseURL}helpers/docs-uploads"),
@@ -141,7 +142,7 @@ class BoomBoxController extends GetxController {
 
       request.files.add(multipartFile);
       // request.fields["doc"] = basename(photo.path);
-      log(basename(photo.path));
+
       var response = await request.send();
 
       if (response.statusCode == 201) {
@@ -151,13 +152,14 @@ class BoomBoxController extends GetxController {
 
         imageUrl = uploadPhotoModel.url;
       } else {
-        log('ErrorCode >> ${response.statusCode}');
+        EasyLoading.dismiss();
         EasyLoading.showError('Error uploading photo');
         response.stream.transform(utf8.decoder).listen((event) {
           log(event);
         });
       }
     } catch (e) {
+      EasyLoading.dismiss();
       EasyLoading.showError('failed');
       log('Upload exception >> $e');
       return false;
@@ -167,10 +169,12 @@ class BoomBoxController extends GetxController {
 
     EasyLoading.show(status: "Creating BoomBox");
     final token = box.read("token");
-    final userId = box.read("userId");
+
     final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
     var timeStamp = format.format(DateTime.now());
+
     final members = selectedUsers.map((e) => e.id).toList();
+
     final body = {
       "members": members,
       "image_url": imageUrl,
@@ -189,9 +193,10 @@ class BoomBoxController extends GetxController {
     );
     if (res.statusCode == 200) {
       //Enter the created boombox
+      EasyLoading.dismiss();
       EasyLoading.showSuccess("BoomBox created");
       await fetchUserBoomBoxes();
-      EasyLoading.dismiss();
+
       Get.back();
     } else {
       log(res.body);
