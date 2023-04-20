@@ -55,7 +55,7 @@ class CreateNewPost extends GetView<NewPostController> {
                       return GetBuilder<NewPostController>(
                           builder: (controller) {
                         return Container(
-                          height: SizeConfig.screenHeight * 0.3,
+                          height: SizeConfig.screenHeight * 0.35,
                           width: SizeConfig.screenWidth,
                           margin: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -246,6 +246,41 @@ class CreateNewPost extends GetView<NewPostController> {
                                   ),
                                 ),
                                 SizedBox(
+                                    height: getProportionateScreenHeight(12)),
+                                TextFormField(
+                                  controller: controller.nftURI,
+                                  decoration: InputDecoration(
+                                    hintText: "Image URI",
+                                    prefixIcon: const Icon(
+                                      MdiIcons.web,
+                                      size: 20,
+                                      color: Colors.black,
+                                    ),
+                                    contentPadding: const EdgeInsets.all(4.0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                          color: kPrimaryColor),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
                                   height: getProportionateScreenHeight(28),
                                 ),
                                 GestureDetector(
@@ -260,7 +295,14 @@ class CreateNewPost extends GetView<NewPostController> {
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     alignment: Alignment.center,
-                                    child: const Text("Import NFT"),
+                                    child: Text(
+                                      "Import NFT",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            getProportionateScreenHeight(15),
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],
@@ -1190,7 +1232,107 @@ class CreateNewPost extends GetView<NewPostController> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          controller.uploadNewBoom();
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
+                              ),
+                              builder: (context) {
+                                return Container(
+                                  height: SizeConfig.screenHeight * 0.2,
+                                  width: SizeConfig.screenWidth,
+                                  margin: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Mint Your NFT Via: ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w800,
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    15),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height:
+                                              getProportionateScreenHeight(20),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                            controller.uploadNewBoom();
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 20),
+                                            width: SizeConfig.screenWidth * 0.8,
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    35),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "Synthetic Minting",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          16)),
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Get.back();
+                                            controller.connectWallet();
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
+                                            width: SizeConfig.screenWidth * 0.8,
+                                            height:
+                                                getProportionateScreenHeight(
+                                                    35),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey[200],
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "On-Chain Minting",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          16)),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
                         },
                         child: Container(
                           height: getProportionateScreenHeight(40),

@@ -36,7 +36,6 @@ class BoomBoxController extends GetxController {
   List<user.User>? get users => _users;
 
   List<BoomBox> boomBoxes = [];
-  // List<BoomBoxModel>? get boomBoxes => _boomBoxes;
   final ImagePicker _picker = ImagePicker();
   XFile? boomBoxImage;
 

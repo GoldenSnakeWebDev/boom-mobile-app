@@ -54,6 +54,7 @@ class NewPostController extends GetxController {
   TextEditingController location = TextEditingController();
   TextEditingController nftContractAddress = TextEditingController();
   TextEditingController nftId = TextEditingController();
+  TextEditingController nftURI = TextEditingController();
 
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   late VideoPlayerController selectedVideoController;
@@ -265,20 +266,20 @@ class NewPostController extends GetxController {
             ),
           ],
         );
-        String token = tokenURI[0].toString();
+        // String token = tokenURI[0].toString();
 
-        if (tokenURI[0].toString().startsWith("ipfs://")) {
-          tokenURI[0] =
-              "https://ipfs.io/ipfs/${tokenURI[0].toString().replaceAll("ipfs://", "")}";
-          final res = await http.get(Uri.parse(tokenURI[0]));
+        // if (tokenURI[0].toString().startsWith("ipfs://")) {
+        //   tokenURI[0] =
+        //       "https://ipfs.io/ipfs/${tokenURI[0].toString().replaceAll("ipfs://", "")}";
+        //   final res = await http.get(Uri.parse(tokenURI[0]));
 
-          if (res.statusCode == 200) {
-            var result = jsonDecode(res.body)["image"];
-            token = "https://ipfs.io/ipfs/${result.toString().split("/").last}";
-          }
-        }
+        //   if (res.statusCode == 200) {
+        //     var result = jsonDecode(res.body)["image"];
+        //     token = "https://ipfs.io/ipfs/${result.toString().split("/").last}";
+        //   }
+        // }
 
-        final res = await http.get(Uri.parse(token));
+        final res = await http.get(Uri.parse(nftURI.text.trim()));
 
         if (res.statusCode == 200) {
           WalletNft data = WalletNft.fromJson(jsonDecode(res.body));

@@ -829,7 +829,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                             // height:
                                                                             //     getProportionateScreenHeight(25),
                                                                             padding:
-                                                                                const EdgeInsets.symmetric(horizontal: 4, vertical: 8.0),
+                                                                                const EdgeInsets.symmetric(vertical: 6.0),
                                                                             alignment:
                                                                                 Alignment.center,
                                                                             decoration:
@@ -848,7 +848,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                             child:
                                                                                 Text(
                                                                               !fans.contains(myUserId) ? "Add" : "Unadd",
-                                                                              style: const TextStyle(fontWeight: FontWeight.w800),
+                                                                              style: TextStyle(
+                                                                                fontWeight: FontWeight.w800,
+                                                                                fontSize: !fans.contains(myUserId) ? getProportionateScreenHeight(10) : getProportionateScreenHeight(11),
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1230,79 +1233,88 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                           )
                         ];
                       },
-                      body: controller.isBlockedUser
+                      body: controller.isLoading
                           ? const Center(
-                              child: Text("Profile is blocked"),
+                              child: Text("Loading user Profile..."),
                             )
-                          : StreamBuilder(
-                              stream:
-                                  otherProfileService.fetchUserBooms(userId),
-                              builder: ((context, snapshot) {
-                                OtherUserBooms? booms = snapshot.data;
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else if (snapshot.connectionState ==
-                                        ConnectionState.done ||
-                                    snapshot.connectionState ==
-                                        ConnectionState.active) {
-                                  if (snapshot.hasError) {
-                                    return const Center(child: Text("Error"));
-                                  } else {
-                                    boomCount = booms!.booms.length;
-                                    return Container(
-                                      color: kContBgColor,
-                                      constraints: BoxConstraints(
-                                        minHeight:
-                                            SizeConfig.screenHeight * 0.38,
-                                      ),
-                                      height: SizeConfig.screenHeight * 0.39,
-                                      width: SizeConfig.screenWidth,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: booms.booms.isEmpty
-                                            ? Center(
-                                                child: Text(
-                                                  "You have no Booms Yet",
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              17),
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
-                                              )
-                                            : ListView.builder(
-                                                itemCount: booms.booms.length,
-                                                itemBuilder: (context, index) {
-                                                  //Temp Solutiuon to change this later to only my Booms
+                          : controller.isBlockedUser
+                              ? const Center(
+                                  child: Text("Profile is blocked"),
+                                )
+                              : StreamBuilder(
+                                  stream: otherProfileService
+                                      .fetchUserBooms(userId),
+                                  builder: ((context, snapshot) {
+                                    OtherUserBooms? booms = snapshot.data;
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    } else if (snapshot.connectionState ==
+                                            ConnectionState.done ||
+                                        snapshot.connectionState ==
+                                            ConnectionState.active) {
+                                      if (snapshot.hasError) {
+                                        return const Center(
+                                            child: Text("Error"));
+                                      } else {
+                                        boomCount = booms!.booms.length;
+                                        return Container(
+                                          color: kContBgColor,
+                                          constraints: BoxConstraints(
+                                            minHeight:
+                                                SizeConfig.screenHeight * 0.38,
+                                          ),
+                                          height:
+                                              SizeConfig.screenHeight * 0.39,
+                                          width: SizeConfig.screenWidth,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: booms.booms.isEmpty
+                                                ? Center(
+                                                    child: Text(
+                                                      "You have no Booms Yet",
+                                                      style: TextStyle(
+                                                          fontSize:
+                                                              getProportionateScreenHeight(
+                                                                  17),
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  )
+                                                : ListView.builder(
+                                                    itemCount:
+                                                        booms.booms.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      //Temp Solutiuon to change this later to only my Booms
 
-                                                  final singlePostDets = Get.find<
-                                                      OtherUserProfileController>();
-                                                  SingleBoomPost boomPost =
-                                                      singlePostDets
-                                                          .getSingleBoomDetails(
-                                                              booms
-                                                                  .booms[index],
-                                                              index);
-                                                  return SingleBoomWidget(
-                                                    post: boomPost,
-                                                    controller: Get.find<
-                                                        HomeController>(),
-                                                    boomId:
-                                                        booms.booms[index].id!,
-                                                  );
-                                                },
-                                              ),
-                                      ),
-                                    );
-                                  }
-                                } else {
-                                  return const Center(child: Text("Error"));
-                                }
-                              }),
-                            ),
+                                                      final singlePostDets =
+                                                          Get.find<
+                                                              OtherUserProfileController>();
+                                                      SingleBoomPost boomPost =
+                                                          singlePostDets
+                                                              .getSingleBoomDetails(
+                                                                  booms.booms[
+                                                                      index],
+                                                                  index);
+                                                      return SingleBoomWidget(
+                                                        post: boomPost,
+                                                        controller: Get.find<
+                                                            HomeController>(),
+                                                        boomId: booms
+                                                            .booms[index].id!,
+                                                      );
+                                                    },
+                                                  ),
+                                          ),
+                                        );
+                                      }
+                                    } else {
+                                      return const Center(child: Text("Error"));
+                                    }
+                                  }),
+                                ),
                     ),
                   ),
                 ],
