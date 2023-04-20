@@ -198,6 +198,9 @@ class BoomBoxController extends GetxController {
       await fetchUserBoomBoxes();
 
       Get.back();
+
+      boxImage = null;
+      update();
     } else {
       log(res.body);
       EasyLoading.dismiss();
