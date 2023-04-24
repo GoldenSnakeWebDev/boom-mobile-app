@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:boom_mobile/di/app_bindings.dart';
+import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
+import 'package:boom_mobile/utils/boomERC721.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -17,6 +20,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:web3dart/web3dart.dart';
@@ -45,9 +49,9 @@ class SingleBoomController extends GetxController {
   EthereumWalletConnectProvider? provider;
   late Web3Client client;
 
-  int chainId = 56;
+  int chainId = 97;
 
-  List<int> chainIds = [56, 137];
+  List<int> chainIds = [97, 80001, 65];
 
   syntheticallyMintBoom(String boomId) async {
     EasyLoading.show(status: "Minting...");
@@ -179,21 +183,25 @@ class SingleBoomController extends GetxController {
     update();
   }
 
-  exportBoom(String selNetwork) async {
+  exportBoom(String selNetwork, String imgURL, String name, String desc,
+      String boomId) async {
+    log("Selected Network $selNetwork");
     switch (selNetwork) {
       case "MATIC":
         chainId = chainIds[1];
         client = Web3Client(
-          'https://polygon-mainnet.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
+          'https://matic-mumbai.chainstacklabs.com',
           http.Client(),
         );
+        update();
         break;
       case "BNB":
         chainId = chainIds[0];
         client = Web3Client(
-          'https://bsc-dataseed1.binance.org/',
+          'https://data-seed-prebsc-2-s1.binance.org:8545',
           http.Client(),
         );
+        update();
         break;
 
       case "OKT":
@@ -202,6 +210,7 @@ class SingleBoomController extends GetxController {
           'https://exchaintestrpc.okex.org',
           http.Client(),
         );
+        update();
         break;
       default:
         chainId = chainIds[1];
@@ -227,7 +236,8 @@ class SingleBoomController extends GetxController {
         credentials = WalletConnectEthereumCredentials(provider: provider!);
       });
 
-      await mintNFT(credentials.provider.connector.session.accounts.first);
+      await mintNFT(credentials.provider.connector.session.accounts.first,
+          imgURL, name, desc, boomId, client, credentials);
 
       return credentials.provider.connector.session.accounts.first;
     } else {
@@ -247,15 +257,123 @@ class SingleBoomController extends GetxController {
             final credentials =
                 WalletConnectEthereumCredentials(provider: provider!);
             log("Sender $sender");
-            await mintNFT(session.accounts.first);
-            return credentials.provider.connector.session.accounts.first;
+            await mintNFT(session.accounts.first, imgURL, name, desc, boomId,
+                client, credentials);
+            // return credentials.provider.connector.session.accounts.first;
           });
         },
       );
     }
   }
 
-  mintNFT(String addy) async {}
+  mintNFT(
+      String addy,
+      String imgURL,
+      String name,
+      String desc,
+      String boomId,
+      Web3Client web3Client,
+      WalletConnectEthereumCredentials credentials) async {
+    late File nftImg;
+    // late WalletConnectEthereumCredentials credentials;
+    try {
+      final nftDetails = {
+        "name": name,
+        "description": desc,
+        "image": imgURL,
+      };
+
+      Directory dir = await getApplicationDocumentsDirectory();
+      String filePath = '';
+      filePath = '${dir.path}/$boomId.json';
+
+      nftImg = File(filePath);
+      nftImg.writeAsStringSync(json.encode(nftDetails));
+
+      String tokenURI = await FileUploader().uploadPhoto(nftImg, "");
+
+      log("Token URI $tokenURI");
+
+      //Call Boom ERC721 contract
+
+      EthereumAddress account = EthereumAddress.fromHex(addy);
+
+      EthereumAddress contractAddress =
+          EthereumAddress.fromHex("0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6");
+
+      EasyLoading.show(status: 'Exporting... Please check your wallet app');
+
+      var contract = DeployedContract(
+        ContractAbi.fromJson(boomSmartContract, 'BoomERC721'),
+        contractAddress,
+      );
+      // List<dynamic> result = [];
+
+      String hashResult = '';
+
+      // final mintToEvent = contract.event('mintTo');
+
+      // final subscription = client
+      //     .events(FilterOptions.events(contract: contract, event: mintToEvent))
+      //     .take(1)
+      //     .listen((event) {
+      //   final decoded = mintToEvent.decodeResults(event.topics!, event.data!);
+
+      //   final from = decoded[0] as EthereumAddress;
+      //   final to = decoded[1] as EthereumAddress;
+      //   final value = decoded[2] as BigInt;
+
+      //   log("message from $from to $to: $value");
+      // });
+
+      try {
+        Transaction tx = Transaction(
+          from: account,
+          to: contractAddress,
+          data: contract.function('mintTo').encodeCall(
+            [account, tokenURI],
+          ),
+        );
+
+        // credentials = WalletConnectEthereumCredentials(provider: provider!);
+
+        // await web3Client.signTransaction(credentials, tx);
+
+        hashResult = await web3Client.sendTransaction(
+          credentials,
+          tx,
+          chainId: chainId,
+        );
+
+        // await subscription.asFuture();
+
+        // result = await web3Client.call(
+        //   sender: account,
+        //   contract: contract,
+        //   function: contract.function('mintTo'),
+        //   params: [account, tokenURI],
+        // );
+
+        int txCount = await web3Client.getTransactionCount(account);
+        EasyLoading.dismiss();
+        log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n ${hashResult.length}"}");
+        log("TX Count $txCount");
+        // await subscription.cancel();
+        await client.dispose();
+      } catch (e) {
+        log("Error ${e.toString()}");
+        EasyLoading.dismiss();
+        Get.snackbar("Error", e.toString());
+      }
+    } catch (e) {
+      log("Error ${e.toString()}");
+      EasyLoading.dismiss();
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Error exporting Boom as NFT"],
+          msg: ["Export Error"],
+          isError: true);
+    }
+  }
 
   obtainBoom() async {}
 
