@@ -6,7 +6,9 @@ import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:web3dart/web3dart.dart';
 
 class SingleBoomController extends GetxController {
   final box = GetStorage();
@@ -34,6 +39,15 @@ class SingleBoomController extends GetxController {
 
   TextEditingController commentController = TextEditingController();
   FocusNode commentFocusNode = FocusNode();
+
+  late String walletAddress, privateKey;
+  bool isWalletConnected = false;
+  EthereumWalletConnectProvider? provider;
+  late Web3Client client;
+
+  int chainId = 56;
+
+  List<int> chainIds = [56, 137];
 
   syntheticallyMintBoom(String boomId) async {
     EasyLoading.show(status: "Minting...");
@@ -164,6 +178,84 @@ class SingleBoomController extends GetxController {
     singleBoomService.getSingleBoom();
     update();
   }
+
+  exportBoom(String selNetwork) async {
+    switch (selNetwork) {
+      case "MATIC":
+        chainId = chainIds[1];
+        client = Web3Client(
+          'https://polygon-mainnet.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
+          http.Client(),
+        );
+        break;
+      case "BNB":
+        chainId = chainIds[0];
+        client = Web3Client(
+          'https://bsc-dataseed1.binance.org/',
+          http.Client(),
+        );
+        break;
+
+      case "OKT":
+        chainId = chainIds[2];
+        client = Web3Client(
+          'https://exchaintestrpc.okex.org',
+          http.Client(),
+        );
+        break;
+      default:
+        chainId = chainIds[1];
+    }
+    late WalletConnectEthereumCredentials credentials;
+    final connector = WalletConnect(
+      bridge: "https://bridge.walletconnect.org",
+      // uri: rpc,
+      clientMeta: const PeerMeta(
+        name: "Boom",
+        description: "Boom",
+        icons: [boomIconUrl],
+        url: "https://boomapp.io",
+      ),
+    );
+    connector.connect(chainId: chainId);
+
+    if (connector.connected) {
+      connector.on('connect', (SessionStatus session) {
+        provider = EthereumWalletConnectProvider(connector, chainId: chainId);
+        final sender = EthereumAddress.fromHex(session.accounts.first);
+
+        credentials = WalletConnectEthereumCredentials(provider: provider!);
+      });
+
+      await mintNFT(credentials.provider.connector.session.accounts.first);
+
+      return credentials.provider.connector.session.accounts.first;
+    } else {
+      log("Wallet connection Not done yet");
+      final session = await connector.createSession(
+        chainId: chainId,
+        onDisplayUri: (uri) async {
+          final launchUri = 'metamask://wc?uri=$uri';
+          await launchUrlString(launchUri);
+          log("Metamask URI::: $launchUri");
+          // await connector.connect(chainId: chainId);
+
+          connector.on('connect', (SessionStatus session) async {
+            provider =
+                EthereumWalletConnectProvider(connector, chainId: chainId);
+            final sender = EthereumAddress.fromHex(session.accounts.first);
+            final credentials =
+                WalletConnectEthereumCredentials(provider: provider!);
+            log("Sender $sender");
+            await mintNFT(session.accounts.first);
+            return credentials.provider.connector.session.accounts.first;
+          });
+        },
+      );
+    }
+  }
+
+  mintNFT(String addy) async {}
 
   obtainBoom() async {}
 

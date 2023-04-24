@@ -79,7 +79,7 @@ class NewPostController extends GetxController {
 
   int chainId = 56;
 
-  List<int> chainIds = [56, 137];
+  List<int> chainIds = [56, 137, 65];
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
   //   http.Client(),
@@ -127,6 +127,14 @@ class NewPostController extends GetxController {
             chainId = chainIds[0];
             client = Web3Client(
               'https://bsc-dataseed1.binance.org/',
+              http.Client(),
+            );
+            break;
+
+          case "OKT":
+            chainId = chainIds[2];
+            client = Web3Client(
+              'https://exchaintestrpc.okex.org',
               http.Client(),
             );
             break;
@@ -332,7 +340,6 @@ class NewPostController extends GetxController {
   }
 
   connectWallet() async {
-    log("Chain ID $chainId");
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",
