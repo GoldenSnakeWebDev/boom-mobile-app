@@ -15,6 +15,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:magic_sdk/magic_sdk.dart';
+import 'package:magic_sdk/modules/web3/eth_network.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
@@ -51,6 +53,9 @@ void main() async {
   GetStorage.init();
   configureLoader();
   runApp(const MyApp());
+
+  Magic.instance =
+      Magic.eth("pk_live_CFADDC806E6BF94A", network: EthNetwork.goerli);
 }
 
 configureLoader() {

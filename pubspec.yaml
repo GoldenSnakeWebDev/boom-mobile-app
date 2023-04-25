@@ -123,7 +123,7 @@ dependencies:
   #w
   widget_and_text_animator: ^1.0.9
   wallet_connect: ^1.0.4
-  web3dart: ^2.4.1
+  web3dart: ^2.5.1
   walletconnect_dart: ^0.0.11
   web_socket_channel: ^2.2.0
   read_more_text: ^0.0.5
@@ -135,6 +135,7 @@ dependencies:
   firebase_crashlytics: ^2.9.0
   firebase_performance: ^0.8.3+3
   flutter_email_sender: ^5.2.0
+  magic_sdk: ^2.0.1
   
   
   

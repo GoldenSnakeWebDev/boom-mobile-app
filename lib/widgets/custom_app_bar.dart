@@ -97,6 +97,55 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           isHTML: false,
                         );
                         await FlutterEmailSender.send(email);
+
+                        // showModalBottomSheet(
+                        //     context: context,
+                        //     isScrollControlled: true,
+                        //     isDismissible: true,
+                        //     builder: (context) {
+                        //       return SizedBox(
+                        //         width: SizeConfig.screenWidth * 0.5,
+                        //         height: SizeConfig.screenHeight * 0.5,
+                        //         child: Stack(
+                        //           children: [
+                        //             // SizedBox(
+                        //             //   width: SizeConfig.screenWidth * 0.45,
+                        //             //   height: SizeConfig.screenHeight * 0.45,
+                        //             //   child: const Text(
+                        //             //     "assets/images/support_background.png",
+                        //             //   ),
+                        //             // ),
+                        //             SizedBox(
+                        //               height: SizeConfig.screenHeight * 0.5,
+                        //               width: SizeConfig.screenWidth * 0.5,
+                        //               child: Magic.instance.relayer,
+                        //             ),
+                        //             SizedBox(
+                        //               height: getProportionateScreenHeight(20),
+                        //             ),
+                        //             TextButton(
+                        //               onPressed: () async {
+                        //                 final magic = Magic.instance;
+                        //                 magic.auth.loginWithEmailOTP(
+                        //                     email: "rennylngt@gmail.com");
+                        //                 // final client =
+                        //                 //     Web3Client.custom(magic.provider);
+                        //                 // final credentials =
+                        //                 //     MagicCredential(magic.provider);
+
+                        //                 // var cred =
+                        //                 //     await credentials.getAccount();
+
+                        //                 // log("Results ${cred.hex} ${client.getChainId()}");
+                        //               },
+                        //               child: const Text(
+                        //                 "Send",
+                        //               ),
+                        //             )
+                        //           ],
+                        //         ),
+                        //       );
+                        //     });
                       },
                       child: Image.asset(
                         "assets/icons/support_icon.png",
