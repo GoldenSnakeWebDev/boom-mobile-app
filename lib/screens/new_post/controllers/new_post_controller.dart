@@ -54,6 +54,7 @@ class NewPostController extends GetxController {
   TextEditingController location = TextEditingController();
   TextEditingController nftContractAddress = TextEditingController();
   TextEditingController nftId = TextEditingController();
+  TextEditingController nftURI = TextEditingController();
 
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
   late VideoPlayerController selectedVideoController;
@@ -78,7 +79,7 @@ class NewPostController extends GetxController {
 
   int chainId = 56;
 
-  List<int> chainIds = [56, 137];
+  List<int> chainIds = [56, 137, 65];
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
   //   http.Client(),
@@ -126,6 +127,14 @@ class NewPostController extends GetxController {
             chainId = chainIds[0];
             client = Web3Client(
               'https://bsc-dataseed1.binance.org/',
+              http.Client(),
+            );
+            break;
+
+          case "OKT":
+            chainId = chainIds[2];
+            client = Web3Client(
+              'https://exchaintestrpc.okex.org',
               http.Client(),
             );
             break;
@@ -265,20 +274,20 @@ class NewPostController extends GetxController {
             ),
           ],
         );
-        String token = tokenURI[0].toString();
+        // String token = tokenURI[0].toString();
 
-        if (tokenURI[0].toString().startsWith("ipfs://")) {
-          tokenURI[0] =
-              "https://ipfs.io/ipfs/${tokenURI[0].toString().replaceAll("ipfs://", "")}";
-          final res = await http.get(Uri.parse(tokenURI[0]));
+        // if (tokenURI[0].toString().startsWith("ipfs://")) {
+        //   tokenURI[0] =
+        //       "https://ipfs.io/ipfs/${tokenURI[0].toString().replaceAll("ipfs://", "")}";
+        //   final res = await http.get(Uri.parse(tokenURI[0]));
 
-          if (res.statusCode == 200) {
-            var result = jsonDecode(res.body)["image"];
-            token = "https://ipfs.io/ipfs/${result.toString().split("/").last}";
-          }
-        }
+        //   if (res.statusCode == 200) {
+        //     var result = jsonDecode(res.body)["image"];
+        //     token = "https://ipfs.io/ipfs/${result.toString().split("/").last}";
+        //   }
+        // }
 
-        final res = await http.get(Uri.parse(token));
+        final res = await http.get(Uri.parse(nftURI.text.trim()));
 
         if (res.statusCode == 200) {
           WalletNft data = WalletNft.fromJson(jsonDecode(res.body));
@@ -331,7 +340,6 @@ class NewPostController extends GetxController {
   }
 
   connectWallet() async {
-    log("Chain ID $chainId");
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",

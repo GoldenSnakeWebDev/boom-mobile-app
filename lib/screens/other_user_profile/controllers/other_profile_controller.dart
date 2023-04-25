@@ -36,6 +36,7 @@ class OtherUserProfileController extends GetxController {
   List<Network> networks = [];
   bool isBlockedUser = true;
   var bioExpanded = false.obs;
+  bool isLoading = false;
   final box = GetStorage();
 
   @override
@@ -56,15 +57,18 @@ class OtherUserProfileController extends GetxController {
 
   fetchMyDetails() async {
     String token = box.read("token");
+    isLoading = true;
     var res = await http.get(Uri.parse("${baseURL}users/currentuser"),
         headers: {"Authorization": token});
     if (res.statusCode == 200) {
+      isLoading = false;
       final user = User.fromJson(jsonDecode(res.body)["user"]);
       if (user.blockedUsers!.contains(userId)) {
         isBlockedUser = true;
         update();
       } else {
         isBlockedUser = false;
+        isLoading = false;
         update();
       }
     } else {

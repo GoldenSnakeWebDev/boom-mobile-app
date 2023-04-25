@@ -216,93 +216,99 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
       builder: (ctrllerr) => Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: boomBoxes.length,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: ((context, index) {
-                return ListTile(
-                  minVerticalPadding: 10,
-                  onTap: () async {
-                    Get.to(
-                      () => SingleMessage(
-                        boomBoxModel: boomBoxes[index],
-                      ),
-                    );
-                  },
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                      boomBoxes[index].imageUrl != ""
-                          ? isGroup
-                              ? boomBoxes[index].imageUrl
-                              : boomBoxes[index].members.first.user.photo
-                          : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                    ),
-                  ),
-                  title: Text(
-                    boomBoxes[index].label,
-                    style: TextStyle(
-                      fontSize: getProportionateScreenHeight(15),
-                      color: Colors.black,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  subtitle: RichText(
-                    text: TextSpan(
-                      text: "${boomBoxes[index].messages.last.content}   ",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenHeight(12),
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: DateFormat('EEE, MMM dd HH:mm a')
-                              .format(boomBoxes[index].messages.last.createdAt),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: getProportionateScreenHeight(10)),
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await controller.fetchBoomBoxMessages();
+              },
+              child: ListView.builder(
+                itemCount: boomBoxes.length,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: ((context, index) {
+                  return ListTile(
+                    minVerticalPadding: 10,
+                    onTap: () async {
+                      Get.to(
+                        () => SingleMessage(
+                          boomBoxModel: boomBoxes[index],
+                          isBoomBox: isGroup,
                         ),
-                      ],
+                      );
+                    },
+                    leading: CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(
+                        isGroup
+                            ? boomBoxes[index].imageUrl
+                            : boomBoxes[index].imageUrl != ""
+                                ? boomBoxes[index].members.first.user.photo
+                                : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                      ),
                     ),
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.more_vert,
-                      color: Colors.black54,
+                    title: Text(
+                      boomBoxes[index].label,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenHeight(15),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
-                  ),
+                    subtitle: RichText(
+                      text: TextSpan(
+                        text: "${boomBoxes[index].messages.last.content}   ",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(12),
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: DateFormat('EEE, MMM dd HH:mm a').format(
+                                boomBoxes[index].messages.last.createdAt),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: getProportionateScreenHeight(10)),
+                          ),
+                        ],
+                      ),
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.more_vert,
+                        color: Colors.black54,
+                      ),
+                    ),
 
-                  // SizedBox(
-                  //   width: getProportionateScreenWidth(55),
-                  //   child: Row(
-                  //     children: [
-                  //       // (ctrllerr.boomBoxes?[index].messages?.last.isDelete ==
-                  //       //         true)
-                  //       //     ? const SizedBox(
-                  //       //         width: 10,
-                  //       //       )
-                  //       //     : const Icon(
-                  //       //         Icons.circle_rounded,
-                  //       //         size: 10,
-                  //       //         color: kBlueColor,
-                  //       //       ),
-                  //       // SizedBox(
-                  //       //   width: getProportionateScreenWidth(20),
-                  //       // ),
-                  //       IconButton(
-                  //         onPressed: () {},
-                  //         icon: const Icon(
-                  //           Icons.more_vert,
-                  //           color: Colors.black54,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                );
-              }),
+                    // SizedBox(
+                    //   width: getProportionateScreenWidth(55),
+                    //   child: Row(
+                    //     children: [
+                    //       // (ctrllerr.boomBoxes?[index].messages?.last.isDelete ==
+                    //       //         true)
+                    //       //     ? const SizedBox(
+                    //       //         width: 10,
+                    //       //       )
+                    //       //     : const Icon(
+                    //       //         Icons.circle_rounded,
+                    //       //         size: 10,
+                    //       //         color: kBlueColor,
+                    //       //       ),
+                    //       // SizedBox(
+                    //       //   width: getProportionateScreenWidth(20),
+                    //       // ),
+                    //       IconButton(
+                    //         onPressed: () {},
+                    //         icon: const Icon(
+                    //           Icons.more_vert,
+                    //           color: Colors.black54,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  );
+                }),
+              ),
             ),
           ),
         ],

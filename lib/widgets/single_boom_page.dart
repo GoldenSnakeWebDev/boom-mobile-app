@@ -356,8 +356,6 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                             },
                                                           );
                                                         });
-
-                                                        log("Dialog Open");
                                                       },
                                                       child: Container(
                                                         decoration:
@@ -387,12 +385,15 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                       ),
                                                     ),
                                                     PopupMenuItem(
-                                                      onTap: () {
-                                                        Get.snackbar(
-                                                            "Coming Soon",
-                                                            "Hang in there we are working on it",
-                                                            backgroundColor:
-                                                                kPrimaryColor);
+                                                      onTap: () async {
+                                                        await boomController.exportBoom(
+                                                            boom.boom.network!
+                                                                .symbol,
+                                                            boom.boom.imageUrl!,
+                                                            boom.boom.title!,
+                                                            boom.boom
+                                                                .description!,
+                                                            boom.boom.id!);
                                                       },
                                                       child: Container(
                                                         decoration:

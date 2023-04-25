@@ -12,9 +12,11 @@ import '../profile_screen/models/boom_box_model.dart';
 
 class SingleMessage extends StatefulWidget {
   final BoomBox boomBoxModel;
+  final bool isBoomBox;
   const SingleMessage({
     Key? key,
     required this.boomBoxModel,
+    required this.isBoomBox,
   }) : super(key: key);
 
   @override
@@ -81,11 +83,17 @@ class _SingleMessageState extends State<SingleMessage> {
             },
             child: Row(
               children: [
-                (widget.boomBoxModel.members.first.user.photo.isNotEmpty)
+                (widget.boomBoxModel.members.first.user.photo != "" &&
+                        widget.boomBoxModel.imageUrl != "")
                     ? CircleAvatar(
                         radius: 20,
                         backgroundImage: NetworkImage(
-                          widget.boomBoxModel.members.first.user.photo,
+                          widget.isBoomBox
+                              ? widget.boomBoxModel.imageUrl
+                              : widget.boomBoxModel.members.first.user.photo !=
+                                      ""
+                                  ? widget.boomBoxModel.members.first.user.photo
+                                  : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                         ),
                       )
                     : const CircleAvatar(
@@ -100,7 +108,9 @@ class _SingleMessageState extends State<SingleMessage> {
                   width: getProportionateScreenWidth(10),
                 ),
                 Text(
-                  widget.boomBoxModel.members.first.user.username,
+                  widget.isBoomBox
+                      ? widget.boomBoxModel.label
+                      : widget.boomBoxModel.members.first.user.username,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenHeight(15),
@@ -141,7 +151,8 @@ class _SingleMessageState extends State<SingleMessage> {
                             if (snapshot.hasError) {
                               return const Center(child: Text('Error'));
                             } else if (snapshot.hasData) {
-                              return _buildChatMessages(snapshot.data!);
+                              return _buildChatMessages(
+                                  snapshot.data!, widget.isBoomBox);
                             } else {
                               return const Center(
                                 child: Text(
@@ -225,7 +236,7 @@ class _SingleMessageState extends State<SingleMessage> {
     });
   }
 
-  _buildChatMessages(List<Message>? messages) {
+  _buildChatMessages(List<Message>? messages, bool isBoomBox) {
     String userid = _storage.read('userId');
     return ListView.builder(
       shrinkWrap: true,
@@ -247,6 +258,32 @@ class _SingleMessageState extends State<SingleMessage> {
                     ? CrossAxisAlignment.start
                     : CrossAxisAlignment.end,
                 children: [
+                  isBoomBox && messages[index].sender.id != userid
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: getProportionateScreenWidth(10),
+                                backgroundImage: NetworkImage(
+                                  messages[index].sender.photo,
+                                ),
+                              ),
+                              SizedBox(
+                                width: getProportionateScreenWidth(5),
+                              ),
+                              Text(
+                                messages[index].sender.username,
+                                style: TextStyle(
+                                  fontSize: getProportionateScreenHeight(12),
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                   Container(
                     width: SizeConfig.screenWidth * 0.7,
                     decoration: BoxDecoration(
@@ -266,7 +303,8 @@ class _SingleMessageState extends State<SingleMessage> {
                             ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0, vertical: 8.0),
                       child: Text(
                         messages[index].content,
                         style: TextStyle(

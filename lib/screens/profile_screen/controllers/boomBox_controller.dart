@@ -36,7 +36,6 @@ class BoomBoxController extends GetxController {
   List<user.User>? get users => _users;
 
   List<BoomBox> boomBoxes = [];
-  // List<BoomBoxModel>? get boomBoxes => _boomBoxes;
   final ImagePicker _picker = ImagePicker();
   XFile? boomBoxImage;
 
@@ -198,6 +197,9 @@ class BoomBoxController extends GetxController {
       await fetchUserBoomBoxes();
 
       Get.back();
+
+      boxImage = null;
+      update();
     } else {
       log(res.body);
       EasyLoading.dismiss();

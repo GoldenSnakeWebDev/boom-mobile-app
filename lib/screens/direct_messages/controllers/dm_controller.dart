@@ -125,6 +125,7 @@ class DMCrontroller extends GetxController {
         Get.to(
           () => SingleMessage(
             boomBoxModel: boomBox.boomBox,
+            isBoomBox: false,
           ),
         );
         return;
@@ -142,6 +143,7 @@ class DMCrontroller extends GetxController {
           Get.to(
             () => SingleMessage(
               boomBoxModel: item,
+              isBoomBox: false,
             ),
           );
           return;
@@ -163,6 +165,7 @@ class DMCrontroller extends GetxController {
         Get.to(
           () => SingleMessage(
             boomBoxModel: boomBox.boomBox,
+            isBoomBox: false,
           ),
         );
         return;
