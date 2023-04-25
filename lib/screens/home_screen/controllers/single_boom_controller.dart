@@ -249,7 +249,6 @@ class SingleBoomController extends GetxController {
       return credentials.provider.connector.session.accounts.first;
     } else {
       log("Wallet connection Not done yet");
-
       final session = await connector.createSession(
         chainId: chainId,
         onDisplayUri: (uri) async {
