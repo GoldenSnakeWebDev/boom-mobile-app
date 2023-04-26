@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:boom_mobile/di/app_bindings.dart';
+import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
@@ -11,6 +12,7 @@ import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
+import 'package:boom_mobile/utils/boomERC721.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/erc721.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -77,9 +79,10 @@ class NewPostController extends GetxController {
 
   // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
 
-  int chainId = 56;
+  int chainId = 97;
+  String smartContractAddress = '0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6';
 
-  List<int> chainIds = [56, 137, 65];
+  List<int> chainIds = [97, 80001, 65];
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
   //   http.Client(),
@@ -118,21 +121,24 @@ class NewPostController extends GetxController {
         switch (value) {
           case "MATIC":
             chainId = chainIds[1];
+            smartContractAddress = "0xa4F716c2812652b4d49F7CF3220A211FE89587eE";
             client = Web3Client(
-              'https://polygon-mainnet.infura.io/v3/3f83d628804547b89b1f7a84ea02cea9',
+              'https://matic-mumbai.chainstacklabs.com',
               http.Client(),
             );
             break;
           case "BNB":
             chainId = chainIds[0];
+            smartContractAddress = "0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6";
             client = Web3Client(
-              'https://bsc-dataseed1.binance.org/',
+              'https://data-seed-prebsc-2-s1.binance.org:8545',
               http.Client(),
             );
             break;
 
           case "OKT":
             chainId = chainIds[2];
+            smartContractAddress = "0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7";
             client = Web3Client(
               'https://exchaintestrpc.okex.org',
               http.Client(),
@@ -339,7 +345,7 @@ class NewPostController extends GetxController {
     }
   }
 
-  connectWallet() async {
+  connectWallet(bool isImport, {String? imgURL, String? timeStamp}) async {
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",
@@ -367,7 +373,17 @@ class NewPostController extends GetxController {
         log("Sender connected $sender");
       });
 
-      await fetchNFT(credentials.provider.connector.session.accounts.first);
+      if (isImport) {
+        await fetchNFT(credentials.provider.connector.session.accounts.first);
+      } else {
+        // Mint Bom
+        onChainMint(
+            imgURL!,
+            timeStamp!,
+            credentials.provider.connector.session.accounts.first,
+            client,
+            credentials);
+      }
 
       return credentials.provider.connector.session.accounts.first;
     } else {
@@ -387,39 +403,21 @@ class NewPostController extends GetxController {
             final credentials =
                 WalletConnectEthereumCredentials(provider: provider!);
             log("Sender $sender");
-            await fetchNFT(session.accounts.first);
+            if (isImport) {
+              await fetchNFT(session.accounts.first);
+            } else {
+              // Mint Bom
+              onChainMint(imgURL!, timeStamp!, session.accounts.first, client,
+                  credentials);
+            }
             return credentials.provider.connector.session.accounts.first;
           });
         },
       );
-      // await connector.connect(
-      //   onDisplayUri: ((uri) async {
-      //     await launchUrlString(uri);
-      //     connector.on('connect', (SessionStatus session) {
-      //       provider =
-      //           EthereumWalletConnectProvider(connector, chainId: chainId);
-      //       final sender = EthereumAddress.fromHex(session.accounts.first);
-      //       final credentials =
-      //           WalletConnectEthereumCredentials(provider: provider!);
-      //       log("Sender $sender");
-      //       return credentials.provider.connector.session.accounts.first;
-      //     });
-      //   }),
-      // );
-      // log("Attempting to connect");
-      // connector.on('connect', (SessionStatus session) {
-      //   provider = EthereumWalletConnectProvider(connector, chainId: chainId);
-      //   final sender = EthereumAddress.fromHex(session.accounts.first);
-      //   final credentials =
-      //       WalletConnectEthereumCredentials(provider: provider!);
-      //   log("Sender $sender");
-      //   return credentials.provider.connector.session.accounts.first;
-      // });
-      // log("App jumped to this place");
     }
   }
 
-  uploadNewBoom() async {
+  uploadNewBoom(bool isOnchain) async {
     if (formKey.currentState!.validate()) {
       EasyLoading.show(status: "Uploading");
       String postType = '';
@@ -440,6 +438,11 @@ class NewPostController extends GetxController {
         imgURL = await EditProfileController().uploadVideo(pickedVideo!, "");
       } else {
         imgURL = boomText.text.trim();
+      }
+
+      if (isOnchain) {
+        String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+        await connectWallet(false, imgURL: imgURL, timeStamp: timeStamp);
       }
 
       log("Boom Type $postType");
@@ -479,6 +482,83 @@ class NewPostController extends GetxController {
             errorList: errors, msg: [""], isError: true);
       }
       EasyLoading.dismiss();
+    }
+  }
+
+  onChainMint(String imgURL, String boomId, String addy, Web3Client web3Client,
+      WalletConnectEthereumCredentials credentials) async {
+    late File nftImg;
+
+    try {
+      final nftDetails = {
+        "name": title.text.trim(),
+        "description": description.text.trim(),
+        "image": imgURL,
+      };
+
+      Directory dir = await getApplicationDocumentsDirectory();
+      String filePath = '';
+      filePath = '${dir.path}/$boomId.json';
+
+      nftImg = File(filePath);
+      nftImg.writeAsStringSync(json.encode(nftDetails));
+
+      String tokenURI = await FileUploader().uploadPhoto(nftImg, "");
+
+      //Call Boom ERC721 contract
+
+      // BSC-Addy- 0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6
+      // Matic-Addy- 0xa4F716c2812652b4d49F7CF3220A211FE89587eE
+      // OKT-Addy- 0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7
+
+      EthereumAddress account = EthereumAddress.fromHex(addy);
+
+      EthereumAddress contractAddress =
+          EthereumAddress.fromHex(smartContractAddress);
+
+      EasyLoading.show(status: 'Minting... Please check your wallet app');
+
+      var contract = DeployedContract(
+        ContractAbi.fromJson(boomSmartContract, 'BoomERC721'),
+        contractAddress,
+      );
+
+      String hashResult = '';
+
+      try {
+        Transaction tx = Transaction(
+          from: account,
+          to: contractAddress,
+          data: contract.function('mintTo').encodeCall(
+            [account, tokenURI],
+          ),
+        );
+
+        hashResult = await web3Client.sendTransaction(
+          credentials,
+          tx,
+          chainId: chainId,
+        );
+
+        int txCount = await web3Client.getTransactionCount(account);
+        EasyLoading.dismiss();
+        log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n ${hashResult.length}"}");
+        log("TX Count $txCount");
+        // await subscription.cancel();
+        await client.dispose();
+      } catch (e) {
+        log("Error ${e.toString()}");
+        EasyLoading.dismiss();
+        Get.snackbar("Error", e.toString());
+      }
+    } catch (e) {
+      log("Error ${e.toString()}");
+      EasyLoading.dismiss();
+      CustomSnackBar.showCustomSnackBar(
+        errorList: ["Error exporting Boom as NFT"],
+        msg: ["Export Error"],
+        isError: true,
+      );
     }
   }
 }

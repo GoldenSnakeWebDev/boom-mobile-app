@@ -286,7 +286,7 @@ class SingleBoomController extends GetxController {
       Web3Client web3Client,
       WalletConnectEthereumCredentials credentials) async {
     late File nftImg;
-    // late WalletConnectEthereumCredentials credentials;
+
     try {
       final nftDetails = {
         "name": name,
@@ -302,8 +302,6 @@ class SingleBoomController extends GetxController {
       nftImg.writeAsStringSync(json.encode(nftDetails));
 
       String tokenURI = await FileUploader().uploadPhoto(nftImg, "");
-
-      log("Token URI $tokenURI");
 
       //Call Boom ERC721 contract
 
@@ -321,7 +319,6 @@ class SingleBoomController extends GetxController {
         ContractAbi.fromJson(boomSmartContract, 'BoomERC721'),
         contractAddress,
       );
-      // List<dynamic> result = [];
 
       String hashResult = '';
 
@@ -333,10 +330,6 @@ class SingleBoomController extends GetxController {
             [account, tokenURI],
           ),
         );
-
-        // credentials = WalletConnectEthereumCredentials(provider: provider!);
-
-        // await web3Client.signTransaction(credentials, tx);
 
         hashResult = await web3Client.sendTransaction(
           credentials,
