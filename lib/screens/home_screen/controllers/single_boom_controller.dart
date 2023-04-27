@@ -82,17 +82,16 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  Future<bool> reactToBoom(String reactType, String boomId) async {
+  Future<bool> reactToBoom(
+      String reactType, String boomId, SingleBoom boom) async {
+    String userId = box.read("userId");
     final res = await homeService.reactToBoom(reactType, boomId);
 
     if (res.statusCode == 200) {
-      log("Boom Reacted To : $reactType");
-      log("message: ${res.body}");
-      update();
+      await fetchReactionStatus(boom);
+
       return true;
     } else {
-      log("Reaction Body ${res.body}");
-      log("Reaction Code ${res.statusCode}");
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not react to Boom"],
           msg: ["Error"],
@@ -108,13 +107,21 @@ class SingleBoomController extends GetxController {
     reboomsCount = boom.boom.reactions!.rebooms.length;
     reportsCount = boom.boom.reactions!.reports.length;
 
+    log("We get here likesCount $likesCount");
+
     String userId = box.read("userId");
+
+    log("User ID $userId");
+
     for (var item in boom.boom.reactions!.likes) {
+      log("In Loop ${item.id}");
       if (item.id == userId) {
         isLikes = true;
       } else {
         isLikes = false;
       }
+
+      log("Is Likes Status: $isLikes");
     }
     for (var item in boom.boom.reactions!.loves) {
       if (item.id == userId) {
@@ -144,6 +151,8 @@ class SingleBoomController extends GetxController {
         isRebooms = false;
       }
     }
+
+    log("Out of Loop");
     update();
   }
 

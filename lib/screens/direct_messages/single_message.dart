@@ -76,10 +76,198 @@ class _SingleMessageState extends State<SingleMessage> {
           ],
           title: GestureDetector(
             onTap: () {
-              Get.to(
-                () => const OtherUserProfileScreen(),
-                arguments: widget.boomBoxModel.members.first.user.id,
-              );
+              if (!widget.isBoomBox) {
+                Get.to(
+                  () => const OtherUserProfileScreen(),
+                  arguments: widget.boomBoxModel.members.first.user.id,
+                );
+              } else {
+                showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) {
+                      return Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        height: SizeConfig.screenHeight * 0.55,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 40,
+                                    backgroundImage: NetworkImage(
+                                      widget.boomBoxModel.imageUrl,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(30),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.boomBoxModel.label,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(15),
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                      Text(
+                                        "${widget.boomBoxModel.members.length} Members",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(12),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: getProportionateScreenHeight(5),
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 4.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              widget.boomBoxModel.user.userId !=
+                                                      controller.userId
+                                                  ? kPrimaryColor
+                                                  : Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        child: Text(
+                                          widget.boomBoxModel.user.userId !=
+                                                  controller.userId
+                                              ? "Leave BoomBox"
+                                              : "Delete BoomBox",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    14),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                              const Divider(
+                                thickness: 1,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(
+                                height: getProportionateScreenHeight(8),
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: widget.boomBoxModel.members.length,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      minVerticalPadding:
+                                          getProportionateScreenHeight(2),
+                                      visualDensity: VisualDensity.compact,
+                                      leading: CircleAvatar(
+                                        radius:
+                                            getProportionateScreenHeight(16),
+                                        backgroundImage: NetworkImage(
+                                          widget.boomBoxModel.members[index]
+                                                      .user.photo !=
+                                                  ""
+                                              ? widget.boomBoxModel
+                                                  .members[index].user.photo
+                                                  .toString()
+                                              : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                                        ),
+                                      ),
+                                      title: Text(
+                                        widget.boomBoxModel.members[index].user
+                                            .username,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize:
+                                              getProportionateScreenHeight(14),
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                      trailing: widget.boomBoxModel
+                                                  .members[index].user.userId ==
+                                              controller.userId
+                                          ? const SizedBox()
+                                          : widget.boomBoxModel.members[index]
+                                                      .user.userId ==
+                                                  widget
+                                                      .boomBoxModel.user.userId
+                                              ? TextButton(
+                                                  onPressed: () {},
+                                                  child: const Text("Admin"),
+                                                )
+                                              : widget.boomBoxModel.user
+                                                          .userId !=
+                                                      controller.userId
+                                                  ? const SizedBox()
+                                                  : Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal:
+                                                            getProportionateScreenWidth(
+                                                                10),
+                                                        vertical:
+                                                            getProportionateScreenHeight(
+                                                                5),
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        color: kPrimaryColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
+                                                      ),
+                                                      child: Text(
+                                                        "Ban",
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                                getProportionateScreenHeight(
+                                                                    13)),
+                                                      ),
+                                                    ),
+                                      onTap: () {
+                                        Get.back();
+                                        Get.to(
+                                          () => const OtherUserProfileScreen(),
+                                          arguments: widget.boomBoxModel
+                                              .members[index].user.id,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              }
             },
             child: Row(
               children: [
@@ -261,26 +449,34 @@ class _SingleMessageState extends State<SingleMessage> {
                   isBoomBox && messages[index].sender.id != userid
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4.0),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                radius: getProportionateScreenWidth(10),
-                                backgroundImage: NetworkImage(
-                                  messages[index].sender.photo,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => const OtherUserProfileScreen(),
+                                arguments: messages[index].sender.id,
+                              );
+                            },
+                            child: Wrap(
+                              children: [
+                                CircleAvatar(
+                                  radius: getProportionateScreenWidth(10),
+                                  backgroundImage: NetworkImage(
+                                    messages[index].sender.photo,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: getProportionateScreenWidth(5),
-                              ),
-                              Text(
-                                messages[index].sender.username,
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenHeight(12),
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
+                                SizedBox(
+                                  width: getProportionateScreenWidth(5),
                                 ),
-                              )
-                            ],
+                                Text(
+                                  messages[index].sender.username,
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(12),
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       : const SizedBox(),
