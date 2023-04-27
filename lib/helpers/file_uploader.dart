@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -18,8 +19,9 @@ class FileUploader {
 
       var stream = http.ByteStream(Stream.castFrom(photo.openRead()));
       var length = photo.lengthSync();
+      Uint8List bytes = photo.readAsBytesSync();
       final mimeTypeData =
-          lookupMimeType(photo.path, headerBytes: [0xFF, 0xD8])!.split('/');
+          lookupMimeType(photo.path, headerBytes: bytes)!.split('/');
 
       var multipartFile = http.MultipartFile(
         "doc",

@@ -31,6 +31,7 @@ class DMCrontroller extends GetxController {
   var isLoading = false.obs;
 
   String boomBox = '';
+  String userId = '';
 
   final box = GetStorage();
 
@@ -43,6 +44,7 @@ class DMCrontroller extends GetxController {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     analytics.setCurrentScreen(screenName: "Direct Message Screen");
+    userId = box.read("userId");
     fetchBoomBoxMessages();
     fetchUsers();
     // channel = IOWebSocketChannel.connect(

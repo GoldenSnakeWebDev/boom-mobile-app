@@ -82,17 +82,16 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  Future<bool> reactToBoom(String reactType, String boomId) async {
+  Future<bool> reactToBoom(
+      String reactType, String boomId, SingleBoom boom) async {
+    String userId = box.read("userId");
     final res = await homeService.reactToBoom(reactType, boomId);
 
     if (res.statusCode == 200) {
-      log("Boom Reacted To : $reactType");
-      log("message: ${res.body}");
-      update();
+      await fetchReactionStatus(boom);
+
       return true;
     } else {
-      log("Reaction Body ${res.body}");
-      log("Reaction Code ${res.statusCode}");
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not react to Boom"],
           msg: ["Error"],
@@ -108,13 +107,21 @@ class SingleBoomController extends GetxController {
     reboomsCount = boom.boom.reactions!.rebooms.length;
     reportsCount = boom.boom.reactions!.reports.length;
 
+    log("We get here likesCount $likesCount");
+
     String userId = box.read("userId");
+
+    log("User ID $userId");
+
     for (var item in boom.boom.reactions!.likes) {
+      log("In Loop ${item.id}");
       if (item.id == userId) {
         isLikes = true;
       } else {
         isLikes = false;
       }
+
+      log("Is Likes Status: $isLikes");
     }
     for (var item in boom.boom.reactions!.loves) {
       if (item.id == userId) {
@@ -144,6 +151,8 @@ class SingleBoomController extends GetxController {
         isRebooms = false;
       }
     }
+
+    log("Out of Loop");
     update();
   }
 
@@ -185,10 +194,11 @@ class SingleBoomController extends GetxController {
 
   exportBoom(String selNetwork, String imgURL, String name, String desc,
       String boomId) async {
-    log("Selected Network $selNetwork");
+    String contractAddy = '';
     switch (selNetwork) {
       case "MATIC":
         chainId = chainIds[1];
+        contractAddy = "0xa4F716c2812652b4d49F7CF3220A211FE89587eE";
         client = Web3Client(
           'https://matic-mumbai.chainstacklabs.com',
           http.Client(),
@@ -197,6 +207,7 @@ class SingleBoomController extends GetxController {
         break;
       case "BNB":
         chainId = chainIds[0];
+        contractAddy = "0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6";
         client = Web3Client(
           'https://data-seed-prebsc-2-s1.binance.org:8545',
           http.Client(),
@@ -206,6 +217,7 @@ class SingleBoomController extends GetxController {
 
       case "OKT":
         chainId = chainIds[2];
+        contractAddy = "0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7";
         client = Web3Client(
           'https://exchaintestrpc.okex.org',
           http.Client(),
@@ -223,12 +235,16 @@ class SingleBoomController extends GetxController {
         name: "Boom",
         description: "Boom",
         icons: [boomIconUrl],
-        url: "https://boomapp.io",
+        url: "https://www.boooooooooom.com/",
       ),
     );
-    connector.connect(chainId: chainId);
+
+    // connector.connect(chainId: chainId);
+
+    log("Chain ID Selected: $chainId");
 
     if (connector.connected) {
+      log("Wallet connection already done");
       connector.on('connect', (SessionStatus session) {
         provider = EthereumWalletConnectProvider(connector, chainId: chainId);
         final sender = EthereumAddress.fromHex(session.accounts.first);
@@ -237,7 +253,7 @@ class SingleBoomController extends GetxController {
       });
 
       await mintNFT(credentials.provider.connector.session.accounts.first,
-          imgURL, name, desc, boomId, client, credentials);
+          contractAddy, imgURL, name, desc, boomId, client, credentials);
 
       return credentials.provider.connector.session.accounts.first;
     } else {
@@ -248,17 +264,20 @@ class SingleBoomController extends GetxController {
           final launchUri = 'metamask://wc?uri=$uri';
           await launchUrlString(launchUri);
           log("Metamask URI::: $launchUri");
-          // await connector.connect(chainId: chainId);
 
           connector.on('connect', (SessionStatus session) async {
+            log("Chain ID Selected: ${session.chainId}");
+            if (session.chainId != chainId) {
+              await connector.connect(chainId: chainId);
+            }
             provider =
                 EthereumWalletConnectProvider(connector, chainId: chainId);
             final sender = EthereumAddress.fromHex(session.accounts.first);
             final credentials =
                 WalletConnectEthereumCredentials(provider: provider!);
             log("Sender $sender");
-            await mintNFT(session.accounts.first, imgURL, name, desc, boomId,
-                client, credentials);
+            await mintNFT(session.accounts.first, contractAddy, imgURL, name,
+                desc, boomId, client, credentials);
             // return credentials.provider.connector.session.accounts.first;
           });
         },
@@ -268,6 +287,7 @@ class SingleBoomController extends GetxController {
 
   mintNFT(
       String addy,
+      String contractAddy,
       String imgURL,
       String name,
       String desc,
@@ -275,7 +295,7 @@ class SingleBoomController extends GetxController {
       Web3Client web3Client,
       WalletConnectEthereumCredentials credentials) async {
     late File nftImg;
-    // late WalletConnectEthereumCredentials credentials;
+
     try {
       final nftDetails = {
         "name": name,
@@ -292,14 +312,15 @@ class SingleBoomController extends GetxController {
 
       String tokenURI = await FileUploader().uploadPhoto(nftImg, "");
 
-      log("Token URI $tokenURI");
-
       //Call Boom ERC721 contract
+
+      // BSC-Addy- 0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6
+      // Matic-Addy- 0xa4F716c2812652b4d49F7CF3220A211FE89587eE
+      // OKT-Addy- 0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7
 
       EthereumAddress account = EthereumAddress.fromHex(addy);
 
-      EthereumAddress contractAddress =
-          EthereumAddress.fromHex("0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6");
+      EthereumAddress contractAddress = EthereumAddress.fromHex(contractAddy);
 
       EasyLoading.show(status: 'Exporting... Please check your wallet app');
 
@@ -307,24 +328,8 @@ class SingleBoomController extends GetxController {
         ContractAbi.fromJson(boomSmartContract, 'BoomERC721'),
         contractAddress,
       );
-      // List<dynamic> result = [];
 
       String hashResult = '';
-
-      // final mintToEvent = contract.event('mintTo');
-
-      // final subscription = client
-      //     .events(FilterOptions.events(contract: contract, event: mintToEvent))
-      //     .take(1)
-      //     .listen((event) {
-      //   final decoded = mintToEvent.decodeResults(event.topics!, event.data!);
-
-      //   final from = decoded[0] as EthereumAddress;
-      //   final to = decoded[1] as EthereumAddress;
-      //   final value = decoded[2] as BigInt;
-
-      //   log("message from $from to $to: $value");
-      // });
 
       try {
         Transaction tx = Transaction(
@@ -335,24 +340,11 @@ class SingleBoomController extends GetxController {
           ),
         );
 
-        // credentials = WalletConnectEthereumCredentials(provider: provider!);
-
-        // await web3Client.signTransaction(credentials, tx);
-
         hashResult = await web3Client.sendTransaction(
           credentials,
           tx,
           chainId: chainId,
         );
-
-        // await subscription.asFuture();
-
-        // result = await web3Client.call(
-        //   sender: account,
-        //   contract: contract,
-        //   function: contract.function('mintTo'),
-        //   params: [account, tokenURI],
-        // );
 
         int txCount = await web3Client.getTransactionCount(account);
         EasyLoading.dismiss();

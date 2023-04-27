@@ -18,11 +18,13 @@ class SingleBoxController extends GetxController {
   late BoomBox boomBoxModel;
 
   List<Message> messages = [];
+  String userId = "";
 
   @override
   void onInit() {
     super.onInit();
     boomBoxModel = Get.arguments[0];
+    userId = storage.read("userId");
     fetchMessages();
   }
 

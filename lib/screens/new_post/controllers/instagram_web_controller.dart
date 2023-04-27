@@ -65,6 +65,9 @@ class InstagramWebController extends GetxController {
 
           Get.to(() => const InstagramPosts());
         }
+      } else if (url
+          .startsWith("https://www.instagram.com/accounts/manage_access/")) {
+        Get.back();
       } else {
         log("URL $url");
         log("Not found token and user id");

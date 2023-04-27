@@ -285,7 +285,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    await controller.connectWallet();
+                                    await controller.connectWallet(true);
                                   },
                                   child: Container(
                                     width: SizeConfig.screenWidth,
@@ -1277,7 +1277,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                         GestureDetector(
                                           onTap: () {
                                             Get.back();
-                                            controller.uploadNewBoom();
+                                            controller.uploadNewBoom(false);
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.only(
@@ -1293,7 +1293,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                             ),
                                             alignment: Alignment.center,
                                             child: Text(
-                                              "Synthetic Minting",
+                                              "Off-Chain Minting",
                                               style: TextStyle(
                                                   fontSize:
                                                       getProportionateScreenHeight(
@@ -1304,7 +1304,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                         GestureDetector(
                                           onTap: () {
                                             Get.back();
-                                            controller.connectWallet();
+                                            controller.uploadNewBoom(true);
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.only(
