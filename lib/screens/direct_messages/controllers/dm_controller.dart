@@ -34,6 +34,7 @@ class DMCrontroller extends GetxController {
   String userId = '';
 
   final box = GetStorage();
+  final ScrollController listViewController = ScrollController();
 
   setLoading(bool value) {
     isLoading.value = value;
