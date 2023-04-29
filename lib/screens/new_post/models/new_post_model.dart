@@ -20,6 +20,7 @@ class NewPostModel {
   final String price;
   final String location;
   final String timestamp;
+  final String boomState;
 
   NewPostModel({
     required this.boomType,
@@ -33,5 +34,6 @@ class NewPostModel {
     required this.price,
     required this.location,
     required this.timestamp,
+    required this.boomState,
   });
 }

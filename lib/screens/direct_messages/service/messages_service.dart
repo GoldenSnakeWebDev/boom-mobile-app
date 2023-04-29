@@ -138,7 +138,6 @@ class DMService {
       body: jsonEncode(body),
     );
     if (res.statusCode == 200) {
-      log("Response ${res.body}");
     } else {
       log("Response ${res.body} ${res.statusCode}");
       Get.snackbar(
