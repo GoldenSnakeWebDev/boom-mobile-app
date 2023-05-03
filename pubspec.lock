@@ -89,22 +89,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.21"
-  base_codecs:
-    dependency: transitive
-    description:
-      name: base_codecs
-      sha256: "41701a12ede9912663decd708279924ece5018566daa7d1f484d5f4f10894f91"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
-  beacon_flutter:
-    dependency: "direct main"
-    description:
-      name: beacon_flutter
-      sha256: "81897557464db8a224d11a1b56985de14104f9671fbc3c30b7f2fed70b3533cc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.9"
   bip39:
     dependency: transitive
     description:
