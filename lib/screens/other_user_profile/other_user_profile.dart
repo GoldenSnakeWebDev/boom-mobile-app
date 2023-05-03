@@ -40,7 +40,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
     // Get.put(OtherUserProfileController());
     userId = Get.arguments;
     myUserId = box.read("userId");
-    log("My User Id $myUserId");
+
     super.initState();
     Get.put(OtherUserProfileController());
     // otherProfileController = Get.find<OtherUserProfileController>();

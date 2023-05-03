@@ -524,7 +524,8 @@ class _SingleMessageState extends State<SingleMessage> {
                     ),
                   ),
                   Text(
-                    DateFormat('HH:mm a').format(messages[index].createdAt),
+                    DateFormat('HH:mm a')
+                        .format(messages[index].createdAt.toLocal()),
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),

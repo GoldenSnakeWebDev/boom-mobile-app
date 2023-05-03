@@ -122,7 +122,7 @@ class DMService {
   chatWithUser(String message, String boomBoxId) async {
     final token = _storage.read("token");
     final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
-    var timeStamp = format.format(DateTime.now());
+    var timeStamp = format.format(DateTime.now().toUtc());
     final body = {
       "content": message,
       "timestamp": timeStamp,
@@ -139,7 +139,6 @@ class DMService {
     );
     if (res.statusCode == 200) {
     } else {
-      log("Response ${res.body} ${res.statusCode}");
       Get.snackbar(
         "Error",
         "Check your connection and try again",
@@ -147,6 +146,15 @@ class DMService {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  deleteBoomBox(String boomBoxId) async {
+    final token = _storage.read("token");
+    final res =
+        await http.delete(Uri.parse("${baseURL}boom-box/$boomBoxId"), headers: {
+      "Authorization": token,
+    });
+    return res;
   }
 
   // chatWithUser(Map<String, dynamic> boomBoxData) async {

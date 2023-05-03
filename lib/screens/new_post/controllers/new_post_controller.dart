@@ -2,6 +2,22 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:video_player/video_player.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:web3dart/crypto.dart';
+import 'package:web3dart/web3dart.dart';
+
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/models/network_model.dart';
@@ -17,22 +33,6 @@ import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/erc721.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:video_player/video_player.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
-import 'package:web3dart/crypto.dart';
-
-import 'package:web3dart/web3dart.dart';
-import 'package:http/http.dart' as http;
 
 enum POST_TYPE { image, video, text }
 

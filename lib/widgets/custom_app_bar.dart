@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:boom_mobile/screens/back_pack_screen/back_pack_screen.dart';
 import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
@@ -7,9 +5,8 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 import '../di/app_bindings.dart';
 
@@ -91,31 +88,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        // final Email email = Email(
-                        //   body: '',
-                        //   subject: 'Boom Mobile Support',
-                        //   recipients: ['letstalk@boooooooooom.com'],
-                        //   cc: [''],
-                        //   bcc: [''],
-                        //   isHTML: false,
-                        // );
-                        // await FlutterEmailSender.send(email);
-
-                        EasyLoading.show(status: 'loading...');
-
-                        final res = await http.get(
-                          Uri.parse(
-                              "https://api.etherscan.io/api?module=account&action=txlist&address=0x02545B85E05caAa08201215BB37511a7F4BC874F&startblock=13349491&endblock=17000752&page=1&offset=10&sort=asc&apikey=P22JIJRBPQYMJF93FK74YIDJ2F8PTFHT38"),
+                        final Email email = Email(
+                          body: '',
+                          subject: 'Boom Mobile Support',
+                          recipients: ['letstalk@boooooooooom.com'],
+                          cc: [''],
+                          bcc: [''],
+                          isHTML: false,
                         );
-
-                        if (res.statusCode == 200) {
-                          EasyLoading.dismiss();
-                          log("Response ::${res.body}");
-                        } else {
-                          EasyLoading.dismiss();
-                          log("Response ::${res.body}");
-                          log("Status Code ::${res.statusCode}");
-                        }
+                        await FlutterEmailSender.send(email);
                       },
                       child: Image.asset(
                         "assets/icons/support_icon.png",

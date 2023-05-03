@@ -112,6 +112,25 @@ class DMCrontroller extends GetxController {
     return ress;
   }
 
+  deleteBoomBox(String boomBoxId, bool isGroup) async {
+    EasyLoading.show(status: "Deleting ${isGroup ? "BoomBox Chat" : "Chat"}");
+
+    var res = await service.deleteBoomBox(boomBoxId);
+    if (res.statusCode == 204) {
+      Get.back();
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess("${isGroup ? "BoomBox Chat" : "Chat"} Deleted");
+      await fetchBoomBoxMessages();
+    } else {
+      log("REsponse ${res.body.toString()}");
+      EasyLoading.dismiss();
+      EasyLoading.showError(
+          "Could not delete ${isGroup ? "BoomBox chat" : "chat"}");
+      update();
+      Get.back();
+    }
+  }
+
   goToSingleUserMessage(int index) async {
     if (dmMessages.isEmpty) {
       NewBoomBoxResponse? res = await service.createNewMessage(
