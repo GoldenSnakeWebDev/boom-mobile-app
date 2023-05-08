@@ -573,6 +573,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         height:
                                             getProportionateScreenHeight(20),
                                         imageUrl: boom.boom.network!.imageUrl,
+                                        useOldImageOnUrlChange: true,
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                                "assets/icons/matic.png"),
                                       ),
                                       IconButton(
                                         onPressed: () {
