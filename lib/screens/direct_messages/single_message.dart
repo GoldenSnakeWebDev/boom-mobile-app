@@ -339,8 +339,15 @@ class _SingleMessageState extends State<SingleMessage> {
                             if (snapshot.hasError) {
                               return const Center(child: Text('Error'));
                             } else if (snapshot.hasData) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                if (controller.listViewController.hasClients) {
+                                  controller.listViewController.jumpTo(
+                                      controller.listViewController.position
+                                          .maxScrollExtent);
+                                }
+                              });
                               return _buildChatMessages(
-                                  snapshot.data!, widget.isBoomBox);
+                                  snapshot.data!, widget.isBoomBox, controller);
                             } else {
                               return const Center(
                                 child: Text(
@@ -424,11 +431,15 @@ class _SingleMessageState extends State<SingleMessage> {
     });
   }
 
-  _buildChatMessages(List<Message>? messages, bool isBoomBox) {
+  _buildChatMessages(
+      List<Message>? messages, bool isBoomBox, DMCrontroller controller) {
     String userid = _storage.read('userId');
+
     return ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      // physics: const NeverScrollableScrollPhysics(),
+
+      controller: controller.listViewController,
       itemCount: messages!.length,
       itemBuilder: (context, index) {
         return Container(
@@ -513,7 +524,8 @@ class _SingleMessageState extends State<SingleMessage> {
                     ),
                   ),
                   Text(
-                    DateFormat('HH:mm a').format(messages[index].createdAt),
+                    DateFormat('HH:mm a')
+                        .format(messages[index].createdAt.toLocal()),
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),

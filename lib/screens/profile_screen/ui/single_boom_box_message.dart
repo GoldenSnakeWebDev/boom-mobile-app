@@ -321,7 +321,15 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                 child: Text('Error'),
                               );
                             } else if (snapshot.hasData) {
-                              return _buildChatMessages(snapshot.data!);
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                if (controller.listViewController.hasClients) {
+                                  controller.listViewController.jumpTo(
+                                      controller.listViewController.position
+                                          .maxScrollExtent);
+                                }
+                              });
+                              return _buildChatMessages(
+                                  snapshot.data!, controller);
                             } else {
                               return const Center(
                                 child: Text(
@@ -403,12 +411,12 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
     });
   }
 
-  _buildChatMessages(List<Message>? messages) {
+  _buildChatMessages(List<Message>? messages, SingleBoxController controller) {
     String userid = _storage.read('userId');
     return ListView.builder(
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
       itemCount: messages!.length,
+      controller: controller.listViewController,
       itemBuilder: (context, index) {
         return Container(
           margin: EdgeInsets.only(

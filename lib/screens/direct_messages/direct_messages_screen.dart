@@ -62,35 +62,41 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            SafeArea(
-              child: Obx(
-                () => (controller.isLoading.value)
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : (controller.dmMessages.isNotEmpty)
-                        ? _buildChatsList(controller.dmMessages, false)
-                        : const Center(
-                            child: Text("No messages"),
-                          ),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await controller.fetchBoomBoxMessages();
+          },
+          child: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              SafeArea(
+                child: Obx(
+                  () => (controller.isLoading.value)
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : (controller.dmMessages.isNotEmpty)
+                          ? _buildChatsList(controller.dmMessages, false)
+                          : const Center(
+                              child: Text("No messages"),
+                            ),
+                ),
               ),
-            ),
-            SafeArea(
-              child: Obx(
-                () => (controller.isLoading.value)
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : (controller.groupMessages.isNotEmpty)
-                        ? _buildChatsList(controller.groupMessages, true)
-                        : const Center(
-                            child: Text("No messages"),
-                          ),
-              ),
-            )
-          ],
+              SafeArea(
+                child: Obx(
+                  () => (controller.isLoading.value)
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : (controller.groupMessages.isNotEmpty)
+                          ? _buildChatsList(controller.groupMessages, true)
+                          : const Center(
+                              child: Text("No messages"),
+                            ),
+                ),
+              )
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -245,7 +251,11 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                       ),
                     ),
                     title: Text(
-                      boomBoxes[index].label,
+                      isGroup
+                          ? boomBoxes[index].label
+                          : controller.userId == boomBoxes[index].user.userId
+                              ? boomBoxes[index].members.first.user.username
+                              : boomBoxes[index].user.username,
                       style: TextStyle(
                         fontSize: getProportionateScreenHeight(15),
                         color: Colors.black,
@@ -262,8 +272,12 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                         ),
                         children: [
                           TextSpan(
-                            text: DateFormat('EEE, MMM dd HH:mm a').format(
-                                boomBoxes[index].messages.last.createdAt),
+                            text: DateFormat('EEE, dd MMM HH:mm a').format(
+                                boomBoxes[index]
+                                    .messages
+                                    .last
+                                    .createdAt
+                                    .toLocal()),
                             style: TextStyle(
                                 fontWeight: FontWeight.w800,
                                 fontSize: getProportionateScreenHeight(10)),
@@ -271,8 +285,64 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                         ],
                       ),
                     ),
-                    trailing: IconButton(
-                      onPressed: () {},
+                    trailing: PopupMenuButton(
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                            height: getProportionateScreenHeight(20),
+                            value: "delete",
+                            child: Text(
+                              "Delete",
+                              style: TextStyle(
+                                color: kredCancelTextColor,
+                                fontSize: getProportionateScreenHeight(12),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ];
+                      },
+                      onSelected: (value) async {
+                        switch (value) {
+                          case "delete":
+                            Future.delayed(
+                              const Duration(seconds: 0),
+                              () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "Delete ${isGroup ? "BoomBox Chat" : "Chat"}"),
+                                      content: Text(
+                                          "Are you sure you want to delete ${isGroup ? "BoomBox Chat" : "Chat with ${boomBoxes[index].members.last.user.username}"}?"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Cancel"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await controller.deleteBoomBox(
+                                                boomBoxes[index].id, isGroup);
+                                          },
+                                          child: Text(
+                                              "Yes, Delete ${isGroup ? "BoomBox Chat" : "Chat"}"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            );
+
+                            break;
+                          default:
+                            break;
+                        }
+                      },
                       icon: const Icon(
                         Icons.more_vert,
                         color: Colors.black54,

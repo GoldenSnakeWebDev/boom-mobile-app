@@ -97,6 +97,73 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                           isHTML: false,
                         );
                         await FlutterEmailSender.send(email);
+
+                        // final qrCodeModal = WalletConnectQrCodeModal(
+                        //   connector: WalletConnect(
+                        //     bridge: 'https://bridge.walletconnect.org',
+                        //     clientMeta: const PeerMeta(
+                        //       name: "Boom Mobile",
+                        //       description: "Boom Mobile",
+                        //       url: "https://boooooooooom.com",
+                        //       icons: ["https://boooooooooom.com/favicon.ico"],
+                        //     ),
+                        //   ),
+                        // );
+                        // final session = await qrCodeModal
+                        //     .connect(context)
+                        //     .catchError((error) {
+                        //   log("QR Modal Error $error");
+                        //   return null;
+                        // });
+
+                        // qrCodeModal.registerListeners(
+                        //   onConnect: (session) {
+                        //     log("QR Modal onConnect $session");
+                        //   },
+                        //   onSessionUpdate: (response) {
+                        //     log("QR Modal onSessionUpdate $response");
+                        //   },
+                        //   onDisconnect: () {
+                        //     log("QR Modal onDisconnect $session");
+                        //   },
+                        // );
+
+                        // log("Accounts ${session!.accounts[0]} ${session.accounts.length} RPC URL ${session.rpcUrl} ${session.networkId}");
+
+                        // EasyLoading.show(status: 'loading...');
+
+                        // final tezartClient =
+                        //     TezartClient("https://ghostnet.smartpy.io");
+
+                        // final contractEntryPoints = await tezartClient
+                        //     .rpcInterface
+                        //     .getContract("tz1i8SuqB9wrLJMWcgSbU1xjJ6vQMMjVGAMx")
+                        //     .catchError((error) {
+                        //   log("Error occurred + $error");
+                        // });
+
+                        // final walletBalance = await tezartClient.getBalance(
+                        //     address: "tz1XcL2YgfLUcAAydb8mdGzV7aYyApgHPWhX");
+
+                        // final result = await tezartClient.transferOperation(
+                        //   source: Keystore.fromSecretKey(
+                        //       "edskS8vvBRooTqGjVB8EKAXJjb3sB1yRTSCwPxacCAwrgbwCtFnyj5PNHZUermQKcuB7xLRfgw3UriizrvwfP1RFVGW6L4tj32"),
+                        //   destination: "tz1QghCpzA6SKPfx4kCN3hsDoKVrXEDpVRJY",
+                        //   amount: 1000,
+                        //   customFee: 1001,
+                        //   reveal: true,
+                        //   customGasLimit: 1101,
+                        // );
+
+                        // await result.execute();
+
+                        // // log("Contract Entry Points $contractEntryPoints");
+                        // log("Wallet Balance $walletBalance");
+                        // log("Transfer Result Balance ${result.operations.last.balance}");
+                        // log("Transfer Result Balance ${result.operations.last.publicKey}");
+                        // log("Transfer Result Balance ${result.operations.last.amount}");
+                        // log("Transfer Result Balance ${result.operations.last.kind.toString()}");
+                        // EasyLoading.dismiss();
                       },
                       child: Image.asset(
                         "assets/icons/support_icon.png",

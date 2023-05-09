@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -21,9 +20,10 @@ class UploadService {
       "fixed_price": boom.fixedPrice,
       "price": boom.price,
       "location": boom.location,
-      "timestamp": boom.timestamp
+      "timestamp": boom.timestamp,
+      "boom_state": boom.boomState
     };
-    log("Body $token");
+
     final res = http.post(
       Uri.parse("${baseURL}booms"),
       headers: {

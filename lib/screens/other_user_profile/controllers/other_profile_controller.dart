@@ -176,7 +176,19 @@ class OtherUserProfileController extends GetxController {
         );
         break;
       case 2:
-        selectedTab = index;
+        Get.snackbar(
+          "Hang in there.",
+          "Shipping soon..",
+          backgroundColor: kPrimaryColor,
+          snackPosition: SnackPosition.TOP,
+          colorText: Colors.black,
+          overlayBlur: 5.0,
+          margin: EdgeInsets.only(
+            top: SizeConfig.screenHeight * 0.05,
+            left: SizeConfig.screenWidth * 0.05,
+            right: SizeConfig.screenWidth * 0.05,
+          ),
+        );
         break;
       case 3:
         Get.snackbar(

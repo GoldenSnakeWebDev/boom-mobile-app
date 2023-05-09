@@ -20,6 +20,8 @@ class SingleBoxController extends GetxController {
   List<Message> messages = [];
   String userId = "";
 
+  final ScrollController listViewController = ScrollController();
+
   @override
   void onInit() {
     super.onInit();

@@ -266,6 +266,25 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                                     getProportionateScreenHeight(
                                                         10),
                                               ),
+                                              controller.myBooms!.booms![index]
+                                                          .boomType ==
+                                                      "text"
+                                                  ? Text(
+                                                      "${controller.myBooms!.booms![index].imageUrl}",
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                11),
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    )
+                                                  : const SizedBox(),
+                                              SizedBox(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        10),
+                                              ),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment

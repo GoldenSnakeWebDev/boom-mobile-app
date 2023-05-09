@@ -34,6 +34,7 @@ class DMCrontroller extends GetxController {
   String userId = '';
 
   final box = GetStorage();
+  final ScrollController listViewController = ScrollController();
 
   setLoading(bool value) {
     isLoading.value = value;
@@ -109,6 +110,25 @@ class DMCrontroller extends GetxController {
       boomBox = ress;
     }
     return ress;
+  }
+
+  deleteBoomBox(String boomBoxId, bool isGroup) async {
+    EasyLoading.show(status: "Deleting ${isGroup ? "BoomBox Chat" : "Chat"}");
+
+    var res = await service.deleteBoomBox(boomBoxId);
+    if (res.statusCode == 204) {
+      Get.back();
+      EasyLoading.dismiss();
+      EasyLoading.showSuccess("${isGroup ? "BoomBox Chat" : "Chat"} Deleted");
+      await fetchBoomBoxMessages();
+    } else {
+      log("REsponse ${res.body.toString()}");
+      EasyLoading.dismiss();
+      EasyLoading.showError(
+          "Could not delete ${isGroup ? "BoomBox chat" : "chat"}");
+      update();
+      Get.back();
+    }
   }
 
   goToSingleUserMessage(int index) async {
