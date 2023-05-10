@@ -58,7 +58,7 @@ void main() async {
   analytics.logAppOpen();
 
   // Uncomment this line to disable screenshotting due to security policy
-  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   GetStorage.init();
   configureLoader();
   runApp(const MyApp());

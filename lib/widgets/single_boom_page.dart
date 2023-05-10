@@ -386,14 +386,16 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                     ),
                                                     PopupMenuItem(
                                                       onTap: () async {
-                                                        await boomController.exportBoom(
-                                                            boom.boom.network!
-                                                                .symbol,
-                                                            boom.boom.imageUrl!,
-                                                            boom.boom.title!,
-                                                            boom.boom
-                                                                .description!,
-                                                            boom.boom.id!);
+                                                        await boomController
+                                                            .exportBoom(
+                                                          boom.boom.network!
+                                                              .symbol,
+                                                          boom.boom.imageUrl!,
+                                                          boom.boom.title!,
+                                                          boom.boom
+                                                              .description!,
+                                                          boom.boom.id!,
+                                                        );
                                                       },
                                                       child: Container(
                                                         decoration:
