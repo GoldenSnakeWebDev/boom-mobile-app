@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../utils/constants.dart';
+
 class SingleBrandPost extends StatelessWidget {
   final String title;
   final String image;
@@ -43,7 +45,7 @@ class SingleBrandPost extends StatelessWidget {
               child: Image.network(
                 width: getProportionateScreenWidth(30),
                 height: getProportionateScreenHeight(30),
-                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/verification.png",
+                boomIconUrl,
               ),
             ),
             Positioned(
@@ -133,7 +135,7 @@ class SingleBrandPost extends StatelessWidget {
                 child: Image.network(
                   width: getProportionateScreenWidth(20),
                   height: getProportionateScreenHeight(20),
-                  "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/promote.png",
+                  "https://boomIconUrl/promote.png",
                 ),
               ),
             ),
@@ -153,7 +155,7 @@ class SingleBrandPost extends StatelessWidget {
               child: Image.network(
                 width: getProportionateScreenWidth(16),
                 height: getProportionateScreenHeight(16),
-                "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/clap.png",
+                "https://boomIconUrl/clap.png",
               ),
             ),
             Positioned(

@@ -23,7 +23,6 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
-import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';
 import 'package:web3dart/web3dart.dart';
 
 class SingleBoomController extends GetxController {
@@ -224,6 +223,7 @@ class SingleBoomController extends GetxController {
       default:
         chainId = chainIds[1];
     }
+
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",

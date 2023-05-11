@@ -619,7 +619,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                   //   child: Image.network(
                                                   //     height:
                                                   //         getProportionateScreenHeight(22),
-                                                  //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/nudge.png",
+                                                  //     "https://boomIconUrl/nudge.png",
                                                   //   ),
                                                   // ),
                                                   // Positioned(
