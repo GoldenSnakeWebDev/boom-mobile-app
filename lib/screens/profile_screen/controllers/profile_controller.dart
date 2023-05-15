@@ -226,8 +226,8 @@ class ProfileController extends GetxController {
 
   signOut() async {
     await box.erase();
-    await OneSignal.shared.removeExternalUserId();
     Get.offAll(() => const LoginScreen());
+    await OneSignal.shared.removeExternalUserId();
     CustomSnackBar.showCustomSnackBar(
         errorList: ["Signed out"], msg: ["Sign out"], isError: false);
   }

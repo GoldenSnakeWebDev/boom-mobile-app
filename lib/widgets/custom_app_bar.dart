@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:boom_mobile/screens/back_pack_screen/back_pack_screen.dart';
 import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
@@ -7,9 +5,9 @@ import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
-import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';
+// import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';
 
 import '../di/app_bindings.dart';
 
@@ -91,47 +89,47 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        // final Email email = Email(
-                        //   body: '',
-                        //   subject: 'Boom Mobile Support',
-                        //   recipients: ['letstalk@boooooooooom.com'],
-                        //   cc: [''],
-                        //   bcc: [''],
-                        //   isHTML: false,
+                        final Email email = Email(
+                          body: '',
+                          subject: 'Boom Mobile Support',
+                          recipients: ['letstalk@boooooooooom.com'],
+                          cc: [''],
+                          bcc: [''],
+                          isHTML: false,
+                        );
+                        await FlutterEmailSender.send(email);
+
+                        // final qrCodeModal = WalletConnectQrCodeModal(
+                        //   connector: WalletConnect(
+                        //     bridge: 'https://bridge.walletconnect.org',
+                        //     clientMeta: const PeerMeta(
+                        //       name: "Boom Mobile",
+                        //       description: "Boom Mobile",
+                        //       url: "https://boooooooooom.com",
+                        //       icons: ["https://boooooooooom.com/favicon.ico"],
+                        //     ),
+                        //   ),
                         // );
-                        // await FlutterEmailSender.send(email);
+                        // final session = await qrCodeModal
+                        //     .connect(context)
+                        //     .catchError((error) {
+                        //   log("QR Modal Error $error");
+                        //   return null;
+                        // });
 
-                        final qrCodeModal = WalletConnectQrCodeModal(
-                          connector: WalletConnect(
-                            bridge: 'https://bridge.walletconnect.org',
-                            clientMeta: const PeerMeta(
-                              name: "Boom Mobile",
-                              description: "Boom Mobile",
-                              url: "https://boooooooooom.com",
-                              icons: ["https://boooooooooom.com/favicon.ico"],
-                            ),
-                          ),
-                        );
-                        final session = await qrCodeModal
-                            .connect(context)
-                            .catchError((error) {
-                          log("QR Modal Error $error");
-                          return null;
-                        });
+                        // qrCodeModal.registerListeners(
+                        //   onConnect: (session) {
+                        //     log("QR Modal onConnect $session");
+                        //   },
+                        //   onSessionUpdate: (response) {
+                        //     log("QR Modal onSessionUpdate $response");
+                        //   },
+                        //   onDisconnect: () {
+                        //     log("QR Modal onDisconnect $session");
+                        //   },
+                        // );
 
-                        qrCodeModal.registerListeners(
-                          onConnect: (session) {
-                            log("QR Modal onConnect $session");
-                          },
-                          onSessionUpdate: (response) {
-                            log("QR Modal onSessionUpdate $response");
-                          },
-                          onDisconnect: () {
-                            log("QR Modal onDisconnect $session");
-                          },
-                        );
-
-                        log("Accounts ${session!.accounts[0]} ${session.accounts.length} RPC URL ${session.rpcUrl} ${session.networkId}");
+                        // log("Accounts ${session!.accounts[0]} ${session.accounts.length} RPC URL ${session.rpcUrl} ${session.networkId}");
 
                         // EasyLoading.show(status: 'loading...');
 

@@ -46,7 +46,8 @@ class SyntheticBankScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () async {
                     await Clipboard.setData(
-                        ClipboardData(text: myCtrl.user!.syncBank!.syncId));
+                      ClipboardData(text: myCtrl.user!.syncBank!.syncId!),
+                    );
 
                     Get.snackbar("Copied", "Sync Bank Id Copied to clipboard",
                         backgroundColor: kPrimaryColor,
@@ -95,9 +96,9 @@ class SyntheticBankScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ChainBalanceWidget(
-                  icon: CachedNetworkImage(
+                  icon: Image.asset(
+                    "assets/icons/matic.png",
                     height: getProportionateScreenHeight(20),
-                    imageUrl: "https://boomIconUrl/polygon.png",
                   ),
                   balance: "${myCtrl.user!.syncBank!.polygon!.amountBalance!}",
                   fiatBalance:
@@ -124,7 +125,8 @@ class SyntheticBankScreen extends StatelessWidget {
                 ChainBalanceWidget(
                   icon: CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    imageUrl: "https://boomIconUrl/tezos.png",
+                    imageUrl:
+                        "https://lh3.googleusercontent.com/pw/AJFCJaWVmPcwYmSc_CQs5ojp4VCRIZb7-T-kc6ILN4BUvoXXoij0GfabGjQSyei3oE-391ZHZTNSOqWcgD3DWZx6zX4V086LRlHfr8CJN9rnxkBuSBNDs9xSTerU7JWhmz6H9fC3iiAds-bDEmR4qA7a9QTKvw=w805-h988-s-no?authuser=0",
                   ),
                   balance: "${myCtrl.user!.syncBank!.tezos!.amountBalance}",
                   fiatBalance: "${myCtrl.user!.syncBank!.tezos!.amountBalance}",

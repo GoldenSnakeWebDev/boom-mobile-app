@@ -1,4 +1,5 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/screens/explore/controllers/search_controller.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
@@ -11,8 +12,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'controllers/search_controller.dart';
-
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
 
@@ -23,7 +22,7 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   final mainController = Get.find<MainScreenController>();
   final homeController = Get.find<HomeController>();
-  final _searchController = Get.find<SearchController>();
+  final _searchController = Get.find<SearchPageController>();
   List<Boom>? _shuffledBooms;
   var _isSearching = false;
 
@@ -57,8 +56,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: GetBuilder<SearchController>(
-                    init: SearchController(),
+                  child: GetBuilder<SearchPageController>(
+                    init: SearchPageController(),
                     builder: (searchCtrller) => Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,7 +82,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 setState(() {
                                   _isSearching = true;
                                 });
-                                _searchController.searchBooms();
+                                searchCtrller.searchBooms();
                               }
                             },
                             decoration: const InputDecoration(

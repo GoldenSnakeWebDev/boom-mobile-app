@@ -402,6 +402,8 @@ class LoginScreen extends GetView<LoginController> {
   _showPasswordResetDialog(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        // isScrollControlled: true,
+        // useSafeArea: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(
@@ -422,7 +424,7 @@ class LoginScreen extends GetView<LoginController> {
               ),
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 const Text(
                   "Reset Password",

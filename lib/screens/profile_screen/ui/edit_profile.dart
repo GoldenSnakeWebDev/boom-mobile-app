@@ -1,12 +1,16 @@
 import 'dart:io';
 
+import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
+import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/pick_from_booms.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/pick_profile_from_booms.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,6 +25,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     Get.put(EditProfileController());
+    Get.put(MainScreenController(repo: Get.find<FetchCurrUserRepo>()));
     super.initState();
   }
 
@@ -523,6 +528,169 @@ class _EditProfileState extends State<EditProfile> {
                         borderSide: const BorderSide(color: Colors.black12),
                       ),
                     ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(15),
+                  ),
+                  Text(
+                    "Tip",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenHeight(14),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(2),
+                  ),
+                  Text(
+                    "To receive tips, add your wallet addresses below",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenHeight(11),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: getProportionateScreenHeight(10),
+                  ),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/bnb.svg",
+                        width: getProportionateScreenHeight(20),
+                        height: getProportionateScreenHeight(20),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(10),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: controller.bnbWalletController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(
+                              top: 6.0,
+                              bottom: 6.0,
+                              left: 6.0,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(8),
+                  ),
+                  Row(
+                    children: [
+                      CachedNetworkImage(
+                        imageUrl:
+                            "https://lh3.googleusercontent.com/pw/AJFCJaWVmPcwYmSc_CQs5ojp4VCRIZb7-T-kc6ILN4BUvoXXoij0GfabGjQSyei3oE-391ZHZTNSOqWcgD3DWZx6zX4V086LRlHfr8CJN9rnxkBuSBNDs9xSTerU7JWhmz6H9fC3iiAds-bDEmR4qA7a9QTKvw=w805-h988-s-no?authuser=0",
+                        width: getProportionateScreenHeight(20),
+                        height: getProportionateScreenHeight(20),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(10),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: controller.tezosWalletController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(
+                              top: 6.0,
+                              bottom: 6.0,
+                              left: 6.0,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(8),
+                  ),
+                  Row(
+                    children: [
+                      Image.asset(
+                        "assets/icons/matic.png",
+                        width: getProportionateScreenHeight(20),
+                        height: getProportionateScreenHeight(20),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(10),
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          controller: controller.maticWalletController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(
+                              top: 6.0,
+                              bottom: 6.0,
+                              left: 6.0,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide:
+                                  const BorderSide(color: Colors.black12),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   SizedBox(
                     height: getProportionateScreenHeight(15),

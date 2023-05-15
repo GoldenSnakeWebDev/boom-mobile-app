@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as Math;
 
+import 'package:boom_mobile/models/network_model.dart';
+import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
+import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -26,6 +29,9 @@ class EditProfileController extends GetxController {
   TextEditingController usernameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController bnbWalletController = TextEditingController();
+  TextEditingController tezosWalletController = TextEditingController();
+  TextEditingController maticWalletController = TextEditingController();
   TextEditingController twitterController = TextEditingController();
   TextEditingController facebookController = TextEditingController();
   TextEditingController instagramController = TextEditingController();
@@ -50,18 +56,29 @@ class EditProfileController extends GetxController {
   List<String> boomsURL = [];
   String selectedHeaderImage = "";
   String selectedProfileImage = "";
+  NetworkModel? networkModel;
 
   @override
   void onInit() {
     user = Get.arguments[0];
+    Get.put(MainScreenController(repo: Get.find<FetchCurrUserRepo>()));
+    networkModel = Get.find<MainScreenController>().networkModel;
+
     usernameController.text = user!.username!;
     bioController.text = user!.bio!;
     locationController.text = user!.location!;
+    bnbWalletController.text =
+        user!.tippingInfo!.isNotEmpty ? user!.tippingInfo![0].address! : "";
+    tezosWalletController.text =
+        user!.tippingInfo!.length > 1 ? user!.tippingInfo![1].address! : "";
+    maticWalletController.text =
+        user!.tippingInfo!.length > 2 ? user!.tippingInfo![2].address! : "";
     twitterController.text = user!.socialMedia!.twitter!;
     facebookController.text = user!.socialMedia!.facebook!;
     instagramController.text = user!.socialMedia!.instagram!;
     tiktokController.text = user!.socialMedia!.tiktok!;
     mediumController.text = user!.socialMedia!.medium!;
+
     fetchMyBooms();
     super.onInit();
   }
@@ -186,6 +203,7 @@ class EditProfileController extends GetxController {
   fetchMyBooms() async {
     String token = box.read("token");
     String userId = box.read("userId");
+
     isLoadingBooms = true;
     final res = await http.get(
       Uri.parse("${baseURL}fetch-user-booms/$userId?page=all"),
@@ -319,6 +337,30 @@ class EditProfileController extends GetxController {
 
     EasyLoading.show(status: 'Updating profile...');
 
+    List tippingInfo = [];
+
+    for (var element in networkModel!.networks!) {
+      if (element.symbol == "BNB") {
+        final networkBody = {
+          "network": element.id,
+          "address": bnbWalletController.text.trim(),
+        };
+        tippingInfo.add(networkBody);
+      } else if (element.symbol == "TZ") {
+        final networkBody = {
+          "network": element.id,
+          "address": tezosWalletController.text.trim(),
+        };
+        tippingInfo.add(networkBody);
+      } else if (element.symbol == "MATIC") {
+        final networkBody = {
+          "network": element.id,
+          "address": maticWalletController.text.trim(),
+        };
+        tippingInfo.add(networkBody);
+      }
+    }
+
     String twitter = twitterController.text.trim();
     String facebook = facebookController.text.trim();
     String instagram = instagramController.text.trim();
@@ -342,6 +384,7 @@ class EditProfileController extends GetxController {
             // "website": websiteController.text,
             "photo": profileUrl,
             "cover": headerUrl,
+            "tipping_info": tippingInfo,
             "social_media": {
               "facebook": facebook,
               "twitter": twitter,
@@ -373,6 +416,7 @@ class EditProfileController extends GetxController {
             "location": locationController.text,
             // "website": websiteController.text,
             "photo": profileUrl,
+            "tipping_info": tippingInfo,
             "social_media": {
               "facebook": facebook,
               "twitter": twitter,
@@ -404,6 +448,7 @@ class EditProfileController extends GetxController {
             "location": locationController.text,
             // "website": websiteController.text,
             "cover": headerUrl,
+            "tipping_info": tippingInfo,
             "social_media": {
               "facebook": facebook,
               "twitter": twitter,
@@ -431,6 +476,7 @@ class EditProfileController extends GetxController {
             "email": user!.email,
             "bio": bioController.text,
             "location": locationController.text,
+            "tipping_info": tippingInfo,
             "social_media": {
               "facebook": facebook,
               "twitter": twitter,

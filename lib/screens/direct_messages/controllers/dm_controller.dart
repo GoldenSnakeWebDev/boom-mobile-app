@@ -14,8 +14,6 @@ import '../models/boom_users_model.dart' as user;
 
 class DMCrontroller extends GetxController {
   final service = DMService();
-  final _storage = GetStorage();
-
   // IOWebSocketChannel? channel;
 
   BoomBoxModel? _boomBoxes;

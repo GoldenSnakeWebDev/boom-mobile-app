@@ -392,7 +392,7 @@ class NewPostController extends GetxController {
       }
     } else {
       log("Wallet connection Not done yet");
-      final session = await connector.createSession(
+      await connector.createSession(
         chainId: chainId,
         onDisplayUri: (uri) async {
           final launchUri = 'metamask://wc?uri=$uri';

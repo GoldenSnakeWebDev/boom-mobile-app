@@ -126,7 +126,7 @@ class InstagramWebController extends GetxController {
 
   proceedWithUpload(InstaMedia? media) async {
     // await instragram.downloadMedia(media);
-    log("Selected Image URL:: ${media!.media_url}");
+
     if (media == null) {
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Please Select an Image"], msg: ["Error"], isError: true);

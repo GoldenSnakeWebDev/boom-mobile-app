@@ -66,12 +66,18 @@ class LoginController extends GetxController {
 
     if (loginformKey.currentState!.validate()) {
       EasyLoading.show(status: "Signing in...");
+      String username = '';
+      if (userNameController.text.trim().startsWith("!")) {
+        username = userNameController.text.trim().substring(1);
+      } else {
+        username = userNameController.text.trim();
+      }
       final res = await http.post(
         Uri.parse("${baseURL}users/signin"),
         headers: headers,
         body: jsonEncode(
           {
-            "email": userNameController.text.trim(),
+            "email": username,
             "password": passwordController.text.trim(),
             "deviceId": deviceId,
           },
