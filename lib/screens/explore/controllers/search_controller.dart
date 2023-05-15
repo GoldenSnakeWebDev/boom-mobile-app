@@ -5,7 +5,7 @@ import 'package:boom_mobile/screens/explore/services/search_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SearchController extends GetxController {
+class SearchPageController extends GetxController {
   final _service = SearchService();
 
   TextEditingController searchFormController = TextEditingController();

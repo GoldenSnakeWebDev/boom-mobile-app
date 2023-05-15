@@ -38,7 +38,7 @@ class AppBindings extends Bindings {
     Get.lazyPut<FetchCurrUserRepo>(() => FetchCurrUserRepo());
     Get.lazyPut<TalesEpicsController>(() => TalesEpicsController());
     Get.lazyPut<OtherUserProfileController>(() => OtherUserProfileController());
-    Get.lazyPut<SearchController>(() => SearchController());
+    Get.lazyPut<SearchPageController>(() => SearchPageController());
     Get.lazyPut<BackPackController>(() => BackPackController());
     Get.lazyPut<DMCrontroller>(() => DMCrontroller());
     Get.lazyPut<NotificationsController>(() => NotificationsController());

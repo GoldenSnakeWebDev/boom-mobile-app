@@ -3,6 +3,7 @@ import 'package:boom_mobile/screens/authentication/login/controllers/login_contr
 import 'package:boom_mobile/screens/authentication/registration/registration_screen.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class LoginScreen extends GetView<LoginController> {
                           width: SizeConfig.screenWidth * 0.6,
                           height: SizeConfig.screenHeight * 0.25,
                           image: const NetworkImage(
-                            "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
+                            boomIconUrl,
                           ),
                         ),
                         SizedBox(
@@ -97,7 +98,7 @@ class LoginScreen extends GetView<LoginController> {
                                     decoration: const BoxDecoration(
                                       image: DecorationImage(
                                         image: NetworkImage(
-                                          "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/user_icon.png",
+                                          userIconUrl,
                                         ),
                                       ),
                                     ),
@@ -401,6 +402,8 @@ class LoginScreen extends GetView<LoginController> {
   _showPasswordResetDialog(BuildContext context) {
     showModalBottomSheet(
         context: context,
+        // isScrollControlled: true,
+        // useSafeArea: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(
@@ -421,7 +424,7 @@ class LoginScreen extends GetView<LoginController> {
               ),
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 const Text(
                   "Reset Password",

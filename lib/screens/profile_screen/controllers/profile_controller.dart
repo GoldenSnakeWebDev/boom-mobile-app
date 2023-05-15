@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class ProfileController extends GetxController {
   bool isNewUser = true;
@@ -226,6 +227,7 @@ class ProfileController extends GetxController {
   signOut() async {
     await box.erase();
     Get.offAll(() => const LoginScreen());
+    await OneSignal.shared.removeExternalUserId();
     CustomSnackBar.showCustomSnackBar(
         errorList: ["Signed out"], msg: ["Sign out"], isError: false);
   }

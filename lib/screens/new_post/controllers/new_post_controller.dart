@@ -347,7 +347,8 @@ class NewPostController extends GetxController {
     }
   }
 
-  connectWallet(bool isImport, {String? imgURL, String? timeStamp}) async {
+  connectWallet(bool isImport,
+      {String? imgURL, String? timeStamp, NewPostModel? newPostModel}) async {
     late WalletConnectEthereumCredentials credentials;
 
     final connector = WalletConnect(
@@ -385,12 +386,13 @@ class NewPostController extends GetxController {
             timeStamp!,
             credentials.provider.connector.session.accounts.first,
             client,
-            credentials);
+            credentials,
+            newPostModel!);
         update();
       }
     } else {
       log("Wallet connection Not done yet");
-      final session = await connector.createSession(
+      await connector.createSession(
         chainId: chainId,
         onDisplayUri: (uri) async {
           final launchUri = 'metamask://wc?uri=$uri';
@@ -410,7 +412,7 @@ class NewPostController extends GetxController {
             } else {
               // Mint Bom
               txHash = await onChainMint(imgURL!, timeStamp!,
-                  session.accounts.first, client, credentials);
+                  session.accounts.first, client, credentials, newPostModel!);
               update();
             }
 
@@ -454,40 +456,45 @@ class NewPostController extends GetxController {
         String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
         boomState = 'realnft';
 
-        await connectWallet(false, imgURL: imgURL, timeStamp: timeStamp);
+        // log("txHash $txHash");
+        // if (txHash.contains("0x")) {
+        NewPostModel newPostModel = NewPostModel(
+          boomType: postType,
+          network: selectedNetworkModel!.id!,
+          description: description.text.trim(),
+          title: title.text.trim(),
+          imageUrl: imgURL,
+          quantity: quantity.text.trim(),
+          tags: tagString,
+          location: location.text.trim(),
+          fixedPrice: price.text.trim(),
+          price: cryptoAmount.value.toString(),
+          timestamp: d12,
+          boomState: boomState,
+        );
 
-        log("txHash $txHash");
-        if (txHash.contains("0x")) {
-          NewPostModel newPostModel = NewPostModel(
-            boomType: postType,
-            network: selectedNetworkModel!.id!,
-            description: description.text.trim(),
-            title: title.text.trim(),
-            imageUrl: imgURL,
-            quantity: quantity.text.trim(),
-            tags: tagString,
-            location: location.text.trim(),
-            fixedPrice: price.text.trim(),
-            price: cryptoAmount.value.toString(),
-            timestamp: d12,
-            boomState: boomState,
-          );
+        await connectWallet(
+          false,
+          newPostModel: newPostModel,
+          imgURL: imgURL,
+          timeStamp: timeStamp,
+        );
 
-          final res = await uploadService.uploadPost(newPostModel);
+        // final res = await uploadService.uploadPost(newPostModel);
 
-          if (res.statusCode == 201) {
-            CustomSnackBar.showCustomSnackBar(
-                errorList: [""], msg: [""], isError: false);
-            Get.offAll(() => const MainScreen(), binding: AppBindings());
-          } else {
-            List<String> errors = [];
-            for (var item in jsonDecode(res.body)["errors"]) {
-              errors.add(item["message"]);
-            }
-            CustomSnackBar.showCustomSnackBar(
-                errorList: errors, msg: [""], isError: true);
-          }
-        }
+        // if (res.statusCode == 201) {
+        //   CustomSnackBar.showCustomSnackBar(
+        //       errorList: [""], msg: [""], isError: false);
+        //   Get.offAll(() => const MainScreen(), binding: AppBindings());
+        // } else {
+        //   List<String> errors = [];
+        //   for (var item in jsonDecode(res.body)["errors"]) {
+        //     errors.add(item["message"]);
+        //   }
+        //   CustomSnackBar.showCustomSnackBar(
+        //       errorList: errors, msg: [""], isError: true);
+        // }
+        // }
       } else {
         boomState = 'synthetic';
         NewPostModel newPostModel = NewPostModel(
@@ -505,23 +512,21 @@ class NewPostController extends GetxController {
           boomState: boomState,
         );
 
-        final res = await uploadService.uploadPost(newPostModel);
+        await postBoomNFT(newPostModel);
 
-        if (res.statusCode == 201) {
-          CustomSnackBar.showCustomSnackBar(
-              errorList: [""], msg: [""], isError: false);
-          Get.offAll(() => const MainScreen(), binding: AppBindings());
-        } else {
-          List<String> errors = [];
-          for (var item in jsonDecode(res.body)["errors"]) {
-            errors.add(item["message"]);
-          }
-          CustomSnackBar.showCustomSnackBar(
-              errorList: errors, msg: [""], isError: true);
-        }
+        // if (res.statusCode == 201) {
+        //   CustomSnackBar.showCustomSnackBar(
+        //       errorList: [""], msg: [""], isError: false);
+        //   Get.offAll(() => const MainScreen(), binding: AppBindings());
+        // } else {
+        //   List<String> errors = [];
+        //   for (var item in jsonDecode(res.body)["errors"]) {
+        //     errors.add(item["message"]);
+        //   }
+        //   CustomSnackBar.showCustomSnackBar(
+        //       errorList: errors, msg: [""], isError: true);
+        // }
       }
-
-      EasyLoading.dismiss();
     }
   }
 
@@ -529,10 +534,12 @@ class NewPostController extends GetxController {
     final res = await uploadService.uploadPost(newPostModel);
 
     if (res.statusCode == 201) {
+      EasyLoading.dismiss();
       CustomSnackBar.showCustomSnackBar(
           errorList: [""], msg: [""], isError: false);
       Get.offAll(() => const MainScreen(), binding: AppBindings());
     } else {
+      EasyLoading.dismiss();
       List<String> errors = [];
       for (var item in jsonDecode(res.body)["errors"]) {
         errors.add(item["message"]);
@@ -542,8 +549,13 @@ class NewPostController extends GetxController {
     }
   }
 
-  onChainMint(String imgURL, String boomId, String addy, Web3Client web3Client,
-      WalletConnectEthereumCredentials credentials) async {
+  onChainMint(
+      String imgURL,
+      String boomId,
+      String addy,
+      Web3Client web3Client,
+      WalletConnectEthereumCredentials credentials,
+      NewPostModel newPostModel) async {
     late File nftImg;
     String hashResult = '';
 
@@ -601,8 +613,17 @@ class NewPostController extends GetxController {
         log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n ${hashResult.length}"}");
         log("TX Count $txCount");
         // await subscription.cancel();
+        if (hashResult.isNotEmpty) {
+          await postBoomNFT(newPostModel);
+        } else {
+          CustomSnackBar.showCustomSnackBar(
+            errorList: ["Error minting Boom as NFT"],
+            msg: ["Error"],
+            isError: true,
+          );
+        }
         await client.dispose();
-        return hashResult;
+        // return hashResult;
       } catch (e) {
         log("Error ${e.toString()}");
         EasyLoading.dismiss();
@@ -617,7 +638,7 @@ class NewPostController extends GetxController {
         msg: ["Export Error"],
         isError: true,
       );
-      return "";
+      return;
     }
   }
 }

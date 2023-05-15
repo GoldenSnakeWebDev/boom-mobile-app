@@ -2,6 +2,7 @@ import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class RegistrationScreen extends GetView<RegisterController> {
                     width: SizeConfig.screenWidth * 0.45,
                     height: SizeConfig.screenHeight * 0.22,
                     image: const NetworkImage(
-                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
+                      boomIconUrl,
                     ),
                   ),
                   SizedBox(
@@ -87,7 +88,7 @@ class RegistrationScreen extends GetView<RegisterController> {
                               decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                    "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/ipfs/bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu/user_icon.png",
+                                    userIconUrl,
                                   ),
                                 ),
                               ),

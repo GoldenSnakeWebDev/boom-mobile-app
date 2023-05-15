@@ -107,21 +107,14 @@ class SingleBoomController extends GetxController {
     reboomsCount = boom.boom.reactions!.rebooms.length;
     reportsCount = boom.boom.reactions!.reports.length;
 
-    log("We get here likesCount $likesCount");
-
     String userId = box.read("userId");
 
-    log("User ID $userId");
-
     for (var item in boom.boom.reactions!.likes) {
-      log("In Loop ${item.id}");
       if (item.id == userId) {
         isLikes = true;
       } else {
         isLikes = false;
       }
-
-      log("Is Likes Status: $isLikes");
     }
     for (var item in boom.boom.reactions!.loves) {
       if (item.id == userId) {
@@ -152,7 +145,6 @@ class SingleBoomController extends GetxController {
       }
     }
 
-    log("Out of Loop");
     update();
   }
 
@@ -192,6 +184,10 @@ class SingleBoomController extends GetxController {
     update();
   }
 
+  /// Polygon Metamask URI- wc:35fd85572c6887ced1c5fa89bfaa99ba8aab40346dbe3d3b1494fce1c7309fc0@2?relay-protocol=irn&symKey=d41ade7149b82d8fa2f9bb26a2e1cb5cd29ca72d3bdb80ae576805f1d1f3bcb6
+  /// BSC URI wc:8ea7eb7ac1a11841c3693de94f0e10366af92d0d125622b5c93c49f4917771b7@2?relay-protocol=irn&symKey=00344de55036afcca4a149d9dc001369c8a5dd4f1e3864b2b974512fafa50baa
+  ///
+
   exportBoom(String selNetwork, String imgURL, String name, String desc,
       String boomId) async {
     String contractAddy = '';
@@ -227,6 +223,7 @@ class SingleBoomController extends GetxController {
       default:
         chainId = chainIds[1];
     }
+
     late WalletConnectEthereumCredentials credentials;
     final connector = WalletConnect(
       bridge: "https://bridge.walletconnect.org",

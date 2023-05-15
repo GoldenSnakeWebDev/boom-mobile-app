@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // To parse this JSON data, do
 //
 //     final userModel = userModelFromJson(jsonString);
@@ -49,6 +50,7 @@ class User {
     this.funs,
     this.blockedUsers,
     this.id,
+    this.tippingInfo,
   });
 
   PasswordReset? passwordReset;
@@ -70,6 +72,7 @@ class User {
   List<Fun>? funs;
   List<String>? blockedUsers;
   String? id;
+  List<TippingInfo>? tippingInfo;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
@@ -91,6 +94,8 @@ class User {
         funs: List<Fun>.from(json["funs"].map((x) => Fun.fromJson(x))),
         blockedUsers: List<String>.from(json["blocked_users"].map((x) => x)),
         id: json["id"],
+        tippingInfo: List<TippingInfo>.from(
+            json["tipping_info"].map((x) => TippingInfo.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -113,6 +118,31 @@ class User {
         "funs": List<dynamic>.from(funs!.map((x) => x.toJson())),
         "blocked_users": List<dynamic>.from(blockedUsers!.map((x) => x)),
         "id": id,
+        "tipping_info": List<dynamic>.from(tippingInfo!.map((x) => x.toJson())),
+      };
+}
+
+class TippingInfo {
+  String? network;
+  String? address;
+  String? id;
+
+  TippingInfo({
+    this.network,
+    this.address,
+    this.id,
+  });
+
+  factory TippingInfo.fromJson(Map<String, dynamic> json) => TippingInfo(
+        network: json["network"],
+        address: json["address"],
+        id: json["_id"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "network": network,
+        "address": address,
+        "_id": id,
       };
 }
 

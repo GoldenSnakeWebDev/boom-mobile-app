@@ -13,6 +13,7 @@ import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/profile_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   ListTile(
                                     leading: const FloatingActionWidget(
-                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/post.png",
+                                      "https://lh3.googleusercontent.com/pw/AJFCJaUe3cATBXkuzVcWUHuoe6hYr5Gu6FKbIhe88J2hKUKjIbVjMnNoKTuUQdQsiym-cGQqY3S4TYVpD_UfdDrOd_upNmnfAs1uxgYhG3IQhVT3_hO4DKnqQMZWyJrsPOCdP4ww6maMYlaUTJWK_fdrSXqOzA=w45-h46-s-no?authuser=0",
                                     ),
                                     title: const Text(
                                       'Post',
@@ -111,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                   // ListTile(
                                   //   leading: const FloatingActionWidget(
-                                  //     "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  //     "https://boomIconUrl/tales.png",
                                   //   ),
                                   //   onTap: () {
                                   //     Get.back();
@@ -127,14 +128,14 @@ class _MainScreenState extends State<MainScreen> {
                                   //     child: Row(
                                   //       children: [
                                   //         const FloatingActionWidget(
-                                  //           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  //           "https://boomIconUrl/tales.png",
                                   //         ),
                                   //         SizedBox(
                                   //           width:
                                   //               getProportionateScreenWidth(5),
                                   //         ),
                                   //         const FloatingActionWidget(
-                                  //           "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/tales.png",
+                                  //           "https://boomIconUrl/tales.png",
                                   //         ),
                                   //       ],
                                   //     ),
@@ -167,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
                                       );
                                     },
                                     leading: const FloatingActionWidget(
-                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
+                                      "https://lh3.googleusercontent.com/pw/AJFCJaX3HCS7Vg9yXWWPBshcjeBEtLO7lF5t4bHUC8Kk8glTdeXnR18Fv_bdVWmggosE59rMQ8THWBeuZmCzNdZ_UjJQaJwqlXgN7eGV2mmZimrdqA69ifSiy4UEfBhaX4FcHpMD0SnxnkvrYGMcfLyvKNmoGA=w64-h38-s-no?authuser=0",
                                     ),
                                     title: const Text(
                                       'Fans',
@@ -187,7 +188,7 @@ class _MainScreenState extends State<MainScreen> {
                                       );
                                     },
                                     leading: const FloatingActionWidget(
-                                      "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/frens.png",
+                                      "https://lh3.googleusercontent.com/pw/AJFCJaX3HCS7Vg9yXWWPBshcjeBEtLO7lF5t4bHUC8Kk8glTdeXnR18Fv_bdVWmggosE59rMQ8THWBeuZmCzNdZ_UjJQaJwqlXgN7eGV2mmZimrdqA69ifSiy4UEfBhaX4FcHpMD0SnxnkvrYGMcfLyvKNmoGA=w64-h38-s-no?authuser=0",
                                     ),
                                     title: const Text(
                                       'Frens',
@@ -210,7 +211,7 @@ class _MainScreenState extends State<MainScreen> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Image.network(
-              "https://bafybeigmmfylly4mfjdtgjmdca2whhzxw63g2acsfbsdi2yyvpwxrwarcu.ipfs.nftstorage.link/boom_logo.png",
+              boomIconUrl,
               width: getProportionateScreenHeight(22),
               height: getProportionateScreenHeight(22),
             ),

@@ -386,14 +386,31 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                     ),
                                                     PopupMenuItem(
                                                       onTap: () async {
-                                                        await boomController.exportBoom(
+                                                        if (boom.boom
+                                                                .boomState ==
+                                                            BoomState
+                                                                .REAL_NFT) {
+                                                          Get.snackbar("Error",
+                                                              "You have already minted this boom as an NFT",
+                                                              backgroundColor:
+                                                                  kredCancelTextColor,
+                                                              colorText:
+                                                                  Colors.white,
+                                                              snackPosition:
+                                                                  SnackPosition
+                                                                      .BOTTOM);
+                                                        } else {
+                                                          await boomController
+                                                              .exportBoom(
                                                             boom.boom.network!
                                                                 .symbol,
                                                             boom.boom.imageUrl!,
                                                             boom.boom.title!,
                                                             boom.boom
                                                                 .description!,
-                                                            boom.boom.id!);
+                                                            boom.boom.id!,
+                                                          );
+                                                        }
                                                       },
                                                       child: Container(
                                                         decoration:
@@ -482,11 +499,67 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                     ),
                                                     PopupMenuItem(
                                                       onTap: () async {
-                                                        Get.snackbar(
-                                                            "Hang in there",
-                                                            "We are working on this feature",
-                                                            backgroundColor:
-                                                                kPrimaryColor);
+                                                        if (boom.boom
+                                                                .boomState ==
+                                                            BoomState
+                                                                .REAL_NFT) {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    "Connect Wallet"),
+                                                                content: const Text(
+                                                                    "Please make sure you have selected the correct network in your wallet provider. "),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Cancel"),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await boomController
+                                                                          .exportBoom(
+                                                                        boom
+                                                                            .boom
+                                                                            .network!
+                                                                            .symbol,
+                                                                        boom.boom
+                                                                            .imageUrl!,
+                                                                        boom.boom
+                                                                            .title!,
+                                                                        boom.boom
+                                                                            .description!,
+                                                                        boom.boom
+                                                                            .id!,
+                                                                      );
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Proceed"),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        } else {
+                                                          Get.snackbar("Error",
+                                                              "You can only synthetically mint this boom as an NFT",
+                                                              backgroundColor:
+                                                                  kredCancelTextColor,
+                                                              colorText:
+                                                                  Colors.white,
+                                                              snackPosition:
+                                                                  SnackPosition
+                                                                      .BOTTOM);
+                                                        }
                                                       },
                                                       child: Container(
                                                         decoration:

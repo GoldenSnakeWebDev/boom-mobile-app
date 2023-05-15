@@ -6,6 +6,8 @@ const String likeIconUrl =
 const String loveIconUrl = "";
 const String smileIconUrl =
     "https://lh3.googleusercontent.com/pw/AL9nZEX3RKY3NvDuA2SZQ6sjsL5IUEKQ4c67vCy3x7tykXC-9EwZjPBGJJkt4CZjexyrZYVIEu4c9E7Iz4N_fx7e8hC5T0e6hdPb8Jxq7X-hpRZQES-LXgFoOebEJg8Uguj_7LwV42yZu6eayFa5vVgza1-Q6w=w158-h118-no?authuser=0";
+const String userIconUrl =
+    "https://lh3.googleusercontent.com/pw/AJFCJaVzepRV3-WicUq6PDmKi3_BgRApLxu2dOyI5lhDzWcjO3_cmX8TVpABf_UQBqGqlFfpWikfsuXFT8ynAbGEWEFJDLvPVAjj4mjEEBPGW6xXiSKMrKeXevPivdfK38ZMyo6f7DC2O3yCcLCzzl8Jbe6pUQ=w512-h512-s-no?authuser=0";
 const String reboomIconUrl = "";
 const String reportIconUrl = "";
 const String commentIconUrl = "";
