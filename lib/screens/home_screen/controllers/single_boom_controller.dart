@@ -84,7 +84,6 @@ class SingleBoomController extends GetxController {
 
   Future<bool> reactToBoom(
       String reactType, String boomId, SingleBoom boom) async {
-    String userId = box.read("userId");
     final res = await homeService.reactToBoom(reactType, boomId);
 
     if (res.statusCode == 200) {
@@ -244,7 +243,7 @@ class SingleBoomController extends GetxController {
       log("Wallet connection already done");
       connector.on('connect', (SessionStatus session) {
         provider = EthereumWalletConnectProvider(connector, chainId: chainId);
-        final sender = EthereumAddress.fromHex(session.accounts.first);
+        // final sender = EthereumAddress.fromHex(session.accounts.first);
 
         credentials = WalletConnectEthereumCredentials(provider: provider!);
       });
@@ -255,7 +254,7 @@ class SingleBoomController extends GetxController {
       return credentials.provider.connector.session.accounts.first;
     } else {
       log("Wallet connection Not done yet");
-      final session = await connector.createSession(
+      await connector.createSession(
         chainId: chainId,
         onDisplayUri: (uri) async {
           final launchUri = 'metamask://wc?uri=$uri';

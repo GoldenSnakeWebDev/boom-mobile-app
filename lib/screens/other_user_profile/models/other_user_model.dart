@@ -51,6 +51,7 @@ class User {
     this.syncBank,
     this.funs,
     this.id,
+    this.tippingInfo,
   });
 
   PasswordReset? passwordReset;
@@ -71,6 +72,7 @@ class User {
   SyncBank? syncBank;
   List<Fun>? funs;
   String? id;
+  List<TippingInfo>? tippingInfo;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         passwordReset: PasswordReset.fromJson(json["password_reset"]),
@@ -91,6 +93,8 @@ class User {
         syncBank: SyncBank.fromJson(json["sync_bank"]),
         funs: List<Fun>.from(json["funs"].map((x) => Fun.fromJson(x))),
         id: json["id"],
+        tippingInfo: List<TippingInfo>.from(
+            json["tipping_info"].map((x) => TippingInfo.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -112,6 +116,7 @@ class User {
         "sync_bank": syncBank?.toJson(),
         "funs": List<dynamic>.from(funs!.map((x) => x.toJson())),
         "id": id,
+        "tipping_info": List<dynamic>.from(tippingInfo!.map((x) => x.toJson())),
       };
 }
 

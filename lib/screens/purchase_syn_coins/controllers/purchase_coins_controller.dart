@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:boom_mobile/models/network_model.dart';
@@ -27,9 +26,9 @@ class PurchaseCoinsController extends GetxController {
 
   final List<PurchaseDetails> _purchases = [];
 
-  late StreamSubscription _subscription;
+  // late StreamSubscription _subscription;
 
-  final int _coins = 0;
+  // final int _coins = 0;
 
   NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
 

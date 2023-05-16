@@ -503,52 +503,59 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                                 .boomState ==
                                                             BoomState
                                                                 .REAL_NFT) {
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    "Connect Wallet"),
-                                                                content: const Text(
-                                                                    "Please make sure you have selected the correct network in your wallet provider. "),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Cancel"),
-                                                                  ),
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await boomController
-                                                                          .exportBoom(
-                                                                        boom
-                                                                            .boom
-                                                                            .network!
-                                                                            .symbol,
-                                                                        boom.boom
-                                                                            .imageUrl!,
-                                                                        boom.boom
-                                                                            .title!,
-                                                                        boom.boom
-                                                                            .description!,
-                                                                        boom.boom
-                                                                            .id!,
-                                                                      );
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Proceed"),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
-                                                          );
+                                                          Future.delayed(
+                                                              const Duration(
+                                                                  seconds: 0),
+                                                              () {
+                                                            showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (BuildContext
+                                                                      context) {
+                                                                return AlertDialog(
+                                                                  title: const Text(
+                                                                      "Connect Wallet"),
+                                                                  content:
+                                                                      const Text(
+                                                                          "Please make sure you have selected the correct network in your wallet provider. "),
+                                                                  actions: [
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                      },
+                                                                      child: const Text(
+                                                                          "Cancel"),
+                                                                    ),
+                                                                    TextButton(
+                                                                      onPressed:
+                                                                          () async {
+                                                                        Get.back();
+                                                                        await boomController
+                                                                            .exportBoom(
+                                                                          boom
+                                                                              .boom
+                                                                              .network!
+                                                                              .symbol,
+                                                                          boom.boom
+                                                                              .imageUrl!,
+                                                                          boom.boom
+                                                                              .title!,
+                                                                          boom.boom
+                                                                              .description!,
+                                                                          boom.boom
+                                                                              .id!,
+                                                                        );
+                                                                      },
+                                                                      child: const Text(
+                                                                          "Proceed"),
+                                                                    ),
+                                                                  ],
+                                                                );
+                                                              },
+                                                            );
+                                                          });
                                                         } else {
                                                           Get.snackbar("Error",
                                                               "You can only synthetically mint this boom as an NFT",

@@ -15,7 +15,7 @@ import 'package:intl/intl.dart';
 
 class OtherProfileService {
   final box = GetStorage();
-  final TextEditingController amountController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Stream<OtherUserModel?> fetchotherUserProfile(String userId) async* {
@@ -131,14 +131,14 @@ class OtherProfileService {
     }
   }
 
-  tipUser(String userId, String network) async {
+  tipUser(String userId, String network, String amount) async {
     if (formKey.currentState!.validate()) {
       EasyLoading.show(status: "Tipping User");
       String token = box.read("token");
       final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
       var timeStamp = format.format(DateTime.now());
       final Map<String, dynamic> body = {
-        "amount": amountController.text.trim(),
+        "amount": amount,
         "user": userId,
         "networkType": network,
         "timestamp": timeStamp
@@ -154,7 +154,6 @@ class OtherProfileService {
       );
 
       if (res.statusCode == 200) {
-        amountController.clear();
         EasyLoading.dismiss();
         Get.snackbar("User Tipped", "User has been tipped successfully",
             backgroundColor: kPrimaryColor);

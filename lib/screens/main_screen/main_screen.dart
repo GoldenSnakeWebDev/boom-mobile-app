@@ -4,7 +4,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
-import 'package:boom_mobile/screens/explore/expore_screen.dart';
+import 'package:boom_mobile/screens/explore/explore_screen.dart';
 import 'package:boom_mobile/screens/fans_frens_screen/ui/fans_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';

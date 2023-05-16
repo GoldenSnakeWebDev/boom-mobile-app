@@ -227,7 +227,7 @@ class EditProfileController extends GetxController {
 
   uploadVideo(File video, String successMessage) async {
     try {
-      String fileName = video.path.split('/').last;
+      // String fileName = video.path.split('/').last;
       final videoData = await video.readAsBytes();
       final mime = lookupMimeType(video.path, headerBytes: videoData);
       var request = http.MultipartRequest(
