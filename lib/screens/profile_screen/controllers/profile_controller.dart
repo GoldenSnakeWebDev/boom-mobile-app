@@ -128,7 +128,6 @@ class ProfileController extends GetxController {
 
   fetchMyBooms() async {
     String token = box.read("token");
-    String userId = box.read("userId");
     isLoadingBooms = true;
     update();
     final res = await http.get(

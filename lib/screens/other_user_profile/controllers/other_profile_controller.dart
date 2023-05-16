@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart'
+    as otherUser;
 
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -38,6 +40,7 @@ class OtherUserProfileController extends GetxController {
   var bioExpanded = false.obs;
   bool isLoading = false;
   final box = GetStorage();
+  final TextEditingController amountController = TextEditingController();
 
   @override
   void onInit() {
@@ -145,13 +148,29 @@ class OtherUserProfileController extends GetxController {
     );
   }
 
-  changeChain(String value) {
+  changeChain(
+      String value, otherUser.OtherUserModel otherUser, String networkId) {
     selectedNetwork = value;
+
     for (var element in networkModel!.networks!) {
       if (element.symbol == value) {
         selectedNetworkModel = element;
       }
+      log("Network ID : $networkId");
     }
+    for (var element in otherUser.user!.tippingInfo!) {
+      log("Looping Network ID : ${element.network!}");
+      if (element.network! == networkId) {
+        log("Found a network ${element.address}");
+        amountController.text = element.address.toString();
+        update();
+        return;
+      } else {
+        log("No Network Found");
+        amountController.text = "No Wallet Address Saved";
+      }
+    }
+
     update();
   }
 

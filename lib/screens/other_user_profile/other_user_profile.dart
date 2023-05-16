@@ -15,6 +15,7 @@ import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -114,6 +115,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                       for (var item in user!.user!.funs!) {
                                         fans.add(item.id.toString());
                                       }
+
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -926,6 +928,10 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                               () {
                                                                             // final otherProfileController =
                                                                             //     Get.find<OtherUserProfileController>();
+                                                                            controller.changeChain(
+                                                                                controller.networkModel!.networks!.first.symbol!,
+                                                                                user,
+                                                                                controller.networkModel!.networks!.first.id!);
 
                                                                             showModalBottomSheet(
                                                                                 context: context,
@@ -973,7 +979,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                                                 height: getProportionateScreenHeight(8),
                                                                                               ),
                                                                                               TextFormField(
-                                                                                                controller: otherProfileService.amountController,
+                                                                                                controller: controller.amountController,
                                                                                                 validator: (value) {
                                                                                                   if (value!.isEmpty) {
                                                                                                     return "Amount cannot be empty";
@@ -981,6 +987,11 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
 
                                                                                                   return null;
                                                                                                 },
+                                                                                                style: TextStyle(
+                                                                                                  fontSize: getProportionateScreenHeight(12),
+                                                                                                  fontWeight: FontWeight.w800,
+                                                                                                  color: Colors.black87,
+                                                                                                ),
                                                                                                 decoration: InputDecoration(
                                                                                                   contentPadding: const EdgeInsets.all(4.0),
                                                                                                   suffixIcon: SizedBox(
@@ -990,6 +1001,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                                                       children: [
                                                                                                         CachedNetworkImage(
                                                                                                           height: getProportionateScreenHeight(16),
+                                                                                                          width: getProportionateScreenWidth(16),
                                                                                                           imageUrl: controller.selectedNetworkModel?.imageUrl ?? "",
                                                                                                         ),
                                                                                                         SizedBox(
@@ -1034,7 +1046,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                                                                   ));
                                                                                                             }).toList(),
                                                                                                             onChanged: (value) {
-                                                                                                              controller.changeChain(value!.symbol!);
+                                                                                                              controller.changeChain(value!.symbol!, user, value.id!);
                                                                                                             }),
                                                                                                       ],
                                                                                                     ),
@@ -1065,8 +1077,14 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                                               Center(
                                                                                                 child: GestureDetector(
                                                                                                   onTap: () async {
-                                                                                                    Get.back();
-                                                                                                    await otherProfileService.tipUser(userId, controller.selectedNetwork!);
+                                                                                                    if (controller.amountController.text.trim().isEmpty) {
+                                                                                                      return;
+                                                                                                    } else {
+                                                                                                      Get.back();
+                                                                                                      await Clipboard.setData(ClipboardData(text: controller.amountController.text.trim()));
+                                                                                                      Get.snackbar("Address Copied", "Address has been copied to clipboard", backgroundColor: kPrimaryColor, colorText: Colors.white, snackPosition: SnackPosition.BOTTOM);
+                                                                                                    }
+                                                                                                    // await otherProfileService.tipUser(userId, controller.selectedNetwork!, controller.amountController.text.trim());
                                                                                                   },
                                                                                                   child: Container(
                                                                                                     width: SizeConfig.screenWidth * 0.8,
@@ -1079,7 +1097,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                                                     child: Padding(
                                                                                                       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                                                                                                       child: Text(
-                                                                                                        "Tip User",
+                                                                                                        "Copy Address",
                                                                                                         style: TextStyle(
                                                                                                           fontWeight: FontWeight.w800,
                                                                                                           fontSize: getProportionateScreenHeight(16),

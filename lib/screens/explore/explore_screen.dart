@@ -22,7 +22,7 @@ class ExploreScreen extends StatefulWidget {
 class _ExploreScreenState extends State<ExploreScreen> {
   final mainController = Get.find<MainScreenController>();
   final homeController = Get.find<HomeController>();
-  final _searchController = Get.find<SearchPageController>();
+  // final _searchController = Get.find<SearchPageController>();
   List<Boom>? _shuffledBooms;
   var _isSearching = false;
 
