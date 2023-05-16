@@ -1302,9 +1302,43 @@ class CreateNewPost extends GetView<NewPostController> {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () {
+                                          onTap: () async {
                                             Get.back();
-                                            controller.uploadNewBoom(true);
+                                            Future.delayed(
+                                                const Duration(seconds: 0), () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        "Connect Wallet"),
+                                                    content: const Text(
+                                                        "Please make sure you have selected the correct network in your wallet provider. "),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                            "Cancel"),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          Get.back();
+                                                          await controller
+                                                              .uploadNewBoom(
+                                                                  true);
+                                                        },
+                                                        child: const Text(
+                                                            "Proceed"),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            });
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.only(
