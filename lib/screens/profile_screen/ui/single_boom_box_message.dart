@@ -58,7 +58,6 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
           title: GestureDetector(
             onTap: () {
               //show BoomBox Settings
-
               showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
@@ -117,28 +116,65 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                     SizedBox(
                                       height: getProportionateScreenHeight(5),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 4.0,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: controller
-                                                    .boomBoxModel.user.userId !=
-                                                controller.userId
-                                            ? kPrimaryColor
-                                            : Colors.red,
-                                        borderRadius: BorderRadius.circular(4),
-                                      ),
-                                      child: Text(
-                                        controller.boomBoxModel.user.userId !=
-                                                controller.userId
-                                            ? "Leave BoomBox"
-                                            : "Delete BoomBox",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize:
-                                              getProportionateScreenHeight(14),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        Future.delayed(
+                                            const Duration(seconds: 0), () {
+                                          //Open the Dialog Box to confirm leaving the BoomBox
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title:
+                                                    const Text("Leave BoomBox"),
+                                                content: const Text(
+                                                    "Are you sure you want to leave this BoomBox?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text("Cancel"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Get.back();
+                                                      //Leave BoomBox Logic
+                                                    await  controller.leaveBoomBox();
+                                                    },
+                                                    child: const Text("Leave"),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 4.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: controller.boomBoxModel.user
+                                                      .userId !=
+                                                  controller.userId
+                                              ? kPrimaryColor
+                                              : Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(4),
+                                        ),
+                                        child: Text(
+                                          controller.boomBoxModel.user.userId !=
+                                                  controller.userId
+                                              ? "Leave BoomBox"
+                                              : "Delete BoomBox",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    14),
+                                          ),
                                         ),
                                       ),
                                     )

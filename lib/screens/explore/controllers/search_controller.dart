@@ -20,7 +20,9 @@ class SearchPageController extends GetxController {
   }
 
   searchBooms() async {
-    final query = searchFormController.text;
+    final query = searchFormController.text.trim().startsWith("!")
+        ? searchFormController.text.trim().split("!")[1]
+        : searchFormController.text;
     if (query.isNotEmpty) {
       setLoading(true);
 
