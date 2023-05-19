@@ -55,6 +55,8 @@ class SingleBoomController extends GetxController {
 
   syntheticallyMintBoom(String boomId) async {
     EasyLoading.show(status: "Minting...");
+    final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
+    var timeStamp = format.format(DateTime.now());
 
     final res = await http.post(
       Uri.parse("${baseURL}by-booms-with-sync-coins"),
@@ -64,6 +66,7 @@ class SingleBoomController extends GetxController {
       },
       body: jsonEncode({
         "boom": boomId,
+        "timestamp": timeStamp,
       }),
     );
     if (res.statusCode == 200) {

@@ -86,4 +86,26 @@ class SingleBoxController extends GetxController {
       );
     }
   }
+
+  leaveBoomBox() async {
+    // Call the service to leave the boom box
+
+    final token = storage.read("token");
+
+    final res = await http.post(
+      Uri.parse(baseURL),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: {},
+    );
+
+    if (res.statusCode == 200) {
+    } else {}
+  }
+
+  deleteBoomBox() async {}
+
+  addUser() async {}
 }
