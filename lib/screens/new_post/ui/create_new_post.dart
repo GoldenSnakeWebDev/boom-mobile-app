@@ -115,9 +115,11 @@ class CreateNewPost extends GetView<NewPostController> {
                                                   getProportionateScreenHeight(
                                                       16),
                                               imageUrl: controller
-                                                      .selectedNetworkModel
-                                                      ?.imageUrl ??
-                                                  "",
+                                                  .selectedNetworkModel!
+                                                  .imageUrl!,
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
                                             ),
                                             SizedBox(
                                               width:
@@ -160,6 +162,11 @@ class CreateNewPost extends GetView<NewPostController> {
                                                                     16),
                                                             imageUrl:
                                                                 e.imageUrl!,
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Icon(Icons
+                                                                    .error),
                                                           ),
                                                           SizedBox(
                                                             width:
@@ -212,7 +219,8 @@ class CreateNewPost extends GetView<NewPostController> {
                                   ),
                                 ),
                                 SizedBox(
-                                    height: getProportionateScreenHeight(12)),
+                                  height: getProportionateScreenHeight(12),
+                                ),
                                 TextFormField(
                                   controller: controller.nftId,
                                   decoration: InputDecoration(
@@ -916,110 +924,119 @@ class CreateNewPost extends GetView<NewPostController> {
                     SizedBox(
                       height: getProportionateScreenHeight(15),
                     ),
-                    TextFormField(
-                      controller: controller.price,
-                      onChanged: (value) {
-                        controller.getCryptoAmount(value);
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Please enter price";
-                        } else if (double.parse(value) < 5) {
-                          return "Price must be greater than \$5";
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(4),
-                        hintText: "Price (min. listing price is \$5)",
-                        hintStyle: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
-                        prefix: Text(
-                          "\$",
-                          style: TextStyle(
+                    SizedBox(
+                      width: SizeConfig.screenWidth,
+                      child: TextFormField(
+                        controller: controller.price,
+                        onChanged: (value) {
+                          controller.getCryptoAmount(value);
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter price";
+                          } else if (double.parse(value) < 5) {
+                            return "Price must be greater than \$5";
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(4),
+                          hintText: "Price (min. listing price is \$5)",
+                          hintStyle: TextStyle(
                             fontSize: getProportionateScreenHeight(12),
-                            color: Colors.black,
                           ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        suffixIcon: SizedBox(
-                          width: SizeConfig.screenWidth * 0.45,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CachedNetworkImage(
-                                height: getProportionateScreenHeight(16),
-                                imageUrl:
-                                    controller.selectedNetworkModel?.imageUrl ??
-                                        "",
-                              ),
-                              SizedBox(
-                                width: getProportionateScreenWidth(4),
-                              ),
-                              Obx(
-                                () => Text(
-                                  "${controller.cryptoAmount} ${controller.selectedNetwork}",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: getProportionateScreenHeight(12),
+                          prefix: Text(
+                            "\$",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(12),
+                              color: Colors.black,
+                            ),
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          suffix: const SizedBox(),
+                          suffixIcon: SizedBox(
+                            width: SizeConfig.screenWidth * 0.35,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CachedNetworkImage(
+                                  height: getProportionateScreenHeight(16),
+                                  imageUrl: controller
+                                      .selectedNetworkModel!.imageUrl!,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                                SizedBox(
+                                  width: getProportionateScreenWidth(4),
+                                ),
+                                Obx(
+                                  () => Text(
+                                    "${controller.cryptoAmount} ${controller.selectedNetwork}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      fontSize:
+                                          getProportionateScreenHeight(12),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              DropdownButton(
-                                  icon: const Icon(
-                                    Icons.arrow_drop_down_circle_outlined,
-                                    color: Colors.grey,
-                                    size: 24,
-                                  ),
-                                  underline: const SizedBox(),
-                                  style: const TextStyle(color: Colors.black),
-                                  items: controller.networks.map((e) {
-                                    return DropdownMenuItem(
-                                        value: e,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            CachedNetworkImage(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      16),
-                                              imageUrl: e.imageUrl!,
-                                            ),
-                                            SizedBox(
-                                              width:
-                                                  getProportionateScreenWidth(
-                                                      4),
-                                            ),
-                                            Text(
-                                              e.symbol!,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w900,
-                                                fontSize:
+                                DropdownButton(
+                                    icon: const Icon(
+                                      Icons.arrow_drop_down_circle_outlined,
+                                      color: Colors.grey,
+                                      size: 24,
+                                    ),
+                                    underline: const SizedBox(),
+                                    style: const TextStyle(color: Colors.black),
+                                    items: controller.networks.map((e) {
+                                      return DropdownMenuItem(
+                                          value: e,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              CachedNetworkImage(
+                                                height:
                                                     getProportionateScreenHeight(
-                                                        12),
+                                                        16),
+                                                imageUrl: e.imageUrl!,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
                                               ),
-                                            )
-                                          ],
-                                        ));
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    controller.changeChain(value!.symbol!);
-                                  }),
-                            ],
+                                              SizedBox(
+                                                width:
+                                                    getProportionateScreenWidth(
+                                                        4),
+                                              ),
+                                              Text(
+                                                e.symbol!,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          12),
+                                                ),
+                                              )
+                                            ],
+                                          ));
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      controller.changeChain(value!.symbol!);
+                                    }),
+                              ],
+                            ),
                           ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            color: Colors.red,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: const BorderSide(
+                              color: Colors.red,
+                            ),
                           ),
                         ),
                       ),
