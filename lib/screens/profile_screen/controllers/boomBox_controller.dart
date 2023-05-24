@@ -58,7 +58,7 @@ class BoomBoxController extends GetxController {
 
   fetchUsers() async {
     var ress = await dmService.fetchUsers();
-    final myUserId = box.read("useId");
+    final myUserId = box.read("userId");
     if (ress != null) {
       _users = [...ress];
       _users!.removeWhere((element) => element.id == myUserId);

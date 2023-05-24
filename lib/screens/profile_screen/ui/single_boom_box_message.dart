@@ -1,3 +1,4 @@
+import 'package:boom_mobile/screens/profile_screen/controllers/boomBox_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/single_box_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -25,6 +26,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
   @override
   void initState() {
     Get.put(SingleBoxController());
+    Get.put(BoomBoxController());
     super.initState();
   }
 
@@ -231,6 +233,129 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
   }
 
   //Function to build chat ssettings ModalBottomSheet
+  _buildUsersList(String boomBoxName) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(
+              getProportionateScreenHeight(15),
+            ),
+          ),
+        ),
+        context: context,
+        builder: (context) {
+          return GetBuilder<SingleBoxController>(builder: (controller) {
+            return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(15),
+                  vertical: getProportionateScreenHeight(20),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(
+                      getProportionateScreenHeight(15),
+                    ),
+                  ),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Add Fans and Frens to $boomBoxName",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: getProportionateScreenHeight(16),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(15),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: controller.users?.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              radius: getProportionateScreenHeight(20),
+                              backgroundImage: NetworkImage(
+                                controller.users![index].photo != ""
+                                    ? controller.users![index].photo.toString()
+                                    : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                              ),
+                            ),
+                            title: Text(
+                              "${controller.users![index].username}",
+                              style: TextStyle(
+                                color: controller.selectedUsers
+                                        .contains(controller.users![index])
+                                    ? kPrimaryColor
+                                    : Colors.black,
+                                fontSize: getProportionateScreenHeight(14),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            trailing: Icon(
+                              controller.selectedUsers
+                                      .contains(controller.users![index])
+                                  ? MdiIcons.checkboxMarked
+                                  : MdiIcons.checkboxBlankOutline,
+                              size: getProportionateScreenHeight(20),
+                              color: controller.selectedUsers
+                                      .contains(controller.users![index])
+                                  ? kPrimaryColor
+                                  : Colors.black,
+                            ),
+                            onTap: () {
+                              controller.selectUsers(index);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(15),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (controller.selectedUsers.isNotEmpty) {
+                          controller.addUser();
+                        }
+                      },
+                      child: Container(
+                        width: SizeConfig.screenWidth * 0.45,
+                        height: getProportionateScreenHeight(35),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Add User(s)",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenHeight(14),
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(
+                              width: getProportionateScreenWidth(7),
+                            ),
+                            const Icon(
+                              MdiIcons.cog,
+                              size: 20,
+                              color: Colors.black,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ));
+          });
+        });
+  }
 
   _buildChatSettings(SingleBoxController controller) {
     showModalBottomSheet(
@@ -301,7 +426,10 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                     : GestureDetector(
                                         onTap: () async {
                                           //Add Users to BoomBox
-                                          await controller.deleteBoomBox();
+                                          // await controller.addUser();
+                                          await controller.fetchUsers();
+                                          _buildUsersList(
+                                              controller.boomBoxModel.label);
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
@@ -357,7 +485,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                                   } else {
                                                     //Delete BoomBox
                                                     await controller
-                                                        .leaveBoomBox();
+                                                        .deleteBoomBox();
                                                   }
                                                 },
                                                 child: Text(controller
@@ -456,24 +584,70 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                   : controller.boomBoxModel.user.userId !=
                                           controller.userId
                                       ? const SizedBox()
-                                      : Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                getProportionateScreenWidth(10),
-                                            vertical:
-                                                getProportionateScreenHeight(5),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: kPrimaryColor,
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Text(
-                                            "Ban",
-                                            style: TextStyle(
-                                                fontSize:
-                                                    getProportionateScreenHeight(
-                                                        13)),
+                                      : GestureDetector(
+                                          onTap: () async {
+                                            Future.delayed(Duration.zero, () {
+                                              //Open the Dialog Box to confirm leaving the BoomBox
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                        "Ban & Remove ${controller.boomBoxModel.members[index].user.username}"),
+                                                    content: Text(
+                                                        "Are you sure you want to remove ${controller.boomBoxModel.members[index].user.username} from this BoomBox?"),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: const Text(
+                                                            "Cancel"),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          Get.back();
+                                                          await controller
+                                                              .removeUser(
+                                                                  controller
+                                                                      .boomBoxModel
+                                                                      .members[
+                                                                          index]
+                                                                      .user
+                                                                      .id);
+                                                        },
+                                                        child: const Text(
+                                                            "Proceed"),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  getProportionateScreenWidth(
+                                                      10),
+                                              vertical:
+                                                  getProportionateScreenHeight(
+                                                      5),
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: kPrimaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(4),
+                                            ),
+                                            child: Text(
+                                              "Ban",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          13)),
+                                            ),
                                           ),
                                         ),
                           onTap: () {
