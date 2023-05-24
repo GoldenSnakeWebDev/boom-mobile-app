@@ -58,225 +58,8 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
           title: GestureDetector(
             onTap: () {
               //show BoomBox Settings
-              showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  builder: (context) {
-                    return Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
-                      height: SizeConfig.screenHeight * 0.55,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: NetworkImage(
-                                    controller.boomBoxModel.imageUrl,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: getProportionateScreenWidth(30),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      controller.boomBoxModel.label,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenHeight(15),
-                                        fontWeight: FontWeight.w800,
-                                      ),
-                                    ),
-                                    Text(
-                                      "${controller.boomBoxModel.members.length} Members",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenHeight(12),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: getProportionateScreenHeight(5),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () async {
-                                        Future.delayed(
-                                            const Duration(seconds: 0), () {
-                                          //Open the Dialog Box to confirm leaving the BoomBox
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title:
-                                                    const Text("Leave BoomBox"),
-                                                content: const Text(
-                                                    "Are you sure you want to leave this BoomBox?"),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text("Cancel"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      Get.back();
-                                                      //Leave BoomBox Logic
-                                                    await  controller.leaveBoomBox();
-                                                    },
-                                                    child: const Text("Leave"),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                          vertical: 4.0,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: controller.boomBoxModel.user
-                                                      .userId !=
-                                                  controller.userId
-                                              ? kPrimaryColor
-                                              : Colors.red,
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                        ),
-                                        child: Text(
-                                          controller.boomBoxModel.user.userId !=
-                                                  controller.userId
-                                              ? "Leave BoomBox"
-                                              : "Delete BoomBox",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize:
-                                                getProportionateScreenHeight(
-                                                    14),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(8),
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount:
-                                    controller.boomBoxModel.members.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                    minVerticalPadding:
-                                        getProportionateScreenHeight(2),
-                                    visualDensity: VisualDensity.compact,
-                                    leading: CircleAvatar(
-                                      radius: getProportionateScreenHeight(16),
-                                      backgroundImage: NetworkImage(
-                                        controller.boomBoxModel.members[index]
-                                                    .user.photo !=
-                                                ""
-                                            ? controller.boomBoxModel
-                                                .members[index].user.photo
-                                                .toString()
-                                            : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-                                      ),
-                                    ),
-                                    title: Text(
-                                      controller.boomBoxModel.members[index]
-                                          .user.username,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize:
-                                            getProportionateScreenHeight(14),
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    trailing: controller.boomBoxModel
-                                                .members[index].user.userId ==
-                                            controller.userId
-                                        ? const SizedBox()
-                                        : controller.boomBoxModel.members[index]
-                                                    .user.userId ==
-                                                controller
-                                                    .boomBoxModel.user.userId
-                                            ? TextButton(
-                                                onPressed: () {},
-                                                child: const Text("Admin"),
-                                              )
-                                            : controller.boomBoxModel.user
-                                                        .userId !=
-                                                    controller.userId
-                                                ? const SizedBox()
-                                                : Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      horizontal:
-                                                          getProportionateScreenWidth(
-                                                              10),
-                                                      vertical:
-                                                          getProportionateScreenHeight(
-                                                              5),
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      color: kPrimaryColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4),
-                                                    ),
-                                                    child: Text(
-                                                      "Ban",
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                              getProportionateScreenHeight(
-                                                                  13)),
-                                                    ),
-                                                  ),
-                                    onTap: () {
-                                      Get.back();
-                                      Get.to(
-                                        () => const OtherUserProfileScreen(),
-                                        arguments: controller.boomBoxModel
-                                            .members[index].user.id,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  });
+
+              _buildChatSettings(controller);
             },
             child: Wrap(
               children: [
@@ -447,6 +230,272 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
     });
   }
 
+  //Function to build chat ssettings ModalBottomSheet
+
+  _buildChatSettings(SingleBoxController controller) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return Container(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            height: SizeConfig.screenHeight * 0.55,
+            width: SizeConfig.screenWidth,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(
+                          controller.boomBoxModel.imageUrl,
+                        ),
+                      ),
+                      SizedBox(
+                        width: getProportionateScreenWidth(30),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            controller.boomBoxModel.label,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenHeight(15),
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          Text(
+                            "${controller.boomBoxModel.members.length} Members",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenHeight(12),
+                            ),
+                          ),
+                          SizedBox(
+                            height: getProportionateScreenHeight(5),
+                          ),
+                          SizedBox(
+                            width: SizeConfig.screenWidth * 0.7,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                controller.boomBoxModel.user.userId !=
+                                        controller.userId
+                                    ? const SizedBox()
+                                    : GestureDetector(
+                                        onTap: () async {
+                                          //Add Users to BoomBox
+                                          await controller.deleteBoomBox();
+                                        },
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 4.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: kPrimaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: Text(
+                                            "Add Member",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      14),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    Future.delayed(const Duration(seconds: 0),
+                                        () {
+                                      //Open the Dialog Box to confirm leaving the BoomBox
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                                "${controller.boomBoxModel.user.userId != controller.userId ? "Leave" : "Delete"} ${controller.boomBoxModel.label}"),
+                                            content: Text(
+                                                "Are you sure you want to ${controller.boomBoxModel.user.userId != controller.userId ? "leave" : "delete"} this BoomBox?"),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text("Cancel"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () async {
+                                                  Get.back();
+                                                  //Leave BoomBox Logic
+                                                  if (controller.boomBoxModel
+                                                          .user.userId !=
+                                                      controller.userId) {
+                                                    //Leave BoomBox
+                                                    await controller
+                                                        .leaveBoomBox();
+                                                  } else {
+                                                    //Delete BoomBox
+                                                    await controller
+                                                        .leaveBoomBox();
+                                                  }
+                                                },
+                                                child: Text(controller
+                                                            .boomBoxModel
+                                                            .user
+                                                            .userId !=
+                                                        controller.userId
+                                                    ? "Leave"
+                                                    : "Delete"),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 4.0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          controller.boomBoxModel.user.userId !=
+                                                  controller.userId
+                                              ? kPrimaryColor
+                                              : Colors.red,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      controller.boomBoxModel.user.userId !=
+                                              controller.userId
+                                          ? "Leave "
+                                          : "Delete ",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize:
+                                            getProportionateScreenHeight(14),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  const Divider(
+                    thickness: 1,
+                    color: Colors.grey,
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(8),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: controller.boomBoxModel.members.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          minVerticalPadding: getProportionateScreenHeight(2),
+                          visualDensity: VisualDensity.compact,
+                          leading: CircleAvatar(
+                            radius: getProportionateScreenHeight(16),
+                            backgroundImage: NetworkImage(
+                              controller.boomBoxModel.members[index].user
+                                          .photo !=
+                                      ""
+                                  ? controller
+                                      .boomBoxModel.members[index].user.photo
+                                      .toString()
+                                  : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
+                            ),
+                          ),
+                          title: Text(
+                            controller
+                                .boomBoxModel.members[index].user.username,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: getProportionateScreenHeight(14),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          trailing: controller.boomBoxModel.members[index].user
+                                      .userId ==
+                                  controller.userId
+                              ? const SizedBox()
+                              : controller.boomBoxModel.members[index].user
+                                          .userId ==
+                                      controller.boomBoxModel.user.userId
+                                  ? TextButton(
+                                      onPressed: () {},
+                                      child: const Text("Admin"),
+                                    )
+                                  : controller.boomBoxModel.user.userId !=
+                                          controller.userId
+                                      ? const SizedBox()
+                                      : Container(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                getProportionateScreenWidth(10),
+                                            vertical:
+                                                getProportionateScreenHeight(5),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: kPrimaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: Text(
+                                            "Ban",
+                                            style: TextStyle(
+                                                fontSize:
+                                                    getProportionateScreenHeight(
+                                                        13)),
+                                          ),
+                                        ),
+                          onTap: () {
+                            Get.back();
+                            Get.to(
+                              () => const OtherUserProfileScreen(),
+                              arguments: controller
+                                  .boomBoxModel.members[index].user.id,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  //Function to build chat messages
   _buildChatMessages(List<Message>? messages, SingleBoxController controller) {
     String userid = _storage.read('userId');
     return ListView.builder(

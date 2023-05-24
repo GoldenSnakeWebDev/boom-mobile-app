@@ -23,7 +23,6 @@ import 'package:share_plus/share_plus.dart';
 class SingleBoomPage extends StatefulWidget {
   const SingleBoomPage({
     Key? key,
-
   }) : super(key: key);
 
   @override
@@ -39,8 +38,6 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
         subject: "NFT",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
-
-  
 
   final box = GetStorage();
   final boomService = SingleBoomService();
@@ -798,108 +795,122 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 children: [
                                   Column(
                                     children: [
-                                      LikeButton(
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        size: getProportionateScreenHeight(28),
-                                        bubblesColor: const BubblesColor(
-                                            dotPrimaryColor: kPrimaryColor,
-                                            dotSecondaryColor: kSecondaryColor),
-                                        isLiked: boomController.isLikes,
-                                        onTap: (isLiked) async {
-                                          boomController.reactToBoom(
-                                              "likes", boomId, boom);
+                                      Obx(() => LikeButton(
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            size: getProportionateScreenHeight(
+                                                28),
+                                            bubblesColor: const BubblesColor(
+                                                dotPrimaryColor: kPrimaryColor,
+                                                dotSecondaryColor:
+                                                    kSecondaryColor),
+                                            isLiked:
+                                                boomController.isLikes.value,
+                                            onTap: (isLiked) async {
+                                              boomController.reactToBoom(
+                                                  "likes", boomId, boom);
 
-                                          return boomController.isLikes =
-                                              !isLiked;
-                                        },
-                                        likeCount: boomController.likesCount,
-                                        countPostion: CountPostion.bottom,
-                                        likeBuilder: ((isLiked) {
-                                          return CachedNetworkImage(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    26),
-                                            color: boomController.isLikes
-                                                ? kPrimaryColor
-                                                : Colors.black,
-                                            imageUrl: likeIconUrl,
-                                          );
-                                        }),
-                                      ),
+                                              return boomController
+                                                  .isLikes.value;
+                                            },
+                                            likeCount:
+                                                boomController.likesCount,
+                                            countPostion: CountPostion.bottom,
+                                            likeBuilder: ((isLiked) {
+                                              return CachedNetworkImage(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        26),
+                                                color:
+                                                    boomController.isLikes.value
+                                                        ? kPrimaryColor
+                                                        : Colors.black,
+                                                imageUrl: likeIconUrl,
+                                              );
+                                            }),
+                                          )),
                                     ],
                                   ),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      LikeButton(
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        size: getProportionateScreenHeight(22),
-                                        bubblesColor: const BubblesColor(
-                                            dotPrimaryColor: kPrimaryColor,
-                                            dotSecondaryColor: kSecondaryColor),
-                                        isLiked: boomController.isLoves,
-                                        onTap: (isLoved) async {
-                                          boomController.reactToBoom(
-                                              "loves", boomId, boom);
+                                      Obx(
+                                        () => LikeButton(
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          size:
+                                              getProportionateScreenHeight(22),
+                                          bubblesColor: const BubblesColor(
+                                              dotPrimaryColor: kPrimaryColor,
+                                              dotSecondaryColor:
+                                                  kSecondaryColor),
+                                          isLiked: boomController.isLoves.value,
+                                          onTap: (isLoved) async {
+                                            boomController.reactToBoom(
+                                                "loves", boomId, boom);
 
-                                          return boomController.isLoves =
-                                              !isLoved;
-                                        },
-                                        likeCount: boomController.lovesCount,
-                                        countPostion: CountPostion.bottom,
-                                        likeBuilder: ((isLoves) {
-                                          return SvgPicture.asset(
-                                            height:
-                                                getProportionateScreenHeight(
-                                                    15),
-                                            "assets/icons/love.svg",
-                                            color: boomController.isLoves
-                                                ? Colors.red
-                                                : Colors.grey,
-                                          );
-                                        }),
+                                            return boomController.isLoves.value;
+                                          },
+                                          likeCount: boomController.lovesCount,
+                                          countPostion: CountPostion.bottom,
+                                          likeBuilder: ((isLoves) {
+                                            return SvgPicture.asset(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      15),
+                                              "assets/icons/love.svg",
+                                              color:
+                                                  boomController.isLoves.value
+                                                      ? Colors.red
+                                                      : Colors.grey,
+                                            );
+                                          }),
+                                        ),
                                       ),
                                     ],
                                   ),
                                   Column(
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      LikeButton(
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        size: getProportionateScreenHeight(26),
-                                        bubblesColor: const BubblesColor(
-                                            dotPrimaryColor: kPrimaryColor,
-                                            dotSecondaryColor: kSecondaryColor),
-                                        isLiked: boomController.isSmiles,
-                                        onTap: (isLiked) async {
-                                          boomController.reactToBoom(
-                                              "smiles", boomId, boom);
+                                      Obx(
+                                        () => LikeButton(
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          size:
+                                              getProportionateScreenHeight(26),
+                                          bubblesColor: const BubblesColor(
+                                              dotPrimaryColor: kPrimaryColor,
+                                              dotSecondaryColor:
+                                                  kSecondaryColor),
+                                          isLiked:
+                                              boomController.isSmiles.value,
+                                          onTap: (isLiked) async {
+                                            boomController.reactToBoom(
+                                                "smiles", boomId, boom);
 
-                                          return boomController.isSmiles =
-                                              !isLiked;
-                                        },
-                                        likeCount: boomController.smilesCount,
-                                        countPostion: CountPostion.bottom,
-                                        likeBuilder: ((isLiked) {
-                                          return boomController.isSmiles
-                                              ? CachedNetworkImage(
-                                                  height:
-                                                      getProportionateScreenHeight(
-                                                          26),
-                                                  imageUrl: smileIconUrl,
-                                                )
-                                              : CachedNetworkImage(
-                                                  height:
-                                                      getProportionateScreenHeight(
-                                                          26),
-                                                  imageUrl: smileIconUrl,
-                                                  color: Colors.grey,
-                                                );
-                                        }),
+                                            return boomController
+                                                .isSmiles.value;
+                                          },
+                                          likeCount: boomController.smilesCount,
+                                          countPostion: CountPostion.bottom,
+                                          likeBuilder: ((isLiked) {
+                                            return boomController.isSmiles.value
+                                                ? CachedNetworkImage(
+                                                    height:
+                                                        getProportionateScreenHeight(
+                                                            26),
+                                                    imageUrl: smileIconUrl,
+                                                  )
+                                                : CachedNetworkImage(
+                                                    height:
+                                                        getProportionateScreenHeight(
+                                                            26),
+                                                    imageUrl: smileIconUrl,
+                                                    color: Colors.grey,
+                                                  );
+                                          }),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -907,62 +918,70 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      LikeButton(
-                                          animationDuration:
-                                              const Duration(milliseconds: 600),
-                                          size:
-                                              getProportionateScreenHeight(20),
-                                          isLiked: boomController.isRebooms,
-                                          onTap: (isLiked) async {
-                                            boomController.reactToBoom(
-                                                "rebooms", boomId, boom);
+                                      Obx(
+                                        () => LikeButton(
+                                            animationDuration: const Duration(
+                                                milliseconds: 600),
+                                            size: getProportionateScreenHeight(
+                                                20),
+                                            isLiked:
+                                                boomController.isRebooms.value,
+                                            onTap: (isLiked) async {
+                                              boomController.reactToBoom(
+                                                  "rebooms", boomId, boom);
 
-                                            return boomController.isRebooms =
-                                                !isLiked;
-                                          },
-                                          likeCount:
-                                              boomController.reboomsCount,
-                                          countPostion: CountPostion.bottom,
-                                          bubblesColor: const BubblesColor(
-                                              dotPrimaryColor: kPrimaryColor,
-                                              dotSecondaryColor:
-                                                  kSecondaryColor),
-                                          likeBuilder: (isLiked) {
-                                            return SvgPicture.asset(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      18),
-                                              "assets/icons/reboom.svg",
-                                              color: isLiked
-                                                  ? kPrimaryColor
-                                                  : Colors.grey,
-                                            );
-                                          }),
+                                              return boomController
+                                                  .isRebooms.value;
+                                            },
+                                            likeCount:
+                                                boomController.reboomsCount,
+                                            countPostion: CountPostion.bottom,
+                                            bubblesColor: const BubblesColor(
+                                                dotPrimaryColor: kPrimaryColor,
+                                                dotSecondaryColor:
+                                                    kSecondaryColor),
+                                            likeBuilder: (isLiked) {
+                                              return SvgPicture.asset(
+                                                height:
+                                                    getProportionateScreenHeight(
+                                                        18),
+                                                "assets/icons/reboom.svg",
+                                                color: isLiked
+                                                    ? kPrimaryColor
+                                                    : Colors.grey,
+                                              );
+                                            }),
+                                      ),
                                     ],
                                   ),
                                   Column(
                                     children: [
-                                      LikeButton(
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        size: getProportionateScreenHeight(20),
-                                        isLiked: boomController.isReports,
-                                        onTap: (isReports) async {
-                                          boomController.reactToBoom(
-                                              "reports", boomId, boom);
-                                          return null;
-                                        },
-                                        bubblesColor: const BubblesColor(
-                                            dotPrimaryColor: kPrimaryColor,
-                                            dotSecondaryColor: kSecondaryColor),
-                                        likeBuilder: ((isLiked) {
-                                          return Icon(
-                                            MdiIcons.alert,
-                                            color: isLiked
-                                                ? kYellowTextColor
-                                                : Colors.grey,
-                                          );
-                                        }),
+                                      Obx(
+                                        () => LikeButton(
+                                          animationDuration:
+                                              const Duration(milliseconds: 600),
+                                          size:
+                                              getProportionateScreenHeight(20),
+                                          isLiked:
+                                              boomController.isReports.value,
+                                          onTap: (isReports) async {
+                                            boomController.reactToBoom(
+                                                "reports", boomId, boom);
+                                            return null;
+                                          },
+                                          bubblesColor: const BubblesColor(
+                                              dotPrimaryColor: kPrimaryColor,
+                                              dotSecondaryColor:
+                                                  kSecondaryColor),
+                                          likeBuilder: ((isLiked) {
+                                            return Icon(
+                                              MdiIcons.alert,
+                                              color: isLiked
+                                                  ? kYellowTextColor
+                                                  : Colors.grey,
+                                            );
+                                          }),
+                                        ),
                                       ),
                                       Text(
                                         boomController.reportsCount.toString(),
