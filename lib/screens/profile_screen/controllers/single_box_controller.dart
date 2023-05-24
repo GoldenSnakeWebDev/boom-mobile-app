@@ -91,9 +91,10 @@ class SingleBoxController extends GetxController {
     // Call the service to leave the boom box
 
     final token = storage.read("token");
+    final myUserId = storage.read("userId");
 
     final res = await http.post(
-      Uri.parse(baseURL),
+      Uri.parse("${baseURL}boom-box/${boomBoxModel.id}/members/$myUserId"),
       headers: {
         "Authorization": token,
         "Content-Type": "application/json",
@@ -105,9 +106,59 @@ class SingleBoxController extends GetxController {
     } else {}
   }
 
-  deleteBoomBox() async {}
+  deleteBoomBox() async {
+    final token = storage.read("token");
+    final res = await http.delete(
+      Uri.parse("${baseURL}boom-box/${boomBoxModel.id}"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+    );
+    if (res.statusCode == 200) {
+      //Handle success
+    } else {
+      //Handle error
+    }
+  }
 
-  removeUser() async {}
+  removeUser(String memberId) async {
+    final token = storage.read("token");
+    final res = await http.delete(
+      Uri.parse("${baseURL}boom-box/${boomBoxModel.id}/members/$memberId"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+    );
+    if (res.statusCode == 200) {
+      //Handle success
+    } else {
+      //Handle error
+    }
+  }
 
-  addUser() async {}
+  addUser(List<String> memberIds) async {
+    final token = storage.read("token");
+    final format = DateFormat("MM/dd/yyyy, hh:mm:ss a");
+    var timeStamp = format.format(DateTime.now());
+    final body = {
+      "label": boomBoxModel.label,
+      "members": memberIds,
+      "timestamp": timeStamp,
+    };
+    final res = await http.post(
+      Uri.parse("${baseURL}boom-box/${boomBoxModel.id}"),
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode(body),
+    );
+    if (res.statusCode == 200) {
+      //Handle success
+    } else {
+      //Handle error
+    }
+  }
 }

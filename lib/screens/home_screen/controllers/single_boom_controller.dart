@@ -29,11 +29,11 @@ class SingleBoomController extends GetxController {
   final box = GetStorage();
   HomeService homeService = HomeService();
   SingleBoomService singleBoomService = SingleBoomService();
-  bool isLikes = false;
-  bool isLoves = false;
-  bool isSmiles = false;
-  bool isRebooms = false;
-  bool isReports = false;
+  var isLikes = false.obs;
+  var isLoves = false.obs;
+  var isSmiles = false.obs;
+  var isRebooms = false.obs;
+  var isReports = false.obs;
   bool commentLoading = false;
   int likesCount = 0;
   int lovesCount = 0;
@@ -89,9 +89,24 @@ class SingleBoomController extends GetxController {
       String reactType, String boomId, SingleBoom boom) async {
     final res = await homeService.reactToBoom(reactType, boomId);
 
+    switch (reactType) {
+      case "likes":
+        isLikes.value = !isLikes.value;
+        break;
+      case "loves":
+        isLoves.value = !isLoves.value;
+        break;
+      case "smiles":
+        isSmiles.value = !isSmiles.value;
+        break;
+      case "rebooms":
+        isRebooms.value = !isRebooms.value;
+        break;
+    }
+    update();
+
     if (res.statusCode == 200) {
       await fetchReactionStatus(boom);
-
       return true;
     } else {
       CustomSnackBar.showCustomSnackBar(
@@ -113,37 +128,37 @@ class SingleBoomController extends GetxController {
 
     for (var item in boom.boom.reactions!.likes) {
       if (item.id == userId) {
-        isLikes = true;
+        isLikes.value = true;
       } else {
-        isLikes = false;
+        isLikes.value = false;
       }
     }
     for (var item in boom.boom.reactions!.loves) {
       if (item.id == userId) {
-        isLoves = true;
+        isLoves.value = true;
       } else {
-        isLoves = false;
+        isLoves.value = false;
       }
     }
     for (var item in boom.boom.reactions!.smiles) {
       if (item.id == userId) {
-        isSmiles = true;
+        isSmiles.value = true;
       } else {
-        isSmiles = false;
+        isSmiles.value = false;
       }
     }
     for (var item in boom.boom.reactions!.reports) {
       if (item.id == userId) {
-        isReports = true;
+        isReports.value = true;
       } else {
-        isReports = false;
+        isReports.value = false;
       }
     }
     for (var item in boom.boom.reactions!.rebooms) {
       if (item.id == userId) {
-        isRebooms = true;
+        isRebooms.value = true;
       } else {
-        isRebooms = false;
+        isRebooms.value = false;
       }
     }
 
