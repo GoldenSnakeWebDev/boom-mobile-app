@@ -111,7 +111,7 @@ class BackPackController extends GetxController {
 
   Future<dynamic> fetchUsers() async {
     var ress = await dmService.fetchUsers();
-    final myUserId = box.read("useId");
+    final myUserId = box.read("userId");
     if (ress != null) {
       _boxUsers = [...ress];
       _boxUsers!.removeWhere((element) => element.id == myUserId);
