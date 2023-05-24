@@ -107,5 +107,7 @@ class SingleBoxController extends GetxController {
 
   deleteBoomBox() async {}
 
+  removeUser() async {}
+
   addUser() async {}
 }

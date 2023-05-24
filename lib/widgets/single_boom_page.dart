@@ -23,6 +23,7 @@ import 'package:share_plus/share_plus.dart';
 class SingleBoomPage extends StatefulWidget {
   const SingleBoomPage({
     Key? key,
+
   }) : super(key: key);
 
   @override
@@ -38,6 +39,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
         subject: "NFT",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
+
+  
 
   final box = GetStorage();
   final boomService = SingleBoomService();
