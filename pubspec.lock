@@ -21,10 +21,10 @@ packages:
     dependency: "direct main"
     description:
       name: adapty_flutter
-      sha256: c2a35af08e567997b375084c9da7b702a3224a367c614c3d4faabc7523efa289
+      sha256: d646f4b3072daf7aedd0cf8576ce2cbdae8add34c5227a4d9eb0ab4f0a600e13
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.14"
+    version: "2.4.3"
   analyzer:
     dependency: transitive
     description:
