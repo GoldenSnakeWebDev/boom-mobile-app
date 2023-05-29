@@ -24,7 +24,6 @@ class CommentWidget extends StatefulWidget {
 
 class _CommentWidgetState extends State<CommentWidget> {
   TextEditingController _commentController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool isLoggedIn = false;
   @override
@@ -35,7 +34,6 @@ class _CommentWidgetState extends State<CommentWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _commentController.dispose();
   }
@@ -54,13 +52,6 @@ class _CommentWidgetState extends State<CommentWidget> {
               child: Column(
                 children: [
                   SizedBox(
-                    // decoration: BoxDecoration(
-                    //   color: Colors.white,
-                    //   borderRadius: BorderRadius.only(
-                    //     topLeft: Radius.circular(16),
-                    //     topRight: Radius.circular(16),
-                    //   ),
-                    // ),
                     height: SizeConfig.screenHeight * 0.52,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
