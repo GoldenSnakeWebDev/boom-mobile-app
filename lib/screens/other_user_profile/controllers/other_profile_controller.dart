@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart'
-    as otherUser;
+    as otheruser;
 
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -149,7 +149,7 @@ class OtherUserProfileController extends GetxController {
   }
 
   changeChain(
-      String value, otherUser.OtherUserModel otherUser, String networkId) {
+      String value, otheruser.OtherUserModel otherUser, String networkId) {
     selectedNetwork = value;
 
     for (var element in networkModel!.networks!) {
