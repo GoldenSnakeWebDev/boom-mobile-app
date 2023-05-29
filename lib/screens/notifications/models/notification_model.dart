@@ -65,7 +65,7 @@ class Notification {
 
   Map<String, dynamic> toJson() => {
         "user": user?.toJson(),
-        "boom": boom == null ? null : boom?.toJson(),
+        "boom": boom?.toJson(),
         "notification_type": notificationType,
         "message": message,
         "is_read": isRead,
