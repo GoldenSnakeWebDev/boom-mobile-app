@@ -16,6 +16,7 @@ import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:magic_sdk/magic_sdk.dart';
 import 'package:magic_sdk/modules/web3/eth_network.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -23,6 +24,26 @@ import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await InAppUpdate.checkForUpdate().then((info) async {
+      if (info.updateAvailability == UpdateAvailability.updateAvailable) {
+        if (info.immediateUpdateAllowed) {
+          await InAppUpdate.performImmediateUpdate();
+        } else if (info.flexibleUpdateAllowed) {
+          await InAppUpdate.startFlexibleUpdate().then((value) async {
+            await InAppUpdate.completeFlexibleUpdate();
+          });
+        } else {
+          await InAppUpdate.startFlexibleUpdate().then((value) async {
+            await InAppUpdate.completeFlexibleUpdate();
+          });
+        }
+      }
+    });
+  } catch (e) {
+    log("Error in InAppUpdate: $e");
+  }
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
