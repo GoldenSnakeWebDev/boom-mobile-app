@@ -275,10 +275,10 @@ class SingleBoomController extends GetxController {
       await connector.createSession(
         chainId: chainId,
         onDisplayUri: (uri) async {
-          final launchUri = 'metamask://wc?uri=$uri';
-          await launchUrlString(launchUri);
-          log("Metamask URI::: $launchUri");
-
+          log("Wallet URI::: $uri");
+          // final launchUri = 'metamask://wc?uri=$uri';
+          await launchUrlString(uri);
+          // log("Metamask URI::: $launchUri");
           connector.on('connect', (SessionStatus session) async {
             log("Chain ID Selected: ${session.chainId}");
             if (session.chainId != chainId) {

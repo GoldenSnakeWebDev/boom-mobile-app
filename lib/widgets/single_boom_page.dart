@@ -1,4 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
@@ -13,11 +16,14 @@ import 'package:boom_mobile/widgets/single_boom_shimmer.dart';
 import 'package:boom_mobile/widgets/single_comment_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SingleBoomPage extends StatefulWidget {
@@ -30,6 +36,8 @@ class SingleBoomPage extends StatefulWidget {
 }
 
 class _SingleBoomPageState extends State<SingleBoomPage> {
+  final GlobalKey _globalKey = GlobalKey();
+
   void _onShare(BuildContext context, String imgURL) async {
     final box = context.findRenderObject() as RenderBox;
 
@@ -122,7 +130,15 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: snapshot.data!.boom.boomType == "text"
-                                      ? Text("${boom.boom.imageUrl}")
+                                      ? Text(
+                                          "${boom.boom.imageUrl}",
+                                          style: TextStyle(
+                                            fontSize:
+                                                getProportionateScreenHeight(
+                                                    16),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        )
                                       : CachedNetworkImage(
                                           // height: getProportionateScreenHeight(200),
                                           width: SizeConfig.screenWidth,
@@ -218,7 +234,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                   style: TextStyle(
                                                       fontSize:
                                                           getProportionateScreenHeight(
-                                                              15),
+                                                              14),
                                                       fontWeight:
                                                           FontWeight.w800),
                                                 )
@@ -254,394 +270,171 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          log("User ID ${box.read("userId")}");
-                                          box.read("userId") ==
-                                                  boom.boom.user!.id
-                                              ? showMenu(
-                                                  context: context,
-                                                  position:
-                                                      RelativeRect.fromLTRB(
-                                                          SizeConfig
-                                                                  .screenWidth *
-                                                              0.6,
-                                                          SizeConfig
-                                                                  .screenHeight *
-                                                              0.45,
-                                                          SizeConfig
-                                                                  .screenWidth *
-                                                              0.35,
-                                                          60),
-                                                  items: [
-                                                    PopupMenuItem(
-                                                      onTap: () async {
-                                                        //TODDO: Delete Boom Post
-                                                        log("Trying to open dialog");
-                                                        Future.delayed(
-                                                            const Duration(
-                                                                seconds: 0),
-                                                            () async {
-                                                          // await AwesomeDialog(
-                                                          //   context: context,
-
-                                                          //   dialogType:
-                                                          //       DialogType.info,
-                                                          //   width:
-                                                          //       getProportionateScreenWidth(
-                                                          //           350),
-                                                          //   buttonsBorderRadius:
-                                                          //       BorderRadius
-                                                          //           .circular(
-                                                          //               8),
-
-                                                          //   animType:
-                                                          //       AnimType.scale,
-                                                          //   title:
-                                                          //       "Delete Boom",
-                                                          //   desc:
-                                                          //       "Are you sure you want to delete this Boom?",
-                                                          //   headerAnimationLoop:
-                                                          //       true,
-                                                          //   dismissOnBackKeyPress:
-                                                          //       true,
-                                                          //   dismissOnTouchOutside:
-                                                          //       true,
-                                                          //   btnCancelOnPress:
-                                                          //       () async {
-                                                          //     Get.back();
-                                                          //   },
-                                                          //   btnOkOnPress:
-                                                          //       () async {
-                                                          //     Get.back();
-                                                          //     Get.back();
-                                                          //     await boomService
-                                                          //         .deleteBoom(
-                                                          //             boomId);
-                                                          //   },
-                                                          // ).show();
-
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    "Delete Boom"),
-                                                                content: const Text(
-                                                                    "Are you sure you want to delete this Boom?"),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Cancel"),
-                                                                  ),
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await boomService
-                                                                          .deleteBoom(
-                                                                              boomId);
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Delete"),
-                                                                  ),
-                                                                ],
-                                                              );
+                                      PopupMenuButton(
+                                        iconSize:
+                                            getProportionateScreenWidth(50),
+                                        itemBuilder: (context) {
+                                          return [
+                                            PopupMenuItem(
+                                              onTap: () async {
+                                                Future.delayed(
+                                                    const Duration(seconds: 0),
+                                                    () async {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text(
+                                                            "Delete Boom"),
+                                                        content: const Text(
+                                                            "Are you sure you want to delete this Boom?"),
+                                                        actions: [
+                                                          TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
                                                             },
-                                                          );
-                                                        });
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: kBlueColor
-                                                              .withOpacity(0.8),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  16.0,
-                                                                  4.0,
-                                                                  16.0,
-                                                                  4.0),
-                                                          child: Text(
-                                                            "Delete",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize:
-                                                                  getProportionateScreenHeight(
-                                                                      14),
-                                                            ),
+                                                            child: const Text(
+                                                                "Cancel"),
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    PopupMenuItem(
-                                                      onTap: () async {
-                                                        if (boom.boom
-                                                                .boomState ==
-                                                            BoomState
-                                                                .REAL_NFT) {
-                                                          Get.snackbar("Error",
-                                                              "You have already minted this boom as an NFT",
-                                                              backgroundColor:
-                                                                  kredCancelTextColor,
-                                                              colorText:
-                                                                  Colors.white,
-                                                              snackPosition:
-                                                                  SnackPosition
-                                                                      .BOTTOM);
-                                                        } else {
-                                                          Future.delayed(
-                                                              const Duration(
-                                                                  seconds: 0),
-                                                              () async {
-                                                            showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  title: const Text(
-                                                                      "Export Boom"),
-                                                                  content:
-                                                                      const Text(
-                                                                          "Please make sure you have selected the correct network in your wallet."),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child: const Text(
-                                                                          "Cancel"),
-                                                                    ),
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () async {
-                                                                        Get.back();
-                                                                        await boomController
-                                                                            .exportBoom(
-                                                                          boom
-                                                                              .boom
-                                                                              .network!
-                                                                              .symbol,
-                                                                          boom.boom
-                                                                              .imageUrl!,
-                                                                          boom.boom
-                                                                              .title!,
-                                                                          boom.boom
-                                                                              .description!,
-                                                                          boom.boom
-                                                                              .id!,
-                                                                        );
-                                                                      },
-                                                                      child: const Text(
-                                                                          "Export"),
-                                                                    ),
-                                                                  ],
-                                                                );
-                                                              },
-                                                            );
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: kBlueColor
-                                                              .withOpacity(0.8),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  16.0,
-                                                                  4.0,
-                                                                  16.0,
-                                                                  4.0),
-                                                          child: Text(
-                                                            "Export",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize:
-                                                                  getProportionateScreenHeight(
-                                                                      14),
-                                                            ),
+                                                          TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await boomService
+                                                                  .deleteBoom(
+                                                                      boomId);
+                                                            },
+                                                            child: const Text(
+                                                                "Delete"),
                                                           ),
-                                                        ),
-                                                      ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                });
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: kBlueColor
+                                                      .withOpacity(0.8),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          16.0, 4.0, 16.0, 4.0),
+                                                  child: Text(
+                                                    "Delete",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              14),
                                                     ),
-                                                  ],
-                                                )
-                                              : showMenu(
-                                                  context: context,
-                                                  position:
-                                                      RelativeRect.fromLTRB(
-                                                    SizeConfig.screenWidth *
-                                                        0.6,
-                                                    SizeConfig.screenHeight *
-                                                        0.45,
-                                                    SizeConfig.screenWidth *
-                                                        0.35,
-                                                    60,
                                                   ),
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: SizeConfig
-                                                              .screenWidth *
-                                                          0.35),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8.0),
-                                                  ),
-                                                  items: [
-                                                    PopupMenuItem(
-                                                      onTap: () async {
-                                                        //Function to synthetically Mint the NFT
-                                                        await boomController
-                                                            .syntheticallyMintBoom(
-                                                                boom.boom.id!);
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: kBlueColor
-                                                              .withOpacity(0.8),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  16.0,
-                                                                  4.0,
-                                                                  16.0,
-                                                                  4.0),
-                                                          child: Text(
-                                                            "Syn. NFT",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize:
-                                                                  getProportionateScreenHeight(
-                                                                      14),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    PopupMenuItem(
-                                                      onTap: () async {
-                                                        if (boom.boom
-                                                                .boomState ==
-                                                            BoomState
-                                                                .REAL_NFT) {
-                                                          Future.delayed(
-                                                              const Duration(
-                                                                  seconds: 0),
-                                                              () {
-                                                            showDialog(
-                                                              context: context,
-                                                              builder:
-                                                                  (BuildContext
-                                                                      context) {
-                                                                return AlertDialog(
-                                                                  title: const Text(
-                                                                      "Connect Wallet"),
-                                                                  content:
-                                                                      const Text(
-                                                                          "Please make sure you have selected the correct network in your wallet provider. "),
-                                                                  actions: [
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        Navigator.pop(
-                                                                            context);
-                                                                      },
-                                                                      child: const Text(
-                                                                          "Cancel"),
-                                                                    ),
-                                                                    TextButton(
-                                                                      onPressed:
-                                                                          () async {
-                                                                        Get.back();
-                                                                        await boomController
-                                                                            .exportBoom(
-                                                                          boom
-                                                                              .boom
-                                                                              .network!
-                                                                              .symbol,
-                                                                          boom.boom
-                                                                              .imageUrl!,
-                                                                          boom.boom
-                                                                              .title!,
-                                                                          boom.boom
-                                                                              .description!,
-                                                                          boom.boom
-                                                                              .id!,
-                                                                        );
-                                                                      },
-                                                                      child: const Text(
-                                                                          "Proceed"),
-                                                                    ),
-                                                                  ],
-                                                                );
+                                                ),
+                                              ),
+                                            ),
+                                            PopupMenuItem(
+                                              onTap: () async {
+                                                if (boom.boom.boomState ==
+                                                    BoomState.REAL_NFT) {
+                                                  Get.snackbar("Error",
+                                                      "You have already minted this boom as an NFT",
+                                                      backgroundColor:
+                                                          kredCancelTextColor,
+                                                      colorText: Colors.white,
+                                                      snackPosition:
+                                                          SnackPosition.BOTTOM);
+                                                } else {
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          seconds: 0),
+                                                      () async {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                              "Export Boom"),
+                                                          content: const Text(
+                                                              "Please make sure you have selected the correct network in your wallet."),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
-                                                            );
-                                                          });
-                                                        } else {
-                                                          Get.snackbar("Error",
-                                                              "You can only synthetically mint this boom as an NFT",
-                                                              backgroundColor:
-                                                                  kredCancelTextColor,
-                                                              colorText:
-                                                                  Colors.white,
-                                                              snackPosition:
-                                                                  SnackPosition
-                                                                      .BOTTOM);
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: kBlueColor
-                                                              .withOpacity(0.8),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .fromLTRB(
-                                                                  16.0,
-                                                                  4.0,
-                                                                  16.0,
-                                                                  4.0),
-                                                          child: Text(
-                                                            "Mint NFT",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize:
-                                                                  getProportionateScreenHeight(
-                                                                      14),
+                                                              child: const Text(
+                                                                  "Cancel"),
                                                             ),
-                                                          ),
-                                                        ),
-                                                      ),
+                                                            TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                Get.back();
+                                                                if (boom.boom
+                                                                        .boomType ==
+                                                                    "text") {
+                                                                  await _buildExportBottomSheet(
+                                                                      boom.boom
+                                                                          .imageUrl!,
+                                                                      boom);
+                                                                } else {
+                                                                  await boomController
+                                                                      .exportBoom(
+                                                                    boom
+                                                                        .boom
+                                                                        .network!
+                                                                        .symbol,
+                                                                    boom.boom
+                                                                        .imageUrl!,
+                                                                    boom.boom
+                                                                        .title!,
+                                                                    boom.boom
+                                                                        .description!,
+                                                                    boom.boom
+                                                                        .id!,
+                                                                  );
+                                                                }
+                                                              },
+                                                              child: const Text(
+                                                                  "Export"),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  });
+                                                }
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: kBlueColor
+                                                      .withOpacity(0.8),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          16.0, 4.0, 16.0, 4.0),
+                                                  child: Text(
+                                                    "Export",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize:
+                                                          getProportionateScreenHeight(
+                                                              14),
                                                     ),
-                                                  ],
-                                                );
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ];
                                         },
-                                        child: Container(
+                                        onSelected: (value) {
+                                          log("Selected value $value");
+                                        },
+                                        icon: Container(
                                           decoration: BoxDecoration(
                                               color: kPrimaryColor,
                                               border: Border.all(
@@ -664,6 +457,377 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           ),
                                         ),
                                       ),
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     log("User ID ${box.read("userId")}");
+                                      //     box.read("userId") ==
+                                      //             boom.boom.user!.id
+                                      //         ? showMenu(
+                                      //             context: context,
+                                      //             position:
+                                      //                 RelativeRect.fromLTRB(
+                                      //                     SizeConfig
+                                      //                             .screenWidth *
+                                      //                         0.6,
+                                      //                     SizeConfig
+                                      //                             .screenHeight *
+                                      //                         0.45,
+                                      //                     SizeConfig
+                                      //                             .screenWidth *
+                                      //                         0.35,
+                                      //                     60),
+                                      //             items: [
+                                      //               PopupMenuItem(
+                                      //                 onTap: () async {
+
+                                      //                   Future.delayed(
+                                      //                       const Duration(
+                                      //                           seconds: 0),
+                                      //                       () async {
+
+                                      //                     showDialog(
+                                      //                       context: context,
+                                      //                       builder:
+                                      //                           (BuildContext
+                                      //                               context) {
+                                      //                         return AlertDialog(
+                                      //                           title: const Text(
+                                      //                               "Delete Boom"),
+                                      //                           content: const Text(
+                                      //                               "Are you sure you want to delete this Boom?"),
+                                      //                           actions: [
+                                      //                             TextButton(
+                                      //                               onPressed:
+                                      //                                   () {
+                                      //                                 Navigator.pop(
+                                      //                                     context);
+                                      //                               },
+                                      //                               child: const Text(
+                                      //                                   "Cancel"),
+                                      //                             ),
+                                      //                             TextButton(
+                                      //                               onPressed:
+                                      //                                   () async {
+                                      //                                 await boomService
+                                      //                                     .deleteBoom(
+                                      //                                         boomId);
+                                      //                               },
+                                      //                               child: const Text(
+                                      //                                   "Delete"),
+                                      //                             ),
+                                      //                           ],
+                                      //                         );
+                                      //                       },
+                                      //                     );
+                                      //                   });
+                                      //                 },
+                                      //                 child: Container(
+                                      //                   decoration:
+                                      //                       BoxDecoration(
+                                      //                     color: kBlueColor
+                                      //                         .withOpacity(0.8),
+                                      //                   ),
+                                      //                   child: Padding(
+                                      //                     padding:
+                                      //                         const EdgeInsets
+                                      //                                 .fromLTRB(
+                                      //                             16.0,
+                                      //                             4.0,
+                                      //                             16.0,
+                                      //                             4.0),
+                                      //                     child: Text(
+                                      //                       "Delete",
+                                      //                       style: TextStyle(
+                                      //                         color:
+                                      //                             Colors.white,
+                                      //                         fontSize:
+                                      //                             getProportionateScreenHeight(
+                                      //                                 14),
+                                      //                       ),
+                                      //                     ),
+                                      //                   ),
+                                      //                 ),
+                                      //               ),
+                                      //               PopupMenuItem(
+                                      //                 onTap: () async {
+                                      //                   if (boom.boom
+                                      //                           .boomState ==
+                                      //                       BoomState
+                                      //                           .REAL_NFT) {
+                                      //                     Get.snackbar("Error",
+                                      //                         "You have already minted this boom as an NFT",
+                                      //                         backgroundColor:
+                                      //                             kredCancelTextColor,
+                                      //                         colorText:
+                                      //                             Colors.white,
+                                      //                         snackPosition:
+                                      //                             SnackPosition
+                                      //                                 .BOTTOM);
+                                      //                   } else {
+                                      //                     Future.delayed(
+                                      //                         const Duration(
+                                      //                             seconds: 0),
+                                      //                         () async {
+                                      //                       showDialog(
+                                      //                         context: context,
+                                      //                         builder:
+                                      //                             (BuildContext
+                                      //                                 context) {
+                                      //                           return AlertDialog(
+                                      //                             title: const Text(
+                                      //                                 "Export Boom"),
+                                      //                             content:
+                                      //                                 const Text(
+                                      //                                     "Please make sure you have selected the correct network in your wallet."),
+                                      //                             actions: [
+                                      //                               TextButton(
+                                      //                                 onPressed:
+                                      //                                     () {
+                                      //                                   Navigator.pop(
+                                      //                                       context);
+                                      //                                 },
+                                      //                                 child: const Text(
+                                      //                                     "Cancel"),
+                                      //                               ),
+                                      //                               TextButton(
+                                      //                                 onPressed:
+                                      //                                     () async {
+                                      //                                   Get.back();
+                                      //                                   await boomController
+                                      //                                       .exportBoom(
+                                      //                                     boom
+                                      //                                         .boom
+                                      //                                         .network!
+                                      //                                         .symbol,
+                                      //                                     boom.boom
+                                      //                                         .imageUrl!,
+                                      //                                     boom.boom
+                                      //                                         .title!,
+                                      //                                     boom.boom
+                                      //                                         .description!,
+                                      //                                     boom.boom
+                                      //                                         .id!,
+                                      //                                   );
+                                      //                                 },
+                                      //                                 child: const Text(
+                                      //                                     "Export"),
+                                      //                               ),
+                                      //                             ],
+                                      //                           );
+                                      //                         },
+                                      //                       );
+                                      //                     });
+                                      //                   }
+                                      //                 },
+                                      //                 child: Container(
+                                      //                   decoration:
+                                      //                       BoxDecoration(
+                                      //                     color: kBlueColor
+                                      //                         .withOpacity(0.8),
+                                      //                   ),
+                                      //                   child: Padding(
+                                      //                     padding:
+                                      //                         const EdgeInsets
+                                      //                                 .fromLTRB(
+                                      //                             16.0,
+                                      //                             4.0,
+                                      //                             16.0,
+                                      //                             4.0),
+                                      //                     child: Text(
+                                      //                       "Export",
+                                      //                       style: TextStyle(
+                                      //                         color:
+                                      //                             Colors.white,
+                                      //                         fontSize:
+                                      //                             getProportionateScreenHeight(
+                                      //                                 14),
+                                      //                       ),
+                                      //                     ),
+                                      //                   ),
+                                      //                 ),
+                                      //               ),
+                                      //             ],
+                                      //           )
+                                      //         : showMenu(
+                                      //             context: context,
+                                      //             position:
+                                      //                 RelativeRect.fromLTRB(
+                                      //               SizeConfig.screenWidth *
+                                      //                   0.6,
+                                      //               SizeConfig.screenHeight *
+                                      //                   0.45,
+                                      //               SizeConfig.screenWidth *
+                                      //                   0.35,
+                                      //               60,
+                                      //             ),
+                                      //             constraints: BoxConstraints(
+                                      //                 maxWidth: SizeConfig
+                                      //                         .screenWidth *
+                                      //                     0.35),
+                                      //             shape: RoundedRectangleBorder(
+                                      //               borderRadius:
+                                      //                   BorderRadius.circular(
+                                      //                       8.0),
+                                      //             ),
+                                      //             items: [
+                                      //               PopupMenuItem(
+                                      //                 onTap: () async {
+                                      //                   //Function to synthetically Mint the NFT
+                                      //                   await boomController
+                                      //                       .syntheticallyMintBoom(
+                                      //                           boom.boom.id!);
+                                      //                 },
+                                      //                 child: Container(
+                                      //                   decoration:
+                                      //                       BoxDecoration(
+                                      //                     color: kBlueColor
+                                      //                         .withOpacity(0.8),
+                                      //                   ),
+                                      //                   child: Padding(
+                                      //                     padding:
+                                      //                         const EdgeInsets
+                                      //                                 .fromLTRB(
+                                      //                             16.0,
+                                      //                             4.0,
+                                      //                             16.0,
+                                      //                             4.0),
+                                      //                     child: Text(
+                                      //                       "Syn. NFT",
+                                      //                       style: TextStyle(
+                                      //                         color:
+                                      //                             Colors.white,
+                                      //                         fontSize:
+                                      //                             getProportionateScreenHeight(
+                                      //                                 14),
+                                      //                       ),
+                                      //                     ),
+                                      //                   ),
+                                      //                 ),
+                                      //               ),
+                                      //               PopupMenuItem(
+                                      //                 onTap: () async {
+                                      //                   if (boom.boom
+                                      //                           .boomState ==
+                                      //                       BoomState
+                                      //                           .REAL_NFT) {
+                                      //                     Future.delayed(
+                                      //                         const Duration(
+                                      //                             seconds: 0),
+                                      //                         () {
+                                      //                       showDialog(
+                                      //                         context: context,
+                                      //                         builder:
+                                      //                             (BuildContext
+                                      //                                 context) {
+                                      //                           return AlertDialog(
+                                      //                             title: const Text(
+                                      //                                 "Connect Wallet"),
+                                      //                             content:
+                                      //                                 const Text(
+                                      //                                     "Please make sure you have selected the correct network in your wallet provider. "),
+                                      //                             actions: [
+                                      //                               TextButton(
+                                      //                                 onPressed:
+                                      //                                     () {
+                                      //                                   Navigator.pop(
+                                      //                                       context);
+                                      //                                 },
+                                      //                                 child: const Text(
+                                      //                                     "Cancel"),
+                                      //                               ),
+                                      //                               TextButton(
+                                      //                                 onPressed:
+                                      //                                     () async {
+                                      //                                   Get.back();
+                                      //                                   await boomController
+                                      //                                       .exportBoom(
+                                      //                                     boom
+                                      //                                         .boom
+                                      //                                         .network!
+                                      //                                         .symbol,
+                                      //                                     boom.boom
+                                      //                                         .imageUrl!,
+                                      //                                     boom.boom
+                                      //                                         .title!,
+                                      //                                     boom.boom
+                                      //                                         .description!,
+                                      //                                     boom.boom
+                                      //                                         .id!,
+                                      //                                   );
+                                      //                                 },
+                                      //                                 child: const Text(
+                                      //                                     "Proceed"),
+                                      //                               ),
+                                      //                             ],
+                                      //                           );
+                                      //                         },
+                                      //                       );
+                                      //                     });
+                                      //                   } else {
+                                      //                     Get.snackbar("Error",
+                                      //                         "You can only synthetically mint this boom as an NFT",
+                                      //                         backgroundColor:
+                                      //                             kredCancelTextColor,
+                                      //                         colorText:
+                                      //                             Colors.white,
+                                      //                         snackPosition:
+                                      //                             SnackPosition
+                                      //                                 .BOTTOM);
+                                      //                   }
+                                      //                 },
+                                      //                 child: Container(
+                                      //                   decoration:
+                                      //                       BoxDecoration(
+                                      //                     color: kBlueColor
+                                      //                         .withOpacity(0.8),
+                                      //                   ),
+                                      //                   child: Padding(
+                                      //                     padding:
+                                      //                         const EdgeInsets
+                                      //                                 .fromLTRB(
+                                      //                             16.0,
+                                      //                             4.0,
+                                      //                             16.0,
+                                      //                             4.0),
+                                      //                     child: Text(
+                                      //                       "Mint NFT",
+                                      //                       style: TextStyle(
+                                      //                         color:
+                                      //                             Colors.white,
+                                      //                         fontSize:
+                                      //                             getProportionateScreenHeight(
+                                      //                                 14),
+                                      //                       ),
+                                      //                     ),
+                                      //                   ),
+                                      //                 ),
+                                      //               ),
+                                      //             ],
+                                      //           );
+                                      //   },
+                                      //   child: Container(
+                                      //     decoration: BoxDecoration(
+                                      //         color: kPrimaryColor,
+                                      //         border: Border.all(
+                                      //             color: Colors.black)),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.fromLTRB(
+                                      //           10, 4, 10, 4),
+                                      //       child: Text(
+                                      //         box.read("userId") ==
+                                      //                 boom.boom.user!.id
+                                      //             ? "More"
+                                      //             : "Obtain",
+                                      //         style: TextStyle(
+                                      //           fontSize:
+                                      //               getProportionateScreenHeight(
+                                      //                   12),
+                                      //           fontWeight: FontWeight.w900,
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                       SizedBox(
                                         width: getProportionateScreenWidth(7),
                                       ),
@@ -1152,6 +1316,164 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
               );
             }
           },
+        ),
+      ),
+    );
+  }
+
+  _buildExportBottomSheet(String textNFT, SingleBoom boom) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (context) {
+          return Container(
+            height: getProportionateScreenHeight(300),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 8.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: RepaintBoundary(
+                      key: _globalKey,
+                      child: Container(
+                          width: SizeConfig.screenWidth * 0.85,
+                          height: getProportionateScreenHeight(200),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: kPrimaryColor,
+                              width: 0.5,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            textNFT,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(20),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(20),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      await _convertTextToImage(boom);
+                    },
+                    child: Container(
+                      width: SizeConfig.screenWidth * 0.8,
+                      height: getProportionateScreenHeight(40),
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent[400],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: Text(
+                          "Export NFT",
+                          style: TextStyle(
+                            fontSize: getProportionateScreenHeight(15),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  _convertTextToImage(SingleBoom boom) async {
+    EasyLoading.show(status: 'Generating Image...');
+    try {
+      RenderRepaintBoundary boundary = _globalKey.currentContext!
+          .findRenderObject() as RenderRepaintBoundary;
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData? byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      Directory dir = await getApplicationDocumentsDirectory();
+      String timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
+      String filePath = '${dir.path}/$timeStamp.png';
+      File selectedIgImage = File(filePath);
+
+      var pngBytes = byteData!.buffer.asUint8List().toList();
+      await selectedIgImage.writeAsBytes(pngBytes);
+      // var base64 = base64Decode(pngBytes.toString());
+      final result = await selectedIgImage.exists();
+
+      Get.back();
+      if (result) {
+        EasyLoading.dismiss();
+        await boomController.exportBoom(
+          boom.boom.network!.symbol,
+          boom.boom.imageUrl!,
+          boom.boom.title!,
+          boom.boom.description!,
+          boom.boom.id!,
+        );
+      } else {
+        EasyLoading.dismiss();
+        Get.snackbar(
+          "Error",
+          "Something went wrong",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+
+      return pngBytes;
+    } catch (e) {
+      log("Error Occured $e");
+      EasyLoading.dismiss();
+      Get.snackbar(
+        "Error",
+        "Something went wrong",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+}
+
+class GeneratedImageScreen extends StatelessWidget {
+  final String file;
+  const GeneratedImageScreen({super.key, required this.file});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Image.file(
+            File(file),
+            width: SizeConfig.screenWidth * 0.8,
+            height: SizeConfig.screenHeight,
+          ),
         ),
       ),
     );
