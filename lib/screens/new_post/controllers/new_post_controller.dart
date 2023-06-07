@@ -395,9 +395,8 @@ class NewPostController extends GetxController {
       await connector.createSession(
         chainId: chainId,
         onDisplayUri: (uri) async {
-          final launchUri = 'metamask://wc?uri=$uri';
-          await launchUrlString(launchUri);
-          log("Metamask URI::: $launchUri");
+          await launchUrlString(uri);
+
           // await connector.connect(chainId: chainId);
 
           connector.on('connect', (SessionStatus session) async {
