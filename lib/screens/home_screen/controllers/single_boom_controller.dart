@@ -49,9 +49,9 @@ class SingleBoomController extends GetxController {
   EthereumWalletConnectProvider? provider;
   late Web3Client client;
 
-  int chainId = 97;
+  int chainId = 56;
 
-  List<int> chainIds = [97, 80001, 65];
+  List<int> chainIds = [56, 137, 65];
 
   syntheticallyMintBoom(String boomId) async {
     EasyLoading.show(status: "Minting...");
@@ -211,18 +211,18 @@ class SingleBoomController extends GetxController {
     switch (selNetwork) {
       case "MATIC":
         chainId = chainIds[1];
-        contractAddy = "0xa4F716c2812652b4d49F7CF3220A211FE89587eE";
+        contractAddy = "0x67e78d7fBEB18b16b8ca2e1EC04F1E2d05AF174F";
         client = Web3Client(
-          'https://matic-mumbai.chainstacklabs.com',
+          'https://polygon.llamarpc.com',
           http.Client(),
         );
         update();
         break;
       case "BNB":
         chainId = chainIds[0];
-        contractAddy = "0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6";
+        contractAddy = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
         client = Web3Client(
-          'https://data-seed-prebsc-2-s1.binance.org:8545',
+          'https://bsc-dataseed.binance.org',
           http.Client(),
         );
         update();
@@ -238,7 +238,7 @@ class SingleBoomController extends GetxController {
         update();
         break;
       default:
-        chainId = chainIds[1];
+        chainId = chainIds[0];
     }
 
     late WalletConnectEthereumCredentials credentials;
