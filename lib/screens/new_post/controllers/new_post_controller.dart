@@ -79,10 +79,10 @@ class NewPostController extends GetxController {
 
   // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
 
-  int chainId = 97;
-  String smartContractAddress = '0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6';
+  int chainId = 56;
+  String smartContractAddress = '0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5';
 
-  List<int> chainIds = [97, 80001, 65];
+  List<int> chainIds = [56, 137, 65];
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
   //   http.Client(),
@@ -123,17 +123,17 @@ class NewPostController extends GetxController {
         switch (value) {
           case "MATIC":
             chainId = chainIds[1];
-            smartContractAddress = "0xa4F716c2812652b4d49F7CF3220A211FE89587eE";
+            smartContractAddress = "0x67e78d7fBEB18b16b8ca2e1EC04F1E2d05AF174F";
             client = Web3Client(
-              'https://matic-mumbai.chainstacklabs.com',
+              'https://polygon.llamarpc.com',
               http.Client(),
             );
             break;
           case "BNB":
             chainId = chainIds[0];
-            smartContractAddress = "0x61ceeb2f2a5915e997d0969c1d790af1a938ffd6";
+            smartContractAddress = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
             client = Web3Client(
-              'https://data-seed-prebsc-2-s1.binance.org:8545',
+              'https://bsc-dataseed.binance.org',
               http.Client(),
             );
             break;
