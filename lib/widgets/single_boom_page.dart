@@ -274,162 +274,304 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         iconSize:
                                             getProportionateScreenWidth(50),
                                         itemBuilder: (context) {
-                                          return [
-                                            PopupMenuItem(
-                                              onTap: () async {
-                                                Future.delayed(
-                                                    const Duration(seconds: 0),
-                                                    () async {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return AlertDialog(
-                                                        title: const Text(
-                                                            "Delete Boom"),
-                                                        content: const Text(
-                                                            "Are you sure you want to delete this Boom?"),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: const Text(
-                                                                "Cancel"),
-                                                          ),
-                                                          TextButton(
-                                                            onPressed:
-                                                                () async {
-                                                              await boomService
-                                                                  .deleteBoom(
-                                                                      boomId);
-                                                            },
-                                                            child: const Text(
-                                                                "Delete"),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                  );
-                                                });
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: kBlueColor
-                                                      .withOpacity(0.8),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          16.0, 4.0, 16.0, 4.0),
-                                                  child: Text(
-                                                    "Delete",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            PopupMenuItem(
-                                              onTap: () async {
-                                                if (boom.boom.boomState ==
-                                                    BoomState.REAL_NFT) {
-                                                  Get.snackbar("Error",
-                                                      "You have already minted this boom as an NFT",
-                                                      backgroundColor:
-                                                          kredCancelTextColor,
-                                                      colorText: Colors.white,
-                                                      snackPosition:
-                                                          SnackPosition.BOTTOM);
-                                                } else {
-                                                  Future.delayed(
-                                                      const Duration(
-                                                          seconds: 0),
-                                                      () async {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return AlertDialog(
-                                                          title: const Text(
-                                                              "Export Boom"),
-                                                          content: const Text(
-                                                              "Please make sure you have selected the correct network in your wallet."),
-                                                          actions: [
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: const Text(
-                                                                  "Cancel"),
-                                                            ),
-                                                            TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                Get.back();
-                                                                if (boom.boom
-                                                                        .boomType ==
-                                                                    "text") {
-                                                                  await _buildExportBottomSheet(
-                                                                      boom.boom
-                                                                          .imageUrl!,
-                                                                      boom);
-                                                                } else {
-                                                                  await boomController
-                                                                      .exportBoom(
-                                                                    boom
-                                                                        .boom
-                                                                        .network!
-                                                                        .symbol,
-                                                                    boom.boom
-                                                                        .imageUrl!,
-                                                                    boom.boom
-                                                                        .title!,
-                                                                    boom.boom
-                                                                        .description!,
-                                                                    boom.boom
-                                                                        .id!,
-                                                                  );
-                                                                }
-                                                              },
-                                                              child: const Text(
-                                                                  "Export"),
-                                                            ),
-                                                          ],
+                                          return box.read("userId") ==
+                                                  boom.boom.user!.id
+                                              ? [
+                                                  PopupMenuItem(
+                                                    onTap: () async {
+                                                      Future.delayed(
+                                                          const Duration(
+                                                              seconds: 0),
+                                                          () async {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              context) {
+                                                            return AlertDialog(
+                                                              title: const Text(
+                                                                  "Delete Boom"),
+                                                              content: const Text(
+                                                                  "Are you sure you want to delete this Boom?"),
+                                                              actions: [
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Cancel"),
+                                                                ),
+                                                                TextButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await boomService
+                                                                        .deleteBoom(
+                                                                            boomId);
+                                                                  },
+                                                                  child: const Text(
+                                                                      "Delete"),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          },
                                                         );
-                                                      },
-                                                    );
-                                                  });
-                                                }
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: kBlueColor
-                                                      .withOpacity(0.8),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          16.0, 4.0, 16.0, 4.0),
-                                                  child: Text(
-                                                    "Export",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: kBlueColor
+                                                            .withOpacity(0.8),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                16.0,
+                                                                4.0,
+                                                                16.0,
+                                                                4.0),
+                                                        child: Text(
+                                                          "Delete",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize:
+                                                                getProportionateScreenHeight(
+                                                                    14),
+                                                          ),
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                          ];
+                                                  PopupMenuItem(
+                                                    onTap: () async {
+                                                      if (boom.boom.boomState ==
+                                                          BoomState.REAL_NFT) {
+                                                        Get.snackbar("Error",
+                                                            "You have already minted this boom as an NFT",
+                                                            backgroundColor:
+                                                                kredCancelTextColor,
+                                                            colorText:
+                                                                Colors.white,
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .BOTTOM);
+                                                      } else {
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 0),
+                                                            () async {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    "Export Boom"),
+                                                                content: const Text(
+                                                                    "Please make sure you have selected the correct network in your wallet."),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Cancel"),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      Get.back();
+                                                                      if (boom.boom
+                                                                              .boomType ==
+                                                                          "text") {
+                                                                        await _buildExportBottomSheet(
+                                                                            boom.boom.imageUrl!,
+                                                                            boom);
+                                                                      } else {
+                                                                        await boomController
+                                                                            .exportBoom(
+                                                                          boom
+                                                                              .boom
+                                                                              .network!
+                                                                              .symbol,
+                                                                          boom.boom
+                                                                              .imageUrl!,
+                                                                          boom.boom
+                                                                              .title!,
+                                                                          boom.boom
+                                                                              .description!,
+                                                                          boom.boom
+                                                                              .id!,
+                                                                        );
+                                                                      }
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Export"),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        });
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: kBlueColor
+                                                            .withOpacity(0.8),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                16.0,
+                                                                4.0,
+                                                                16.0,
+                                                                4.0),
+                                                        child: Text(
+                                                          "Export",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize:
+                                                                getProportionateScreenHeight(
+                                                                    14),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ]
+                                              : [
+                                                  PopupMenuItem(
+                                                    onTap: () async {
+                                                      //Function to synthetically Mint the NFT
+                                                      await boomController
+                                                          .syntheticallyMintBoom(
+                                                              boom.boom.id!);
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: kBlueColor
+                                                            .withOpacity(0.8),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                16.0,
+                                                                4.0,
+                                                                16.0,
+                                                                4.0),
+                                                        child: Text(
+                                                          "Syn. NFT",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize:
+                                                                getProportionateScreenHeight(
+                                                                    14),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  PopupMenuItem(
+                                                    onTap: () async {
+                                                      if (boom.boom.boomState ==
+                                                          BoomState.REAL_NFT) {
+                                                        Future.delayed(
+                                                            const Duration(
+                                                                seconds: 0),
+                                                            () {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (BuildContext
+                                                                    context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    "Connect Wallet"),
+                                                                content: const Text(
+                                                                    "Please make sure you have selected the correct network in your wallet provider. "),
+                                                                actions: [
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Cancel"),
+                                                                  ),
+                                                                  TextButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      Get.back();
+                                                                      await boomController
+                                                                          .exportBoom(
+                                                                        boom
+                                                                            .boom
+                                                                            .network!
+                                                                            .symbol,
+                                                                        boom.boom
+                                                                            .imageUrl!,
+                                                                        boom.boom
+                                                                            .title!,
+                                                                        boom.boom
+                                                                            .description!,
+                                                                        boom.boom
+                                                                            .id!,
+                                                                      );
+                                                                    },
+                                                                    child: const Text(
+                                                                        "Proceed"),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            },
+                                                          );
+                                                        });
+                                                      } else {
+                                                        Get.snackbar("Error",
+                                                            "You can only synthetically mint this boom as an NFT",
+                                                            backgroundColor:
+                                                                kredCancelTextColor,
+                                                            colorText:
+                                                                Colors.white,
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .BOTTOM);
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: kBlueColor
+                                                            .withOpacity(0.8),
+                                                      ),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .fromLTRB(
+                                                                16.0,
+                                                                4.0,
+                                                                16.0,
+                                                                4.0),
+                                                        child: Text(
+                                                          "Mint NFT",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize:
+                                                                getProportionateScreenHeight(
+                                                                    14),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ];
                                         },
                                         onSelected: (value) {
                                           log("Selected value $value");
@@ -442,16 +584,18 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           child: Padding(
                                             padding: const EdgeInsets.fromLTRB(
                                                 10, 4, 10, 4),
-                                            child: Text(
-                                              box.read("userId") ==
-                                                      boom.boom.user!.id
-                                                  ? "More"
-                                                  : "Obtain",
-                                              style: TextStyle(
-                                                fontSize:
-                                                    getProportionateScreenHeight(
-                                                        12),
-                                                fontWeight: FontWeight.w900,
+                                            child: FittedBox(
+                                              child: Text(
+                                                box.read("userId") ==
+                                                        boom.boom.user!.id
+                                                    ? "More"
+                                                    : "Obtain",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      getProportionateScreenHeight(
+                                                          12),
+                                                  fontWeight: FontWeight.w900,
+                                                ),
                                               ),
                                             ),
                                           ),
