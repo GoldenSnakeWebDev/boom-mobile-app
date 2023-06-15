@@ -149,8 +149,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                               child:
                                                   CircularProgressIndicator(),
                                             )
-                                          : searchCtrller.searchResults!.search
-                                                  .booms.isEmpty
+                                          : searchCtrller.searchResults ==
+                                                      null ||
+                                                  searchCtrller.searchResults!
+                                                      .search.booms.isEmpty
                                               ? Center(
                                                   child: Text(
                                                     "No results",

@@ -146,6 +146,13 @@ class RegistrationScreen extends GetView<RegisterController> {
                             ),
                             TextFormField(
                               controller: controller.usernameController,
+                              validator: (value) {
+                                if (!value!.startsWith("!")) {
+                                  return "Username should start with \"!";
+                                } else {
+                                  return null;
+                                }
+                              },
                               decoration: InputDecoration(
                                 hintText: "Username",
                                 prefixIcon: const Icon(
