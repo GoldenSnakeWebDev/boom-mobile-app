@@ -423,74 +423,77 @@ class LoginScreen extends GetView<LoginController> {
                 ),
               ),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Text(
-                  "Reset Password",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "Enter your email address and click Proceed to reset your password",
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  controller: controller.userNameController,
-                  decoration: InputDecoration(
-                    hintText: "Email",
-                    hintStyle: const TextStyle(
-                      color: Colors.black54,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  const Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    final res = await controller.resetPassword();
-                    if (res) {
-                      controller.userNameController.clear();
-                      Future.delayed(const Duration(milliseconds: 100))
-                          .then((value) {
-                        Navigator.pop(context);
-                        _showChangePasswordDIalog(context);
-                      });
-                    } else {
-                      Get.snackbar("Error", "Please enter a registered email");
-                    }
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      "Proceed",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "Enter your email address and click Proceed to reset your password",
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: controller.userNameController,
+                    decoration: InputDecoration(
+                      hintText: "Email",
+                      hintStyle: const TextStyle(
+                        color: Colors.black54,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final res = await controller.resetPassword();
+                      if (res) {
+                        controller.userNameController.clear();
+                        Future.delayed(const Duration(milliseconds: 100))
+                            .then((value) {
+                          Navigator.pop(context);
+                          _showChangePasswordDIalog(context);
+                        });
+                      } else {
+                        Get.snackbar(
+                            "Error", "Please enter a registered email");
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        "Proceed",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });
