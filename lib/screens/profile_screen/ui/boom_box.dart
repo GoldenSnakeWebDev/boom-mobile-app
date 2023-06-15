@@ -157,32 +157,36 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                         },
                       );
                     },
-                    child: Container(
-                      width: SizeConfig.screenWidth * 0.45,
-                      height: getProportionateScreenHeight(35),
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Create your box",
-                            style: TextStyle(
-                              fontSize: getProportionateScreenHeight(14),
-                              fontWeight: FontWeight.w700,
+                    child: Visibility(
+                      visible:
+                          controller.boxCreators.contains(controller.myUserId),
+                      child: Container(
+                        width: SizeConfig.screenWidth * 0.45,
+                        height: getProportionateScreenHeight(35),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Create your box",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenHeight(14),
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: getProportionateScreenWidth(7),
-                          ),
-                          const Icon(
-                            MdiIcons.cog,
-                            size: 20,
-                            color: Colors.black,
-                          )
-                        ],
+                            SizedBox(
+                              width: getProportionateScreenWidth(7),
+                            ),
+                            const Icon(
+                              MdiIcons.cog,
+                              size: 20,
+                              color: Colors.black,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

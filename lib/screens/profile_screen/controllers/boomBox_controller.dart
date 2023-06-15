@@ -40,9 +40,17 @@ class BoomBoxController extends GetxController {
   XFile? boomBoxImage;
 
   List<user.User> selectedUsers = [];
+  List<String> boxCreators = [
+    "6386b0beae4f58f9eee8376b",
+    "642e8a69c3feef8b61b7b78b",
+    "64337275c3feef8b61c3c301",
+    "63863cd5ae4f58f9eee7fb22",
+  ];
+  String myUserId = '';
 
   @override
   void onInit() {
+    myUserId = box.read("userId");
     fetchUserBoomBoxes();
     fetchUsers();
     super.onInit();
@@ -58,7 +66,7 @@ class BoomBoxController extends GetxController {
 
   fetchUsers() async {
     var ress = await dmService.fetchUsers();
-    final myUserId = box.read("userId");
+
     if (ress != null) {
       _users = [...ress];
       _users!.removeWhere((element) => element.id == myUserId);
