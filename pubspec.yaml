@@ -121,7 +121,7 @@ dependencies:
   tezart: ^2.0.5
 
   #u
-  url_launcher: ^6.1.6
+  url_launcher: ^6.1.11
   unique_identifier: ^0.3.0
 
   #v
