@@ -6,6 +6,7 @@ import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class NotificationScreen extends GetView<NotificationsController> {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -91,8 +92,20 @@ class NotificationScreen extends GetView<NotificationsController> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Icon(
-                                          Icons.notifications,
+                                        Icon(
+                                          controller
+                                                      .notificationsModel!
+                                                      .notifications![index]
+                                                      .notificationType ==
+                                                  "user"
+                                              ? MdiIcons.account
+                                              : controller
+                                                          .notificationsModel!
+                                                          .notifications![index]
+                                                          .notificationType ==
+                                                      "transfer"
+                                                  ? MdiIcons.transfer
+                                                  : Icons.notifications,
                                           color: kPrimaryColor,
                                         ),
                                         SizedBox(

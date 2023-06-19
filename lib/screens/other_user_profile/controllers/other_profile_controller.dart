@@ -42,6 +42,13 @@ class OtherUserProfileController extends GetxController {
   final box = GetStorage();
   final TextEditingController amountController = TextEditingController();
 
+  List<String> boxCreators = [
+    "6386b0beae4f58f9eee8376b",
+    "642e8a69c3feef8b61b7b78b",
+    "64337275c3feef8b61c3c301",
+    "63863cd5ae4f58f9eee7fb22",
+  ];
+
   @override
   void onInit() {
     super.onInit();

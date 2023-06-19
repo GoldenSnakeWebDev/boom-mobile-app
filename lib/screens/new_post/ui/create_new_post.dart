@@ -956,8 +956,8 @@ class CreateNewPost extends GetView<NewPostController> {
                           filled: true,
                           fillColor: Colors.white,
                           suffix: const SizedBox(),
-                          suffixIcon: SizedBox(
-                            width: SizeConfig.screenWidth * 0.35,
+                          suffixIcon: FittedBox(
+                            // width: SizeConfig.screenWidth * 0.35,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -966,7 +966,10 @@ class CreateNewPost extends GetView<NewPostController> {
                                   imageUrl: controller
                                       .selectedNetworkModel!.imageUrl!,
                                   errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                                      Image.asset(
+                                    'assets/icons/${controller.networks.where((element) => element.symbol == controller.selectedNetwork).toString().toLowerCase()}.png',
+                                    height: getProportionateScreenHeight(20),
+                                  ),
                                 ),
                                 SizedBox(
                                   width: getProportionateScreenWidth(4),

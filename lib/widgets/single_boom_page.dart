@@ -212,7 +212,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: getProportionateScreenWidth(8),
+                                        width: getProportionateScreenWidth(5),
                                       ),
                                       Column(
                                         crossAxisAlignment:
@@ -223,28 +223,35 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                           Visibility(
                                             visible:
                                                 boom.boom.location!.isNotEmpty,
-                                            child: Row(
+                                            child: Wrap(
                                               children: [
                                                 const Icon(
                                                   MdiIcons.mapMarker,
                                                   size: 18,
                                                 ),
-                                                Text(
-                                                  boom.boom.location!,
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          getProportionateScreenHeight(
-                                                              14),
-                                                      fontWeight:
-                                                          FontWeight.w800),
+                                                SizedBox(
+                                                  width:
+                                                      SizeConfig.screenWidth *
+                                                          0.2,
+                                                  child: Text(
+                                                    boom.boom.location!,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            getProportionateScreenHeight(
+                                                                13),
+                                                        fontWeight:
+                                                            FontWeight.w800),
+                                                  ),
                                                 )
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                getProportionateScreenHeight(5),
-                                          ),
+                                          // SizedBox(
+                                          //   height:
+                                          //       getProportionateScreenHeight(5),
+                                          // ),
                                           SizedBox(
                                             height:
                                                 getProportionateScreenHeight(
@@ -973,7 +980,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       //   ),
                                       // ),
                                       SizedBox(
-                                        width: getProportionateScreenWidth(7),
+                                        width: getProportionateScreenWidth(5),
                                       ),
                                       Column(
                                         children: [
@@ -982,7 +989,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             style: TextStyle(
                                               fontSize:
                                                   getProportionateScreenHeight(
-                                                      15),
+                                                      14),
                                               fontWeight: FontWeight.w900,
                                             ),
                                           ),
@@ -1003,11 +1010,15 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       CachedNetworkImage(
                                         height:
                                             getProportionateScreenHeight(20),
+                                        width: getProportionateScreenWidth(20),
                                         imageUrl: boom.boom.network!.imageUrl,
                                         useOldImageOnUrlChange: true,
                                         errorWidget: (context, url, error) =>
                                             Image.asset(
-                                                "assets/icons/matic.png"),
+                                          "assets/icons/matic.png",
+                                          width:
+                                              getProportionateScreenWidth(20),
+                                        ),
                                       ),
                                       IconButton(
                                         onPressed: () {

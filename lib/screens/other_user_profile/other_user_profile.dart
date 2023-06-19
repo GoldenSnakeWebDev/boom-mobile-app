@@ -542,8 +542,11 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             ),
                                                           ),
                                                           Visibility(
-                                                            visible: user
-                                                                .user!.isAdmin!,
+                                                            visible: controller
+                                                                .boxCreators
+                                                                .contains(
+                                                                    controller
+                                                                        .userId),
                                                             child: Positioned(
                                                               top: 0,
                                                               right: 0,
