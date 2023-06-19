@@ -46,7 +46,9 @@ class SingleBoomWidget extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "!${post.user.username}",
+                    post.user.username!.startsWith("!")
+                        ? "${post.user.username}"
+                        : "!${post.user.username}",
                     style: TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: getProportionateScreenHeight(15),

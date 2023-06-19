@@ -23,6 +23,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   final mainController = Get.find<MainScreenController>();
   final homeController = Get.find<HomeController>();
   // final _searchController = Get.find<SearchPageController>();
+
   List<Boom>? _shuffledBooms;
   var _isSearching = false;
 
@@ -30,8 +31,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void initState() {
     _shuffleBooms();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
     analytics.setCurrentScreen(screenName: "Explore Screen");
+    Get.put(ProfileController());
     super.initState();
   }
 

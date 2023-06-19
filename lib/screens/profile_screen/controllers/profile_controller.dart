@@ -45,10 +45,12 @@ class ProfileController extends GetxController {
     "63863cd5ae4f58f9eee7fb22",
   ];
 
+  String myUserId = '';
+
   @override
   void onInit() {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
+    myUserId = box.read("userId");
     analytics.setCurrentScreen(screenName: "Profile Screen");
     user = Get.find<MainScreenController>().user;
     fetchMyBooms();

@@ -425,6 +425,13 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   TextFormField(
                     controller: controller.usernameController,
+                    validator: (value) {
+                      if (!value!.startsWith("!")) {
+                        return "Usernames shoudld start \"!";
+                      } else {
+                        return null;
+                      }
+                    },
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(
                         top: 4.0,

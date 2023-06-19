@@ -215,7 +215,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      "!${user?.username ?? "username"}",
+                                                      user?.username ?? "username",
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -552,8 +552,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             ),
                                                           ),
                                                           Visibility(
-                                                            visible:
-                                                                user.isAdmin!,
+                                                            visible: controller
+                                                                .boxCreators
+                                                                .contains(
+                                                                    controller
+                                                                        .myUserId),
                                                             child: Positioned(
                                                               top: 0,
                                                               right: 0,

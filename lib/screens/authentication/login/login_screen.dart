@@ -425,7 +425,7 @@ class LoginScreen extends GetView<LoginController> {
             ),
             child: SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const Text(
                     "Reset Password",
