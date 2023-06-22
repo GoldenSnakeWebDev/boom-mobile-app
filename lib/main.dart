@@ -111,6 +111,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Boom',
       debugShowCheckedModeBanner: false,
+      // themeMode: ThemeMode.dark,
+      // darkTheme: ThemeData.dark(useMaterial3: true),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.montserrat().fontFamily,
