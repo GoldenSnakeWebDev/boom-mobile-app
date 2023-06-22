@@ -2,8 +2,10 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
+import 'package:boom_mobile/widgets/archery_header/archery_header.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,15 +17,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late EasyRefreshController _controller;
+
   @override
   void initState() {
     super.initState();
+    _controller = EasyRefreshController(
+      controlFinishRefresh: true,
+      controlFinishLoad: true,
+    );
 
     Get.put(HomeController());
     Get.put(TalesEpicsController);
   }
 
   final mainController = Get.find<MainScreenController>();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +59,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       // Get.to(() => const CaptureTaleScreen());
                     },
-                    child: RefreshIndicator(
+                    child: EasyRefresh(
+                      controller: _controller,
+                      header: const ArcheryHeader(
+                        position: IndicatorPosition.locator,
+                        processedDuration: Duration(seconds: 1),
+                      ),
                       onRefresh: () async {
+                        _controller.callRefresh();
                         await controller.fetchAllBooms();
+
+                        _controller.finishRefresh();
+                        _controller.resetFooter();
 
                         // await TalesEpicsController().fetchTales();
                       },
@@ -317,12 +340,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   )
                                 : Expanded(
-                                    child: ListView.builder(
-                                      key: const PageStorageKey<String>(
-                                          "homeKey"),
-                                      controller: controller.scrollController,
-                                      itemCount: controller.homeBooms!.length,
-                                      itemBuilder: (context, index) {
+                                    child: CustomScrollView(
+                                    slivers: [
+                                      const HeaderLocator.sliver(),
+                                      SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                              (context, index) {
                                         List<SingleBoomPost> boomPost =
                                             controller.getSingleBoomDetails(
                                                 controller.homeBooms!);
@@ -334,8 +357,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                               controller.homeBooms![index].id!,
                                         );
                                       },
+                                              childCount:
+                                                  controller.homeBooms!.length))
+                                    ],
+                                  )
+
+                                    // ListView.builder(
+                                    //   key: const PageStorageKey<String>(
+                                    //       "homeKey"),
+                                    //   controller: controller.scrollController,
+                                    //   itemCount: controller.homeBooms!.length,
+                                    //   itemBuilder: (context, index) {
+                                    //     List<SingleBoomPost> boomPost =
+                                    //         controller.getSingleBoomDetails(
+                                    //             controller.homeBooms!);
+
+                                    //     return SingleBoomWidget(
+                                    //       post: boomPost[index],
+                                    //       controller: controller,
+                                    //       boomId:
+                                    //           controller.homeBooms![index].id!,
+                                    //     );
+                                    //   },
+                                    // ),
                                     ),
-                                  ),
                           ],
                         ),
                       ),

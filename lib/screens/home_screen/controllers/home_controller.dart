@@ -191,7 +191,6 @@ class HomeController extends GetxController {
   }
 
   loadMore() async {
-    log("Loading More Data $currentPage");
     if (currentPage <= totalPages &&
         scrollController.position.extentAfter < 300) {
       currentPage++;
@@ -211,9 +210,7 @@ class HomeController extends GetxController {
             msg: ["Error"],
             isError: true);
       }
-    } else {
-      log("No More Data to Load");
-    }
+    } else {}
   }
 
   initializeVideos() async {
