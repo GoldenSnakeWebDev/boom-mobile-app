@@ -12,6 +12,28 @@ const String reboomIconUrl = "";
 const String reportIconUrl = "";
 const String commentIconUrl = "";
 
+//Smart Contract Mainnet Addresses
+
+const String bnbTokenAddress = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
+const String maticTokenAddress = "0x67e78d7fBEB18b16b8ca2e1EC04F1E2d05AF174F";
+const String bnbMarketAddress = "0x67e78d7fbeb18b16b8ca2e1ec04f1e2d05af174f";
+const String maticMarketAddress = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
+
+//Mainnet RPC URLs
+
+const String bnbMainnetRPC = "https://bsc-dataseed1.binance.org/";
+const String maticMainnetRPC = "https://polygon.llamarpc.com";
+
+//Smart Contract TestNet Addresses
+const String bnbTestNetToken = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
+const String maticTestNetToken = "0xa4F716c2812652b4d49F7CF3220A211FE89587eE";
+const String bnbTestNetMarket = "0x8f7157b9513b33f3364dD9Bdc2639d4214f0d852";
+const String maticTestNetMarket = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
+
+//TestNet RPC URLs
+const String bnbTestnetRPC = "https://bsc-testnet.publicnode.com";
+const String maticTestnetRPC = "https://polygon-mumbai.gateway.tenderly.co";
+
 List<Map<String, String>> brandDetails = [
   {
     "img":
@@ -85,88 +107,4 @@ List<String> profileOptions = [
   "Posts",
   "Social Bridge",
   "Activity",
-];
-
-List<Map<String, dynamic>> dmDetails = [
-  {
-    "username": "Social Misfit",
-    "message": "Hey, I'm looking for a...",
-    "time": "2h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": false,
-  },
-  //some dynamic data
-  {
-    "username": "Just Ngeni",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": false,
-  },
-  {
-    "username": "Call me Mikey",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": true,
-  },
-  {
-    "username": "Murife_the_1",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": false,
-  },
-  {
-    "username": "Terrence Creative",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": true,
-  },
-  {
-    "username": "Kaligraph Jones",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": true,
-  },
-  {
-    "username": "Scar Mkadinali",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": false,
-  },
-  {
-    "username": "Domani Munga",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": false,
-  },
-  {
-    "username": "NFT King",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": false,
-  },
-  {
-    "username": "The Crypto Buddy",
-    "message": "Hey, what are you up to?",
-    "time": "10h",
-    "img":
-        "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
-    "read": true,
-  },
 ];

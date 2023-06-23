@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:boom_mobile/utils/boomMarketPlace.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -79,10 +80,13 @@ class NewPostController extends GetxController {
 
   // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
 
-  int chainId = 56;
-  String smartContractAddress = '0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5';
+  int chainId = 97;
+  String smartContractAddress = bnbTestNetToken;
+  String marketPlaceAddress = bnbTestNetMarket;
 
-  List<int> chainIds = [56, 137, 65];
+  // List<int> chainIds = [56, 137, 65];
+  List<int> chainIds = [97, 8001, 65];
+
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
   //   http.Client(),
@@ -101,7 +105,7 @@ class NewPostController extends GetxController {
     selectedNetwork = networkModel!.networks![0].symbol;
     selectedNetworkModel = networkModel!.networks![0];
     client = Web3Client(
-      'https://bsc-dataseed1.binance.org/',
+      bnbTestnetRPC,
       http.Client(),
     );
     networks.clear();
@@ -115,7 +119,9 @@ class NewPostController extends GetxController {
     log("Ig Post ${igController.selectedIgMedia?.id}");
   }
 
-  changeChain(String value) {
+  // Handle changing of selected network/crypto
+
+  changeChain(String value) async {
     selectedNetwork = value;
     for (var element in networkModel!.networks!) {
       if (element.symbol == value) {
@@ -123,17 +129,17 @@ class NewPostController extends GetxController {
         switch (value) {
           case "MATIC":
             chainId = chainIds[1];
-            smartContractAddress = "0x67e78d7fBEB18b16b8ca2e1EC04F1E2d05AF174F";
+            smartContractAddress = maticTestNetToken;
             client = Web3Client(
-              'https://polygon.llamarpc.com',
+              maticTestnetRPC,
               http.Client(),
             );
             break;
           case "BNB":
             chainId = chainIds[0];
-            smartContractAddress = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
+            smartContractAddress = bnbTestNetToken;
             client = Web3Client(
-              'https://bsc-dataseed.binance.org',
+              bnbTestnetRPC,
               http.Client(),
             );
             break;
@@ -154,16 +160,14 @@ class NewPostController extends GetxController {
     getCryptoPrice(selectedNetworkModel!.symbol!);
     // getCryptoPrice(selectedNetworkModel!.symbol!);
 
-    log("Selected chain ${client.getChainId()}");
-
     update();
   }
+
+  //Function to get current price of selected crypto
 
   getCryptoPrice(String cryptoName) async {
     final res = await http.get(
         Uri.parse("${baseURL}networks-pricing?symbol=$cryptoName&amount=1"));
-
-    log("Crypto Res ${res.body}");
 
     if (res.statusCode == 200) {
       final data = jsonDecode(res.body);
@@ -172,6 +176,8 @@ class NewPostController extends GetxController {
       update();
     }
   }
+
+  //Function to convert Fiat to Crypto
 
   getCryptoAmount(String fiatAmount) {
     if (fiatAmount.isNotEmpty) {
@@ -184,12 +190,15 @@ class NewPostController extends GetxController {
     return cryptoAmount;
   }
 
+  //Function to handle selecting image from list
   fetchImageFromIG(File image) {
     pickedImage = image;
 
     imageSelected.value = true;
     update();
   }
+
+  // Function to handle picking image from phone
 
   handlePickingImage() async {
     image = await _picker.pickImage(source: ImageSource.gallery);
@@ -200,6 +209,7 @@ class NewPostController extends GetxController {
     update();
   }
 
+  // Function to handle taking photo
   handleTakingPhoto() async {
     image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
@@ -209,6 +219,7 @@ class NewPostController extends GetxController {
     update();
   }
 
+  // Function to handle picking video from phone
   handlePickingVideo() async {
     video = await _picker.pickVideo(source: ImageSource.gallery);
     if (video != null) {
@@ -221,6 +232,7 @@ class NewPostController extends GetxController {
     update();
   }
 
+  // Function to record video
   handleRecordingVideo() async {
     video = await _picker.pickVideo(source: ImageSource.camera);
     if (video != null) {
@@ -232,6 +244,8 @@ class NewPostController extends GetxController {
     }
     update();
   }
+
+  // Importing NFT from an EOA Wallet.
 
   fetchNFT(String addy) async {
     log("Starting on connection");
@@ -347,6 +361,8 @@ class NewPostController extends GetxController {
     }
   }
 
+  // Establish wallet connection and return Ethereum Wallet Address credentials
+
   connectWallet(bool isImport,
       {String? imgURL, String? timeStamp, NewPostModel? newPostModel}) async {
     late WalletConnectEthereumCredentials credentials;
@@ -382,12 +398,13 @@ class NewPostController extends GetxController {
       } else {
         // Mint Bom
         txHash = await onChainMint(
-            imgURL!,
-            timeStamp!,
-            credentials.provider.connector.session.accounts.first,
-            client,
-            credentials,
-            newPostModel!);
+          imgURL!,
+          timeStamp!,
+          credentials.provider.connector.session.accounts.first,
+          client,
+          credentials,
+          newPostModel!,
+        );
         update();
       }
     } else {
@@ -421,6 +438,8 @@ class NewPostController extends GetxController {
       );
     }
   }
+
+  //Function to handle uploading of Boom Post to Boom Backend
 
   uploadNewBoom(bool isOnchain) async {
     if (formKey.currentState!.validate()) {
@@ -548,6 +567,8 @@ class NewPostController extends GetxController {
     }
   }
 
+  //Function to mint Post to selected network
+
   onChainMint(
       String imgURL,
       String boomId,
@@ -613,7 +634,120 @@ class NewPostController extends GetxController {
         log("TX Count $txCount");
         // await subscription.cancel();
         if (hashResult.isNotEmpty) {
-          await postBoomNFT(newPostModel);
+          //We get the Logs and decode to get NFT ID
+          final txLogs = await web3Client.getTransactionReceipt(hashResult);
+
+          log("TX Logs ${txLogs!.logs.first.topics!.last}");
+
+          var tempId = txLogs.logs.first.topics!.last;
+          // log("Temp ID $tempId RunTimeType ${tempId.runtimeType}");
+
+          int nftId = int.parse(tempId.toString().split("x")[1], radix: 16);
+
+          EasyLoading.show(
+              status: 'Approval... Please check your wallet app for approval');
+
+          EthereumAddress marketPlaceAddress =
+              EthereumAddress.fromHex(bnbTestNetMarket);
+
+          var marketContract = DeployedContract(
+            ContractAbi.fromJson(marketPlaceContrat, 'Marketplace'),
+            marketPlaceAddress,
+          );
+
+          //Call the createListing Function of the Smart Contract
+          log("NFT ID $nftId ${contractAddress.hex} Versions ${quantity.text.trim()} CryptoAmount $cryptoAmount");
+
+          try {
+            // log("NFT ID $nftId ${contractAddress.hex} Versions ${quantity.text.trim()} CryptoAmount $cryptoAmount");
+
+            Transaction approvalTx = Transaction(
+              from: account,
+              to: contractAddress,
+              data: contract.function('setApprovalForAll').encodeCall(
+                [marketPlaceAddress, true],
+              ),
+            );
+
+            final approveResult = await web3Client.sendTransaction(
+              credentials,
+              approvalTx,
+              chainId: chainId,
+            );
+
+            if (approveResult.isNotEmpty) {
+              try {
+                EasyLoading.dismiss();
+                EasyLoading.show(
+                    status:
+                        'Creating Listing... Please check your wallet app for approval');
+
+                // final listingData = [
+                //   {
+                //     "assetContract": contractAddress.hex,
+                //     "tokenId": nftId,
+                //     "startTime": 0,
+                //     "secondsUntilEndTime": 30 * 24 * 60 * 60,
+                //     "quantityToList": int.parse(quantity.text.trim()),
+                //     "currencyToAccept":
+                //         "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
+                //     "reservePricePerToken": 0,
+                //     "buyoutPricePerToken": cryptoAmount.toString(),
+                //     "listingType": "Direct"
+                //   }
+                // ];
+
+                var listingParams = [
+                  contractAddress,
+                  BigInt.from(nftId),
+                  BigInt.from(0),
+                  BigInt.from(30 * 24 * 60 * 60),
+                  BigInt.from(int.parse(quantity.text.trim())),
+                  EthereumAddress.fromHex(
+                      "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"),
+                  BigInt.from(0),
+                  BigInt.from(double.parse(cryptoAmount.toString())),
+                  BigInt.from(0)
+                ];
+
+                Transaction listingTx = Transaction(
+                  from: account,
+                  to: marketPlaceAddress,
+                  data: marketContract.function('createListing').encodeCall(
+                    [listingParams],
+                  ),
+                );
+                String listingResult = '';
+                await web3Client
+                    .signTransaction(credentials, listingTx)
+                    .then((value) async {
+                  if (value.isNotEmpty) {
+                    listingResult = await web3Client.sendTransaction(
+                      credentials,
+                      listingTx,
+                      chainId: chainId,
+                    );
+                  }
+                });
+
+                if (listingResult.isNotEmpty) {
+                  EasyLoading.dismiss();
+                  EasyLoading.showSuccess(
+                      "Boom has been Listed on Marketplace");
+                  // await postBoomNFT(newPostModel);
+                }
+              } catch (e) {
+                log("Error creating listing $e");
+                EasyLoading.showError("Error occured when listing");
+              }
+            }
+          } catch (e) {
+            //Throw Exception and Report issue to user
+            log("Error Approving For all $e");
+            EasyLoading.showError("Error occured when approving");
+          }
+          EasyLoading.dismiss();
+          return hashResult;
         } else {
           CustomSnackBar.showCustomSnackBar(
             errorList: ["Error minting Boom as NFT"],
@@ -622,7 +756,7 @@ class NewPostController extends GetxController {
           );
         }
         await client.dispose();
-        // return hashResult;
+        return hashResult;
       } catch (e) {
         log("Error ${e.toString()}");
         EasyLoading.dismiss();
@@ -639,6 +773,24 @@ class NewPostController extends GetxController {
       );
       return;
     }
+  }
+
+  //List Asset on Marketplace
+  createListing() async {
+    /** 
+     * 
+     * const listing  = {
+        assetContract: "boomERC721 address";
+        tokenId: tokenId;
+        startTime: 0;
+        secondsUntilEndTime: 1 * 24 * 60 * 60; // 1 day
+        quantityToList: 1;
+        currencyToAccept: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+        reservePricePerToken: 0;
+        buyoutPricePerToken: "0.013;
+        listingType: "Direct" ;
+        }
+     */
   }
 }
 
