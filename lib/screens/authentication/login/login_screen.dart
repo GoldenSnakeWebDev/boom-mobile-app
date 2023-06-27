@@ -50,6 +50,10 @@ class LoginScreen extends GetView<LoginController> {
                         Image(
                           width: SizeConfig.screenWidth * 0.6,
                           height: SizeConfig.screenHeight * 0.25,
+                          // image: const AssetImage(
+                          //   "assets/images/error.jpeg",
+                          // ),
+
                           image: const NetworkImage(
                             boomIconUrl,
                           ),
@@ -97,6 +101,9 @@ class LoginScreen extends GetView<LoginController> {
                                     height: getProportionateScreenHeight(50),
                                     decoration: const BoxDecoration(
                                       image: DecorationImage(
+                                        // image: AssetImage(
+                                        //     "assets/images/error.jpeg")
+
                                         image: NetworkImage(
                                           userIconUrl,
                                         ),
@@ -121,6 +128,7 @@ class LoginScreen extends GetView<LoginController> {
                                   ),
                                   TextFormField(
                                     controller: controller.userNameController,
+                                    key: const Key("uname"),
                                     decoration: InputDecoration(
                                       hintText: "Username or Email",
                                       prefixIcon: const Icon(
@@ -157,6 +165,7 @@ class LoginScreen extends GetView<LoginController> {
                                   ),
                                   Obx(
                                     () => TextFormField(
+                                      key: const Key("pass"),
                                       controller: controller.passwordController,
                                       obscureText:
                                           controller.isPassVisible.value,
@@ -211,6 +220,7 @@ class LoginScreen extends GetView<LoginController> {
                                     height: getProportionateScreenHeight(15),
                                   ),
                                   GestureDetector(
+                                    key: const Key("loginBtn"),
                                     onTap: () async {
                                       bool res = await controller.loginUser();
                                       if (res) {

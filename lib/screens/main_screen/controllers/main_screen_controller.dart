@@ -50,7 +50,7 @@ class MainScreenController extends GetxController {
   }
 
   getCurrenUser() async {
-    String token = box.read("token");
+    String token = box.read("token") ?? "";
     final res = await repo.fetchCurrUser(token);
     if (res.statusCode == 200) {
       user = User.fromJson(jsonDecode(res.body)["user"]);

@@ -15,6 +15,7 @@ class SplashScreen extends StatelessWidget {
           body: Center(
             child: SizedBox(
               child: CachedNetworkImage(
+                key: const Key("BoomLogo"),
                 imageUrl: boomIconUrl,
                 fit: BoxFit.contain,
                 width: 180,

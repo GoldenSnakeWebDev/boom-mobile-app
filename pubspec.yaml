@@ -97,6 +97,7 @@ dependencies:
   magic_sdk: ^2.0.1
   material_design_icons_flutter: ^5.0.6996
   mime: ^1.0.2
+  mockito: ^5.4.2
 
   #n
   native_notify: ^0.0.16
@@ -140,6 +141,8 @@ dependencies:
   walletconnect_qrcode_modal_dart: ^0.4.2
   
   
+  
+  
   # walletconnect_qrcode_modal_dart: ^0.4.1
   
   
@@ -148,6 +151,10 @@ dependency_overrides:
   flutter_inappwebview: 5.4.3
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_driver:
     sdk: flutter
   freezed: ^2.2.0
 
