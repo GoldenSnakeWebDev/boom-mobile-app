@@ -52,6 +52,14 @@ class SingleBoomController extends GetxController {
   int chainId = 56;
 
   List<int> chainIds = [56, 137, 65];
+  final boomService = SingleBoomService();
+
+  @override
+  void onInit() {
+    boomService.getSingleBoom();
+
+    super.onInit();
+  }
 
   syntheticallyMintBoom(String boomId) async {
     EasyLoading.show(status: "Minting...");
@@ -106,7 +114,12 @@ class SingleBoomController extends GetxController {
     update();
 
     if (res.statusCode == 200) {
-      await fetchReactionStatus(boom);
+      final singleBoom = singleBoomService.getSingleBoom().asBroadcastStream();
+      final boomReacted = await singleBoom.first;
+      log("Reactions result ${boom.boom.imageUrl!}");
+      await fetchReactionStatus(boomReacted!);
+
+      update();
       return true;
     } else {
       CustomSnackBar.showCustomSnackBar(
@@ -117,14 +130,14 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  fetchReactionStatus(SingleBoom boom) {
+  fetchReactionStatus(SingleBoom boom) async {
     likesCount = boom.boom.reactions!.likes.length;
     lovesCount = boom.boom.reactions!.loves.length;
     smilesCount = boom.boom.reactions!.smiles.length;
     reboomsCount = boom.boom.reactions!.rebooms.length;
     reportsCount = boom.boom.reactions!.reports.length;
 
-    String userId = box.read("userId");
+    String userId = await box.read("userId");
 
     for (var item in boom.boom.reactions!.likes) {
       if (item.id == userId) {
@@ -161,7 +174,6 @@ class SingleBoomController extends GetxController {
         isRebooms.value = false;
       }
     }
-
     update();
   }
 
@@ -196,8 +208,11 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  refreshPage() {
-    singleBoomService.getSingleBoom();
+  refreshPage() async {
+    final singleBoom = singleBoomService.getSingleBoom().asBroadcastStream();
+    final boom = await singleBoom.first;
+    log("Stream result ${boom!.boom.imageUrl!}");
+    await fetchReactionStatus(boom);
     update();
   }
 
@@ -381,9 +396,27 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  obtainBoom() async {}
+  obtainBoom(int nftId) async {
+    //Function to purchase NFT from Marketplace via real crypto assets
+  }
 
-  viewBoomContract() async {}
+  viewBoomContract(String network) async {
+    switch (network) {
+      case "BNB":
+        //Open Binance Smart chain Explorer
+        break;
+      case "MATIC":
+        //Open Polygon Explorer
+        break;
+      case "TEZOS":
+        //Open Tezos Explorer
+        break;
+      default:
+        break;
+    }
+  }
 
-  reportBoom() async {}
+  reportBoom() async {
+    //Send Boom details to back office for actioning
+  }
 }

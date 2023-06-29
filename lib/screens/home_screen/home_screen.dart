@@ -61,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: EasyRefresh(
                       controller: _controller,
+                      // scrollController: controller.scrollController,
                       header: const ArcheryHeader(
                         position: IndicatorPosition.locator,
                         processedDuration: Duration(seconds: 1),
@@ -341,6 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 : Expanded(
                                     child: CustomScrollView(
+                                    controller: controller.scrollController,
                                     slivers: [
                                       const HeaderLocator.sliver(),
                                       SliverList(

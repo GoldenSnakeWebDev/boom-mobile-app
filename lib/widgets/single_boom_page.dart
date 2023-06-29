@@ -93,9 +93,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
         child: StreamBuilder(
           stream: boomService.getSingleBoom(),
           builder: (context, snapshot) {
-            SingleBoom? boom = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
-              //TODO: Add loading Shimmer
               return const SingleBoomShimmer();
             } else if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.done) {
@@ -104,7 +102,14 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                   child: Text("Could not fecch boom"),
                 );
               } else if (snapshot.hasData) {
+                SingleBoom? boom = snapshot.data;
+
+                // if (mounted) {
+                //   boomController.fetchReactionStatus(boom);
+                // }
+
                 boomController.fetchReactionStatus(boom!);
+
                 return RefreshIndicator(
                   onRefresh: () async {
                     boomController.refreshPage();
@@ -1116,7 +1121,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     children: [
                                       Obx(() => LikeButton(
                                             animationDuration: const Duration(
-                                                milliseconds: 600),
+                                                milliseconds: 500),
                                             size: getProportionateScreenHeight(
                                                 28),
                                             bubblesColor: const BubblesColor(
