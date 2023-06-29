@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
       initialBinding: AppBindings(),
-      home: const SplashScreen(),
+      home: SplashScreen(),
       builder: EasyLoading.init(),
     );
   }

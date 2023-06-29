@@ -709,6 +709,8 @@ class NewPostController extends GetxController {
                   BigInt.from(double.parse(cryptoAmount.toString())),
                   BigInt.from(0)
                 ];
+                // ["0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5",2,0,30 * 24 * 60 * 60,1,"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",0,0.01,0]
+                // ["0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5",2,0,2592000,1,"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",0,1,0]
 
                 Transaction listingTx = Transaction(
                   from: account,
