@@ -696,11 +696,13 @@ class NewPostController extends GetxController {
                 //     "listingType": "Direct"
                 //   }
                 // ];
+                int timeStamp =
+                    (DateTime.now().millisecondsSinceEpoch / 1000).ceil();
 
                 var listingParams = [
                   contractAddress,
                   BigInt.from(nftId),
-                  BigInt.from(0),
+                  BigInt.from(timeStamp),
                   BigInt.from(30 * 24 * 60 * 60),
                   BigInt.from(int.parse(quantity.text.trim())),
                   EthereumAddress.fromHex(
@@ -711,7 +713,8 @@ class NewPostController extends GetxController {
                 ];
                 // ["0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5",2,0,30 * 24 * 60 * 60,1,"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",0,0.01,0]
                 // ["0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5",2,0,2592000,1,"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",0,1,0]
-
+                // ["0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5",29,1688058789501,2592000,1,"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",0,1,0]
+                // 1688059352
                 Transaction listingTx = Transaction(
                   from: account,
                   to: marketPlaceAddress,

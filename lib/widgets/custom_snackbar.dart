@@ -87,4 +87,24 @@ class CustomSnackBar {
       borderWidth: 2,
     );
   }
+
+  void networkErrorSnack(void Function()? btnAction) {
+    Get.snackbar(
+      "Network Error",
+      "Could not load booms check your connection",
+      duration: const Duration(seconds: 5),
+      mainButton: TextButton(
+        onPressed: () async {
+          btnAction;
+        },
+        child: const Text(
+          "Retry",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      icon: const Icon(
+        MdiIcons.accessPointNetworkOff,
+      ),
+    );
+  }
 }
