@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
 
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
+import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:cached_video_player/cached_video_player.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -35,14 +37,16 @@ class HomeController extends GetxController {
   late int totalPages;
   int currentPage = 0;
   late ScrollController scrollController;
+  // BoomBoxModel? boomBoxModel;
+  List<BoomBox> boomBoxes = [];
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-    analytics.logLogin();
-    analytics.setCurrentScreen(screenName: "Home Screen");
+    await analytics.logLogin();
+    await analytics.setCurrentScreen(screenName: "Home Screen");
 
     scrollController = ScrollController()
       ..addListener(() {
@@ -50,6 +54,7 @@ class HomeController extends GetxController {
       });
     Future.delayed(const Duration(seconds: 1), () {
       userId = box.read("userId");
+
       fetchAllBooms();
     });
   }
@@ -153,40 +158,79 @@ class HomeController extends GetxController {
   }
 
   fetchAllBooms() async {
-    EasyLoading.show(status: "Loading");
-    final res = await homeService.fetchBooms(0);
+    try {
+      EasyLoading.show(status: "Loading");
+      final res = await homeService.fetchBooms(0);
 
-    if (res.statusCode == 200) {
-      videoPlayerControllers.clear();
-      isLoading = false;
+      if (res.statusCode == 200) {
+        videoPlayerControllers.clear();
+        isLoading = false;
 
-      // CustomSnackBar.showCustomSnackBar(
-      //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
-      allBooms = AllBooms.fromJson(jsonDecode(res.body));
-      totalPages = allBooms!.page?.limit ?? 0;
-      _homeBooms = allBooms!.booms;
+        // CustomSnackBar.showCustomSnackBar(
+        //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
+        allBooms = AllBooms.fromJson(jsonDecode(res.body));
+        totalPages = allBooms!.page?.limit ?? 0;
+        _homeBooms = allBooms!.booms;
 
-      // for (var item in videoPlayerControllers) {
-      //   await item.initialize().then((value) {
-      //     item.play();
-      //     item.setLooping(true);
-      //   });
-      // }
-      // for (var item in videoPlayerControllers) {
-      //   log("Data Source ${item.dataSource}");
-      // }
+        // for (var item in videoPlayerControllers) {
+        //   await item.initialize().then((value) {
+        //     item.play();
+        //     item.setLooping(true);
+        //   });
+        // }
+        // for (var item in videoPlayerControllers) {
+        //   log("Data Source ${item.dataSource}");
+        // }
 
-      EasyLoading.dismiss();
-      // getNetworkById(allBooms);
+        EasyLoading.dismiss();
+        // getNetworkById(allBooms);
 
-      // await initializeVideos();
+        // await initializeVideos();
+        await fetchTrendingBoxes();
+        update();
+      } else {
+        isLoading = false;
+        CustomSnackBar.showCustomSnackBar(
+            errorList: ["Could not fetch Booms"],
+            msg: ["Error"],
+            isError: true);
+        EasyLoading.dismiss();
+      }
+    } on SocketException catch (_) {
+      CustomSnackBar().networkErrorSnack(onInit);
+    }
+  }
 
-      update();
-    } else {
-      isLoading = false;
-      CustomSnackBar.showCustomSnackBar(
-          errorList: ["Could not fetch Booms"], msg: ["Error"], isError: true);
-      EasyLoading.dismiss();
+  //Function to fetch BoomBoxes from Three accounts
+  fetchTrendingBoxes() async {
+    try {
+      // TODO: Remove Renny's UserId
+      // TODO: Destructure the BoomBoxModel to only have one List of BoomBoxes
+
+      List<String> trendingIds = [
+        "63863cd5ae4f58f9eee7fb22",
+        "6386b0beae4f58f9eee8376b",
+        "642e8a69c3feef8b61b7b78b",
+        "64337275c3feef8b61c3c301",
+      ];
+      for (String item in trendingIds) {
+        final res = await homeService.fetchBoomBoxes(item);
+
+        if (res.statusCode == 200) {
+          for (var item
+              in BoomBoxModel.fromJson(jsonDecode(res.body)).boomBoxes) {
+            boomBoxes.add(item);
+          }
+
+          update();
+          //Handle success
+        } else {
+          Get.snackbar("Error", "Could not fetch Trending BoomBoxes");
+          //Handle errors
+        }
+      }
+    } on SocketException catch (_) {
+      CustomSnackBar().networkErrorSnack(fetchTrendingBoxes());
     }
   }
 

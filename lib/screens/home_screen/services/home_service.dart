@@ -40,4 +40,18 @@ class HomeService {
 
     return res;
   }
+
+  Future<http.Response> fetchBoomBoxes(String userId) async {
+    final token = box.read("token");
+    final res = await http.get(
+      Uri.parse("${baseURL}boom-box-by-user/$userId"),
+      headers: {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        "Authorization": token
+      },
+    );
+
+    return res;
+  }
 }

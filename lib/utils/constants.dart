@@ -17,7 +17,7 @@ const String commentIconUrl = "";
 const String bnbTokenAddress = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
 const String maticTokenAddress = "0x67e78d7fBEB18b16b8ca2e1EC04F1E2d05AF174F";
 const String bnbMarketAddress = "0x67e78d7fbeb18b16b8ca2e1ec04f1e2d05af174f";
-const String maticMarketAddress = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
+const String maticMarketAddress = "0x46F0B35D57dbB7b1e971589350F7cFf5378Fd435";
 
 //Mainnet RPC URLs
 

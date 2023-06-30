@@ -1016,7 +1016,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         height:
                                             getProportionateScreenHeight(20),
                                         width: getProportionateScreenWidth(20),
-                                        imageUrl: boom.boom.network!.imageUrl,
+                                        imageUrl: boom.boom.network!.imageUrl ==
+                                                "https://polygon.technology/favicon-32x32.png"
+                                            ? "http://boomhost.xyz/backend/LOGOS/polygon-matic-logo.png"
+                                            : boom.boom.network!.imageUrl,
                                         useOldImageOnUrlChange: true,
                                         errorWidget: (context, url, error) =>
                                             Image.asset(
@@ -1119,40 +1122,39 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                 children: [
                                   Column(
                                     children: [
-                                      Obx(() => LikeButton(
-                                            animationDuration: const Duration(
-                                                milliseconds: 500),
-                                            size: getProportionateScreenHeight(
-                                                28),
-                                            bubblesColor: const BubblesColor(
-                                                dotPrimaryColor: kPrimaryColor,
-                                                dotSecondaryColor:
-                                                    kSecondaryColor),
-                                            isLiked:
-                                                boomController.isLikes.value,
-                                            onTap: (isLiked) async {
-                                              boomController.reactToBoom(
-                                                  "likes", boomId, boom);
+                                      Obx(
+                                        () => LikeButton(
+                                          animationDuration:
+                                              const Duration(milliseconds: 500),
+                                          size:
+                                              getProportionateScreenHeight(28),
+                                          bubblesColor: const BubblesColor(
+                                              dotPrimaryColor: kPrimaryColor,
+                                              dotSecondaryColor:
+                                                  kSecondaryColor),
+                                          isLiked: boomController.isLikes.value,
+                                          onTap: (isLiked) async {
+                                            boomController.reactToBoom(
+                                                "likes", boomId, boom);
 
-                                              return boomController
-                                                  .isLikes.value;
-                                            },
-                                            likeCount:
-                                                boomController.likesCount,
-                                            countPostion: CountPostion.bottom,
-                                            likeBuilder: ((isLiked) {
-                                              return CachedNetworkImage(
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        26),
-                                                color:
-                                                    boomController.isLikes.value
-                                                        ? kPrimaryColor
-                                                        : Colors.black,
-                                                imageUrl: likeIconUrl,
-                                              );
-                                            }),
-                                          )),
+                                            return boomController.isLikes.value;
+                                          },
+                                          likeCount: boomController.likesCount,
+                                          countPostion: CountPostion.bottom,
+                                          likeBuilder: ((isLiked) {
+                                            return CachedNetworkImage(
+                                              height:
+                                                  getProportionateScreenHeight(
+                                                      26),
+                                              color:
+                                                  boomController.isLikes.value
+                                                      ? kPrimaryColor
+                                                      : Colors.black,
+                                              imageUrl: likeIconUrl,
+                                            );
+                                          }),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                   Column(

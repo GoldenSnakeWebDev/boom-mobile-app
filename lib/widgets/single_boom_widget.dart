@@ -57,7 +57,10 @@ class SingleBoomWidget extends StatelessWidget {
                   const Spacer(),
                   CachedNetworkImage(
                     height: getProportionateScreenHeight(20),
-                    imageUrl: post.network.imageUrl!,
+                    imageUrl: post.network.imageUrl ==
+                            "https://polygon.technology/favicon-32x32.png"
+                        ? "http://boomhost.xyz/backend/LOGOS/polygon-matic-logo.png"
+                        : post.network.imageUrl!,
                     errorWidget: (context, url, error) => Image.asset(
                       'assets/icons/${post.network.symbol!.toLowerCase()}.png',
                       height: getProportionateScreenHeight(20),
