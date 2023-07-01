@@ -4,6 +4,7 @@ import 'package:boom_mobile/screens/syn_bank/syn_bank_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
@@ -46,12 +47,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               width: 10,
             ),
             leadingWidget ??
-                const Image(
+                CachedNetworkImage(
+                  imageUrl: boomIconUrl,
                   width: 45,
                   height: 40,
-                  image: NetworkImage(
-                    boomIconUrl,
-                  ),
                 ),
             const SizedBox(
               width: 10,

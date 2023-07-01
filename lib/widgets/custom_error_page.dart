@@ -1,5 +1,7 @@
+import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomErrorPage extends StatelessWidget {
   final FlutterErrorDetails? flutterErrorDetails;
@@ -8,6 +10,14 @@ class CustomErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        leadingWidget: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_outlined),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

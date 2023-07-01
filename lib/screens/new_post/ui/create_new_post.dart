@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:slide_action/slide_action.dart';
 import 'package:video_player/video_player.dart';
 
 class CreateNewPost extends GetView<NewPostController> {
@@ -1249,10 +1250,220 @@ class CreateNewPost extends GetView<NewPostController> {
                     SizedBox(
                       height: getProportionateScreenHeight(20),
                     ),
+                    // Center(
+                    //   child: GestureDetector(
+                    //     onTap: () {
+                    //       showModalBottomSheet(
+                    //         context: context,
+                    //         isScrollControlled: true,
+                    //         shape: const RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.only(
+                    //             topLeft: Radius.circular(20),
+                    //             topRight: Radius.circular(20),
+                    //           ),
+                    //         ),
+                    //         builder: (context) {
+                    //           return Container(
+                    //             height: SizeConfig.screenHeight * 0.2,
+                    //             width: SizeConfig.screenWidth,
+                    //             margin: EdgeInsets.only(
+                    //               bottom:
+                    //                   MediaQuery.of(context).viewInsets.bottom,
+                    //             ),
+                    //             decoration: const BoxDecoration(
+                    //               color: Colors.white,
+                    //               borderRadius: BorderRadius.only(
+                    //                 topLeft: Radius.circular(20),
+                    //                 topRight: Radius.circular(20),
+                    //               ),
+                    //             ),
+                    //             child: Padding(
+                    //               padding: const EdgeInsets.all(8.0),
+                    //               child: Column(
+                    //                 children: [
+                    //                   Text(
+                    //                     "Mint Your NFT Via: ",
+                    //                     style: TextStyle(
+                    //                       fontWeight: FontWeight.w800,
+                    //                       fontSize:
+                    //                           getProportionateScreenHeight(15),
+                    //                     ),
+                    //                   ),
+                    //                   SizedBox(
+                    //                     height:
+                    //                         getProportionateScreenHeight(20),
+                    //                   ),
+                    //                   GestureDetector(
+                    //                     onTap: () {
+                    //                       Get.back();
+                    //                       controller.uploadNewBoom(false);
+                    //                     },
+                    //                     child: Container(
+                    //                       margin:
+                    //                           const EdgeInsets.only(bottom: 20),
+                    //                       width: SizeConfig.screenWidth * 0.8,
+                    //                       height:
+                    //                           getProportionateScreenHeight(35),
+                    //                       decoration: BoxDecoration(
+                    //                         color: Colors.grey[200],
+                    //                         borderRadius:
+                    //                             BorderRadius.circular(10),
+                    //                       ),
+                    //                       alignment: Alignment.center,
+                    //                       child: Text(
+                    //                         "Off-Chain Minting",
+                    //                         style: TextStyle(
+                    //                             fontSize:
+                    //                                 getProportionateScreenHeight(
+                    //                                     16)),
+                    //                       ),
+                    //                     ),
+                    //                   ),
+                    //                   GestureDetector(
+                    //                     onTap: () async {
+                    //                       Get.back();
+                    //                       Future.delayed(
+                    //                           const Duration(seconds: 0), () {
+                    //                         showDialog(
+                    //                           context: context,
+                    //                           builder: (BuildContext context) {
+                    //                             return AlertDialog(
+                    //                               title: const Text(
+                    //                                   "Connect Wallet"),
+                    //                               content: const Text(
+                    //                                   "Please make sure you have selected the correct network in your wallet provider. "),
+                    //                               actions: [
+                    //                                 TextButton(
+                    //                                   onPressed: () {
+                    //                                     Navigator.pop(context);
+                    //                                   },
+                    //                                   child:
+                    //                                       const Text("Cancel"),
+                    //                                 ),
+                    //                                 TextButton(
+                    //                                   onPressed: () async {
+                    //                                     Get.back();
+                    //                                     await controller
+                    //                                         .uploadNewBoom(
+                    //                                             true);
+                    //                                   },
+                    //                                   child:
+                    //                                       const Text("Proceed"),
+                    //                                 ),
+                    //                               ],
+                    //                             );
+                    //                           },
+                    //                         );
+                    //                       });
+                    //                     },
+                    //                     child: Container(
+                    //                       margin:
+                    //                           const EdgeInsets.only(bottom: 10),
+                    //                       width: SizeConfig.screenWidth * 0.8,
+                    //                       height:
+                    //                           getProportionateScreenHeight(35),
+                    //                       decoration: BoxDecoration(
+                    //                         color: Colors.grey[200],
+                    //                         borderRadius:
+                    //                             BorderRadius.circular(10),
+                    //                       ),
+                    //                       alignment: Alignment.center,
+                    //                       child: Text(
+                    //                         "On-Chain Minting",
+                    //                         style: TextStyle(
+                    //                             fontSize:
+                    //                                 getProportionateScreenHeight(
+                    //                                     16)),
+                    //                       ),
+                    //                     ),
+                    //                   )
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           );
+                    //         },
+                    //       );
+                    //     },
+                    //     child: Container(
+                    //       height: getProportionateScreenHeight(40),
+                    //       decoration: BoxDecoration(
+                    //         color: Colors.white,
+                    //         borderRadius: BorderRadius.circular(16),
+                    //         boxShadow: [
+                    //           BoxShadow(
+                    //             color: Colors.grey.withOpacity(0.2),
+                    //             spreadRadius: 1,
+                    //             blurRadius: 2,
+                    //             offset: const Offset(4, 8),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    //         child: Text(
+                    //           "Create Post",
+                    //           style: TextStyle(
+                    //             fontSize: getProportionateScreenHeight(16),
+                    //             fontWeight: FontWeight.w800,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: getProportionateScreenHeight(20),
+                    // ),
                     Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
+                      child: SizedBox(
+                        width: SizeConfig.screenWidth * 0.85,
+                        child: SlideAction(
+                          trackBuilder: (context, state) {
+                            return Container(
+                              height: getProportionateScreenHeight(40),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 1,
+                                    blurRadius: 2,
+                                    offset: const Offset(4, 8),
+                                  ),
+                                ],
+                              ),
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                                child: Text(
+                                  "Slide to Create Post",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenHeight(16),
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          thumbBuilder: (context, state) {
+                            return Container(
+                              margin: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                          action: () async {
+                            showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               shape: const RoundedRectangleBorder(
@@ -1386,32 +1597,9 @@ class CreateNewPost extends GetView<NewPostController> {
                                     ),
                                   ),
                                 );
-                              });
-                        },
-                        child: Container(
-                          height: getProportionateScreenHeight(40),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: const Offset(4, 8),
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                            child: Text(
-                              "Create Post",
-                              style: TextStyle(
-                                fontSize: getProportionateScreenHeight(16),
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),
