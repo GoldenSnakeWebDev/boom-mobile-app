@@ -274,6 +274,9 @@ class FloatingActionWidget extends StatelessWidget {
       child: CachedNetworkImage(
         height: getProportionateScreenHeight(20),
         imageUrl: imageUrl,
+        errorWidget: (context, url, error) => Image.asset(
+          "assets/icons/boom-logo.jpg",
+        ),
       ),
     );
   }

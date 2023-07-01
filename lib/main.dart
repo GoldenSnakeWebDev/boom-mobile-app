@@ -17,8 +17,6 @@ import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_update/in_app_update.dart';
-import 'package:magic_sdk/magic_sdk.dart';
-import 'package:magic_sdk/modules/web3/eth_network.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -56,9 +54,11 @@ void main() async {
     await Permission.notification.request();
   }
 
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  OneSignal.shared.setAppId(oneSignalAppId);
-  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+  await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  await OneSignal.shared.setAppId(oneSignalAppId);
+  await OneSignal.shared
+      .promptUserForPushNotificationPermission()
+      .then((accepted) {
     log("User has accpeted notifications: $accepted");
   });
 
@@ -76,16 +76,15 @@ void main() async {
 
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-  analytics.logAppOpen();
+  await analytics.logAppOpen();
 
   // Uncomment this line to disable screenshotting due to security policy
   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-  GetStorage.init();
+  await GetStorage.init();
   configureLoader();
-  runApp(const MyApp());
-
-  Magic.instance =
-      Magic.eth("pk_live_CFADDC806E6BF94A", network: EthNetwork.goerli);
+  runApp(
+    const MyApp(),
+  );
 }
 
 configureLoader() {
