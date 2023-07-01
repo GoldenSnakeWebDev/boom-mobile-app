@@ -80,12 +80,12 @@ class NewPostController extends GetxController {
 
   // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
 
-  int chainId = 97;
-  String smartContractAddress = bnbTestNetToken;
-  String marketPlaceAddress = bnbTestNetMarket;
+  int chainId = 56;
+  String smartContractAddress = bnbTokenAddress;
+  String marketPlaceAddress = bnbMarketAddress;
 
-  // List<int> chainIds = [56, 137, 65];
-  List<int> chainIds = [97, 8001, 65];
+  List<int> chainIds = [56, 137, 65];
+  // List<int> chainIds = [97, 8001, 65];
 
   // final web3Client = Web3Client(
   //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
@@ -105,7 +105,7 @@ class NewPostController extends GetxController {
     selectedNetwork = networkModel!.networks![0].symbol;
     selectedNetworkModel = networkModel!.networks![0];
     client = Web3Client(
-      bnbTestnetRPC,
+      bnbMainnetRPC,
       http.Client(),
     );
     networks.clear();
@@ -115,8 +115,6 @@ class NewPostController extends GetxController {
     getCryptoPrice(selectedNetworkModel!.symbol!);
     // image = null;
     // pickedImage = null;
-
-    log("Ig Post ${igController.selectedIgMedia?.id}");
   }
 
   // Handle changing of selected network/crypto
@@ -129,17 +127,17 @@ class NewPostController extends GetxController {
         switch (value) {
           case "MATIC":
             chainId = chainIds[1];
-            smartContractAddress = maticTestNetToken;
+            smartContractAddress = maticTokenAddress;
             client = Web3Client(
-              maticTestnetRPC,
+              maticMainnetRPC,
               http.Client(),
             );
             break;
           case "BNB":
             chainId = chainIds[0];
-            smartContractAddress = bnbTestNetToken;
+            smartContractAddress = bnbTokenAddress;
             client = Web3Client(
-              bnbTestnetRPC,
+              bnbMainnetRPC,
               http.Client(),
             );
             break;
@@ -552,6 +550,8 @@ class NewPostController extends GetxController {
     final res = await uploadService.uploadPost(newPostModel);
 
     if (res.statusCode == 201) {
+      //TODO: Add function to update the Post with NFTID
+
       EasyLoading.dismiss();
       CustomSnackBar.showCustomSnackBar(
           errorList: [""], msg: [""], isError: false);
@@ -739,7 +739,7 @@ class NewPostController extends GetxController {
                   EasyLoading.dismiss();
                   EasyLoading.showSuccess(
                       "Boom has been Listed on Marketplace");
-                  // await postBoomNFT(newPostModel);
+                  await postBoomNFT(newPostModel);
                 }
               } catch (e) {
                 log("Error creating listing $e");
