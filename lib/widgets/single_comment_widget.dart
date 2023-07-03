@@ -72,7 +72,7 @@ class SingleComment extends StatelessWidget {
                           Expanded(
                             flex: 2,
                             child: Text(
-                              "!$userName",
+                              userName,
                               style: TextStyle(
                                 fontSize: getProportionateScreenHeight(14),
                                 fontWeight: FontWeight.w800,
