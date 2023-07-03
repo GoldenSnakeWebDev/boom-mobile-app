@@ -1418,6 +1418,9 @@ class CreateNewPost extends GetView<NewPostController> {
                       child: SizedBox(
                         width: SizeConfig.screenWidth * 0.85,
                         child: SlideAction(
+                          snapAnimationDuration:
+                              const Duration(milliseconds: 100),
+                          actionSnapThreshold: 0.35,
                           trackBuilder: (context, state) {
                             return Container(
                               height: getProportionateScreenHeight(40),

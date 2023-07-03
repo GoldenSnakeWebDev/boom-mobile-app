@@ -482,6 +482,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 : Expanded(
                                     child: CustomScrollView(
+                                      key: const PageStorageKey("homeBooms"),
                                     controller: controller.scrollController,
                                     slivers: [
                                       const HeaderLocator.sliver(),
@@ -497,6 +498,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                           return _IndexScope(
                                             index: index,
+                                            
                                             child: ScrollEffect(
                                               onGenerateVisualEffect:
                                                   (effect, phase) {
