@@ -25,6 +25,7 @@ import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SingleBoomPage extends StatefulWidget {
   const SingleBoomPage({
@@ -205,7 +206,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                       5),
                                             ),
                                             Text(
-                                              "!${boom.boom.user!.username}",
+                                              "${boom.boom.user!.username}",
                                               style: TextStyle(
                                                 fontSize:
                                                     getProportionateScreenHeight(
@@ -1044,7 +1045,32 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             ),
                                             items: [
                                               PopupMenuItem(
-                                                onTap: () {},
+                                                onTap: () async {
+                                                  switch (boom
+                                                      .boom.network!.symbol) {
+                                                    case "BNB":
+                                                      await launchUrl(
+                                                          Uri.parse(
+                                                            "https://bscscan.com/address/$bnbTokenAddress",
+                                                          ),
+                                                          mode: LaunchMode
+                                                              .externalApplication,
+                                                          webOnlyWindowName:
+                                                              "Binance Explorer");
+                                                      break;
+                                                    case "MATIC":
+                                                      await launchUrl(
+                                                          Uri.parse(
+                                                            "https://polygonscan.com/address/$maticTokenAddress",
+                                                          ),
+                                                          mode: LaunchMode
+                                                              .externalApplication,
+                                                          webOnlyWindowName:
+                                                              "Polygon Explorer");
+                                                      break;
+                                                    default:
+                                                  }
+                                                },
                                                 child: Text(
                                                   "View Contract",
                                                   style: TextStyle(

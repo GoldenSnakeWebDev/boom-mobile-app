@@ -215,7 +215,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      user?.username ?? "username",
+                                                      user?.username ??
+                                                          "username",
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -351,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     child: Container(
                                                       height:
                                                           getProportionateScreenHeight(
-                                                              145),
+                                                              125),
                                                       width:
                                                           getProportionateScreenWidth(
                                                               30),
@@ -362,7 +363,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       child: Column(
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceEvenly,
+                                                                .spaceBetween,
                                                         children: [
                                                           GestureDetector(
                                                             onTap: () async {
@@ -496,7 +497,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ),
                                                   Positioned(
                                                     top: 95,
-                                                    left: 15,
+                                                    left: 10,
                                                     child: SizedBox(
                                                       width:
                                                           getProportionateScreenWidth(
@@ -607,7 +608,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ),
                                                   Positioned(
                                                     top: 150,
-                                                    left: 110,
+                                                    left: 100,
                                                     child: SizedBox(
                                                       width:
                                                           getProportionateScreenWidth(
@@ -700,12 +701,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 GestureDetector(
                                                                   onTap: () {
                                                                     Get.to(
-                                                                        () =>
-                                                                            const FansScreen(),
-                                                                        arguments: [
-                                                                          user.friends!,
-                                                                          "Frens"
-                                                                        ]);
+                                                                      () =>
+                                                                          const FansScreen(),
+                                                                      arguments: [
+                                                                        user.friends!,
+                                                                        "Frens"
+                                                                      ],
+                                                                    );
                                                                   },
                                                                   child: Column(
                                                                     children: [
@@ -758,17 +760,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     ),
                                                                   )
                                                                 : ReadMoreText(
-                                                                    user.bio!,
-                                                                    numLines: 2,
+                                                                    "Some Text I am using to increasse the length of the bio text Some Text I am using to increasse the length of the bio text ${user.bio!}",
+                                                                    numLines: 4,
                                                                     onReadMoreClicked:
                                                                         () {
-                                                                    controller
-                                                                        .changeFontSize();
-                                                                  },
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            controller
-                                                                                .bioFontSize),
+                                                                      controller
+                                                                          .changeFontSize();
+                                                                    },
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          controller
+                                                                              .bioFontSize,
+                                                                    ),
                                                                     readMoreIcon:
                                                                         const SizedBox(),
                                                                     readLessIcon:
@@ -776,7 +780,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     readMoreText:
                                                                         "See More",
                                                                     readLessText:
-                                                                        "Read Less")
+                                                                        "Read Less",
+                                                                  )
 
                                                             // Text(
                                                             //     user.bio!,

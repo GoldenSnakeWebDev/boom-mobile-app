@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "312671216819",
-    "project_id": "boom-social-1e158",
-    "storage_bucket": "boom-social-1e158.appspot.com"
+    "project_number": "818486695038",
+    "project_id": "boom-official",
+    "storage_bucket": "boom-official.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:312671216819:android:2bba7dc075370b1a23fcc6",
+        "mobilesdk_app_id": "1:818486695038:android:14782f7ebf8e395778f42f",
         "android_client_info": {
           "package_name": "dev.boom.boom_mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "312671216819-aqsrrve6vk2tjc9r8gkthn9ge6dccngu.apps.googleusercontent.com",
+          "client_id": "818486695038-oif8pm79m5sublpfg8kfmk345el73acb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB2JXE4qsFfU44AzT53tB62qldgnMv_efQ"
+          "current_key": "AIzaSyBL1C6DeH6BX-jpGTcpPn5eg7ksBmJRXo4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "312671216819-aqsrrve6vk2tjc9r8gkthn9ge6dccngu.apps.googleusercontent.com",
+              "client_id": "818486695038-oif8pm79m5sublpfg8kfmk345el73acb.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "312671216819-gpv67e8ctu4uub2n9doc0eva4q7lp97o.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.boomMobile"
-              }
             }
           ]
         }
