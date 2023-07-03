@@ -229,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: camera
-      sha256: "309b823e61f15ff6b5b2e4c0ff2e1512ea661cad5355f71fc581e510ae5b26bb"
+      sha256: ebebead3d5ec3d148249331d751d462d7e8c98102b8830a9b45ec96a2bd4333f
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.5"
+    version: "0.10.5+2"
   camera_android:
     dependency: transitive
     description:
@@ -1860,6 +1860,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.5"
+  visual_effect:
+    dependency: "direct main"
+    description:
+      name: visual_effect
+      sha256: d9165f8d2b7593fa409bdaeef0b017f9e8074d3f6cba296c217ca116841aa2ac
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   vm_service:
     dependency: transitive
     description:
@@ -1997,5 +2005,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.0.2 <4.0.0"
+  dart: ">=3.0.5 <4.0.0"
   flutter: ">=3.7.0"

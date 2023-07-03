@@ -54,9 +54,10 @@ jobs:
     
     # Build :D 
     - name: Build APK
-      run: flutter build apk
+      run: flutter build apk --debug
+      
     - name: Build APPBUNDLE
-      run: flutter build appbundle --release
+      run: flutter build appbundle --debug
     
     # Upload generated apk to the artifacts.
     # - uses: actions/upload-artifact@v1

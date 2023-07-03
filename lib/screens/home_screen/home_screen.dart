@@ -13,6 +13,25 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:visual_effect/visual_effect.dart';
+
+class _IndexScope extends InheritedWidget {
+  const _IndexScope({
+    required this.index,
+    required super.child,
+  });
+
+  final int index;
+  static int of(BuildContext context) {
+    final scope = context.dependOnInheritedWidgetOfExactType<_IndexScope>();
+    return scope?.index ?? 0;
+  }
+
+  @override
+  bool updateShouldNotify(_IndexScope oldWidget) {
+    return oldWidget.index != index;
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -476,11 +495,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                               controller.getSingleBoomDetails(
                                                   controller.homeBooms!);
 
-                                          return SingleBoomWidget(
-                                            post: boomPost[index],
-                                            controller: controller,
-                                            boomId: controller
-                                                .homeBooms![index].id!,
+                                          return _IndexScope(
+                                            index: index,
+                                            child: ScrollEffect(
+                                              onGenerateVisualEffect:
+                                                  (effect, phase) {
+                                                return effect
+                                                    .grayscale(phase
+                                                        .leadingLerp(to: 0.5))
+                                                    .scale(
+                                                      phase.isLeading
+                                                          ? phase.leadingLerp(
+                                                              from: 1, to: 0.9)
+                                                          : 1,
+                                                      anchor:
+                                                          Alignment.topCenter,
+                                                    )
+                                                    .translate(
+                                                        y: effect.childSize
+                                                                .height *
+                                                            phase.leading);
+                                              },
+                                              child: SingleBoomWidget(
+                                                post: boomPost[index],
+                                                controller: controller,
+                                                boomId: controller
+                                                    .homeBooms![index].id!,
+                                              ),
+                                            ),
                                           );
                                         },
                                         // delegate: SliverChildBuilderDelegate (
