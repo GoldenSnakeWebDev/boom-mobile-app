@@ -246,20 +246,8 @@ class NewPostController extends GetxController {
   // Importing NFT from an EOA Wallet.
 
   fetchNFT(String addy) async {
-    log("Starting on connection");
-
-    // Web3Client client = Web3Client(
-    //   "https://matic-testnet-archive-rpc.bwarelabs.com",
-    //   http.Client(),
-    // );
-    log("Account $addy");
     EthereumAddress account = EthereumAddress.fromHex(addy);
 
-    // var addy = await connectWallet();
-    // walletAddress = addy.toString();
-
-    // log("Wallet Address $walletAddress");
-    // // final abiCode = await abiFile.readAsString();
     EasyLoading.show(status: 'loading...');
     var contract = DeployedContract(
       ContractAbi.fromJson(polygonSmartContract, 'MFNFT'),
@@ -366,8 +354,9 @@ class NewPostController extends GetxController {
     late WalletConnectEthereumCredentials credentials;
 
     final connector = WalletConnect(
-      bridge: "https://bridge.walletconnect.org",
+      bridge: "wss://relay.walletconnect.com",
       // uri: rpc,
+      clientId: "748a4dd9654a1f5291e7ff9714f63ac7",
       clientMeta: const PeerMeta(
         name: "Boom",
         description: "Boom",

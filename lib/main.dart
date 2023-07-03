@@ -112,7 +112,6 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.dark,
       // darkTheme: ThemeData.dark(useMaterial3: true),
       theme: ThemeData(
-        useMaterial3: true,
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
