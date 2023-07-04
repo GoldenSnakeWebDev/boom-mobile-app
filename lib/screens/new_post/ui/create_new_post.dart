@@ -1561,9 +1561,12 @@ class CreateNewPost extends GetView<NewPostController> {
                                                       TextButton(
                                                         onPressed: () async {
                                                           Get.back();
+                                                          // await controller
+                                                          //     .uploadNewBoom(
+                                                          //         true);
+
                                                           await controller
-                                                              .uploadNewBoom(
-                                                                  true);
+                                                              .connectWalletNew();
                                                         },
                                                         child: const Text(
                                                             "Proceed"),

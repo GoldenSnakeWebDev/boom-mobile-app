@@ -26,6 +26,4 @@ const String polygonTestApiKey = "369IPUUUS5ZZBYQMAZ5G3V1ZK7MHJTVF25";
 
 const String oneSignalAppId = "d0910db3-e8ff-4418-9365-1a0a494d9615";
 
-const String firebaseAPIKey = "AIzaSyB2JXE4qsFfU44AzT53tB62qldgnMv_efQ";
-
-const String firebaseIosAPI = "AIzaSyA8HJ1BJ6Z77JGYL5-4Rh0CspAMq7ccMMc";
+const String WALLET_CONNECT_ID = "748a4dd9654a1f5291e7ff9714f63ac7";

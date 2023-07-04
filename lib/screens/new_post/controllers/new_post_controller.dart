@@ -16,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -34,6 +35,8 @@ import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/erc721.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
+
+import '../../../secret.dart';
 
 enum POST_TYPE { image, video, text }
 
@@ -785,6 +788,94 @@ class NewPostController extends GetxController {
         listingType: "Direct" ;
         }
      */
+  }
+
+  /// New Wallet Connect Integration Test using WalletConnectFlutterV2.
+  /// More documentation can be found here: https://github.com/WalletConnect/WalletConnectFlutterV2
+
+  connectWalletNew() async {
+    log("Starting Connection");
+    Web3App wcClient = await Web3App.createInstance(
+      projectId: WALLET_CONNECT_ID,
+      metadata: const PairingMetadata(
+        name: "Boom Social",
+        description: "description",
+        url: "https://walletconnect.com",
+        icons: [],
+      ),
+    );
+
+    wcClient.onSessionPing.subscribe((args) {
+      log('Topic: ${args!.topic}');
+    });
+
+    wcClient.onSessionEvent.subscribe((args) {
+      log('Topic: ${args!.topic}\nEvent Name: ${args.name}\nEvent Data: ${args.data}');
+    });
+
+    ConnectResponse resp = await wcClient.connect(
+      requiredNamespaces: {
+        'eip4361': const RequiredNamespace(
+          chains: ['eip4361:97'],
+          methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
+          events: [],
+        ),
+      },
+      optionalNamespaces: {
+        'eip155': const RequiredNamespace(
+          chains: [
+            'eip155:1',
+            'eip155:137',
+            'eip155:97',
+            'eip155:8001',
+          ],
+          methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
+          events: [],
+        ),
+      },
+    );
+
+    log("Gotten Connection");
+
+    Uri? uri = resp.uri;
+
+    log("The URI $uri");
+
+    wcClient.onSessionConnect.subscribe((SessionConnect? connect) {
+      log(connect?.session.peer.publicKey ?? "No Public Key Gotten");
+    });
+
+    // await launchUrlString(uri.toString());
+
+    final SessionData sessionData = await resp.session.future;
+
+    final session = sessionData.peer.publicKey;
+    log("Session Data $session");
+
+    final AuthRequestResponse authReq = await wcClient.requestAuth(
+      params: AuthRequestParams(
+          chainId: 'eip4361:97',
+          domain: 'localhost:3000',
+          aud: 'http://localhost:3000/login',
+          statement: 'Sign in with your wallet'),
+      pairingTopic: resp.pairingTopic,
+    );
+
+    log("Auth Reuest ${authReq.id}");
+
+    final AuthResponse authResponse = await authReq.completer.future;
+    if (authResponse != null) {
+      final walletAddress =
+          AddressUtils.getDidAddress(authResponse.result!.p.iss);
+
+      log("The Address $walletAddress");
+    } else {
+      final WalletConnectError? error = authResponse.error;
+      final JsonRpcError? jsonError = authResponse.jsonRpcError;
+
+      log("WalletConnectError ${error?.message} Code: ${error?.code}");
+      log("JSONRPCErrpr ${jsonError?.message} Code: ${jsonError?.code}");
+    }
   }
 }
 
