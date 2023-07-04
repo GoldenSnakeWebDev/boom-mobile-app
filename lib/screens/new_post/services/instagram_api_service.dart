@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/screens/new_post/models/insta_media.dart';
-import 'package:boom_mobile/secret.dart';
+import 'package:boom_mobile/secrets.dart';
 import 'package:http/http.dart' as http;
 
 class InstagramService {

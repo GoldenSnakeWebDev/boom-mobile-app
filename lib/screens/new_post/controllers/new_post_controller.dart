@@ -36,7 +36,7 @@ import 'package:boom_mobile/utils/erc721.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 
-import '../../../secret.dart';
+import '../../../secrets.dart';
 
 enum POST_TYPE { image, video, text }
 
