@@ -1418,6 +1418,9 @@ class CreateNewPost extends GetView<NewPostController> {
                       child: SizedBox(
                         width: SizeConfig.screenWidth * 0.85,
                         child: SlideAction(
+                          snapAnimationDuration:
+                              const Duration(milliseconds: 100),
+                          actionSnapThreshold: 0.35,
                           trackBuilder: (context, state) {
                             return Container(
                               height: getProportionateScreenHeight(40),
@@ -1558,9 +1561,12 @@ class CreateNewPost extends GetView<NewPostController> {
                                                       TextButton(
                                                         onPressed: () async {
                                                           Get.back();
+                                                          // await controller
+                                                          //     .uploadNewBoom(
+                                                          //         true);
+
                                                           await controller
-                                                              .uploadNewBoom(
-                                                                  true);
+                                                              .connectWalletNew();
                                                         },
                                                         child: const Text(
                                                             "Proceed"),

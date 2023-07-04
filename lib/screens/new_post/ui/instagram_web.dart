@@ -1,5 +1,5 @@
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
-import 'package:boom_mobile/secret.dart';
+import 'package:boom_mobile/secrets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin_ios_android/flutter_webview_plugin_ios_android.dart';
 import 'package:get/get.dart';

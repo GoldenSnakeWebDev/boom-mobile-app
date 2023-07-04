@@ -34,6 +34,7 @@ class SingleBoomWidget extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 30),
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: kContBgColor,

@@ -17,10 +17,10 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+69
+version: 1.0.0+71
 
 environment:
-  sdk: '>=3.0.2 <4.0.0'
+  sdk: '>=3.0.5 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -43,7 +43,7 @@ dependencies:
   #b
 
   #c
-  camera: ^0.10.3
+  camera: ^0.10.5+2
   cupertino_icons: ^1.0.2
   cached_network_image: ^3.2.2
   cached_video_player: ^2.0.3
@@ -132,6 +132,7 @@ dependencies:
   #v
   video_player: ^2.4.7
   video_thumbnail_imageview: ^0.0.5
+  visual_effect: ^0.0.2
 
   #w
   widget_and_text_animator: ^1.0.9
@@ -140,15 +141,11 @@ dependencies:
   walletconnect_dart: ^0.0.11
   web_socket_channel: ^2.2.0
   walletconnect_qrcode_modal_dart: ^0.4.2
-  
-  
-  
-  
+  wallet_connect_v2: ^1.0.5
+  walletconnect_flutter_v2: ^2.0.12
   
   # walletconnect_qrcode_modal_dart: ^0.4.1
-  
-  
-  
+ 
 dependency_overrides:
   flutter_inappwebview: 5.4.3
 dev_dependencies:

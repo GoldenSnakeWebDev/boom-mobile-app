@@ -71,6 +71,8 @@ android {
             storeFile file(keyStoreProperties['storeFile']) ? file(keyStoreProperties['storeFile']) : null
             storePassword keyStoreProperties['storePassword']
         }
+
+       
     }
 
     buildTypes {
@@ -81,6 +83,10 @@ android {
             // minifyEnabled true
             // useProguard true
             // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        
+        debug{
+            signingConfig signingConfigs.debug
         }
     }
 }

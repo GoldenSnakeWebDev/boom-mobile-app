@@ -607,7 +607,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     ),
                                                   ),
                                                   Positioned(
-                                                    top: 150,
+                                                    top: 147,
                                                     left: 100,
                                                     child: SizedBox(
                                                       width:
@@ -660,12 +660,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 GestureDetector(
                                                                   onTap: () {
                                                                     Get.to(
-                                                                        () =>
-                                                                            const FansScreen(),
-                                                                        arguments: [
-                                                                          user.funs!,
-                                                                          "Fans"
-                                                                        ]);
+                                                                      () =>
+                                                                          const FansScreen(),
+                                                                      arguments: [
+                                                                        user.funs!,
+                                                                        "Fans"
+                                                                      ],
+                                                                    );
                                                                   },
                                                                   child: Column(
                                                                     children: [
@@ -759,28 +760,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                       "You have no Bio yet please add one",
                                                                     ),
                                                                   )
-                                                                : ReadMoreText(
-                                                                    "Some Text I am using to increasse the length of the bio text Some Text I am using to increasse the length of the bio text ${user.bio!}",
-                                                                    numLines: 4,
-                                                                    onReadMoreClicked:
-                                                                        () {
-                                                                      controller
-                                                                          .changeFontSize();
-                                                                    },
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          controller
-                                                                              .bioFontSize,
+                                                                : Obx(
+                                                                    () =>
+                                                                        ReadMoreText(
+                                                                      user.bio!,
+                                                                      numLines:
+                                                                          4,
+                                                                      onReadMoreClicked:
+                                                                          () {
+                                                                        controller
+                                                                            .changeFontSize();
+                                                                      },
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize: double.parse(controller
+                                                                            .bioFontSize
+                                                                            .value
+                                                                            .toString()),
+                                                                      ),
+                                                                      readMoreIcon:
+                                                                          const SizedBox(),
+                                                                      readLessIcon:
+                                                                          const SizedBox(),
+                                                                      readMoreText:
+                                                                          "See More",
+                                                                      readLessText:
+                                                                          "Read Less",
                                                                     ),
-                                                                    readMoreIcon:
-                                                                        const SizedBox(),
-                                                                    readLessIcon:
-                                                                        const SizedBox(),
-                                                                    readMoreText:
-                                                                        "See More",
-                                                                    readLessText:
-                                                                        "Read Less",
                                                                   )
 
                                                             // Text(

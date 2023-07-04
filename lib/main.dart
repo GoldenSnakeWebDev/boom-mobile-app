@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/firebase_options.dart';
 import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
-import 'package:boom_mobile/secret.dart';
+import 'package:boom_mobile/secrets.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/widgets/custom_error_page.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -112,7 +112,6 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.dark,
       // darkTheme: ThemeData.dark(useMaterial3: true),
       theme: ThemeData(
-        useMaterial3: true,
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
