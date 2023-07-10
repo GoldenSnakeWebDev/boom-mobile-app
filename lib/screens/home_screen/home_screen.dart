@@ -1,15 +1,10 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
-import 'package:boom_mobile/screens/profile_screen/ui/single_boom_box_message.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
-import 'package:boom_mobile/utils/colors.dart';
-import 'package:boom_mobile/utils/constants.dart';
-import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/archery_header/archery_header.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -349,126 +344,126 @@ class _HomeScreenState extends State<HomeScreen> {
                             //     );
                             //   },
                             // ),
-                            SizedBox(
-                              height: getProportionateScreenHeight(80),
-                              width: SizeConfig.screenWidth,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  addAutomaticKeepAlives: true,
-                                  addSemanticIndexes: true,
-                                  key: const PageStorageKey("BoomBoxesKey"),
-                                  itemCount: controller.boomBoxes.length,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (controller
-                                                    .boomBoxes[index].user.id ==
-                                                controller.userId ||
-                                            controller.boomBoxes[index].members
-                                                    .indexWhere((element) =>
-                                                        element.user.id ==
-                                                        controller.userId) !=
-                                                -1) {
-                                          Get.to(
-                                            () => const SingleBoomBoxMessage(),
-                                            arguments: [
-                                              controller.boomBoxes[index],
-                                            ],
-                                          );
-                                        } else {
-                                          Get.snackbar(
-                                            "Error",
-                                            "Could not view BoomBox since you are not a memeber",
-                                            backgroundColor:
-                                                kredCancelTextColor,
-                                            colorText: Colors.white,
-                                          );
-                                        }
-                                      },
-                                      child: Container(
-                                        margin:
-                                            const EdgeInsets.only(right: 24),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              width:
-                                                  getProportionateScreenHeight(
-                                                      60),
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      60),
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                  color: kPrimaryColor,
-                                                  width: 1.5,
-                                                ),
-                                                // shape: BoxShape.circle,
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
-                                                child: Container(
-                                                  width:
-                                                      getProportionateScreenWidth(
-                                                          56),
-                                                  height:
-                                                      getProportionateScreenHeight(
-                                                          56),
-                                                  decoration: BoxDecoration(
-                                                    // shape: BoxShape.circle,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    image: DecorationImage(
-                                                      image: CachedNetworkImageProvider(
-                                                          controller
-                                                                      .boomBoxes[
-                                                                          index]
-                                                                      .imageUrl ==
-                                                                  ""
-                                                              ? boomIconUrl
-                                                              : controller
-                                                                  .boomBoxes[
-                                                                      index]
-                                                                  .imageUrl),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      5),
-                                            ),
-                                            Text(
-                                              controller.boomBoxes[index].label
-                                                          .length >
-                                                      12
-                                                  ? "${controller.boomBoxes[index].label.substring(0, 11)}..."
-                                                  : controller
-                                                      .boomBoxes[index].label,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    getProportionateScreenHeight(
-                                                        11),
-                                                fontWeight: FontWeight.w800,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                            Divider(
-                              color: Colors.grey.shade200,
-                              thickness: 1,
-                            ),
+                            // SizedBox(
+                            //   height: getProportionateScreenHeight(80),
+                            //   width: SizeConfig.screenWidth,
+                            //   child: ListView.builder(
+                            //       scrollDirection: Axis.horizontal,
+                            //       addAutomaticKeepAlives: true,
+                            //       addSemanticIndexes: true,
+                            //       key: const PageStorageKey("BoomBoxesKey"),
+                            //       itemCount: controller.boomBoxes.length,
+                            //       itemBuilder: (context, index) {
+                            //         return GestureDetector(
+                            //           onTap: () {
+                            //             if (controller
+                            //                         .boomBoxes[index].user.id ==
+                            //                     controller.userId ||
+                            //                 controller.boomBoxes[index].members
+                            //                         .indexWhere((element) =>
+                            //                             element.user.id ==
+                            //                             controller.userId) !=
+                            //                     -1) {
+                            //               Get.to(
+                            //                 () => const SingleBoomBoxMessage(),
+                            //                 arguments: [
+                            //                   controller.boomBoxes[index],
+                            //                 ],
+                            //               );
+                            //             } else {
+                            //               Get.snackbar(
+                            //                 "Error",
+                            //                 "Could not view BoomBox since you are not a memeber",
+                            //                 backgroundColor:
+                            //                     kredCancelTextColor,
+                            //                 colorText: Colors.white,
+                            //               );
+                            //             }
+                            //           },
+                            //           child: Container(
+                            //             margin:
+                            //                 const EdgeInsets.only(right: 24),
+                            //             child: Column(
+                            //               children: [
+                            //                 Container(
+                            //                   width:
+                            //                       getProportionateScreenHeight(
+                            //                           60),
+                            //                   height:
+                            //                       getProportionateScreenHeight(
+                            //                           60),
+                            //                   decoration: BoxDecoration(
+                            //                     borderRadius:
+                            //                         BorderRadius.circular(10),
+                            //                     border: Border.all(
+                            //                       color: kPrimaryColor,
+                            //                       width: 1.5,
+                            //                     ),
+                            //                     // shape: BoxShape.circle,
+                            //                   ),
+                            //                   child: Padding(
+                            //                     padding:
+                            //                         const EdgeInsets.all(2.0),
+                            //                     child: Container(
+                            //                       width:
+                            //                           getProportionateScreenWidth(
+                            //                               56),
+                            //                       height:
+                            //                           getProportionateScreenHeight(
+                            //                               56),
+                            //                       decoration: BoxDecoration(
+                            //                         // shape: BoxShape.circle,
+                            //                         borderRadius:
+                            //                             BorderRadius.circular(
+                            //                                 10),
+                            //                         image: DecorationImage(
+                            //                           image: CachedNetworkImageProvider(
+                            //                               controller
+                            //                                           .boomBoxes[
+                            //                                               index]
+                            //                                           .imageUrl ==
+                            //                                       ""
+                            //                                   ? boomIconUrl
+                            //                                   : controller
+                            //                                       .boomBoxes[
+                            //                                           index]
+                            //                                       .imageUrl),
+                            //                           fit: BoxFit.cover,
+                            //                         ),
+                            //                       ),
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //                 SizedBox(
+                            //                   height:
+                            //                       getProportionateScreenHeight(
+                            //                           5),
+                            //                 ),
+                            //                 Text(
+                            //                   controller.boomBoxes[index].label
+                            //                               .length >
+                            //                           12
+                            //                       ? "${controller.boomBoxes[index].label.substring(0, 11)}..."
+                            //                       : controller
+                            //                           .boomBoxes[index].label,
+                            //                   style: TextStyle(
+                            //                     fontSize:
+                            //                         getProportionateScreenHeight(
+                            //                             11),
+                            //                     fontWeight: FontWeight.w800,
+                            //                     color: Colors.black,
+                            //                   ),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         );
+                            //       }),
+                            // ),
+                            // Divider(
+                            //   color: Colors.grey.shade200,
+                            //   thickness: 1,
+                            // ),
                             (controller.homeBooms!.isEmpty)
                                 ? const Center(
                                     child: Text(
@@ -482,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 : Expanded(
                                     child: CustomScrollView(
-                                      key: const PageStorageKey("homeBooms"),
+                                    key: const PageStorageKey("homeBooms"),
                                     controller: controller.scrollController,
                                     slivers: [
                                       const HeaderLocator.sliver(),
@@ -498,7 +493,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                           return _IndexScope(
                                             index: index,
-                                            
                                             child: ScrollEffect(
                                               onGenerateVisualEffect:
                                                   (effect, phase) {

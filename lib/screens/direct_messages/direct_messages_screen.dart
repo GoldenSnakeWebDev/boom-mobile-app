@@ -51,14 +51,14 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-              Tab(
-                child: Text(
-                  "BoomBox Message",
-                  style: TextStyle(
-                      fontSize: getProportionateScreenHeight(14),
-                      fontWeight: FontWeight.bold),
-                ),
-              )
+              // Tab(
+              //   child: Text(
+              //     "BoomBox Message",
+              //     style: TextStyle(
+              //         fontSize: getProportionateScreenHeight(14),
+              //         fontWeight: FontWeight.bold),
+              //   ),
+              // )
             ],
           ),
         ),

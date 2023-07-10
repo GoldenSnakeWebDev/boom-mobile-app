@@ -6,7 +6,6 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -179,7 +178,7 @@ class SingleBoomWidget extends StatelessWidget {
                 height: getProportionateScreenHeight(15),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Column(
@@ -213,149 +212,149 @@ class SingleBoomWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LikeButton(
-                        animationDuration: const Duration(milliseconds: 600),
-                        size: getProportionateScreenHeight(22),
-                        bubblesColor: const BubblesColor(
-                            dotPrimaryColor: kPrimaryColor,
-                            dotSecondaryColor: kSecondaryColor),
-                        isLiked: post.isLoves,
-                        onTap: (isLiked) async {
-                          controller?.reactToBoom("loves", boomId, post.index);
-                          // controller.reactChange("love");
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     LikeButton(
+                  //       animationDuration: const Duration(milliseconds: 600),
+                  //       size: getProportionateScreenHeight(22),
+                  //       bubblesColor: const BubblesColor(
+                  //           dotPrimaryColor: kPrimaryColor,
+                  //           dotSecondaryColor: kSecondaryColor),
+                  //       isLiked: post.isLoves,
+                  //       onTap: (isLiked) async {
+                  //         controller?.reactToBoom("loves", boomId, post.index);
+                  //         // controller.reactChange("love");
 
-                          return post.isLoves = !isLiked;
-                        },
-                        likeCount: post.loves,
-                        countPostion: CountPostion.bottom,
-                        likeBuilder: ((isLoves) {
-                          return SvgPicture.asset(
-                            height: getProportionateScreenHeight(15),
-                            "assets/icons/love.svg",
-                            color: post.isLoves ? Colors.red : Colors.grey,
-                          );
-                        }),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LikeButton(
-                        animationDuration: const Duration(milliseconds: 600),
-                        size: getProportionateScreenHeight(26),
-                        bubblesColor: const BubblesColor(
-                            dotPrimaryColor: kPrimaryColor,
-                            dotSecondaryColor: kSecondaryColor),
-                        isLiked: post.isSmiles,
-                        onTap: (isLiked) async {
-                          controller?.reactToBoom("smiles", boomId, post.index);
-                          return controller?.isSmiles = !isLiked;
-                        },
-                        likeCount: post.smiles,
-                        countPostion: CountPostion.bottom,
-                        likeBuilder: ((isLiked) {
-                          return isLiked
-                              ? CachedNetworkImage(
-                                  height: getProportionateScreenHeight(26),
-                                  imageUrl: smileIconUrl,
-                                )
-                              : CachedNetworkImage(
-                                  height: getProportionateScreenHeight(26),
-                                  imageUrl: smileIconUrl,
-                                  color: Colors.grey,
-                                );
-                        }),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LikeButton(
-                          animationDuration: const Duration(milliseconds: 600),
-                          size: getProportionateScreenHeight(20),
-                          isLiked: post.isRebooms,
-                          onTap: (isLiked) async {
-                            controller?.reactToBoom(
-                                "rebooms", boomId, post.index);
+                  //         return post.isLoves = !isLiked;
+                  //       },
+                  //       likeCount: post.loves,
+                  //       countPostion: CountPostion.bottom,
+                  //       likeBuilder: ((isLoves) {
+                  //         return SvgPicture.asset(
+                  //           height: getProportionateScreenHeight(15),
+                  //           "assets/icons/love.svg",
+                  //           color: post.isLoves ? Colors.red : Colors.grey,
+                  //         );
+                  //       }),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Column(
+                  //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     LikeButton(
+                  //       animationDuration: const Duration(milliseconds: 600),
+                  //       size: getProportionateScreenHeight(26),
+                  //       bubblesColor: const BubblesColor(
+                  //           dotPrimaryColor: kPrimaryColor,
+                  //           dotSecondaryColor: kSecondaryColor),
+                  //       isLiked: post.isSmiles,
+                  //       onTap: (isLiked) async {
+                  //         controller?.reactToBoom("smiles", boomId, post.index);
+                  //         return controller?.isSmiles = !isLiked;
+                  //       },
+                  //       likeCount: post.smiles,
+                  //       countPostion: CountPostion.bottom,
+                  //       likeBuilder: ((isLiked) {
+                  //         return isLiked
+                  //             ? CachedNetworkImage(
+                  //                 height: getProportionateScreenHeight(26),
+                  //                 imageUrl: smileIconUrl,
+                  //               )
+                  //             : CachedNetworkImage(
+                  //                 height: getProportionateScreenHeight(26),
+                  //                 imageUrl: smileIconUrl,
+                  //                 color: Colors.grey,
+                  //               );
+                  //       }),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     LikeButton(
+                  //         animationDuration: const Duration(milliseconds: 600),
+                  //         size: getProportionateScreenHeight(20),
+                  //         isLiked: post.isRebooms,
+                  //         onTap: (isLiked) async {
+                  //           controller?.reactToBoom(
+                  //               "rebooms", boomId, post.index);
 
-                            return controller?.isRebooms = !isLiked;
-                          },
-                          bubblesColor: const BubblesColor(
-                              dotPrimaryColor: kPrimaryColor,
-                              dotSecondaryColor: kSecondaryColor),
-                          likeCount: post.rebooms,
-                          countPostion: CountPostion.bottom,
-                          likeBuilder: (isLiked) {
-                            return SvgPicture.asset(
-                                height: getProportionateScreenHeight(18),
-                                "assets/icons/reboom.svg",
-                                color: isLiked ? kPrimaryColor : Colors.grey);
-                          }),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      LikeButton(
-                        animationDuration: const Duration(milliseconds: 600),
-                        size: getProportionateScreenHeight(20),
-                        isLiked: post.isReported,
-                        onTap: (isLiked) async {
-                          controller?.reactToBoom(
-                              "reports", boomId, post.index);
+                  //           return controller?.isRebooms = !isLiked;
+                  //         },
+                  //         bubblesColor: const BubblesColor(
+                  //             dotPrimaryColor: kPrimaryColor,
+                  //             dotSecondaryColor: kSecondaryColor),
+                  //         likeCount: post.rebooms,
+                  //         countPostion: CountPostion.bottom,
+                  //         likeBuilder: (isLiked) {
+                  //           return SvgPicture.asset(
+                  //               height: getProportionateScreenHeight(18),
+                  //               "assets/icons/reboom.svg",
+                  //               color: isLiked ? kPrimaryColor : Colors.grey);
+                  //         }),
+                  //   ],
+                  // ),
+                  // Column(
+                  //   children: [
+                  //     LikeButton(
+                  //       animationDuration: const Duration(milliseconds: 600),
+                  //       size: getProportionateScreenHeight(20),
+                  //       isLiked: post.isReported,
+                  //       onTap: (isLiked) async {
+                  //         controller?.reactToBoom(
+                  //             "reports", boomId, post.index);
 
-                          return controller?.isReported = !isLiked;
-                        },
-                        likeCount: post.reported,
-                        countPostion: CountPostion.bottom,
-                        bubblesColor: const BubblesColor(
-                            dotPrimaryColor: kPrimaryColor,
-                            dotSecondaryColor: kSecondaryColor),
-                        likeBuilder: ((isReported) {
-                          return Icon(
-                            MdiIcons.alert,
-                            color: isReported ? kYellowTextColor : Colors.grey,
-                          );
-                        }),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      LikeButton(
-                        animationDuration: const Duration(milliseconds: 600),
-                        size: getProportionateScreenHeight(20),
-                        onTap: (_) async {
-                          Get.to(
-                            () => const SingleBoomPage(),
-                            arguments: boomId,
-                          );
+                  //         return controller?.isReported = !isLiked;
+                  //       },
+                  //       likeCount: post.reported,
+                  //       countPostion: CountPostion.bottom,
+                  //       bubblesColor: const BubblesColor(
+                  //           dotPrimaryColor: kPrimaryColor,
+                  //           dotSecondaryColor: kSecondaryColor),
+                  //       likeBuilder: ((isReported) {
+                  //         return Icon(
+                  //           MdiIcons.alert,
+                  //           color: isReported ? kYellowTextColor : Colors.grey,
+                  //         );
+                  //       }),
+                  //     ),
+                  //   ],
+                  // ),
+                  // Column(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     LikeButton(
+                  //       animationDuration: const Duration(milliseconds: 600),
+                  //       size: getProportionateScreenHeight(20),
+                  //       onTap: (_) async {
+                  //         Get.to(
+                  //           () => const SingleBoomPage(),
+                  //           arguments: boomId,
+                  //         );
 
-                          return null;
-                        },
-                        bubblesColor: const BubblesColor(
-                            dotPrimaryColor: kPrimaryColor,
-                            dotSecondaryColor: kSecondaryColor),
-                        likeBuilder: ((isLiked) {
-                          return const Icon(
-                            MdiIcons.chatOutline,
-                            size: 22,
-                          );
-                        }),
-                      ),
-                      Text(
-                        post.comments.toString(),
-                        style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                        ),
-                      ),
-                    ],
-                  ),
+                  //         return null;
+                  //       },
+                  //       bubblesColor: const BubblesColor(
+                  //           dotPrimaryColor: kPrimaryColor,
+                  //           dotSecondaryColor: kSecondaryColor),
+                  //       likeBuilder: ((isLiked) {
+                  //         return const Icon(
+                  //           MdiIcons.chatOutline,
+                  //           size: 22,
+                  //         );
+                  //       }),
+                  //     ),
+                  //     Text(
+                  //       post.comments.toString(),
+                  //       style: TextStyle(
+                  //         fontSize: getProportionateScreenHeight(12),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               )
             ],

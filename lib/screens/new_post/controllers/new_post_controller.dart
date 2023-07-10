@@ -6,6 +6,7 @@ import 'package:boom_mobile/utils/boomMarketPlace.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -98,6 +99,7 @@ class NewPostController extends GetxController {
   // final File abiFile = File('assets/files/erc721.json');
 
   String txHash = "";
+  static const platform = MethodChannel('samples.flutter.dev/battery');
 
   @override
   void onInit() {
@@ -789,92 +791,111 @@ class NewPostController extends GetxController {
         }
      */
   }
+  String batteryLevel = 'Unknown battaery level';
+
+  bindToPlatform() async {
+    try {
+      final int result = await platform.invokeMethod('getBatteryLevel');
+      batteryLevel = 'Battery Level at $result %';
+    } on PlatformException catch (e) {
+      batteryLevel = "Failed to het battery level: ${e.message}";
+    }
+
+    update();
+  }
 
   /// New Wallet Connect Integration Test using WalletConnectFlutterV2.
   /// More documentation can be found here: https://github.com/WalletConnect/WalletConnectFlutterV2
 
   connectWalletNew() async {
-    log("Starting Connection");
-    Web3App wcClient = await Web3App.createInstance(
-      projectId: WALLET_CONNECT_ID,
-      metadata: const PairingMetadata(
-        name: "Boom Social",
-        description: "description",
-        url: "https://walletconnect.com",
-        icons: [],
-      ),
-    );
-
-    wcClient.onSessionPing.subscribe((args) {
-      log('Topic: ${args!.topic}');
-    });
-
-    wcClient.onSessionEvent.subscribe((args) {
-      log('Topic: ${args!.topic}\nEvent Name: ${args.name}\nEvent Data: ${args.data}');
-    });
-
-    ConnectResponse resp = await wcClient.connect(
-      requiredNamespaces: {
-        'eip4361': const RequiredNamespace(
-          chains: ['eip4361:97'],
-          methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
-          events: [],
+    try {
+      log("Starting Connection");
+      Web3App wcClient = await Web3App.createInstance(
+        projectId: WALLET_CONNECT_ID,
+        metadata: const PairingMetadata(
+          name: "Boom Social",
+          description: "description",
+          url: "https://walletconnect.com",
+          icons: [],
         ),
-      },
-      optionalNamespaces: {
-        'eip155': const RequiredNamespace(
-          chains: [
-            'eip155:1',
-            'eip155:137',
-            'eip155:97',
-            'eip155:8001',
-          ],
-          methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
-          events: [],
-        ),
-      },
-    );
+      );
 
-    log("Gotten Connection");
+      await wcClient.init();
 
-    Uri? uri = resp.uri;
+      ConnectResponse resp = await wcClient.connect(
+        requiredNamespaces: {
+          'eip4361': const RequiredNamespace(
+            chains: ['eip4361:97'],
+            methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
+            events: [],
+          ),
+        },
+        optionalNamespaces: {
+          'eip155': const RequiredNamespace(
+            chains: [
+              'eip155:1',
+              'eip155:137',
+              'eip155:97',
+              'eip155:8001',
+            ],
+            methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
+            events: [],
+          ),
+        },
+      );
 
-    log("The URI $uri");
+      wcClient.onSessionPing.subscribe((args) {
+        log('Topic: ${args!.topic}');
+      });
 
-    wcClient.onSessionConnect.subscribe((SessionConnect? connect) {
-      log(connect?.session.peer.publicKey ?? "No Public Key Gotten");
-    });
+      wcClient.onSessionEvent.subscribe((args) {
+        log('Topic: ${args!.topic}\nEvent Name: ${args.name}\nEvent Data: ${args.data}');
+      });
 
-    // await launchUrlString(uri.toString());
+      log("Gotten Connection");
 
-    final SessionData sessionData = await resp.session.future;
+      Uri? uri = resp.uri;
 
-    final session = sessionData.peer.publicKey;
-    log("Session Data $session");
+      log("The URI $uri");
 
-    final AuthRequestResponse authReq = await wcClient.requestAuth(
-      params: AuthRequestParams(
-          chainId: 'eip4361:97',
-          domain: 'localhost:3000',
-          aud: 'http://localhost:3000/login',
-          statement: 'Sign in with your wallet'),
-      pairingTopic: resp.pairingTopic,
-    );
+      wcClient.onSessionConnect.subscribe((SessionConnect? connect) {
+        log(connect?.session.peer.publicKey ?? "No Public Key Gotten");
+      });
 
-    log("Auth Reuest ${authReq.id}");
+      // await launchUrlString(uri.toString());
 
-    final AuthResponse authResponse = await authReq.completer.future;
-    if (authResponse != null) {
-      final walletAddress =
-          AddressUtils.getDidAddress(authResponse.result!.p.iss);
+      final SessionData sessionData = await resp.session.future;
 
-      log("The Address $walletAddress");
-    } else {
-      final WalletConnectError? error = authResponse.error;
-      final JsonRpcError? jsonError = authResponse.jsonRpcError;
+      final session = sessionData.peer.publicKey;
+      log("Session Data $session");
 
-      log("WalletConnectError ${error?.message} Code: ${error?.code}");
-      log("JSONRPCErrpr ${jsonError?.message} Code: ${jsonError?.code}");
+      final AuthRequestResponse authReq = await wcClient.requestAuth(
+        params: AuthRequestParams(
+            chainId: 'eip4361:97',
+            domain: 'localhost:3000',
+            aud: 'http://localhost:3000/login',
+            statement: 'Sign in with your wallet'),
+        pairingTopic: resp.pairingTopic,
+      );
+
+      log("Auth Reuest ${authReq.id}");
+
+      final AuthResponse authResponse = await authReq.completer.future;
+      if (authResponse != null) {
+        final walletAddress =
+            AddressUtils.getDidAddress(authResponse.result!.p.iss);
+
+        log("The Address $walletAddress");
+      } else {
+        final WalletConnectError? error = authResponse.error;
+        final JsonRpcError? jsonError = authResponse.jsonRpcError;
+
+        log("WalletConnectError ${error?.message} Code: ${error?.code}");
+        log("JSONRPCErrpr ${jsonError?.message} Code: ${jsonError?.code}");
+      }
+    } catch (e) {
+      log("Error has occured $e");
+      throw Exception(e);
     }
   }
 }

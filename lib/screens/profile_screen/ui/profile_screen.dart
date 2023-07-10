@@ -804,52 +804,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       ),
                                                     ),
                                                   ),
-                                                  Positioned(
-                                                    top: 220,
-                                                    left: 30,
-                                                    child: Container(
-                                                      width:
-                                                          getProportionateScreenWidth(
-                                                              22),
-                                                      height:
-                                                          getProportionateScreenHeight(
-                                                              22),
-                                                      decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color:
-                                                                Colors.black),
-                                                        gradient:
-                                                            const LinearGradient(
-                                                          begin:
-                                                              Alignment.topLeft,
-                                                          end: Alignment
-                                                              .bottomRight,
-                                                          colors: [
-                                                            kPrimaryColor,
-                                                            kSecondaryColor,
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      child: const Icon(
-                                                        MdiIcons.swapVertical,
-                                                        size: 18,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    top: 180,
-                                                    left: 30,
-                                                    child: GestureDetector(
-                                                      onTap: () =>
-                                                          _showComingSoon(),
-                                                      child: Image.network(
-                                                        height:
-                                                            getProportionateScreenHeight(
-                                                                26),
-                                                        "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/noob_talk.png",
-                                                      ),
-                                                    ),
-                                                  ),
+                                                  // Positioned(
+                                                  //   top: 220,
+                                                  //   left: 30,
+                                                  //   child: Container(
+                                                  //     width:
+                                                  //         getProportionateScreenWidth(
+                                                  //             22),
+                                                  //     height:
+                                                  //         getProportionateScreenHeight(
+                                                  //             22),
+                                                  //     decoration: BoxDecoration(
+                                                  //       border: Border.all(
+                                                  //           color:
+                                                  //               Colors.black),
+                                                  //       gradient:
+                                                  //           const LinearGradient(
+                                                  //         begin:
+                                                  //             Alignment.topLeft,
+                                                  //         end: Alignment
+                                                  //             .bottomRight,
+                                                  //         colors: [
+                                                  //           kPrimaryColor,
+                                                  //           kSecondaryColor,
+                                                  //         ],
+                                                  //       ),
+                                                  //     ),
+                                                  //     child: const Icon(
+                                                  //       MdiIcons.swapVertical,
+                                                  //       size: 18,
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
+                                                  // Positioned(
+                                                  //   top: 180,
+                                                  //   left: 30,
+                                                  //   child: GestureDetector(
+                                                  //     onTap: () =>
+                                                  //         _showComingSoon(),
+                                                  //     child: Image.network(
+                                                  //       height:
+                                                  //           getProportionateScreenHeight(
+                                                  //               26),
+                                                  //       "https://bafybeiecd2ncp25fnbrcol3x6eowmfrt7sjwpdn244krddyof5rnri4dwy.ipfs.nftstorage.link/noob_talk.png",
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
                                             )
