@@ -1538,44 +1538,54 @@ class CreateNewPost extends GetView<NewPostController> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
-                                            Future.delayed(
-                                                const Duration(seconds: 0), () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: const Text(
-                                                        "Connect Wallet"),
-                                                    content: const Text(
-                                                        "Please make sure you have selected the correct network in your wallet provider. "),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: const Text(
-                                                            "Cancel"),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () async {
-                                                          Get.back();
-                                                          // await controller
-                                                          //     .uploadNewBoom(
-                                                          //         true);
 
-                                                          await controller
-                                                              .connectWalletNew();
-                                                        },
-                                                        child: const Text(
-                                                            "Proceed"),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            });
+                                            Get.snackbar(
+                                              "Coming Soon",
+                                              "Hang in there, this feature will be available soon",
+                                              backgroundColor: kPrimaryColor,
+                                              colorText: Colors.black,
+                                            );
+
+                                            // Future.delayed(
+                                            //     const Duration(seconds: 0), () {
+                                            //   showDialog(
+                                            //     context: context,
+                                            //     builder:
+                                            //         (BuildContext context) {
+                                            //       return AlertDialog(
+                                            //         title: const Text(
+                                            //             "Connect Wallet"),
+                                            //         content: const Text(
+                                            //             "Please make sure you have selected the correct network in your wallet provider. "),
+                                            //         actions: [
+                                            //           TextButton(
+                                            //             onPressed: () {
+                                            //               Navigator.pop(
+                                            //                   context);
+                                            //             },
+                                            //             child: const Text(
+                                            //                 "Cancel"),
+                                            //           ),
+                                            //           TextButton(
+                                            //             onPressed: () async {
+                                            //               Get.back();
+
+                                            //               // await controller
+                                            //               //     .uploadNewBoom(
+                                            //               //         true);
+
+                                            //               // await controller
+                                            //               //     .bindToPlatform();
+                                            //               // log("Battery Level${controller.batteryLevel}");
+                                            //             },
+                                            //             child: const Text(
+                                            //                 "Proceed"),
+                                            //           ),
+                                            //         ],
+                                            //       );
+                                            //     },
+                                            //   );
+                                            // });
                                           },
                                           child: Container(
                                             margin: const EdgeInsets.only(

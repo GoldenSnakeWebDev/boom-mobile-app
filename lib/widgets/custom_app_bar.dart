@@ -6,8 +6,8 @@ import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 // import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';
 
 import '../di/app_bindings.dart';
@@ -88,15 +88,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        final Email email = Email(
-                          body: '',
-                          subject: 'Boom Mobile Support',
-                          recipients: ['letstalk@boooooooooom.com'],
-                          cc: [''],
-                          bcc: [''],
-                          isHTML: false,
+                        await launchUrl(
+                          Uri.parse("https://t.me/whatsboom"),
+                          mode: LaunchMode.externalApplication,
                         );
-                        await FlutterEmailSender.send(email);
+
+                        // final Email email = Email(
+                        //   body: '',
+                        //   subject: 'Boom Mobile Support',
+                        //   recipients: ['letstalk@boooooooooom.com'],
+                        //   cc: [''],
+                        //   bcc: [''],
+                        //   isHTML: false,
+                        // );
+                        // await FlutterEmailSender.send(email);
                       },
                       child: Image.asset(
                         "assets/icons/support_icon.png",

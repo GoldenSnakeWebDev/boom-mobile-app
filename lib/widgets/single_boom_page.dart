@@ -18,7 +18,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:like_button/like_button.dart';
@@ -374,61 +373,69 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                             const Duration(
                                                                 seconds: 0),
                                                             () async {
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    "Export Boom"),
-                                                                content: const Text(
-                                                                    "Please make sure you have selected the correct network in your wallet."),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Cancel"),
-                                                                  ),
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      Get.back();
-                                                                      if (boom.boom
-                                                                              .boomType ==
-                                                                          "text") {
-                                                                        await _buildExportBottomSheet(
-                                                                            boom.boom.imageUrl!,
-                                                                            boom);
-                                                                      } else {
-                                                                        await boomController
-                                                                            .exportBoom(
-                                                                          boom
-                                                                              .boom
-                                                                              .network!
-                                                                              .symbol,
-                                                                          boom.boom
-                                                                              .imageUrl!,
-                                                                          boom.boom
-                                                                              .title!,
-                                                                          boom.boom
-                                                                              .description!,
-                                                                          boom.boom
-                                                                              .id!,
-                                                                        );
-                                                                      }
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Export"),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
+                                                          Get.snackbar(
+                                                            "Coming Soon",
+                                                            "Hang in there, this feature will be available soon",
+                                                            backgroundColor:
+                                                                kPrimaryColor,
+                                                            colorText:
+                                                                Colors.black,
                                                           );
+                                                          // showDialog(
+                                                          //   context: context,
+                                                          //   builder:
+                                                          //       (BuildContext
+                                                          //           context) {
+                                                          //     return AlertDialog(
+                                                          //       title: const Text(
+                                                          //           "Export Boom"),
+                                                          //       content: const Text(
+                                                          //           "Please make sure you have selected the correct network in your wallet."),
+                                                          //       actions: [
+                                                          //         TextButton(
+                                                          //           onPressed:
+                                                          //               () {
+                                                          //             Navigator.pop(
+                                                          //                 context);
+                                                          //           },
+                                                          //           child: const Text(
+                                                          //               "Cancel"),
+                                                          //         ),
+                                                          //         TextButton(
+                                                          //           onPressed:
+                                                          //               () async {
+                                                          //             Get.back();
+                                                          //             if (boom.boom
+                                                          //                     .boomType ==
+                                                          //                 "text") {
+                                                          //               await _buildExportBottomSheet(
+                                                          //                   boom.boom.imageUrl!,
+                                                          //                   boom);
+                                                          //             } else {
+                                                          //               await boomController
+                                                          //                   .exportBoom(
+                                                          //                 boom
+                                                          //                     .boom
+                                                          //                     .network!
+                                                          //                     .symbol,
+                                                          //                 boom.boom
+                                                          //                     .imageUrl!,
+                                                          //                 boom.boom
+                                                          //                     .title!,
+                                                          //                 boom.boom
+                                                          //                     .description!,
+                                                          //                 boom.boom
+                                                          //                     .id!,
+                                                          //               );
+                                                          //             }
+                                                          //           },
+                                                          //           child: const Text(
+                                                          //               "Export"),
+                                                          //         ),
+                                                          //       ],
+                                                          //     );
+                                                          //   },
+                                                          // );
                                                         });
                                                       }
                                                     },
@@ -493,71 +500,79 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                   ),
                                                   PopupMenuItem(
                                                     onTap: () async {
-                                                      if (boom.boom.boomState ==
-                                                          BoomState.REAL_NFT) {
-                                                        Future.delayed(
-                                                            const Duration(
-                                                                seconds: 0),
-                                                            () {
-                                                          showDialog(
-                                                            context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
-                                                              return AlertDialog(
-                                                                title: const Text(
-                                                                    "Connect Wallet"),
-                                                                content: const Text(
-                                                                    "Please make sure you have selected the correct network in your wallet provider. "),
-                                                                actions: [
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Cancel"),
-                                                                  ),
-                                                                  TextButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      Get.back();
-                                                                      await boomController
-                                                                          .exportBoom(
-                                                                        boom
-                                                                            .boom
-                                                                            .network!
-                                                                            .symbol,
-                                                                        boom.boom
-                                                                            .imageUrl!,
-                                                                        boom.boom
-                                                                            .title!,
-                                                                        boom.boom
-                                                                            .description!,
-                                                                        boom.boom
-                                                                            .id!,
-                                                                      );
-                                                                    },
-                                                                    child: const Text(
-                                                                        "Proceed"),
-                                                                  ),
-                                                                ],
-                                                              );
-                                                            },
-                                                          );
-                                                        });
-                                                      } else {
-                                                        Get.snackbar("Error",
-                                                            "You can only synthetically mint this boom as an NFT",
-                                                            backgroundColor:
-                                                                kredCancelTextColor,
-                                                            colorText:
-                                                                Colors.white,
-                                                            snackPosition:
-                                                                SnackPosition
-                                                                    .BOTTOM);
-                                                      }
+                                                      Get.snackbar(
+                                                        "Coming Soon",
+                                                        "Hang in there, this feature will be available soon",
+                                                        backgroundColor:
+                                                            kPrimaryColor,
+                                                        colorText: Colors.black,
+                                                      );
+
+                                                      // if (boom.boom.boomState ==
+                                                      //     BoomState.REAL_NFT) {
+                                                      //   Future.delayed(
+                                                      //       const Duration(
+                                                      //           seconds: 0),
+                                                      //       () {
+                                                      //     showDialog(
+                                                      //       context: context,
+                                                      //       builder:
+                                                      //           (BuildContext
+                                                      //               context) {
+                                                      //         return AlertDialog(
+                                                      //           title: const Text(
+                                                      //               "Connect Wallet"),
+                                                      //           content: const Text(
+                                                      //               "Please make sure you have selected the correct network in your wallet provider. "),
+                                                      //           actions: [
+                                                      //             TextButton(
+                                                      //               onPressed:
+                                                      //                   () {
+                                                      //                 Navigator.pop(
+                                                      //                     context);
+                                                      //               },
+                                                      //               child: const Text(
+                                                      //                   "Cancel"),
+                                                      //             ),
+                                                      //             TextButton(
+                                                      //               onPressed:
+                                                      //                   () async {
+                                                      //                 Get.back();
+                                                      //                 await boomController
+                                                      //                     .exportBoom(
+                                                      //                   boom
+                                                      //                       .boom
+                                                      //                       .network!
+                                                      //                       .symbol,
+                                                      //                   boom.boom
+                                                      //                       .imageUrl!,
+                                                      //                   boom.boom
+                                                      //                       .title!,
+                                                      //                   boom.boom
+                                                      //                       .description!,
+                                                      //                   boom.boom
+                                                      //                       .id!,
+                                                      //                 );
+                                                      //               },
+                                                      //               child: const Text(
+                                                      //                   "Proceed"),
+                                                      //             ),
+                                                      //           ],
+                                                      //         );
+                                                      //       },
+                                                      //     );
+                                                      //   });
+                                                      // } else {
+                                                      //   Get.snackbar("Error",
+                                                      //       "You can only synthetically mint this boom as an NFT",
+                                                      //       backgroundColor:
+                                                      //           kredCancelTextColor,
+                                                      //       colorText:
+                                                      //           Colors.white,
+                                                      //       snackPosition:
+                                                      //           SnackPosition
+                                                      //               .BOTTOM);
+                                                      // }
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
@@ -1183,200 +1198,200 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       ),
                                     ],
                                   ),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Obx(
-                                        () => LikeButton(
-                                          animationDuration:
-                                              const Duration(milliseconds: 600),
-                                          size:
-                                              getProportionateScreenHeight(22),
-                                          bubblesColor: const BubblesColor(
-                                              dotPrimaryColor: kPrimaryColor,
-                                              dotSecondaryColor:
-                                                  kSecondaryColor),
-                                          isLiked: boomController.isLoves.value,
-                                          onTap: (isLoved) async {
-                                            boomController.reactToBoom(
-                                                "loves", boomId, boom);
+                                  // Column(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Obx(
+                                  //       () => LikeButton(
+                                  //         animationDuration:
+                                  //             const Duration(milliseconds: 600),
+                                  //         size:
+                                  //             getProportionateScreenHeight(22),
+                                  //         bubblesColor: const BubblesColor(
+                                  //             dotPrimaryColor: kPrimaryColor,
+                                  //             dotSecondaryColor:
+                                  //                 kSecondaryColor),
+                                  //         isLiked: boomController.isLoves.value,
+                                  //         onTap: (isLoved) async {
+                                  //           boomController.reactToBoom(
+                                  //               "loves", boomId, boom);
 
-                                            return boomController.isLoves.value;
-                                          },
-                                          likeCount: boomController.lovesCount,
-                                          countPostion: CountPostion.bottom,
-                                          likeBuilder: ((isLoves) {
-                                            return SvgPicture.asset(
-                                              height:
-                                                  getProportionateScreenHeight(
-                                                      15),
-                                              "assets/icons/love.svg",
-                                              color:
-                                                  boomController.isLoves.value
-                                                      ? Colors.red
-                                                      : Colors.grey,
-                                            );
-                                          }),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Obx(
-                                        () => LikeButton(
-                                          animationDuration:
-                                              const Duration(milliseconds: 600),
-                                          size:
-                                              getProportionateScreenHeight(26),
-                                          bubblesColor: const BubblesColor(
-                                              dotPrimaryColor: kPrimaryColor,
-                                              dotSecondaryColor:
-                                                  kSecondaryColor),
-                                          isLiked:
-                                              boomController.isSmiles.value,
-                                          onTap: (isLiked) async {
-                                            boomController.reactToBoom(
-                                                "smiles", boomId, boom);
+                                  //           return boomController.isLoves.value;
+                                  //         },
+                                  //         likeCount: boomController.lovesCount,
+                                  //         countPostion: CountPostion.bottom,
+                                  //         likeBuilder: ((isLoves) {
+                                  //           return SvgPicture.asset(
+                                  //             height:
+                                  //                 getProportionateScreenHeight(
+                                  //                     15),
+                                  //             "assets/icons/love.svg",
+                                  //             color:
+                                  //                 boomController.isLoves.value
+                                  //                     ? Colors.red
+                                  //                     : Colors.grey,
+                                  //           );
+                                  //         }),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Obx(
+                                  //       () => LikeButton(
+                                  //         animationDuration:
+                                  //             const Duration(milliseconds: 600),
+                                  //         size:
+                                  //             getProportionateScreenHeight(26),
+                                  //         bubblesColor: const BubblesColor(
+                                  //             dotPrimaryColor: kPrimaryColor,
+                                  //             dotSecondaryColor:
+                                  //                 kSecondaryColor),
+                                  //         isLiked:
+                                  //             boomController.isSmiles.value,
+                                  //         onTap: (isLiked) async {
+                                  //           boomController.reactToBoom(
+                                  //               "smiles", boomId, boom);
 
-                                            return boomController
-                                                .isSmiles.value;
-                                          },
-                                          likeCount: boomController.smilesCount,
-                                          countPostion: CountPostion.bottom,
-                                          likeBuilder: ((isLiked) {
-                                            return boomController.isSmiles.value
-                                                ? CachedNetworkImage(
-                                                    height:
-                                                        getProportionateScreenHeight(
-                                                            26),
-                                                    imageUrl: smileIconUrl,
-                                                  )
-                                                : CachedNetworkImage(
-                                                    height:
-                                                        getProportionateScreenHeight(
-                                                            26),
-                                                    imageUrl: smileIconUrl,
-                                                    color: Colors.grey,
-                                                  );
-                                          }),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Obx(
-                                        () => LikeButton(
-                                            animationDuration: const Duration(
-                                                milliseconds: 600),
-                                            size: getProportionateScreenHeight(
-                                                20),
-                                            isLiked:
-                                                boomController.isRebooms.value,
-                                            onTap: (isLiked) async {
-                                              boomController.reactToBoom(
-                                                  "rebooms", boomId, boom);
+                                  //           return boomController
+                                  //               .isSmiles.value;
+                                  //         },
+                                  //         likeCount: boomController.smilesCount,
+                                  //         countPostion: CountPostion.bottom,
+                                  //         likeBuilder: ((isLiked) {
+                                  //           return boomController.isSmiles.value
+                                  //               ? CachedNetworkImage(
+                                  //                   height:
+                                  //                       getProportionateScreenHeight(
+                                  //                           26),
+                                  //                   imageUrl: smileIconUrl,
+                                  //                 )
+                                  //               : CachedNetworkImage(
+                                  //                   height:
+                                  //                       getProportionateScreenHeight(
+                                  //                           26),
+                                  //                   imageUrl: smileIconUrl,
+                                  //                   color: Colors.grey,
+                                  //                 );
+                                  //         }),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Obx(
+                                  //       () => LikeButton(
+                                  //           animationDuration: const Duration(
+                                  //               milliseconds: 600),
+                                  //           size: getProportionateScreenHeight(
+                                  //               20),
+                                  //           isLiked:
+                                  //               boomController.isRebooms.value,
+                                  //           onTap: (isLiked) async {
+                                  //             boomController.reactToBoom(
+                                  //                 "rebooms", boomId, boom);
 
-                                              return boomController
-                                                  .isRebooms.value;
-                                            },
-                                            likeCount:
-                                                boomController.reboomsCount,
-                                            countPostion: CountPostion.bottom,
-                                            bubblesColor: const BubblesColor(
-                                                dotPrimaryColor: kPrimaryColor,
-                                                dotSecondaryColor:
-                                                    kSecondaryColor),
-                                            likeBuilder: (isLiked) {
-                                              return SvgPicture.asset(
-                                                height:
-                                                    getProportionateScreenHeight(
-                                                        18),
-                                                "assets/icons/reboom.svg",
-                                                color: isLiked
-                                                    ? kPrimaryColor
-                                                    : Colors.grey,
-                                              );
-                                            }),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      Obx(
-                                        () => LikeButton(
-                                          animationDuration:
-                                              const Duration(milliseconds: 600),
-                                          size:
-                                              getProportionateScreenHeight(20),
-                                          isLiked:
-                                              boomController.isReports.value,
-                                          onTap: (isReports) async {
-                                            boomController.reactToBoom(
-                                                "reports", boomId, boom);
-                                            return null;
-                                          },
-                                          bubblesColor: const BubblesColor(
-                                              dotPrimaryColor: kPrimaryColor,
-                                              dotSecondaryColor:
-                                                  kSecondaryColor),
-                                          likeBuilder: ((isLiked) {
-                                            return Icon(
-                                              MdiIcons.alert,
-                                              color: isLiked
-                                                  ? kYellowTextColor
-                                                  : Colors.grey,
-                                            );
-                                          }),
-                                        ),
-                                      ),
-                                      Text(
-                                        boomController.reportsCount.toString(),
-                                        style: TextStyle(
-                                          fontSize:
-                                              getProportionateScreenHeight(12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      LikeButton(
-                                        animationDuration:
-                                            const Duration(milliseconds: 600),
-                                        size: getProportionateScreenHeight(20),
-                                        onTap: (_) async {
-                                          FocusScope.of(context).requestFocus(
-                                              boomController.commentFocusNode);
-                                          return null;
-                                          // return null;
-                                        },
-                                        bubblesColor: const BubblesColor(
-                                            dotPrimaryColor: kPrimaryColor,
-                                            dotSecondaryColor: kSecondaryColor),
-                                        likeBuilder: ((isLiked) {
-                                          return const Icon(
-                                            MdiIcons.chatOutline,
-                                            size: 22,
-                                          );
-                                        }),
-                                      ),
-                                      Text(
-                                        "${boom.boom.comments!.length}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              getProportionateScreenHeight(12),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  //             return boomController
+                                  //                 .isRebooms.value;
+                                  //           },
+                                  //           likeCount:
+                                  //               boomController.reboomsCount,
+                                  //           countPostion: CountPostion.bottom,
+                                  //           bubblesColor: const BubblesColor(
+                                  //               dotPrimaryColor: kPrimaryColor,
+                                  //               dotSecondaryColor:
+                                  //                   kSecondaryColor),
+                                  //           likeBuilder: (isLiked) {
+                                  //             return SvgPicture.asset(
+                                  //               height:
+                                  //                   getProportionateScreenHeight(
+                                  //                       18),
+                                  //               "assets/icons/reboom.svg",
+                                  //               color: isLiked
+                                  //                   ? kPrimaryColor
+                                  //                   : Colors.grey,
+                                  //             );
+                                  //           }),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   children: [
+                                  //     Obx(
+                                  //       () => LikeButton(
+                                  //         animationDuration:
+                                  //             const Duration(milliseconds: 600),
+                                  //         size:
+                                  //             getProportionateScreenHeight(20),
+                                  //         isLiked:
+                                  //             boomController.isReports.value,
+                                  //         onTap: (isReports) async {
+                                  //           boomController.reactToBoom(
+                                  //               "reports", boomId, boom);
+                                  //           return null;
+                                  //         },
+                                  //         bubblesColor: const BubblesColor(
+                                  //             dotPrimaryColor: kPrimaryColor,
+                                  //             dotSecondaryColor:
+                                  //                 kSecondaryColor),
+                                  //         likeBuilder: ((isLiked) {
+                                  //           return Icon(
+                                  //             MdiIcons.alert,
+                                  //             color: isLiked
+                                  //                 ? kYellowTextColor
+                                  //                 : Colors.grey,
+                                  //           );
+                                  //         }),
+                                  //       ),
+                                  //     ),
+                                  //     Text(
+                                  //       boomController.reportsCount.toString(),
+                                  //       style: TextStyle(
+                                  //         fontSize:
+                                  //             getProportionateScreenHeight(12),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // Column(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     LikeButton(
+                                  //       animationDuration:
+                                  //           const Duration(milliseconds: 600),
+                                  //       size: getProportionateScreenHeight(20),
+                                  //       onTap: (_) async {
+                                  //         FocusScope.of(context).requestFocus(
+                                  //             boomController.commentFocusNode);
+                                  //         return null;
+                                  //         // return null;
+                                  //       },
+                                  //       bubblesColor: const BubblesColor(
+                                  //           dotPrimaryColor: kPrimaryColor,
+                                  //           dotSecondaryColor: kSecondaryColor),
+                                  //       likeBuilder: ((isLiked) {
+                                  //         return const Icon(
+                                  //           MdiIcons.chatOutline,
+                                  //           size: 22,
+                                  //         );
+                                  //       }),
+                                  //     ),
+                                  //     Text(
+                                  //       "${boom.boom.comments!.length}",
+                                  //       style: TextStyle(
+                                  //         fontSize:
+                                  //             getProportionateScreenHeight(12),
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                               SizedBox(
