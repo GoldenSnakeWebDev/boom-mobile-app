@@ -1538,13 +1538,14 @@ class CreateNewPost extends GetView<NewPostController> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
+                                            await controller.bindToPlatform();
 
-                                            Get.snackbar(
-                                              "Coming Soon",
-                                              "Hang in there, this feature will be available soon",
-                                              backgroundColor: kPrimaryColor,
-                                              colorText: Colors.black,
-                                            );
+                                            // Get.snackbar(
+                                            //   "Coming Soon",
+                                            //   "Hang in there, this feature will be available soon",
+                                            //   backgroundColor: kPrimaryColor,
+                                            //   colorText: Colors.black,
+                                            // );
 
                                             // Future.delayed(
                                             //     const Duration(seconds: 0), () {

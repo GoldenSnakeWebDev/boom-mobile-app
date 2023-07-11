@@ -99,7 +99,8 @@ class NewPostController extends GetxController {
   // final File abiFile = File('assets/files/erc721.json');
 
   String txHash = "";
-  static const platform = MethodChannel('samples.flutter.dev/battery');
+  // static const platform = MethodChannel('samples.flutter.dev/battery');
+  static const platform = MethodChannel('dev.boom.walletConnect/connect');
 
   @override
   void onInit() {
@@ -794,11 +795,17 @@ class NewPostController extends GetxController {
   String batteryLevel = 'Unknown battaery level';
 
   bindToPlatform() async {
+    EasyLoading.show(status: "Connecting...");
+
     try {
-      final int result = await platform.invokeMethod('getBatteryLevel');
-      batteryLevel = 'Battery Level at $result %';
+      String walletUri = await platform.invokeMethod('connectWallet');
+      await launchUrlString(walletUri);
+      EasyLoading.dismiss();
+      // batteryLevel = 'Battery Level at $result %';
     } on PlatformException catch (e) {
-      batteryLevel = "Failed to het battery level: ${e.message}";
+      EasyLoading.dismiss();
+      EasyLoading.showError(e.message.toString());
+      batteryLevel = "Failed to get battery level: ${e.message}";
     }
 
     update();
