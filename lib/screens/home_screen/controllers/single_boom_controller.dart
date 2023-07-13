@@ -146,34 +146,34 @@ class SingleBoomController extends GetxController {
         isLikes.value = false;
       }
     }
-    for (var item in boom.boom.reactions!.loves) {
-      if (item.id == userId) {
-        isLoves.value = true;
-      } else {
-        isLoves.value = false;
-      }
-    }
-    for (var item in boom.boom.reactions!.smiles) {
-      if (item.id == userId) {
-        isSmiles.value = true;
-      } else {
-        isSmiles.value = false;
-      }
-    }
-    for (var item in boom.boom.reactions!.reports) {
-      if (item.id == userId) {
-        isReports.value = true;
-      } else {
-        isReports.value = false;
-      }
-    }
-    for (var item in boom.boom.reactions!.rebooms) {
-      if (item.id == userId) {
-        isRebooms.value = true;
-      } else {
-        isRebooms.value = false;
-      }
-    }
+    // for (var item in boom.boom.reactions!.loves) {
+    //   if (item.id == userId) {
+    //     isLoves.value = true;
+    //   } else {
+    //     isLoves.value = false;
+    //   }
+    // }
+    // for (var item in boom.boom.reactions!.smiles) {
+    //   if (item.id == userId) {
+    //     isSmiles.value = true;
+    //   } else {
+    //     isSmiles.value = false;
+    //   }
+    // }
+    // for (var item in boom.boom.reactions!.reports) {
+    //   if (item.id == userId) {
+    //     isReports.value = true;
+    //   } else {
+    //     isReports.value = false;
+    //   }
+    // }
+    // for (var item in boom.boom.reactions!.rebooms) {
+    //   if (item.id == userId) {
+    //     isRebooms.value = true;
+    //   } else {
+    //     isRebooms.value = false;
+    //   }
+    // }
     update();
   }
 

@@ -95,34 +95,34 @@ class HomeController extends GetxController {
         isLiked = false;
       }
     }
-    for (var item in boom.reactions!.loves!) {
-      if (item.id == userId) {
-        isLoves = true;
-      } else {
-        isLoves = false;
-      }
-    }
-    for (var item in boom.reactions!.smiles!) {
-      if (item.id == userId) {
-        isSmiles = true;
-      } else {
-        isSmiles = false;
-      }
-    }
-    for (var item in boom.reactions!.rebooms!) {
-      if (item.id == userId) {
-        isRebooms = true;
-      } else {
-        isRebooms = false;
-      }
-    }
-    for (var item in boom.reactions!.reports!) {
-      if (item.id == userId) {
-        isReported = true;
-      } else {
-        isReported = false;
-      }
-    }
+    // for (var item in boom.reactions!.loves!) {
+    //   if (item.id == userId) {
+    //     isLoves = true;
+    //   } else {
+    //     isLoves = false;
+    //   }
+    // }
+    // for (var item in boom.reactions!.smiles!) {
+    //   if (item.id == userId) {
+    //     isSmiles = true;
+    //   } else {
+    //     isSmiles = false;
+    //   }
+    // }
+    // for (var item in boom.reactions!.rebooms!) {
+    //   if (item.id == userId) {
+    //     isRebooms = true;
+    //   } else {
+    //     isRebooms = false;
+    //   }
+    // }
+    // for (var item in boom.reactions!.reports!) {
+    //   if (item.id == userId) {
+    //     isReported = true;
+    //   } else {
+    //     isReported = false;
+    //   }
+    // }
   }
 
   List<SingleBoomPost> getSingleBoomDetails(List<Boom> boom) {
