@@ -10,8 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
-class LoginScreen extends GetView<LoginController> {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late LoginController ctrl;
+  @override
+  void initState() {
+    super.initState();
+    Get.put(LoginController());
+    ctrl = LoginController();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ctrl.checkIfNewUser(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,385 +47,415 @@ class LoginScreen extends GetView<LoginController> {
             ],
           ),
         ),
-        child: Form(
-          key: controller.loginformKey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // const Spacer(),
-                        SizedBox(
-                          height: getProportionateScreenHeight(120),
-                        ),
-                        Image(
-                          width: SizeConfig.screenWidth * 0.6,
-                          height: SizeConfig.screenHeight * 0.25,
-                          // image: const AssetImage(
-                          //   "assets/images/error.jpeg",
-                          // ),
+        child: GetBuilder<LoginController>(
+          builder: (controller) {
+            return Form(
+              key: controller.loginformKey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // const Spacer(),
+                            SizedBox(
+                              height: getProportionateScreenHeight(120),
+                            ),
+                            Image(
+                              width: SizeConfig.screenWidth * 0.6,
+                              height: SizeConfig.screenHeight * 0.25,
+                              // image: const AssetImage(
+                              //   "assets/images/error.jpeg",
+                              // ),
 
-                          image: const NetworkImage(
-                            boomIconUrl,
-                          ),
-                        ),
-                        SizedBox(
-                          height: getProportionateScreenHeight(10),
-                        ),
-                        Text(
-                          "The 🌍's First",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenHeight(18),
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        SizedBox(
-                          height: getProportionateScreenHeight(10),
-                        ),
-                        Text(
-                          "Web-3 Social Commerce Experience",
-                          style: TextStyle(
-                            fontSize: getProportionateScreenHeight(15),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        // const Spacer(),
-                        SizedBox(
-                          height: getProportionateScreenHeight(50),
-                        ),
-                        Container(
-                          width: SizeConfig.screenWidth * 0.9,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width: getProportionateScreenWidth(50),
-                                    height: getProportionateScreenHeight(50),
-                                    decoration: const BoxDecoration(
-                                      image: DecorationImage(
-                                        // image: AssetImage(
-                                        //     "assets/images/error.jpeg")
+                              image: const NetworkImage(
+                                boomIconUrl,
+                              ),
+                            ),
+                            SizedBox(
+                              height: getProportionateScreenHeight(10),
+                            ),
+                            // Text(
+                            //   "The 🌍's First",
+                            //   style: TextStyle(
+                            //     fontSize: getProportionateScreenHeight(18),
+                            //     fontWeight: FontWeight.w800,
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: getProportionateScreenHeight(10),
+                            // ),
+                            // Text(
+                            //   "Web-3 Social Commerce Experience",
+                            //   style: TextStyle(
+                            //     fontSize: getProportionateScreenHeight(15),
+                            //     fontWeight: FontWeight.w700,
+                            //   ),
+                            // ),
+                            // const Spacer(),
+                            SizedBox(
+                              height: getProportionateScreenHeight(50),
+                            ),
+                            Container(
+                              width: SizeConfig.screenWidth * 0.9,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: getProportionateScreenWidth(50),
+                                        height:
+                                            getProportionateScreenHeight(50),
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            // image: AssetImage(
+                                            //     "assets/images/error.jpeg")
 
-                                        image: NetworkImage(
-                                          userIconUrl,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(10),
-                                  ),
-                                  Text(
-                                    "Sign In",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          getProportionateScreenHeight(20),
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1.8,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(10),
-                                  ),
-                                  TextFormField(
-                                    controller: controller.userNameController,
-                                    key: const Key("uname"),
-                                    decoration: InputDecoration(
-                                      hintText: "Username or Email",
-                                      prefixIcon: const Icon(
-                                        Icons.person,
-                                        color: Colors.black,
-                                      ),
-                                      fillColor: Colors.grey.shade300,
-                                      filled: true,
-                                      contentPadding: const EdgeInsets.all(4.0),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.1),
-                                        ),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.1),
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.1),
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: Colors.white.withOpacity(0.1),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(15),
-                                  ),
-                                  Obx(
-                                    () => TextFormField(
-                                      key: const Key("pass"),
-                                      controller: controller.passwordController,
-                                      obscureText:
-                                          controller.isPassVisible.value,
-                                      decoration: InputDecoration(
-                                        hintText: "Password",
-                                        prefixIcon: const Icon(
-                                          Icons.lock,
-                                          color: Colors.black,
-                                        ),
-                                        suffixIcon: GestureDetector(
-                                          onTap: () {
-                                            controller.changePassVisibility();
-                                          },
-                                          child: const Icon(
-                                            Icons.remove_red_eye_outlined,
-                                            color: Colors.black,
-                                            size: 20,
-                                          ),
-                                        ),
-                                        fillColor: Colors.grey.shade300,
-                                        filled: true,
-                                        contentPadding:
-                                            const EdgeInsets.all(4.0),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color:
-                                                Colors.white.withOpacity(0.1),
-                                          ),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color:
-                                                Colors.white.withOpacity(0.1),
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color:
-                                                Colors.white.withOpacity(0.1),
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color:
-                                                Colors.white.withOpacity(0.1),
+                                            image: NetworkImage(
+                                              userIconUrl,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(15),
-                                  ),
-                                  GestureDetector(
-                                    key: const Key("loginBtn"),
-                                    onTap: () async {
-                                      bool res = await controller.loginUser();
-                                      if (res) {
-                                        Future.delayed(
-                                          const Duration(milliseconds: 500),
-                                        ).then((value) {
-                                          Get.offAll(() => const MainScreen(),
-                                              binding: AppBindings());
-                                        });
-                                      }
-                                    },
-                                    child: Container(
-                                      width: SizeConfig.screenWidth * 0.5,
-                                      height: getProportionateScreenHeight(40),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          color: Colors.blue.withOpacity(0.8),
-                                          borderRadius:
-                                              BorderRadius.circular(8.0)),
-                                      child: Text(
-                                        "LOGIN",
-                                        style: TextStyle(
-                                          color: Colors.white54,
-                                          fontSize:
-                                              getProportionateScreenHeight(16),
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(10),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(15),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          _showPasswordResetDialog(context),
-                                      child: Text(
-                                        "Forgot Password?",
+                                      Text(
+                                        "Sign In",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize:
-                                              getProportionateScreenHeight(10),
+                                              getProportionateScreenHeight(20),
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 1.8,
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: getProportionateScreenHeight(25),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: "Don't have an account? ",
-                                      style: TextStyle(
-                                        fontSize:
-                                            getProportionateScreenHeight(14),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(10),
                                       ),
-                                      children: [
-                                        TextSpan(
-                                          text: "Register",
-                                          recognizer: TapGestureRecognizer()
-                                            ..onTap = () {
-                                              Get.off(
-                                                  () =>
-                                                      const RegistrationScreen(),
+                                      TextFormField(
+                                        controller:
+                                            controller.userNameController,
+                                        key: const Key("uname"),
+                                        decoration: InputDecoration(
+                                          hintText: "Username or Email",
+                                          prefixIcon: const Icon(
+                                            Icons.person,
+                                            color: Colors.black,
+                                          ),
+                                          fillColor: Colors.grey.shade300,
+                                          filled: true,
+                                          contentPadding:
+                                              const EdgeInsets.all(4.0),
+                                          border: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  Colors.white.withOpacity(0.1),
+                                            ),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  Colors.white.withOpacity(0.1),
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  Colors.white.withOpacity(0.1),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  Colors.white.withOpacity(0.1),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(15),
+                                      ),
+                                      Obx(
+                                        () => TextFormField(
+                                          key: const Key("pass"),
+                                          controller:
+                                              controller.passwordController,
+                                          obscureText:
+                                              controller.isPassVisible.value,
+                                          decoration: InputDecoration(
+                                            hintText: "Password",
+                                            prefixIcon: const Icon(
+                                              Icons.lock,
+                                              color: Colors.black,
+                                            ),
+                                            suffixIcon: GestureDetector(
+                                              onTap: () {
+                                                controller
+                                                    .changePassVisibility();
+                                              },
+                                              child: const Icon(
+                                                Icons.remove_red_eye_outlined,
+                                                color: Colors.black,
+                                                size: 20,
+                                              ),
+                                            ),
+                                            fillColor: Colors.grey.shade300,
+                                            filled: true,
+                                            contentPadding:
+                                                const EdgeInsets.all(4.0),
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white
+                                                    .withOpacity(0.1),
+                                              ),
+                                            ),
+                                            errorBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white
+                                                    .withOpacity(0.1),
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white
+                                                    .withOpacity(0.1),
+                                              ),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Colors.white
+                                                    .withOpacity(0.1),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(15),
+                                      ),
+                                      GestureDetector(
+                                        key: const Key("loginBtn"),
+                                        onTap: () async {
+                                          // controller.checkIfNewUser(context);
+
+                                          bool res =
+                                              await controller.loginUser();
+                                          if (res) {
+                                            Future.delayed(
+                                              const Duration(milliseconds: 100),
+                                            ).then((value) {
+                                              Get.offAll(
+                                                  () => const MainScreen(),
                                                   binding: AppBindings());
-                                            },
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          width: SizeConfig.screenWidth * 0.5,
+                                          height:
+                                              getProportionateScreenHeight(40),
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  Colors.blue.withOpacity(0.8),
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0)),
+                                          child: Text(
+                                            "LOGIN",
+                                            style: TextStyle(
+                                              color: Colors.white54,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      16),
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(15),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: GestureDetector(
+                                          onTap: () => _showPasswordResetDialog(
+                                              context, controller),
+                                          child: Text(
+                                            "Forgot Password?",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  getProportionateScreenHeight(
+                                                      12),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            getProportionateScreenHeight(25),
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          text: "Don't have an account? ",
                                           style: TextStyle(
-                                            color: Colors.red.withOpacity(0.8),
                                             fontSize:
                                                 getProportionateScreenHeight(
                                                     14),
                                           ),
+                                          children: [
+                                            TextSpan(
+                                              text: "Register",
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = () {
+                                                  Get.off(
+                                                      () =>
+                                                          const RegistrationScreen(),
+                                                      binding: AppBindings());
+                                                },
+                                              style: TextStyle(
+                                                color:
+                                                    Colors.red.withOpacity(0.8),
+                                                fontSize:
+                                                    getProportionateScreenHeight(
+                                                        14),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
                             ),
+                            // const Spacer(),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.07,
+                        left: SizeConfig.screenWidth * 0.41,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/man-s-shoe-emoji-clipart-xl(1).png",
+                            height: getProportionateScreenHeight(30),
                           ),
                         ),
-                        // const Spacer(),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.07,
-                    left: SizeConfig.screenWidth * 0.41,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/man-s-shoe-emoji-clipart-xl(1).png",
-                        height: getProportionateScreenHeight(30),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.1,
-                    right: SizeConfig.screenWidth * 0.13,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/running-shoe-emoji-clipart-xl(2).png",
-                        height: getProportionateScreenHeight(30),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.1,
+                        right: SizeConfig.screenWidth * 0.13,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/running-shoe-emoji-clipart-xl(2).png",
+                            height: getProportionateScreenHeight(30),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.1,
-                    left: SizeConfig.screenWidth * 0.13,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/laughter-clipart-xl(1).png",
-                        height: getProportionateScreenHeight(30),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.1,
+                        left: SizeConfig.screenWidth * 0.13,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/laughter-clipart-xl(1).png",
+                            height: getProportionateScreenHeight(30),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.24,
-                    right: SizeConfig.screenWidth * 0.04,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/t-shirt-emoji-clipart-xl(1).png",
-                        height: getProportionateScreenHeight(30),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.24,
+                        right: SizeConfig.screenWidth * 0.04,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/t-shirt-emoji-clipart-xl(1).png",
+                            height: getProportionateScreenHeight(30),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.24,
-                    left: SizeConfig.screenWidth * 0.04,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/Handbag Emoji(1).png",
-                        height: getProportionateScreenHeight(30),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.24,
+                        left: SizeConfig.screenWidth * 0.04,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/Handbag Emoji(1).png",
+                            height: getProportionateScreenHeight(30),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.36,
-                    left: SizeConfig.screenWidth * 0.04,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/422dress_100789(1).png",
-                        height: getProportionateScreenHeight(30),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.36,
+                        left: SizeConfig.screenWidth * 0.04,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/422dress_100789(1).png",
+                            height: getProportionateScreenHeight(30),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: SizeConfig.screenHeight * 0.36,
-                    right: SizeConfig.screenWidth * 0.03,
-                    child: WidgetAnimator(
-                      incomingEffect:
-                          WidgetTransitionEffects.incomingSlideInFromBottom(),
-                      atRestEffect: WidgetRestingEffects.rotate(),
-                      child: Image.asset(
-                        "assets/icons/sun-glass-clipart-xl(1).png",
-                        height: getProportionateScreenHeight(20),
-                        width: getProportionateScreenWidth(50),
+                      Positioned(
+                        top: SizeConfig.screenHeight * 0.36,
+                        right: SizeConfig.screenWidth * 0.03,
+                        child: WidgetAnimator(
+                          incomingEffect: WidgetTransitionEffects
+                              .incomingSlideInFromBottom(),
+                          atRestEffect: WidgetRestingEffects.rotate(),
+                          child: Image.asset(
+                            "assets/icons/sun-glass-clipart-xl(1).png",
+                            height: getProportionateScreenHeight(20),
+                            width: getProportionateScreenWidth(50),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
   }
 
-  _showPasswordResetDialog(BuildContext context) {
+  _showPasswordResetDialog(BuildContext context, LoginController controller) {
     showModalBottomSheet(
         context: context,
         // isScrollControlled: true,
@@ -477,7 +523,7 @@ class LoginScreen extends GetView<LoginController> {
                         Future.delayed(const Duration(milliseconds: 100))
                             .then((value) {
                           Navigator.pop(context);
-                          _showChangePasswordDIalog(context);
+                          _showChangePasswordDIalog(context, controller);
                         });
                       } else {
                         Get.snackbar(
@@ -509,7 +555,7 @@ class LoginScreen extends GetView<LoginController> {
         });
   }
 
-  _showChangePasswordDIalog(BuildContext context) {
+  _showChangePasswordDIalog(BuildContext context, LoginController controller) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(

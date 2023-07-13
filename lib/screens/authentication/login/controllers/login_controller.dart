@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
@@ -27,6 +30,14 @@ class LoginController extends GetxController {
   UserModel? user;
 
   GlobalKey<FormState> resetPasswordFormKey = GlobalKey<FormState>();
+  var isPassVisible = true.obs;
+
+  List<String> noteStr = [
+    "This version is a \"simulation\"(demo) of what's to come!",
+    "With this simulation, users can own social content",
+    "Users have the onus of trading content using simulated (pseudo) coins across Tezos, Polygon & BNB",
+    "This simulation gives users a fun way to experience the application completely free and shows a preview of the exciting things that will be achieved with Boom!",
+  ];
 
   @override
   void onInit() async {
@@ -44,7 +55,184 @@ class LoginController extends GetxController {
     }
   }
 
-  var isPassVisible = true.obs;
+  checkIfNewUser(BuildContext context) async {
+    if (box.read("newInstall") == null) {
+      showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(18),
+              topRight: Radius.circular(18),
+            ),
+          ),
+          builder: (context) {
+            return Container(
+              height: SizeConfig.screenHeight * 0.7,
+              width: SizeConfig.screenWidth,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(18),
+                  topRight: Radius.circular(18),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: IconButton(
+                          icon: const Icon(
+                            MdiIcons.closeCircleOutline,
+                            color: kredCancelTextColor,
+                          ),
+                          onPressed: () async {
+                            Get.back();
+                            await box.write("newInstall", true);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(10),
+                      ),
+                      Text(
+                        "Welcome to Boom! 💥",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenHeight(24),
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(20),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          border: Border.all(
+                            color: Colors.black,
+                            width: .5,
+                          ),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 8.0,
+                          ),
+                          child: Text(
+                            "Important, please read:",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenHeight(14),
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(25),
+                      ),
+                      Text(
+                        "Boom is where Merchants & Social users win together!",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w800,
+                          fontSize: getProportionateScreenHeight(16),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(25),
+                      ),
+                      Container(
+                        height: SizeConfig.screenHeight * 0.3,
+                        width: SizeConfig.screenWidth,
+                        padding: const EdgeInsets.fromLTRB(15, 16, 16, 16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE0E0E0),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: ListView(
+                          scrollDirection: Axis.vertical,
+                          children: noteStr.map((e) {
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 7),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "\u2022",
+                                    style: TextStyle(
+                                      fontSize:
+                                          getProportionateScreenHeight(16),
+                                      height: 1.55,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: getProportionateScreenWidth(5),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      e,
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize:
+                                            getProportionateScreenHeight(14),
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black54,
+                                        height: 1.55,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(40),
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () async {
+                            Get.back();
+                            await box.write("newInstall", true);
+                          },
+                          child: Container(
+                            width: SizeConfig.screenWidth * 0.7,
+                            height: getProportionateScreenHeight(40),
+                            decoration: BoxDecoration(
+                              color: kgreenSuccessColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "GOT IT",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          });
+
+      // Future.delayed(const Duration(seconds: 5)).then((value) {
+      //   Get.back();
+      // });
+    }
+  }
 
   void changePassVisibility() {
     isPassVisible.value = !isPassVisible.value;

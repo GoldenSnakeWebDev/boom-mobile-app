@@ -50,23 +50,23 @@ class RegistrationScreen extends GetView<RegisterController> {
                   SizedBox(
                     height: getProportionateScreenHeight(10),
                   ),
-                  Text(
-                    "The 🌍's First",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenHeight(18),
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(10),
-                  ),
-                  Text(
-                    "Web-3 Social Commerce Experience",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenHeight(15),
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  // Text(
+                  //   "The 🌍's First",
+                  //   style: TextStyle(
+                  //     fontSize: getProportionateScreenHeight(18),
+                  //     fontWeight: FontWeight.w800,
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: getProportionateScreenHeight(10),
+                  // ),
+                  // Text(
+                  //   "Web-3 Social Commerce Experience",
+                  //   style: TextStyle(
+                  //     fontSize: getProportionateScreenHeight(15),
+                  //     fontWeight: FontWeight.w700,
+                  //   ),
+                  // ),
                   // const Spacer(),
                   SizedBox(
                     height: getProportionateScreenHeight(25),
