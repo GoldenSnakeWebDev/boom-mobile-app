@@ -35,7 +35,7 @@ class LoginController extends GetxController {
   List<String> noteStr = [
     "This version is a \"simulation\"(demo) of what's to come!",
     "With this simulation, users can own social content",
-    "Users have the onus of trading content using simulated (pseudo) coins across Tezos, Polygon & BNB",
+    "Users have the bonus of trading content using simulated (pseudo) coins across Tezos, Polygon & BNB",
     "This simulation gives users a fun way to experience the application completely free and shows a preview of the exciting things that will be achieved with Boom!",
   ];
 
