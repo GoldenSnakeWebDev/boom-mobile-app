@@ -15,7 +15,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 1,
       child: Scaffold(
         backgroundColor: kContBgColor,
         appBar: AppBar(
@@ -82,19 +82,19 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                             ),
                 ),
               ),
-              SafeArea(
-                child: Obx(
-                  () => (controller.isLoading.value)
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : (controller.groupMessages.isNotEmpty)
-                          ? _buildChatsList(controller.groupMessages, true)
-                          : const Center(
-                              child: Text("No messages"),
-                            ),
-                ),
-              )
+              // SafeArea(
+              //   child: Obx(
+              //     () => (controller.isLoading.value)
+              //         ? const Center(
+              //             child: CircularProgressIndicator(),
+              //           )
+              //         : (controller.groupMessages.isNotEmpty)
+              //             ? _buildChatsList(controller.groupMessages, true)
+              //             : const Center(
+              //                 child: Text("No messages"),
+              //               ),
+              //   ),
+              // )
             ],
           ),
         ),
@@ -115,11 +115,12 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
                   vertical: getProportionateScreenHeight(20),
                 ),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(
-                    getProportionateScreenHeight(15),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(
+                      getProportionateScreenHeight(15),
+                    ),
                   ),
-                )),
+                ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
