@@ -280,7 +280,11 @@ class _SingleMessageState extends State<SingleMessage> {
                               ? widget.boomBoxModel.imageUrl
                               : widget.boomBoxModel.members.first.user.photo !=
                                       ""
-                                  ? widget.boomBoxModel.members.first.user.photo
+                                  ? controller.userId ==
+                                          widget.boomBoxModel.user.photo
+                                      ? widget
+                                          .boomBoxModel.members.first.user.photo
+                                      : widget.boomBoxModel.user.photo
                                   : "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=",
                         ),
                       )
@@ -298,7 +302,9 @@ class _SingleMessageState extends State<SingleMessage> {
                 Text(
                   widget.isBoomBox
                       ? widget.boomBoxModel.label
-                      : widget.boomBoxModel.members.first.user.username,
+                      : controller.userId == widget.boomBoxModel.user.username
+                          ? widget.boomBoxModel.members.first.user.username
+                          : widget.boomBoxModel.user.username,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenHeight(15),
