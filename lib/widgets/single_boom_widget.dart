@@ -56,16 +56,19 @@ class SingleBoomWidget extends StatelessWidget {
                   ),
                   const Spacer(),
                   CachedNetworkImage(
-                    height: getProportionateScreenHeight(20),
+                    height: getProportionateScreenHeight(16),
                     imageUrl: post.network.imageUrl ==
                             "https://polygon.technology/favicon-32x32.png"
                         ? "http://boomhost.xyz/backend/LOGOS/polygon-matic-logo.png"
-                        : post.network.imageUrl!,
+                        
+                        : post.network.symbol == "TZ"
+                            ? "https://tezos.com/favicon-32x32.png"
+                            : post.network.imageUrl!,
                     errorWidget: (context, url, error) => Image.asset(
                       'assets/icons/${post.network.symbol!.toLowerCase()}.png',
-                      height: getProportionateScreenHeight(20),
+                      height: getProportionateScreenHeight(16),
                     ),
-                    fit: BoxFit.cover,
+                    // fit: BoxFit.cover,
                   ),
                   SizedBox(
                     width: getProportionateScreenWidth(5),

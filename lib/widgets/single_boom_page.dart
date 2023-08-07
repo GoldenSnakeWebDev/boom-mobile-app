@@ -1030,12 +1030,14 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       ),
                                       CachedNetworkImage(
                                         height:
-                                            getProportionateScreenHeight(20),
-                                        width: getProportionateScreenWidth(20),
+                                            getProportionateScreenHeight(18),
+                                        width: getProportionateScreenWidth(18),
                                         imageUrl: boom.boom.network!.imageUrl ==
                                                 "https://polygon.technology/favicon-32x32.png"
                                             ? "http://boomhost.xyz/backend/LOGOS/polygon-matic-logo.png"
-                                            : boom.boom.network!.imageUrl,
+                                            : boom.boom.network!.symbol == "TZ"
+                                                ? "https://tezos.com/favicon-32x32.png"
+                                                : boom.boom.network!.imageUrl,
                                         useOldImageOnUrlChange: true,
                                         errorWidget: (context, url, error) =>
                                             Image.asset(
