@@ -284,7 +284,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     children: [
                                       PopupMenuButton(
                                         iconSize:
-                                            getProportionateScreenWidth(50),
+                                            getProportionateScreenWidth(45),
                                         itemBuilder: (context) {
                                           return box.read("userId") ==
                                                   boom.boom.user!.id
@@ -1010,7 +1010,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             style: TextStyle(
                                               fontSize:
                                                   getProportionateScreenHeight(
-                                                      14),
+                                                      13),
                                               fontWeight: FontWeight.w900,
                                             ),
                                           ),
@@ -1030,8 +1030,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       ),
                                       CachedNetworkImage(
                                         height:
-                                            getProportionateScreenHeight(18),
-                                        width: getProportionateScreenWidth(18),
+                                            getProportionateScreenHeight(16),
+                                        width: getProportionateScreenWidth(16),
                                         imageUrl: boom.boom.network!.imageUrl ==
                                                 "https://polygon.technology/favicon-32x32.png"
                                             ? "http://boomhost.xyz/backend/LOGOS/polygon-matic-logo.png"
@@ -1180,11 +1180,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                             boomController.reactToBoom(
                                                 "likes", boomId, boom);
 
-                                            return boomController.isLikes.value;
+                                            return !boomController.isLikes.value;
                                           },
                                           likeCount: boomController.likesCount,
                                           countPostion: CountPostion.bottom,
-                                          likeBuilder: ((isLiked) {
+                                          likeBuilder: (bool isLiked) {
+                                            log("Like Value${boomController.isLikes.value}");
                                             return CachedNetworkImage(
                                               height:
                                                   getProportionateScreenHeight(
@@ -1195,7 +1196,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                       : Colors.black,
                                               imageUrl: likeIconUrl,
                                             );
-                                          }),
+                                          },
                                         ),
                                       ),
                                     ],
