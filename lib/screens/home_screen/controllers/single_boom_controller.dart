@@ -83,43 +83,67 @@ class SingleBoomController extends GetxController {
           backgroundColor: kPrimaryColor);
       Get.off(() => const MainScreen(), binding: AppBindings());
     } else {
-      log(res.body);
-      log(boomId);
-      log(res.statusCode.toString());
-
       EasyLoading.dismiss();
       Get.snackbar("Minting", "Boom minting failed",
           backgroundColor: kwarningColor1);
     }
   }
 
+  localReactionChange(bool isLikes) {
+    this.isLikes.value = isLikes;
+
+    likesCount = isLikes ? likesCount + 1 : likesCount - 1;
+    update();
+  }
+
   Future<bool> reactToBoom(
       String reactType, String boomId, SingleBoom boom) async {
-    final res = await homeService.reactToBoom(reactType, boomId);
-
     switch (reactType) {
       case "likes":
         isLikes.value = !isLikes.value;
+
         break;
-      case "loves":
-        isLoves.value = !isLoves.value;
-        break;
-      case "smiles":
-        isSmiles.value = !isSmiles.value;
-        break;
-      case "rebooms":
-        isRebooms.value = !isRebooms.value;
-        break;
+      // case "loves":
+      //   isLoves.value = !isLoves.value;
+      //   break;
+      // case "smiles":
+      //   isSmiles.value = !isSmiles.value;
+      //   break;
+      // case "rebooms":
+      //   isRebooms.value = !isRebooms.value;
+      //   break;
     }
-    update();
+    
+    log("Current Reaction ${isLikes.value}");
+
+    final res = await homeService.reactToBoom(reactType, boomId);
+    String token = box.read("token");
 
     if (res.statusCode == 200) {
-      final singleBoom = singleBoomService.getSingleBoom().asBroadcastStream();
-      final boomReacted = await singleBoom.first;
-      log("Reactions result ${boom.boom.imageUrl!}");
-      await fetchReactionStatus(boomReacted!);
+      try {
+        var res = await http.get(
+          Uri.parse("${baseURL}booms/$boomId"),
+          headers: {
+            "Authorization": token,
+          },
+        );
 
-      update();
+        if (res.statusCode == 200) {
+          final singleBoom = SingleBoom.fromJson(jsonDecode(res.body));
+
+          await fetchReactionStatus(singleBoom);
+        } else {
+          log("Single Boom Error ::: ${res.statusCode} ::: ${res.body}");
+        }
+      } catch (e) {
+        log(e.toString());
+      }
+
+      // final singleBoom = singleBoomService.getSingleBoom().asBroadcastStream();
+      // final boomReacted = await singleBoom.last;
+      // log("Reactions result $res");
+
+      
       return true;
     } else {
       CustomSnackBar.showCustomSnackBar(
@@ -132,20 +156,37 @@ class SingleBoomController extends GetxController {
 
   fetchReactionStatus(SingleBoom boom) async {
     likesCount = boom.boom.reactions!.likes.length;
-    lovesCount = boom.boom.reactions!.loves.length;
-    smilesCount = boom.boom.reactions!.smiles.length;
-    reboomsCount = boom.boom.reactions!.rebooms.length;
-    reportsCount = boom.boom.reactions!.reports.length;
+    // lovesCount = boom.boom.reactions!.loves.length;
+    // smilesCount = boom.boom.reactions!.smiles.length;
+    // reboomsCount = boom.boom.reactions!.rebooms.length;
+    // reportsCount = boom.boom.reactions!.reports.length;
 
     String userId = await box.read("userId");
 
-    for (var item in boom.boom.reactions!.likes) {
-      if (item.id == userId) {
-        isLikes.value = true;
-      } else {
-        isLikes.value = false;
+    if (boom.boom.reactions!.likes.isEmpty) {
+      isLikes.value = false;
+      update();
+    } else {
+      for (var item in boom.boom.reactions!.likes) {
+        if (item.id == userId) {
+          isLikes.value = true;
+          update();
+        } else {
+          isLikes.value = false;
+          update();
+        }
       }
     }
+
+    // for (var item in boom.boom.reactions!.likes) {
+    //   if (item.id == userId) {
+    //     isLikes.value = true;
+    //     update();
+    //   } else {
+    //     isLikes.value = false;
+    //     update();
+    //   }
+    // }
     // for (var item in boom.boom.reactions!.loves) {
     //   if (item.id == userId) {
     //     isLoves.value = true;
