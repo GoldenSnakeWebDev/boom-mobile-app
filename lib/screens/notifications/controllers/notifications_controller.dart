@@ -11,6 +11,8 @@ class NotificationsController extends GetxController {
   final box = GetStorage();
   NotificationsModel? notificationsModel;
   bool isLoading = false;
+  int currPage = 1;
+  int pageLimit = 0;
 
   @override
   void onInit() {
@@ -23,6 +25,7 @@ class NotificationsController extends GetxController {
 
   fetchAllNotifications() async {
     isLoading = true;
+    update();
     final res = await http.get(
       Uri.parse("${baseURL}notifications?page=all"),
       headers: {
@@ -33,6 +36,7 @@ class NotificationsController extends GetxController {
     if (res.statusCode == 200) {
       isLoading = false;
       notificationsModel = notificationsModelFromJson(res.body);
+      notificationsModel!.notifications!.reversed.toList();
       update();
     } else {
       isLoading = false;
@@ -41,4 +45,6 @@ class NotificationsController extends GetxController {
       update();
     }
   }
+
+  loadMoreNotifications(int page) async {}
 }
