@@ -50,11 +50,15 @@ jobs:
     # - run: flutter analyze
     
     # Run widget tests for our flutter project.
-   # - run: flutter test
+    # - run: flutter test
+    # Run de ting
+    - name: Run APK 
+      run: flutter run
     
     # Build :D 
     - name: Build APK
-      run: flutter build apk --debug
+      
+      run: flutter run --debug
       
     - name: Build APPBUNDLE
       run: flutter build appbundle --debug
