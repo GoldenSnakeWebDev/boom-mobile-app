@@ -3,14 +3,15 @@ import 'package:boom_mobile/screens/authentication/login/models/user_model.dart'
 import 'package:boom_mobile/screens/fans_frens_screen/ui/fans_screen.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
+import 'package:boom_mobile/screens/profile_screen/service/profile_service.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/boom_box.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/edit_profile.dart';
-import 'package:boom_mobile/screens/profile_screen/service/profile_service.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -329,22 +330,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                             ),
                                                           ),
                                                         )
-                                                      : Container(
+                                                      : SizedBox(
                                                           width: SizeConfig
                                                               .screenWidth,
                                                           height:
                                                               getProportionateScreenHeight(
                                                                   125),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            image:
-                                                                DecorationImage(
-                                                              image:
-                                                                  NetworkImage(
+                                                        
+                                                          child:
+                                                              CachedNetworkImage(
+                                                            imageUrl:
                                                                 user.cover!,
+                                                            fit: BoxFit.cover,
+                                                            placeholder: (context,
+                                                                    url) =>
+                                                                Shimmer
+                                                                    .fromColors(
+                                                              baseColor: Colors
+                                                                  .grey[300]!,
+                                                              highlightColor:
+                                                                  Colors.grey[
+                                                                      100]!,
+                                                              child: Container(
+                                                                width: SizeConfig
+                                                                    .screenWidth,
+                                                                height:
+                                                                    getProportionateScreenHeight(
+                                                                        125),
+                                                                color: Colors
+                                                                    .white,
                                                               ),
-                                                              fit: BoxFit.cover,
                                                             ),
+                                                            errorWidget: (context,
+                                                                    url,
+                                                                    error) =>
+                                                                const Icon(Icons
+                                                                    .error),
                                                           ),
                                                         ),
                                                   Positioned(
@@ -533,15 +554,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                     BorderRadius
                                                                         .circular(
                                                                             8),
-                                                                child: Image
-                                                                    .network(
+                                                                child:
+                                                                    CachedNetworkImage(
                                                                   height:
                                                                       getProportionateScreenHeight(
                                                                           60),
                                                                   width:
                                                                       getProportionateScreenWidth(
                                                                           55),
-                                                                  user.photo!
+                                                                  imageUrl: user
+                                                                          .photo!
                                                                           .isEmpty
                                                                       ? "https://bafkreihauwrqu5wrcwsi53fkmm75pcdlmbzcg7eorw6avmb3o3cx4tk33e.ipfs.nftstorage.link/"
                                                                       : user
