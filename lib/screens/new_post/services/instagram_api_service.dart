@@ -54,6 +54,9 @@ class InstagramService {
 
     final responseMedia = await http.get(uri);
 
+
+    log("Response from Instagram ${responseMedia.body}");
+
     Map<String, dynamic> mediaList = jsonDecode(responseMedia.body);
 
     final List<InstaMedia> medias = [];
