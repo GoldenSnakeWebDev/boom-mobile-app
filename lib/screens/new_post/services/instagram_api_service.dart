@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:boom_mobile/screens/new_post/models/insta_media.dart';
 import 'package:boom_mobile/secrets.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class InstagramService {
@@ -49,13 +50,22 @@ class InstagramService {
   Future<List<InstaMedia>> getAllMedias() async {
     final String fields = mediaFields.join(',');
 
+    final bodySent = {"fields": fields, "access_token": accessToken};
+
+    log("The Body Sent $bodySent");
+
     final uri = Uri.parse(
-        "https://graph.instagram.com/$userID/media?fields=$fields&access_token=$accessToken");
+        "https://graph.instagram.com/me/media?fields=$fields&access_token=$accessToken");
 
     final responseMedia = await http.get(uri);
 
-
     log("Response from Instagram ${responseMedia.body}");
+
+    if (responseMedia.statusCode != 200) {
+      Get.snackbar("Ig Error", "Could not fetch your IG posts");
+      Get.back();
+      return [];
+    }
 
     Map<String, dynamic> mediaList = jsonDecode(responseMedia.body);
 

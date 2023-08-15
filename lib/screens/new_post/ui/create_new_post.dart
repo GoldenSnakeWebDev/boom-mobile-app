@@ -672,7 +672,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        Get.off(() => InstagramWeb());
+                                        Get.to(() => InstagramWeb());
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
