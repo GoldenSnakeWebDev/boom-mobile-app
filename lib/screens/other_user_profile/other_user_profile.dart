@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/fans_frens_screen/ui/fans_screen.dart';
-
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/controllers/other_profile_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_booms.dart';
@@ -1325,6 +1324,9 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                             HomeController>(),
                                                         boomId: booms
                                                             .booms[index].id!,
+                                                          boom: booms
+                                                              .booms[index]
+                                                            
                                                       );
                                                     },
                                                   ),

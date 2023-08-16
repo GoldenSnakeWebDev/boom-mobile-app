@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
-
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
@@ -186,7 +185,7 @@ class HomeController extends GetxController {
         // getNetworkById(allBooms);
 
         // await initializeVideos();
-        await fetchTrendingBoxes();
+        // await fetchTrendingBoxes();
         update();
       } else {
         isLoading = false;

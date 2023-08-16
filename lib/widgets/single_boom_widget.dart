@@ -10,16 +10,20 @@ import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import '../screens/home_screen/models/all_booms.dart';
+
 class SingleBoomWidget extends StatelessWidget {
   final SingleBoomPost post;
   final String boomId;
   final HomeController? controller;
+  final Boom boom;
 
   const SingleBoomWidget({
     Key? key,
     required this.post,
     this.controller,
     required this.boomId,
+    required this.boom,
   }) : super(key: key);
 
   @override
@@ -28,7 +32,7 @@ class SingleBoomWidget extends StatelessWidget {
       onTap: () {
         Get.to(
           () => const SingleBoomPage(),
-          arguments: [boomId, post.title],
+          arguments: [boomId, post.title, boom],
         );
       },
       child: Container(
@@ -60,7 +64,6 @@ class SingleBoomWidget extends StatelessWidget {
                     imageUrl: post.network.imageUrl ==
                             "https://polygon.technology/favicon-32x32.png"
                         ? "http://boomhost.xyz/backend/LOGOS/polygon-matic-logo.png"
-                        
                         : post.network.symbol == "TZ"
                             ? "https://tezos.com/favicon-32x32.png"
                             : post.network.imageUrl!,

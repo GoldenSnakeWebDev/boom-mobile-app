@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/helpers/file_uploader.dart';
-import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
+import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
@@ -53,9 +53,11 @@ class SingleBoomController extends GetxController {
 
   List<int> chainIds = [56, 137, 65];
   final boomService = SingleBoomService();
+  late Boom boom;
 
   @override
   void onInit() {
+    boom = Get.arguments[2];
     boomService.getSingleBoom();
 
     super.onInit();
@@ -89,18 +91,19 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  localReactionChange(bool isLikes) {
-    this.isLikes.value = isLikes;
+  localReactionChange() {
+    
 
-    likesCount = isLikes ? likesCount + 1 : likesCount - 1;
+    likesCount = isLikes.value ? likesCount + 1 : likesCount - 1;
     update();
   }
 
   Future<bool> reactToBoom(
-      String reactType, String boomId, SingleBoom boom) async {
+      String reactType, String boomId, Boom boom) async {
     switch (reactType) {
       case "likes":
         isLikes.value = !isLikes.value;
+        localReactionChange();
 
         break;
       // case "loves":
@@ -113,7 +116,7 @@ class SingleBoomController extends GetxController {
       //   isRebooms.value = !isRebooms.value;
       //   break;
     }
-    
+
     log("Current Reaction ${isLikes.value}");
 
     final res = await homeService.reactToBoom(reactType, boomId);
@@ -129,7 +132,7 @@ class SingleBoomController extends GetxController {
         );
 
         if (res.statusCode == 200) {
-          final singleBoom = SingleBoom.fromJson(jsonDecode(res.body));
+          final singleBoom = Boom.fromJson(jsonDecode(res.body)["boom"]);
 
           await fetchReactionStatus(singleBoom);
         } else {
@@ -143,7 +146,6 @@ class SingleBoomController extends GetxController {
       // final boomReacted = await singleBoom.last;
       // log("Reactions result $res");
 
-      
       return true;
     } else {
       CustomSnackBar.showCustomSnackBar(
@@ -154,8 +156,8 @@ class SingleBoomController extends GetxController {
     }
   }
 
-  fetchReactionStatus(SingleBoom boom) async {
-    likesCount = boom.boom.reactions!.likes.length;
+  fetchReactionStatus(Boom boom) async {
+    likesCount = boom.reactions!.likes!.length;
     // lovesCount = boom.boom.reactions!.loves.length;
     // smilesCount = boom.boom.reactions!.smiles.length;
     // reboomsCount = boom.boom.reactions!.rebooms.length;
@@ -163,11 +165,11 @@ class SingleBoomController extends GetxController {
 
     String userId = await box.read("userId");
 
-    if (boom.boom.reactions!.likes.isEmpty) {
+    if (boom.reactions!.likes!.isEmpty) {
       isLikes.value = false;
       update();
     } else {
-      for (var item in boom.boom.reactions!.likes) {
+      for (var item in boom.reactions!.likes!) {
         if (item.id == userId) {
           isLikes.value = true;
           update();
@@ -252,7 +254,7 @@ class SingleBoomController extends GetxController {
   refreshPage() async {
     final singleBoom = singleBoomService.getSingleBoom().asBroadcastStream();
     final boom = await singleBoom.first;
-    log("Stream result ${boom!.boom.imageUrl!}");
+    log("Stream result ${boom!.imageUrl!}");
     await fetchReactionStatus(boom);
     update();
   }

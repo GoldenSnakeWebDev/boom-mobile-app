@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/home_screen/models/single_boom_model.dart';
+import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -17,7 +17,7 @@ class SingleBoomService {
 
   bool isLoading = true;
 
-  Stream<SingleBoom?> getSingleBoom() async* {
+  Stream<Boom?> getSingleBoom() async* {
     String token = box.read("token");
 
     while (true) {
@@ -30,7 +30,7 @@ class SingleBoomService {
         );
 
         if (res.statusCode == 200) {
-          final singleBoom = SingleBoom.fromJson(jsonDecode(res.body));
+          final singleBoom = Boom.fromJson(jsonDecode(res.body)["boom"]);
           yield singleBoom;
         } else {
           log("Single Boom Error ::: ${res.statusCode} ::: ${res.body}");

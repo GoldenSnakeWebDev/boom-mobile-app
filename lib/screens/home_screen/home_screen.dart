@@ -517,6 +517,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 controller: controller,
                                                 boomId: controller
                                                     .homeBooms![index].id!,
+                                                  boom: controller
+                                                      .homeBooms![index] 
                                               ),
                                             ),
                                           );
