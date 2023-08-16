@@ -139,6 +139,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                           post: boomPost[index],
                                           controller: homeController,
                                           boomId: _shuffledBooms![index].id!,
+                                          boom: _shuffledBooms![index],
                                         );
                                       },
                                     ),
@@ -193,6 +194,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                                           .search
                                                           .booms[index]
                                                           .id!,
+                                                      boom: searchCtrller
+                                                          .searchResults!
+                                                          .search
+                                                          .booms[index],
                                                     );
                                                   },
                                                 ),

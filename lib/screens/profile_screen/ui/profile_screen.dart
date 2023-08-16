@@ -1032,6 +1032,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   Get.find<HomeController>(),
                                               boomId: controller
                                                   .myBooms!.booms![index].id!,
+                                              boom: controller
+                                                  .myBooms!.booms![index],
                                             );
                                           },
                                         ),

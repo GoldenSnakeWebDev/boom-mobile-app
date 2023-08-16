@@ -92,7 +92,8 @@ class CustomSnackBar {
     Get.snackbar(
       "Network Error",
       "Could not load booms check your connection",
-      duration: const Duration(seconds: 5),
+      backgroundColor: Colors.red,
+      duration: const Duration(seconds: 6),
       mainButton: TextButton(
         onPressed: () async {
           btnAction;
