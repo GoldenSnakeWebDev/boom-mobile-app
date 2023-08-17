@@ -96,18 +96,22 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
           },
           child: Container(
             padding: const EdgeInsets.all(6.0),
-            margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+            height: SizeConfig.screenHeight * 0.87,
+            width: SizeConfig.screenWidth,
+            // margin: EdgeInsets.only(
+            //     bottom: MediaQuery.of(context).viewInsets.bottom),
             child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * .89,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
+              physics: const ScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 2.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: SizeConfig.screenHeight * 0.87,
+                  ),
+
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       ConstrainedBox(
                         constraints: BoxConstraints(
@@ -447,7 +451,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                 backgroundColor: kPrimaryColor,
                                                 colorText: Colors.black,
                                               );
-
+                
                                               // if (boom.boom.boomState ==
                                               //     BoomState.REAL_NFT) {
                                               //   Future.delayed(
@@ -585,12 +589,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               //             items: [
                               //               PopupMenuItem(
                               //                 onTap: () async {
-
+                
                               //                   Future.delayed(
                               //                       const Duration(
                               //                           seconds: 0),
                               //                       () async {
-
+                
                               //                     showDialog(
                               //                       context: context,
                               //                       builder:
@@ -1086,7 +1090,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                       SizedBox(
                         height: getProportionateScreenHeight(10),
                       ),
-
+                
                       //Ractions Section
                       //TODO: Change this to a widget
                       Row(
@@ -1107,7 +1111,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   onTap: (isLiked) async {
                                     boomController.reactToBoom(
                                         "likes", boomId, boomController.boom);
-
+                
                                     return !boomController.isLikes.value;
                                   },
                                   likeCount: boomController.likesCount,
@@ -1144,7 +1148,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           //         onTap: (isLoved) async {
                           //           boomController.reactToBoom(
                           //               "loves", boomId, boom);
-
+                
                           //           return boomController.isLoves.value;
                           //         },
                           //         likeCount: boomController.lovesCount,
@@ -1183,7 +1187,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           //         onTap: (isLiked) async {
                           //           boomController.reactToBoom(
                           //               "smiles", boomId, boom);
-
+                
                           //           return boomController
                           //               .isSmiles.value;
                           //         },
@@ -1224,7 +1228,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           //           onTap: (isLiked) async {
                           //             boomController.reactToBoom(
                           //                 "rebooms", boomId, boom);
-
+                
                           //             return boomController
                           //                 .isRebooms.value;
                           //           },
@@ -1326,137 +1330,164 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                         height: getProportionateScreenHeight(15),
                       ),
                       //View Comments Section
-
-                      Expanded(
-                        flex: 3,
-                        child: StreamBuilder(
-                            stream: boomService.getSingleBoom(),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
+                      StreamBuilder(
+                          stream: boomService.getSingleBoom(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return boomController.boom.comments!.isEmpty
+                                  ? const Center(
+                                      child: Text("Could not fecch comments"),
+                                    )
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      primary: false,
+                                      itemCount:
+                                          boomController.boom.comments!.length,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return SingleComment(
+                                          comment: boomController
+                                              .boom.comments![index].message!,
+                                          userName: boomController.boom
+                                              .comments![index].user!.username!,
+                                          createdAt: boomController
+                                              .boom.comments![index].createdAt
+                                              .toString(),
+                                          imageUrl:
+                                              "${boomController.boom.comments![index].user!.photo!.isNotEmpty ? boomController.boom.comments![index].user!.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
+                                          userId: boomController
+                                              .boom.comments![index].user!.id!,
+                                        );
+                                      },
+                                    );
+                            } else if (snapshot.connectionState ==
+                                    ConnectionState.active ||
+                                snapshot.connectionState ==
+                                    ConnectionState.done) {
+                              if (snapshot.hasError) {
                                 return const Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Text("Could not fecch comments"),
                                 );
-                              } else if (snapshot.connectionState ==
-                                      ConnectionState.active ||
-                                  snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                if (snapshot.hasError) {
-                                  return const Center(
-                                    child: Text("Could not fecch comments"),
-                                  );
-                                } else if (snapshot.hasData) {
-                                  Boom? boom = snapshot.data;
-                                  return Column(
-                                    children: [
-                                      Expanded(
-                                        child: ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: boom!.comments!.length,
-                                          // physics: const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) {
-                                            return SingleComment(
-                                              comment: boom
-                                                  .comments![index].message!,
-                                              userName: boom.comments![index]
-                                                  .user!.username!,
-                                              createdAt: boom
-                                                  .comments![index].createdAt
-                                                  .toString(),
-                                              imageUrl:
-                                                  "${boom.comments![index].user!.photo!.isNotEmpty ? boom.comments![index].user!.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
-                                              userId: boom
-                                                  .comments![index].user!.id!,
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: getProportionateScreenHeight(5),
-                                      ),
-                                    ],
-                                  );
-                                } else {
-                                  return const Center(
-                                    child: Text("Loading..."),
-                                  );
-                                }
+                              } else if (snapshot.hasData) {
+                                Boom? boom = snapshot.data;
+                                return boom!.comments!.isEmpty
+                                    ? const Center(
+                                        child: Text("No comments yet"),
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        primary: false,
+                                        itemCount: boom.comments!.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return SingleComment(
+                                            comment:
+                                                boom.comments![index].message!,
+                                            userName: boom.comments![index]
+                                                .user!.username!,
+                                            createdAt: boom
+                                                .comments![index].createdAt
+                                                .toString(),
+                                            imageUrl:
+                                                "${boom.comments![index].user!.photo!.isNotEmpty ? boom.comments![index].user!.photo : "https://icon-library.com/images/no-user-image-icon/no-user-image-icon-25.jpg"}",
+                                            userId:
+                                                boom.comments![index].user!.id!,
+                                          );
+                                        },
+                                      );
                               } else {
                                 return const Center(
-                                  child: Text("Something went wrong"),
+                                  child: Text("Loading..."),
                                 );
                               }
-                            }),
-                      ),
+                            } else {
+                              return const Center(
+                                child: Text("Something went wrong"),
+                              );
+                            }
+                          }),
+                      SizedBox(height: getProportionateScreenHeight(7)),
+                      const Spacer(),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: TextFormField(
-                          controller: boomController.commentController,
-                          focusNode: boomController.commentFocusNode,
-                          decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(12.0),
-                            fillColor: const Color(0xFFF8F8F8),
-                            filled: true,
-                            hintText: boomController.boom.comments!.isEmpty
-                                ? "No comments yet. Be the first"
-                                : "Type a Comment...",
-                            // prefixIcon: IconButton(
-                            //   icon: const Icon(
-                            //     MdiIcons.cameraOutline,
-                            //     color: Color(0xFF454C4D),
-                            //   ),
-                            //   onPressed: () {},
-                            // ),
-                            suffixIcon: SizedBox(
-                              width: getProportionateScreenWidth(100),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      await boomController.commentOnPost(
-                                        boomController.commentController.text,
-                                        boomId,
-                                      );
-                                      boomController.commentController.clear();
-                                    },
-                                    child: boomController.commentLoading
-                                        ? const CircularProgressIndicator(
-                                            color: kPrimaryColor,
-                                            strokeWidth: 2,
-                                          )
-                                        : const Icon(
-                                            MdiIcons.send,
-                                            color: Color(0xFF454C4D),
-                                          ),
-                                  ),
-                                ],
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: TextFormField(
+                            controller: boomController.commentController,
+                            focusNode: boomController.commentFocusNode,
+                          
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(12.0),
+                            
+                              fillColor: const Color(0xFFF8F8F8),
+                              filled: true,
+                              hintText: boomController.boom.comments!.isEmpty
+                                  ? "No comments yet. Be the first"
+                                  : "Type a Comment...",
+                              // prefixIcon: IconButton(
+                              //   icon: const Icon(
+                              //     MdiIcons.cameraOutline,
+                              //     color: Color(0xFF454C4D),
+                              //   ),
+                              //   onPressed: () {},
+                              // ),
+                              suffixIcon: SizedBox(
+                                width: getProportionateScreenWidth(100),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {
+                                        await boomController.commentOnPost(
+                                          boomController.commentController.text,
+                                          boomId,
+                                        );
+                                        boomController.commentController
+                                            .clear();
+                                      },
+                                      child: boomController.commentLoading
+                                          ? const CircularProgressIndicator(
+                                              color: kPrimaryColor,
+                                              strokeWidth: 2,
+                                            )
+                                          : const Icon(
+                                              MdiIcons.send,
+                                              color: Color(0xFF454C4D),
+                                            ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black45,
-                                width: 0.2,
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.black45,
+                                  width: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black45,
-                                width: 0.2,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.black45,
+                                  width: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Colors.black45,
-                                width: 0.2,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Colors.black45,
+                                  width: 0.2,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              borderRadius: BorderRadius.circular(8),
                             ),
                           ),
                         ),
                       )
+                    
                     ],
                   ),
                 ),
