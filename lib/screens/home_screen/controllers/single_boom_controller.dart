@@ -56,11 +56,19 @@ class SingleBoomController extends GetxController {
   late Boom boom;
 
   @override
-  void onInit() {
+  void onInit() async {
     boom = Get.arguments[2];
+
+    await init();
     boomService.getSingleBoom();
 
     super.onInit();
+  }
+
+  init() async {
+    boom = await boomService.getBoomDets(boom.id!) ?? Get.arguments[2];
+    fetchReactionStatus(boom);
+    update();
   }
 
   syntheticallyMintBoom(String boomId) async {
@@ -92,14 +100,11 @@ class SingleBoomController extends GetxController {
   }
 
   localReactionChange() {
-    
-
     likesCount = isLikes.value ? likesCount + 1 : likesCount - 1;
     update();
   }
 
-  Future<bool> reactToBoom(
-      String reactType, String boomId, Boom boom) async {
+  Future<bool> reactToBoom(String reactType, String boomId, Boom boom) async {
     switch (reactType) {
       case "likes":
         isLikes.value = !isLikes.value;

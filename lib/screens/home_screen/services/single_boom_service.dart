@@ -41,6 +41,29 @@ class SingleBoomService {
     }
   }
 
+  Future<Boom?> getBoomDets(String boom) async {
+    String token = box.read("token");
+    try {
+      var res = await http.get(
+        Uri.parse("${baseURL}booms/$boom"),
+        headers: {
+          "Authorization": token,
+        },
+      );
+
+      if (res.statusCode == 200) {
+        final singleBoom = Boom.fromJson(jsonDecode(res.body)["boom"]);
+        return singleBoom;
+      } else {
+        log("Single Boom Error ::: ${res.statusCode} ::: ${res.body}");
+        return null;
+      }
+    } catch (e) {
+      log(e.toString());
+      return null;
+    }
+  }
+
   deleteBoom(String boomId) async {
     String token = box.read("token");
     EasyLoading.show(status: "Deleting Boom");
