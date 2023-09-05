@@ -6,7 +6,9 @@ import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controll
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
+import 'package:boom_mobile/widgets/fab_button.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +52,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
         : Scaffold(
             backgroundColor: Colors.white,
             appBar: const CustomAppBar(),
+            bottomNavigationBar: const CustomBottomNavBar(currIndex: 1),
+            floatingActionButton: const FabButton(),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            resizeToAvoidBottomInset: false,
+            extendBody: false,
             body: SafeArea(
               child: RefreshIndicator(
                 onRefresh: () async {

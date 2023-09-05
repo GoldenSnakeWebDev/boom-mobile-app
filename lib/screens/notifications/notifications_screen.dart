@@ -2,6 +2,8 @@ import 'package:boom_mobile/screens/notifications/controllers/notifications_cont
 import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
+import 'package:boom_mobile/widgets/fab_button.dart';
 import 'package:boom_mobile/widgets/single_boom_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +32,12 @@ class NotificationScreen extends GetView<NotificationsController> {
             ),
             centerTitle: true,
           ),
+          bottomNavigationBar: const CustomBottomNavBar(currIndex: 2),
+          floatingActionButton: const FabButton(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          resizeToAvoidBottomInset: false,
+          extendBody: false,
           body: controller.isLoading
               ? const Center(
                   //TODO: Use Shimmer loading instead of this boring shit

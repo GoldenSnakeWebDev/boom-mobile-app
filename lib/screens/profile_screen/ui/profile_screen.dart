@@ -9,7 +9,9 @@ import 'package:boom_mobile/screens/profile_screen/ui/edit_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
+import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
+import 'package:boom_mobile/widgets/fab_button.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Get.put(ProfileController());
+    Get.put(HomeController());
 
     super.initState();
   }
@@ -46,6 +49,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const CustomAppBar(),
+      bottomNavigationBar: const CustomBottomNavBar(currIndex: 3),
+      floatingActionButton: const FabButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
+      extendBody: false,
       body: SafeArea(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -198,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 left: 4.0,
                                                                 right: 4.0),
                                                         child: Text(
@@ -336,7 +344,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           height:
                                                               getProportionateScreenHeight(
                                                                   125),
-                                                        
                                                           child:
                                                               CachedNetworkImage(
                                                             imageUrl:
@@ -604,7 +611,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                              .all(
+                                                                          .all(
                                                                           3.0),
                                                                   child: Text(
                                                                     "B",
@@ -638,7 +645,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 bottom: 12),
                                                         child: Column(
                                                           crossAxisAlignment:

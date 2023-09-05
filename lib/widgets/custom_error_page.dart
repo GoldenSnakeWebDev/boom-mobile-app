@@ -1,4 +1,6 @@
+import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
+import 'package:boom_mobile/widgets/fab_button.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,11 @@ class CustomErrorPage extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: const CustomBottomNavBar(currIndex: 0),
+      floatingActionButton: const FabButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
+      extendBody: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
