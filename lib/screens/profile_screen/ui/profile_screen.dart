@@ -6,6 +6,7 @@ import 'package:boom_mobile/screens/profile_screen/controllers/profile_controlle
 import 'package:boom_mobile/screens/profile_screen/service/profile_service.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/boom_box.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/edit_profile.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -31,16 +32,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ScrollController _scrollController = ScrollController();
+  var boomController;
 
   @override
   void initState() {
     Get.put(ProfileController());
     Get.put(HomeController());
+    boomController = Get.find<HomeController>();
+    Get.put(SplashController(), permanent: true);
 
     super.initState();
   }
 
-  final boomController = Get.find<HomeController>();
   final profileService = ProfileService();
 
   @override
@@ -1035,8 +1038,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                     index);
                                             return SingleBoomWidget(
                                               post: boomPost,
-                                              controller:
-                                                  Get.find<HomeController>(),
+                                              controller: boomController,
                                               boomId: controller
                                                   .myBooms!.booms![index].id!,
                                               boom: controller
