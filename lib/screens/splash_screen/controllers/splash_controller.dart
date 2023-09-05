@@ -1,8 +1,6 @@
 import 'dart:developer';
 
-import 'package:boom_mobile/di/app_bindings.dart';
-import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/routes/route_helper.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -29,16 +27,14 @@ class SplashController extends GetxController {
         isLoading = false;
         update();
 
-        Get.offAll(
-          () => const MainScreen(),
-          binding: AppBindings(),
-        );
+        Get.offAllNamed(RouteHelper.homeScreen);
+        // Get.offAll(() => const MainScreen());
       } else {
         log("Token is null");
         isLoading = false;
         update();
         // EasyLoading.dismiss();
-        Get.offAll(() => const LoginScreen());
+        Get.offNamed(RouteHelper.loginScreen);
       }
     });
   }

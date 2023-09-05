@@ -1,12 +1,16 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/widgets/archery_header/archery_header.dart';
+import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
+import 'package:boom_mobile/widgets/fab_button.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:visual_effect/visual_effect.dart';
 
@@ -41,10 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      Get.put(FetchCurrUserRepo());
+      Get.put(MainScreenController(repo: Get.find()));
+    });
     _controller = EasyRefreshController(
       controlFinishRefresh: true,
       controlFinishLoad: true,
     );
+    Get.put(MainScreenController(repo: Get.find()));
 
     Get.put(HomeController());
     Get.put(TalesEpicsController);
@@ -60,17 +69,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      builder: (controller) {
-        return controller.isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Scaffold(
-                backgroundColor: Colors.white,
-                appBar: const CustomAppBar(),
-                body: SafeArea(
-                  child: GestureDetector(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: const CustomAppBar(),
+      bottomNavigationBar: const CustomBottomNavBar(currIndex: 0),
+      floatingActionButton: const FabButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
+      extendBody: false,
+      body: SafeArea(
+        child: GetBuilder<HomeController>(
+          builder: (controller) {
+            return controller.isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : GestureDetector(
                     onHorizontalDragStart: (details) {
                       // details.globalPosition.dx > SizeConfig.screenWidth / 2
                       //     ? Get.to(() => const CaptureTaleScreen())
@@ -486,6 +500,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             "homeKey"),
                                         itemCount:
                                             controller.homeBooms?.length ?? 0,
+                                        addRepaintBoundaries: false,
                                         itemBuilder: (context, index) {
                                           List<SingleBoomPost> boomPost =
                                               controller.getSingleBoomDetails(
@@ -500,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .grayscale(phase
                                                         .leadingLerp(to: 0.5))
                                                     .scale(
-                                                      phase.isLeading
+                                                      x: phase.isLeading
                                                           ? phase.leadingLerp(
                                                               from: 1, to: 0.9)
                                                           : 1,
@@ -513,13 +528,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             phase.leading);
                                               },
                                               child: SingleBoomWidget(
-                                                post: boomPost[index],
-                                                controller: controller,
-                                                boomId: controller
-                                                    .homeBooms![index].id!,
+                                                  post: boomPost[index],
+                                                  controller: controller,
+                                                  boomId: controller
+                                                      .homeBooms![index].id!,
                                                   boom: controller
-                                                      .homeBooms![index] 
-                                              ),
+                                                      .homeBooms![index]),
                                             ),
                                           );
                                         },
@@ -567,10 +581,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  ),
-                ),
-              );
-      },
+                  );
+          },
+        ),
+      ),
     );
   }
 

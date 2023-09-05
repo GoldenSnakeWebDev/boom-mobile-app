@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/firebase_options.dart';
-import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
+import 'package:boom_mobile/routes/route_helper.dart';
 import 'package:boom_mobile/secrets.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/widgets/custom_error_page.dart';
@@ -119,12 +119,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // themeMode: ThemeMode.dark,
       // darkTheme: ThemeData.dark(useMaterial3: true),
+      defaultTransition: Transition.cupertino,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: GoogleFonts.montserrat().fontFamily,
       ),
+      getPages: RouteHelper.routes,
+      navigatorKey: Get.key,
       initialBinding: AppBindings(),
-      home: const SplashScreen(),
+      initialRoute: RouteHelper.splashScreen,
       builder: EasyLoading.init(),
     );
   }

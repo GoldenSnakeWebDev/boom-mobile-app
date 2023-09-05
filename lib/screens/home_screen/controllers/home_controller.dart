@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
+import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:cached_video_player/cached_video_player.dart';
@@ -43,6 +44,7 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    Get.put(MainScreenController(repo: Get.find()));
 
     await analytics.logLogin();
     await analytics.setCurrentScreen(screenName: "Home Screen");
