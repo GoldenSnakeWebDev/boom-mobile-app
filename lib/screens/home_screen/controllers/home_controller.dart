@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:boom_mobile/models/network_model.dart' as net;
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
+import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:cached_video_player/cached_video_player.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
   AllBooms? allBooms;
@@ -40,11 +42,13 @@ class HomeController extends GetxController {
   // BoomBoxModel? boomBoxModel;
   List<BoomBox> boomBoxes = [];
 
+  net.NetworkModel? networkModel;
+
   @override
   void onInit() async {
     super.onInit();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    Get.put(MainScreenController(repo: Get.find()));
+    // Get.put(MainScreenController(repo: Get.find()));
 
     await analytics.logLogin();
     await analytics.setCurrentScreen(screenName: "Home Screen");
@@ -58,6 +62,24 @@ class HomeController extends GetxController {
 
       fetchAllBooms();
     });
+  }
+
+  getNetworks() async {
+    final res = await http.get(
+      Uri.parse("${baseURL}networks?page=all"),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    );
+    if (res.statusCode == 200) {
+      networkModel = net.NetworkModel.fromJson(jsonDecode(res.body));
+      log("networkModel is $networkModel");
+      update();
+    } else {
+      CustomSnackBar.showCustomSnackBar(
+          errorList: ["Networks not fetched"], msg: ["Error"], isError: true);
+    }
   }
 
   reactChange(String reactType) {

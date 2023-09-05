@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
-import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -34,7 +33,7 @@ class ProfileController extends GetxController {
   User? user;
   AllBooms? myBooms;
   bool isLoadingBooms = false;
-  FetchCurrUserRepo repo = Get.find();
+  // FetchCurrUserRepo repo = Get.find();
 
   final box = GetStorage();
   List<SingleBoomPost> booms = [];
@@ -49,10 +48,11 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
+    Get.put(SplashController(), permanent: true);
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     myUserId = box.read("userId");
     analytics.setCurrentScreen(screenName: "Profile Screen");
-    user = Get.find<MainScreenController>().user;
+    user = Get.find<SplashController>().user;
     fetchMyBooms();
     if (user != null && user!.bio!.isNotEmpty) {
       isNewUser = false;

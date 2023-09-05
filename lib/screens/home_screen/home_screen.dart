@@ -1,7 +1,5 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
-import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:boom_mobile/widgets/archery_header/archery_header.dart';
 import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
@@ -41,25 +39,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late EasyRefreshController _controller;
+  // var mainController;
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      Get.put(FetchCurrUserRepo());
-      Get.put(MainScreenController(repo: Get.find()));
+      // Get.put(FetchCurrUserRepo());
+      // Get.put(MainScreenController(repo: Get.find()));
     });
     _controller = EasyRefreshController(
       controlFinishRefresh: true,
       controlFinishLoad: true,
     );
-    Get.put(MainScreenController(repo: Get.find()));
-
+    // Get.put(MainScreenController(repo: Get.find()));
+    // mainController = Get.find<MainScreenController>();
     Get.put(HomeController());
     Get.put(TalesEpicsController);
   }
-
-  final mainController = Get.find<MainScreenController>();
 
   @override
   void dispose() {

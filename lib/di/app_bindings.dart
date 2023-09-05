@@ -33,9 +33,9 @@ class AppBindings extends Bindings {
     Get.lazyPut<ProfileController>(() => ProfileController());
     Get.lazyPut<EditProfileController>(() => EditProfileController());
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<FetchCurrUserRepo>(() => FetchCurrUserRepo());
     Get.lazyPut<MainScreenController>(
         () => MainScreenController(repo: Get.find()));
-    Get.lazyPut<FetchCurrUserRepo>(() => FetchCurrUserRepo());
     Get.lazyPut<TalesEpicsController>(() => TalesEpicsController());
     Get.lazyPut<OtherUserProfileController>(() => OtherUserProfileController());
     Get.lazyPut<SearchPageController>(() => SearchPageController());
