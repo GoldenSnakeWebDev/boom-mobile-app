@@ -7,6 +7,7 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/profile_screen/models/boom_box_model.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:cached_video_player/cached_video_player.dart';
@@ -46,9 +47,9 @@ class HomeController extends GetxController {
 
   @override
   void onInit() async {
+    Get.put(SplashController(), permanent: true);
     super.onInit();
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-    // Get.put(MainScreenController(repo: Get.find()));
 
     await analytics.logLogin();
     await analytics.setCurrentScreen(screenName: "Home Screen");
@@ -181,6 +182,7 @@ class HomeController extends GetxController {
   }
 
   fetchAllBooms() async {
+    log("We have been invoked");
     try {
       EasyLoading.show(status: "Loading");
       final res = await homeService.fetchBooms(0);
@@ -191,6 +193,7 @@ class HomeController extends GetxController {
 
         // CustomSnackBar.showCustomSnackBar(
         //     errorList: ["Booms Fetched"], msg: ["Success"], isError: false);
+        box.write("savedBooms", res.body);
         allBooms = AllBooms.fromJson(jsonDecode(res.body));
         totalPages = allBooms!.page?.limit ?? 0;
         _homeBooms = allBooms!.booms;
@@ -221,6 +224,16 @@ class HomeController extends GetxController {
       }
     } on SocketException catch (_) {
       CustomSnackBar().networkErrorSnack(onInit);
+      EasyLoading.dismiss();
+      final savedBooms = box.read("savedBooms");
+      if (savedBooms != null) {
+        allBooms = AllBooms.fromJson(jsonDecode(savedBooms));
+        totalPages = allBooms!.page?.limit ?? 0;
+        _homeBooms = allBooms!.booms;
+        isLoading = false;
+        update();
+      }
+      update();
     }
   }
 

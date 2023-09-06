@@ -1,4 +1,3 @@
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -331,8 +330,9 @@ class RegistrationScreen extends GetView<RegisterController> {
                                     text: "Login",
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Get.off(() => const LoginScreen(),
-                                            binding: AppBindings());
+                                        Get.off(
+                                          () => const LoginScreen(),
+                                        );
                                       },
                                     style: TextStyle(
                                       color: Colors.red.withOpacity(0.8),

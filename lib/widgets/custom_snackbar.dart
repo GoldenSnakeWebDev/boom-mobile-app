@@ -93,14 +93,18 @@ class CustomSnackBar {
       "Network Error",
       "Could not load booms check your connection",
       backgroundColor: Colors.red,
-      duration: const Duration(seconds: 6),
+      duration: const Duration(seconds: 10),
       mainButton: TextButton(
         onPressed: () async {
           btnAction;
         },
         child: const Text(
           "Retry",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       icon: const Icon(

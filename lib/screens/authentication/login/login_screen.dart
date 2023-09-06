@@ -1,7 +1,6 @@
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/registration_screen.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -263,8 +262,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                               const Duration(milliseconds: 100),
                                             ).then((value) {
                                               Get.offAll(
-                                                  () => const MainScreen(),
-                                                  binding: AppBindings());
+                                                () => const HomeScreen(),
+                                              );
                                             });
                                           }
                                         },
@@ -328,9 +327,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                               recognizer: TapGestureRecognizer()
                                                 ..onTap = () {
                                                   Get.off(
-                                                      () =>
-                                                          const RegistrationScreen(),
-                                                      binding: AppBindings());
+                                                    () =>
+                                                        const RegistrationScreen(),
+                                                  );
                                                 },
                                               style: TextStyle(
                                                 color:

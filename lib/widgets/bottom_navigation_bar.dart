@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
@@ -10,8 +11,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 class CustomBottomNavBar extends StatefulWidget {
   final int currIndex;
-  const CustomBottomNavBar({Key? key, required this.currIndex})
-      : super(key: key);
+  final Function()? onHomePressed;
+  const CustomBottomNavBar({
+    Key? key,
+    required this.currIndex,
+    this.onHomePressed,
+  }) : super(key: key);
 
   @override
   State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
@@ -31,6 +36,9 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     if (index == 0) {
       if (!(widget.currIndex == 0)) {
         Get.offAndToNamed(RouteHelper.homeScreen);
+      } else {
+        log("Pressed for second Time");
+        widget.onHomePressed ?? () {};
       }
     } else if (index == 1) {
       if (!(widget.currIndex == 1)) {

@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/tales/services/camera_service.dart';
 import 'package:boom_mobile/screens/tales/ui/edit_tale_image.dart';
 import 'package:camera/camera.dart';
@@ -42,7 +41,6 @@ class TalesController extends GetxController {
     onClose();
     Get.to(
       () => EditTaleImage(imageFile: pickedImage),
-      binding: AppBindings(),
     );
     return imagePath;
   }
@@ -55,7 +53,6 @@ class TalesController extends GetxController {
       update();
       Get.to(
         () => EditTaleImage(imageFile: pickedImage),
-        binding: AppBindings(),
       );
     } else {
       log('No image selected.');

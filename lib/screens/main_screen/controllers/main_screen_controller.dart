@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
@@ -67,7 +66,9 @@ class MainScreenController extends GetxController {
         isError: true,
       );
       box.erase();
-      Get.offAll(() => const LoginScreen(), binding: AppBindings());
+      Get.offAll(
+        () => const LoginScreen(),
+      );
     }
   }
 }

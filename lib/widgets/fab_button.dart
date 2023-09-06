@@ -1,9 +1,8 @@
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/direct_messages/direct_messages_screen.dart';
 import 'package:boom_mobile/screens/fans_frens_screen/ui/fans_screen.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -54,8 +53,9 @@ class FabButton extends StatelessWidget {
                                   onTap: () {
                                     Get.back();
                                     Get.find<NewPostController>().onInit();
-                                    Get.to(() => const CreateNewPost(),
-                                        binding: AppBindings());
+                                    Get.to(
+                                      () => const CreateNewPost(),
+                                    );
                                   },
                                 ),
                                 // ListTile(
@@ -103,8 +103,8 @@ class FabButton extends StatelessWidget {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    final controller = Get.put(
-                                        MainScreenController(repo: Get.find()));
+                                    final controller =
+                                        Get.put(SplashController());
                                     Get.to(
                                       () => const FansScreen(),
                                       arguments: [
@@ -122,8 +122,8 @@ class FabButton extends StatelessWidget {
                                 ),
                                 ListTile(
                                   onTap: () {
-                                    final controller = Get.put(
-                                        MainScreenController(repo: Get.find()));
+                                    final controller =
+                                        Get.put(SplashController());
                                     Get.to(
                                       () => const FansScreen(),
                                       arguments: [
@@ -155,8 +155,8 @@ class FabButton extends StatelessWidget {
             border: Border.all(color: Colors.black)),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Image.network(
-            boomIconUrl,
+          child: CachedNetworkImage(
+            imageUrl: boomIconUrl,
             width: getProportionateScreenHeight(22),
             height: getProportionateScreenHeight(22),
           ),

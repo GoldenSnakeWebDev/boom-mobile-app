@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/profile_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/pick_from_booms.dart';
@@ -25,7 +23,6 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     Get.put(EditProfileController());
-    Get.put(MainScreenController(repo: Get.find<FetchCurrUserRepo>()));
     super.initState();
   }
 

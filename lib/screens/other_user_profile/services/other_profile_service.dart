@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_booms.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -80,7 +80,7 @@ class OtherProfileService {
       EasyLoading.dismiss();
       EasyLoading.showSuccess("User $action").then((value) {
         Get.back();
-        Get.offAll(const MainScreen());
+        Get.offAll(const HomeScreen());
       });
     } else {
       EasyLoading.dismiss();
@@ -102,7 +102,7 @@ class OtherProfileService {
       EasyLoading.dismiss();
       EasyLoading.showSuccess("User reported").then((value) {
         Get.back();
-        Get.offAll(const MainScreen());
+        Get.offAll(const HomeScreen());
       });
     } else {
       EasyLoading.dismiss();

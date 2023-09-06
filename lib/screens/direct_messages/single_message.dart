@@ -302,7 +302,7 @@ class _SingleMessageState extends State<SingleMessage> {
                 Text(
                   widget.isBoomBox
                       ? widget.boomBoxModel.label
-                      : controller.userId == widget.boomBoxModel.user.username
+                      : controller.userId == widget.boomBoxModel.user.userId
                           ? widget.boomBoxModel.members.first.user.username
                           : widget.boomBoxModel.user.username,
                   style: TextStyle(

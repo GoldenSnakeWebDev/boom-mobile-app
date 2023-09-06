@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:boom_mobile/di/app_bindings.dart';
+import 'package:boom_mobile/di/app_bindings.dart' as dl;
 import 'package:boom_mobile/firebase_options.dart';
+import 'package:boom_mobile/helpers/network_controller.dart';
 import 'package:boom_mobile/routes/route_helper.dart';
 import 'package:boom_mobile/secrets.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -13,7 +14,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -23,6 +24,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dl.init();
 
   try {
     await InAppUpdate.checkForUpdate().then((info) async {
@@ -108,27 +110,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   const SystemUiOverlayStyle(
-    //     statusBarColor: Colors.black54,
-    //     statusBarBrightness: Brightness.dark,
-    //   ),
-    // );
-    return GetMaterialApp(
-      title: 'Boom',
-      debugShowCheckedModeBanner: false,
-      // themeMode: ThemeMode.dark,
-      // darkTheme: ThemeData.dark(useMaterial3: true),
-      defaultTransition: Transition.cupertino,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: GoogleFonts.montserrat().fontFamily,
-      ),
-      getPages: RouteHelper.routes,
-      navigatorKey: Get.key,
-      initialBinding: AppBindings(),
-      initialRoute: RouteHelper.splashScreen,
-      builder: EasyLoading.init(),
+    return GetBuilder<NetworkController>(
+      init: NetworkController(),
+      builder: (network) {
+        return GetMaterialApp(
+          title: 'Boom',
+          debugShowCheckedModeBanner: false,
+          defaultTransition: Transition.fadeIn,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: GoogleFonts.montserrat().fontFamily,
+          ),
+          getPages: RouteHelper.routes,
+          navigatorKey: Get.key,
+          initialRoute: RouteHelper.splashScreen,
+          builder: EasyLoading.init(),
+        );
+      },
     );
   }
 }

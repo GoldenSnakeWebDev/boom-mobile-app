@@ -4,10 +4,10 @@ import 'dart:io';
 import 'dart:math' as Math;
 
 import 'package:boom_mobile/models/network_model.dart';
-import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/profile_screen/models/upload_photo_model.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,7 +24,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../authentication/login/models/user_model.dart';
-import 'package:http/http.dart' as http;
 
 class EditProfileController extends GetxController {
   TextEditingController usernameController = TextEditingController();
@@ -61,8 +61,8 @@ class EditProfileController extends GetxController {
   @override
   void onInit() {
     user = Get.arguments[0];
-    Get.put(MainScreenController(repo: Get.find<FetchCurrUserRepo>()));
-    networkModel = Get.find<MainScreenController>().networkModel;
+    Get.put(SplashController());
+    networkModel = Get.find<HomeController>().networkModel;
 
     usernameController.text = user!.username!;
     bioController.text = user!.bio!;

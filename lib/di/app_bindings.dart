@@ -1,3 +1,4 @@
+import 'package:boom_mobile/helpers/network_controller.dart';
 import 'package:boom_mobile/repo/get_user/get_curr_user.dart';
 import 'package:boom_mobile/screens/authentication/login/controllers/login_controller.dart';
 import 'package:boom_mobile/screens/authentication/registration/controllers/signup_controller.dart';
@@ -21,30 +22,28 @@ import 'package:boom_mobile/screens/tales/controllers/tales_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
 import 'package:get/get.dart';
 
-class AppBindings extends Bindings {
-  @override
-  void dependencies() {
-    Get.lazyPut<TalesController>(() => TalesController());
-    Get.lazyPut<NewPostController>(() => NewPostController());
-    Get.lazyPut<InstagramWebController>(() => InstagramWebController());
-    Get.lazyPut<RegisterController>(() => RegisterController());
-    Get.lazyPut<LoginController>(() => LoginController());
-    Get.lazyPut<SplashController>(() => SplashController());
-    Get.lazyPut<ProfileController>(() => ProfileController());
-    Get.lazyPut<EditProfileController>(() => EditProfileController());
-    Get.lazyPut<HomeController>(() => HomeController());
-    Get.lazyPut<FetchCurrUserRepo>(() => FetchCurrUserRepo());
-    Get.lazyPut<MainScreenController>(
-        () => MainScreenController(repo: Get.find()));
-    Get.lazyPut<TalesEpicsController>(() => TalesEpicsController());
-    Get.lazyPut<OtherUserProfileController>(() => OtherUserProfileController());
-    Get.lazyPut<SearchPageController>(() => SearchPageController());
-    Get.lazyPut<BackPackController>(() => BackPackController());
-    Get.lazyPut<DMCrontroller>(() => DMCrontroller());
-    Get.lazyPut<NotificationsController>(() => NotificationsController());
-    Get.lazyPut<PurchaseCoinsController>(() => PurchaseCoinsController());
-    Get.lazyPut<ViewTalesController>(() => ViewTalesController());
-    Get.lazyPut<BoomBoxController>(() => BoomBoxController());
-    Get.lazyPut<SingleBoxController>(() => SingleBoxController());
-  }
+Future<void> init() async {
+  Get.lazyPut<TalesController>(() => TalesController());
+  Get.lazyPut<NewPostController>(() => NewPostController());
+  Get.lazyPut<InstagramWebController>(() => InstagramWebController());
+  Get.lazyPut<RegisterController>(() => RegisterController());
+  Get.lazyPut<LoginController>(() => LoginController());
+  Get.lazyPut<SplashController>(() => SplashController());
+  Get.lazyPut<ProfileController>(() => ProfileController());
+  Get.lazyPut<EditProfileController>(() => EditProfileController());
+  Get.lazyPut<HomeController>(() => HomeController());
+  Get.lazyPut<FetchCurrUserRepo>(() => FetchCurrUserRepo());
+  Get.lazyPut<MainScreenController>(
+      () => MainScreenController(repo: Get.find()));
+  Get.lazyPut<TalesEpicsController>(() => TalesEpicsController());
+  Get.lazyPut<OtherUserProfileController>(() => OtherUserProfileController());
+  Get.lazyPut<SearchPageController>(() => SearchPageController());
+  Get.lazyPut<BackPackController>(() => BackPackController());
+  Get.lazyPut<DMCrontroller>(() => DMCrontroller());
+  Get.lazyPut<NotificationsController>(() => NotificationsController());
+  Get.lazyPut<PurchaseCoinsController>(() => PurchaseCoinsController());
+  Get.lazyPut<ViewTalesController>(() => ViewTalesController());
+  Get.lazyPut<BoomBoxController>(() => BoomBoxController());
+  Get.lazyPut<SingleBoxController>(() => SingleBoxController());
+  Get.lazyPut<NetworkController>(() => NetworkController());
 }
