@@ -886,6 +886,7 @@ class NewPostController extends GetxController {
       log("Auth Reuest ${authReq.id}");
 
       final AuthResponse authResponse = await authReq.completer.future;
+      // ignore: unnecessary_null_comparison
       if (authResponse != null) {
         final walletAddress =
             AddressUtils.getDidAddress(authResponse.result!.p.iss);
