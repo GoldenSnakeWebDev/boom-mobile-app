@@ -37,7 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Get.put(ProfileController());
-    Get.put(HomeController());
     boomController = Get.find<HomeController>();
     Get.put(SplashController(), permanent: true);
 

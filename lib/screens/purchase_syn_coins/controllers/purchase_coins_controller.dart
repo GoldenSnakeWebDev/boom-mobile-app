@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:boom_mobile/models/network_model.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/purchase_syn_coins/models/products_model.dart';
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:http/http.dart' as http;
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PurchaseCoinsController extends GetxController {
@@ -30,7 +30,7 @@ class PurchaseCoinsController extends GetxController {
 
   // final int _coins = 0;
 
-  NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
+  NetworkModel? networkModel = Get.find<HomeController>().networkModel;
 
   String? selectedNetwork;
   Network? selectedNetworkModel;

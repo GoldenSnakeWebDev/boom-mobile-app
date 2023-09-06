@@ -48,7 +48,6 @@ class ProfileController extends GetxController {
 
   @override
   void onInit() {
-    Get.put(SplashController(), permanent: true);
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
     myUserId = box.read("userId");
     analytics.setCurrentScreen(screenName: "Profile Screen");

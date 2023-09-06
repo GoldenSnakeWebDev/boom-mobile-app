@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/single_boom_controller.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
@@ -108,7 +107,6 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                   constraints: BoxConstraints(
                     maxHeight: SizeConfig.screenHeight * 0.87,
                   ),
-
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -155,9 +153,10 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Get.to(() => const OtherUserProfileScreen(),
-                                      arguments: boomController.boom.user!.id,
-                                      binding: AppBindings());
+                                  Get.to(
+                                    () => const OtherUserProfileScreen(),
+                                    arguments: boomController.boom.user!.id,
+                                  );
                                 },
                                 child: Column(
                                   children: [
@@ -451,7 +450,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                                 backgroundColor: kPrimaryColor,
                                                 colorText: Colors.black,
                                               );
-                
+
                                               // if (boom.boom.boomState ==
                                               //     BoomState.REAL_NFT) {
                                               //   Future.delayed(
@@ -589,12 +588,12 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                               //             items: [
                               //               PopupMenuItem(
                               //                 onTap: () async {
-                
+
                               //                   Future.delayed(
                               //                       const Duration(
                               //                           seconds: 0),
                               //                       () async {
-                
+
                               //                     showDialog(
                               //                       context: context,
                               //                       builder:
@@ -1090,7 +1089,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                       SizedBox(
                         height: getProportionateScreenHeight(10),
                       ),
-                
+
                       //Ractions Section
                       //TODO: Change this to a widget
                       Row(
@@ -1111,7 +1110,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   onTap: (isLiked) async {
                                     boomController.reactToBoom(
                                         "likes", boomId, boomController.boom);
-                
+
                                     return !boomController.isLikes.value;
                                   },
                                   likeCount: boomController.likesCount,
@@ -1148,7 +1147,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           //         onTap: (isLoved) async {
                           //           boomController.reactToBoom(
                           //               "loves", boomId, boom);
-                
+
                           //           return boomController.isLoves.value;
                           //         },
                           //         likeCount: boomController.lovesCount,
@@ -1187,7 +1186,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           //         onTap: (isLiked) async {
                           //           boomController.reactToBoom(
                           //               "smiles", boomId, boom);
-                
+
                           //           return boomController
                           //               .isSmiles.value;
                           //         },
@@ -1228,7 +1227,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           //           onTap: (isLiked) async {
                           //             boomController.reactToBoom(
                           //                 "rebooms", boomId, boom);
-                
+
                           //             return boomController
                           //                 .isRebooms.value;
                           //           },
@@ -1419,10 +1418,9 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           child: TextFormField(
                             controller: boomController.commentController,
                             focusNode: boomController.commentFocusNode,
-                          
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(12.0),
-                            
+
                               fillColor: const Color(0xFFF8F8F8),
                               filled: true,
                               hintText: boomController.boom.comments!.isEmpty
@@ -1487,7 +1485,6 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                           ),
                         ),
                       )
-                    
                     ],
                   ),
                 ),

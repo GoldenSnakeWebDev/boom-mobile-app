@@ -8,9 +8,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:walletconnect_qrcode_modal_dart/walletconnect_qrcode_modal_dart.dart';
-
-import '../di/app_bindings.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leadingWidget;
@@ -74,7 +71,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       onTap: () {
                         Get.to(
                           () => const DirectMessagesScreen(),
-                          binding: AppBindings(),
                         );
                       },
                       child: Badge(

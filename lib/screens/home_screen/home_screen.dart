@@ -1,6 +1,8 @@
 import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
+import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/archery_header/archery_header.dart';
 import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
@@ -8,8 +10,8 @@ import 'package:boom_mobile/widgets/fab_button.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:visual_effect/visual_effect.dart';
 
 class _IndexScope extends InheritedWidget {
@@ -39,22 +41,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late EasyRefreshController _controller;
-  // var mainController;
 
   @override
   void initState() {
     super.initState();
-    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      // Get.put(FetchCurrUserRepo());
-      // Get.put(MainScreenController(repo: Get.find()));
-    });
+
     _controller = EasyRefreshController(
       controlFinishRefresh: true,
       controlFinishLoad: true,
     );
-    // Get.put(MainScreenController(repo: Get.find()));
-    // mainController = Get.find<MainScreenController>();
-    Get.put(HomeController());
+
+    Get.put(SplashController(), permanent: true);
+    Get.put(HomeController(), permanent: true);
     Get.put(TalesEpicsController);
   }
 
@@ -66,20 +64,74 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const CustomAppBar(),
-      bottomNavigationBar: const CustomBottomNavBar(currIndex: 0),
-      floatingActionButton: const FabButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      resizeToAvoidBottomInset: false,
-      extendBody: false,
-      body: SafeArea(
-        child: GetBuilder<HomeController>(
-          builder: (controller) {
-            return controller.isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
+    return GetBuilder<HomeController>(
+      builder: (controller) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: const CustomAppBar(),
+          bottomNavigationBar: CustomBottomNavBar(
+            currIndex: 0,
+            onHomePressed: () => controller.fetchAllBooms(),
+          ),
+          floatingActionButton: const FabButton(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          resizeToAvoidBottomInset: false,
+          extendBody: false,
+          body: SafeArea(
+            child: controller.isLoading
+                ? SizedBox(
+                    height: SizeConfig.screenHeight * 0.95,
+                    width: SizeConfig.screenWidth,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.blueGrey.shade100,
+                      highlightColor: Colors.white,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: SizeConfig.screenWidth,
+                                height: SizeConfig.screenHeight * 0.2,
+                                margin: const EdgeInsets.only(bottom: 25),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.screenWidth,
+                                height: SizeConfig.screenHeight * 0.2,
+                                margin: const EdgeInsets.only(bottom: 25),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.screenWidth,
+                                height: SizeConfig.screenHeight * 0.2,
+                                margin: const EdgeInsets.only(bottom: 25),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.screenWidth,
+                                height: SizeConfig.screenHeight * 0.2,
+                                margin: const EdgeInsets.only(bottom: 25),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   )
                 : GestureDetector(
                     onHorizontalDragStart: (details) {
@@ -578,10 +630,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                  );
-          },
-        ),
-      ),
+                  ),
+          ),
+        );
+      },
     );
   }
 

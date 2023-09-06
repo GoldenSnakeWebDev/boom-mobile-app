@@ -2,12 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/helpers/file_uploader.dart';
+import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/utils/boomERC721.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -91,7 +90,7 @@ class SingleBoomController extends GetxController {
       EasyLoading.dismiss();
       Get.snackbar("Minting", "Boom successfully minted",
           backgroundColor: kPrimaryColor);
-      Get.off(() => const MainScreen(), binding: AppBindings());
+      Get.off(() => const HomeScreen());
     } else {
       EasyLoading.dismiss();
       Get.snackbar("Minting", "Boom minting failed",

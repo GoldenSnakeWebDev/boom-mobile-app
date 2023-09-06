@@ -1,5 +1,5 @@
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
 import 'package:boom_mobile/screens/purchase_syn_coins/ui/purchase_syn_coins.dart';
+import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,7 +14,7 @@ class SyntheticBankScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final myCtrl = Get.find<MainScreenController>();
+    final myCtrl = Get.find<SplashController>();
     return Container(
       width: SizeConfig.screenWidth * 0.9,
       height: SizeConfig.screenHeight * 0.45,

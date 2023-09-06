@@ -12,6 +12,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return GetBuilder<SplashController>(
+      autoRemove: false,
       builder: (controller) {
         return Scaffold(
           body: Center(

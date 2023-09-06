@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/routes/route_helper.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -38,7 +38,6 @@ class SplashController extends GetxController {
         update();
 
         Get.offAllNamed(RouteHelper.homeScreen);
-        // Get.offAll(() => const MainScreen());
       } else {
         log("Token is null");
         isLoading = false;
@@ -50,31 +49,50 @@ class SplashController extends GetxController {
   }
 
   getCurrenUser() async {
-    String token = box.read("token") ?? "";
-    final res = await http.get(
-      Uri.parse("${baseURL}users/currentUser"),
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "Authorization": token,
-      },
-    );
-    if (res.statusCode == 200) {
-      user = User.fromJson(jsonDecode(res.body)["user"]);
-      box.write("userId", user!.id);
-      // CustomSnackBar.showCustomSnackBar(
-      //     errorList: ["User Details Fetched"],
-      //     msg: ["Success"],
-      //     isError: false);
-      update();
-    } else {
+    try {
+      String token = box.read("token") ?? "";
+
+      final res = await http.get(
+        Uri.parse("${baseURL}users/currentUser"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": token,
+        },
+      );
+      if (res.statusCode == 200) {
+        user = User.fromJson(jsonDecode(res.body)["user"]);
+        box.write("userId", user!.id);
+        // CustomSnackBar.showCustomSnackBar(
+        //     errorList: ["User Details Fetched"],
+        //     msg: ["Success"],
+        //     isError: false);
+        update();
+      } else {
+        CustomSnackBar.showCustomSnackBar(
+          errorList: ["User Details Not Fetched"],
+          msg: ["Error"],
+          isError: true,
+        );
+        box.erase();
+        Get.offAll(
+          () => const LoginScreen(),
+        );
+      }
+    } on SocketException catch (e) {
+      log("Socket Exception $e");
       CustomSnackBar.showCustomSnackBar(
-        errorList: ["User Details Not Fetched"],
+        errorList: ["No Internet Connection"],
         msg: ["Error"],
         isError: true,
       );
-      box.erase();
-      Get.offAll(() => const LoginScreen(), binding: AppBindings());
+    } catch (e) {
+      log("Error in Splash Controller $e");
+      CustomSnackBar.showCustomSnackBar(
+        errorList: ["Error in Splash Controller"],
+        msg: ["Error"],
+        isError: true,
+      );
     }
   }
 }

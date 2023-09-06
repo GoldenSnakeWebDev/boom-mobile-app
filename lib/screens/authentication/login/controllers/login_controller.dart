@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:boom_mobile/screens/authentication/login/models/user_model.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -49,7 +49,7 @@ class LoginController extends GetxController {
   checkIfUserIsLoggedIn() async {
     if (box.read("token") != null) {
       log("Token is not null");
-      Get.offAll(() => const MainScreen());
+      Get.offAll(() => const HomeScreen());
     } else {
       log("Token is null");
     }

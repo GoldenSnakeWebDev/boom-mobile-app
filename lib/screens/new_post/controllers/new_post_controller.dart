@@ -2,7 +2,21 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:boom_mobile/helpers/file_uploader.dart';
+import 'package:boom_mobile/models/network_model.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
+import 'package:boom_mobile/screens/home_screen/home_screen.dart';
+import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
+import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
+import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
+import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
+import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
+import 'package:boom_mobile/utils/boomERC721.dart';
 import 'package:boom_mobile/utils/boomMarketPlace.dart';
+import 'package:boom_mobile/utils/constants.dart';
+import 'package:boom_mobile/utils/erc721.dart';
+import 'package:boom_mobile/utils/url_container.dart';
+import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -20,22 +34,6 @@ import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-
-import 'package:boom_mobile/di/app_bindings.dart';
-import 'package:boom_mobile/helpers/file_uploader.dart';
-import 'package:boom_mobile/models/network_model.dart';
-import 'package:boom_mobile/screens/main_screen/controllers/main_screen_controller.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
-import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
-import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
-import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
-import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
-import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
-import 'package:boom_mobile/utils/boomERC721.dart';
-import 'package:boom_mobile/utils/constants.dart';
-import 'package:boom_mobile/utils/erc721.dart';
-import 'package:boom_mobile/utils/url_container.dart';
-import 'package:boom_mobile/widgets/custom_snackbar.dart';
 
 import '../../../secrets.dart';
 
@@ -63,7 +61,7 @@ class NewPostController extends GetxController {
   TextEditingController nftId = TextEditingController();
   TextEditingController nftURI = TextEditingController();
 
-  NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
+  NetworkModel? networkModel = Get.find<HomeController>().networkModel;
   late VideoPlayerController selectedVideoController;
 
   String? selectedNetwork;
@@ -496,7 +494,7 @@ class NewPostController extends GetxController {
         // if (res.statusCode == 201) {
         //   CustomSnackBar.showCustomSnackBar(
         //       errorList: [""], msg: [""], isError: false);
-        //   Get.offAll(() => const MainScreen(), binding: AppBindings());
+
         // } else {
         //   List<String> errors = [];
         //   for (var item in jsonDecode(res.body)["errors"]) {
@@ -528,7 +526,7 @@ class NewPostController extends GetxController {
         // if (res.statusCode == 201) {
         //   CustomSnackBar.showCustomSnackBar(
         //       errorList: [""], msg: [""], isError: false);
-        //   Get.offAll(() => const MainScreen(), binding: AppBindings());
+
         // } else {
         //   List<String> errors = [];
         //   for (var item in jsonDecode(res.body)["errors"]) {
@@ -550,7 +548,7 @@ class NewPostController extends GetxController {
       EasyLoading.dismiss();
       CustomSnackBar.showCustomSnackBar(
           errorList: [""], msg: [""], isError: false);
-      Get.offAll(() => const MainScreen(), binding: AppBindings());
+      Get.offAll(() => const HomeScreen());
     } else {
       EasyLoading.dismiss();
       List<String> errors = [];

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:boom_mobile/models/fetch_tales_model.dart';
-import 'package:boom_mobile/screens/main_screen/main_screen.dart';
+import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/tales/services/tales_service.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -91,7 +91,7 @@ class TalesEpicsController extends GetxController {
       fetchTales();
       EasyLoading.dismiss();
       update();
-      Get.to(() => const MainScreen());
+      Get.to(() => const HomeScreen());
     }
     EasyLoading.dismiss();
   }

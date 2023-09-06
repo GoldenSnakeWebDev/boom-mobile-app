@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:boom_mobile/models/single_boom_post.dart';
+import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/models/other_user_model.dart'
     as otheruser;
-
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/utils/url_container.dart';
@@ -12,12 +12,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../models/network_model.dart';
 import '../../authentication/login/models/user_model.dart';
 import '../../home_screen/models/all_booms.dart';
-import '../../main_screen/controllers/main_screen_controller.dart';
-import 'package:http/http.dart' as http;
 
 class OtherUserProfileController extends GetxController {
   String? userId;
@@ -32,7 +31,7 @@ class OtherUserProfileController extends GetxController {
   bool isRebooms = false;
   bool isLiked = false;
   bool isReported = false;
-  NetworkModel? networkModel = Get.find<MainScreenController>().networkModel;
+  NetworkModel? networkModel = Get.find<HomeController>().networkModel;
   String? selectedNetwork;
   Network? selectedNetworkModel;
   List<Network> networks = [];

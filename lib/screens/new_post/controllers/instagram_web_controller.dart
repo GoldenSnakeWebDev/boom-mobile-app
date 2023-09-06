@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/models/insta_media.dart';
 import 'package:boom_mobile/screens/new_post/services/instagram_api_service.dart';
@@ -161,7 +160,7 @@ class InstagramWebController extends GetxController {
           log(selectedIgImage!.exists().toString());
           EasyLoading.dismiss();
           Get.find<NewPostController>().fetchImageFromIG(selectedIgImage!);
-          Get.to(() => const CreateNewPost(), binding: AppBindings());
+          Get.to(() => const CreateNewPost());
           update();
         } else {
           CustomSnackBar.showCustomSnackBar(
