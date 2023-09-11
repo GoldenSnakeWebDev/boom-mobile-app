@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
@@ -12,8 +13,21 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:slide_action/slide_action.dart';
 import 'package:video_player/video_player.dart';
 
-class CreateNewPost extends GetView<NewPostController> {
+class CreateNewPost extends StatefulWidget {
   const CreateNewPost({Key? key}) : super(key: key);
+
+  @override
+  State<CreateNewPost> createState() => _CreateNewPostState();
+}
+
+class _CreateNewPostState extends State<CreateNewPost> {
+  @override
+  void initState() {
+    Get.put(NewPostController());
+    Get.put(InstagramWebController());
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -478,7 +492,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                                             child: Container(
                                                               margin:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       bottom:
                                                                           10),
                                                               width: SizeConfig
@@ -517,7 +531,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                                             child: Container(
                                                               margin:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       bottom:
                                                                           10),
                                                               width: SizeConfig
@@ -1538,7 +1552,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
-                                            await controller.bindToPlatform();
+                                            await controller.connectWalletNew();
 
                                             // Get.snackbar(
                                             //   "Coming Soon",

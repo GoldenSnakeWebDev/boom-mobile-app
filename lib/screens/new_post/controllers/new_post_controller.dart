@@ -6,7 +6,6 @@ import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
-import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
@@ -69,7 +68,7 @@ class NewPostController extends GetxController {
   var cryptoAmount = '0.00'.obs;
   Network? selectedNetworkModel;
   List<Network> networks = [];
-  final igController = Get.find<InstagramWebController>();
+  // final igController = Get.find<InstagramWebController>();
   // late WCClient wcClient;
   late InAppWebViewController webViewController;
   late String walletAddress, privateKey;
@@ -833,6 +832,16 @@ class NewPostController extends GetxController {
             chains: ['eip4361:97'],
             methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
             events: [],
+          ),
+          'eip155': const RequiredNamespace(
+            chains: ['eip155:1'], // Ethereum chain
+            methods: ['eth_signTransaction'], // Requestable Methods
+            events: ['eth_sendTransaction'], // Requestable Events
+          ),
+          'kadena': const RequiredNamespace(
+            chains: ['kadena:mainnet01'], // Kadena chain
+            methods: ['kadena_quicksign_v1'], // Requestable Methods
+            events: ['kadena_transaction_updated'], // Requestable Events
           ),
         },
         optionalNamespaces: {
