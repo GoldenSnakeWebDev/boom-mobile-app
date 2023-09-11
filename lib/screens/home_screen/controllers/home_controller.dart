@@ -62,24 +62,32 @@ class HomeController extends GetxController {
       userId = box.read("userId");
 
       fetchAllBooms();
+      getNetworks();
     });
   }
 
   getNetworks() async {
-    final res = await http.get(
-      Uri.parse("${baseURL}networks?page=all"),
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-    );
-    if (res.statusCode == 200) {
-      networkModel = net.NetworkModel.fromJson(jsonDecode(res.body));
-      log("networkModel is $networkModel");
+    if (box.read("networkModel") != null) {
+      networkModel = net.NetworkModel.fromJson(
+          jsonDecode(box.read("networkModel").toString()));
       update();
     } else {
-      CustomSnackBar.showCustomSnackBar(
-          errorList: ["Networks not fetched"], msg: ["Error"], isError: true);
+      final res = await http.get(
+        Uri.parse("${baseURL}networks?page=all"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      );
+      if (res.statusCode == 200) {
+        networkModel = net.NetworkModel.fromJson(jsonDecode(res.body));
+        await box.write("networkModel", res.body);
+        log("networkModel is $networkModel");
+        update();
+      } else {
+        CustomSnackBar.showCustomSnackBar(
+            errorList: ["Networks not fetched"], msg: ["Error"], isError: true);
+      }
     }
   }
 

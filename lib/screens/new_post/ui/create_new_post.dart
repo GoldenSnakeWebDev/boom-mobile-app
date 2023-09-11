@@ -478,7 +478,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                                             child: Container(
                                                               margin:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       bottom:
                                                                           10),
                                                               width: SizeConfig
@@ -517,7 +517,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                                             child: Container(
                                                               margin:
                                                                   const EdgeInsets
-                                                                          .only(
+                                                                      .only(
                                                                       bottom:
                                                                           10),
                                                               width: SizeConfig
@@ -1538,7 +1538,7 @@ class CreateNewPost extends GetView<NewPostController> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
-                                            await controller.bindToPlatform();
+                                            await controller.connectWalletNew();
 
                                             // Get.snackbar(
                                             //   "Coming Soon",

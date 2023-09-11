@@ -5,7 +5,6 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:boom_mobile/di/app_bindings.dart';
 import 'package:boom_mobile/main.dart';
 import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';

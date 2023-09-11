@@ -834,6 +834,16 @@ class NewPostController extends GetxController {
             methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
             events: [],
           ),
+          'eip155': const RequiredNamespace(
+            chains: ['eip155:1'], // Ethereum chain
+            methods: ['eth_signTransaction'], // Requestable Methods
+            events: ['eth_sendTransaction'], // Requestable Events
+          ),
+          'kadena': const RequiredNamespace(
+            chains: ['kadena:mainnet01'], // Kadena chain
+            methods: ['kadena_quicksign_v1'], // Requestable Methods
+            events: ['kadena_transaction_updated'], // Requestable Events
+          ),
         },
         optionalNamespaces: {
           'eip155': const RequiredNamespace(
