@@ -6,7 +6,6 @@ import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
-import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
@@ -69,7 +68,7 @@ class NewPostController extends GetxController {
   var cryptoAmount = '0.00'.obs;
   Network? selectedNetworkModel;
   List<Network> networks = [];
-  final igController = Get.find<InstagramWebController>();
+  // final igController = Get.find<InstagramWebController>();
   // late WCClient wcClient;
   late InAppWebViewController webViewController;
   late String walletAddress, privateKey;

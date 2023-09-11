@@ -17,7 +17,7 @@ class InstagramWeb extends StatelessWidget {
       body: WebviewScaffold(
         enableAppScheme: true,
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          // backgroundColor: Colors.red,
           leading: IconButton(
             onPressed: () async {
               _myController.flutterWebViewPlugin.close();
@@ -44,10 +44,10 @@ class InstagramWeb extends StatelessWidget {
         onBackPress: () {
           _myController.flutterWebViewPlugin.goBack();
         },
-        initialChild: Container(
+        initialChild: SizedBox(
           height: SizeConfig.screenHeight,
           width: SizeConfig.screenWidth,
-          color: Colors.greenAccent.shade100,
+          // color: Colors.greenAccent.shade100,
           child: Center(
             child: CircularProgressIndicator(
               color: Colors.amber,
