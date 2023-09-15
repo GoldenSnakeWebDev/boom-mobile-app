@@ -18,7 +18,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:in_app_update/in_app_update.dart';
-import 'package:magic_sdk/magic_sdk.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -86,7 +85,7 @@ void main() async {
   runApp(
     const MyApp(),
   );
-  Magic.instance = Magic(MAGIC_API_KEY);
+  // Magic.instance = Magic(MAGIC_API_KEY);
 }
 
 configureLoader() {
