@@ -108,4 +108,5 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
     implementation ("com.walletconnect:android-core:1.18.0")
     implementation ("com.walletconnect:sign:2.16.0")
+    implementation 'com.github.Web3Auth:web3auth-android-sdk:4.0.8'
 }

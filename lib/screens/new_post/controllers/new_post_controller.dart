@@ -31,6 +31,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:web3auth_flutter/enums.dart' as web3;
+import 'package:web3auth_flutter/input.dart';
+import 'package:web3auth_flutter/output.dart';
+import 'package:web3auth_flutter/web3auth_flutter.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -911,6 +915,55 @@ class NewPostController extends GetxController {
     } catch (e) {
       log("Error has occured $e");
       throw Exception(e);
+    }
+  }
+
+  web3Auth() async {
+    log("Starting this shit");
+    try {
+      Uri redirectUrl;
+      if (Platform.isAndroid) {
+        redirectUrl = Uri.parse('w3a://dev.boom.boom_mobile/newPost');
+      } else if (Platform.isIOS) {
+        redirectUrl = Uri.parse('dev.boom.boom_mobile://newPost');
+      } else {
+        throw UnKnownException('Unknown platform');
+      }
+
+      await Web3AuthFlutter.init(
+        Web3AuthOptions(
+          clientId: Web3ClientID,
+          network: web3.Network.testnet,
+          redirectUrl: redirectUrl,
+          whiteLabel: WhiteLabelData(
+            dark: true,
+            name: "Boom SuperApp",
+          ),
+        ),
+      )
+          .timeout(
+            const Duration(seconds: 7),
+          )
+          .catchError(
+            (e) => log("Error occurred $e"),
+          );
+
+      log("Initializing Libu");
+
+      await Web3AuthFlutter.initialize();
+
+      final String privKey = await Web3AuthFlutter.getPrivKey();
+
+      log("Private Key $privKey");
+
+      final Web3AuthResponse response = await Web3AuthFlutter.login(
+        LoginParams(loginProvider: web3.Provider.jwt),
+      );
+
+      log("Login Response ${response.privKey} ${response.userInfo}");
+    } catch (e) {
+      log("Error came in here $e");
+      throw Exception("Exception $e");
     }
   }
 }
