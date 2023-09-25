@@ -80,7 +80,7 @@ dependencies:
   http_parser: ^4.0.2
 
   #i
-  image_picker: ^0.8.6
+  image_picker: ^1.0.4
   intl: ^0.17.0
   image_cropper: ^3.0.1
   in_app_purchase: ^3.1.8
