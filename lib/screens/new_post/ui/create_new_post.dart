@@ -1552,7 +1552,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
-                                            await controller.connectWalletNew();
+                                            await controller.web3Auth();
 
                                             // Get.snackbar(
                                             //   "Coming Soon",

@@ -3,6 +3,7 @@ import 'package:boom_mobile/screens/authentication/login/login_screen.dart';
 import 'package:boom_mobile/screens/authentication/registration/registration_screen.dart';
 import 'package:boom_mobile/screens/explore/explore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
+import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/profile_screen.dart';
 import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
@@ -16,6 +17,7 @@ class RouteHelper {
   static const String profileScreen = '/profile';
   static const String splashScreen = '/splash';
   static const String registerScreen = '/register';
+  static const String newPostScreen = '/newPost';
 
   static List<GetPage> routes = [
     GetPage(name: homeScreen, page: () => const HomeScreen()),
@@ -25,5 +27,6 @@ class RouteHelper {
     GetPage(name: profileScreen, page: () => const ProfileScreen()),
     GetPage(name: splashScreen, page: () => const SplashScreen()),
     GetPage(name: registerScreen, page: () => const RegistrationScreen()),
+    GetPage(name: newPostScreen, page: () => const CreateNewPost()),
   ];
 }
