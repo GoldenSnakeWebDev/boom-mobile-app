@@ -96,7 +96,7 @@ dependencies:
 
   #m
   magic_sdk: ^4.0.0
-  material_design_icons_flutter: ^5.0.6996
+  material_design_icons_flutter: ^7.0.7296
   mime: ^1.0.2
   mockito: ^5.4.2
 
