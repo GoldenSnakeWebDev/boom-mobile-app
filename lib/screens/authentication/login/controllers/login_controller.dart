@@ -84,7 +84,7 @@ class LoginController extends GetxController {
                       Align(
                         alignment: Alignment.centerRight,
                         child: IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             MdiIcons.closeCircleOutline,
                             color: kredCancelTextColor,
                           ),

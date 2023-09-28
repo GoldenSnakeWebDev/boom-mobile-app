@@ -240,7 +240,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                   controller: controller.nftId,
                                   decoration: InputDecoration(
                                     hintText: "NFT ID",
-                                    prefixIcon: const Icon(
+                                    prefixIcon: Icon(
                                       MdiIcons.identifier,
                                       color: Colors.black,
                                     ),
@@ -274,7 +274,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                   controller: controller.nftURI,
                                   decoration: InputDecoration(
                                     hintText: "Image URI",
-                                    prefixIcon: const Icon(
+                                    prefixIcon: Icon(
                                       MdiIcons.web,
                                       size: 20,
                                       color: Colors.black,
@@ -656,7 +656,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                               8, 4, 8, 4),
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 MdiIcons.plus,
                                                 color: Colors.white,
                                                 size: 13,
@@ -702,7 +702,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                               8, 4, 8, 4),
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 MdiIcons.plus,
                                                 color: Colors.blueAccent,
                                                 size: 13,

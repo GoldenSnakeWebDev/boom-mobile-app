@@ -167,7 +167,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
               ),
             );
           },
-          child: const Icon(
+          child: Icon(
             MdiIcons.messageText,
           ),
         ),
@@ -205,7 +205,7 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
           //     fontWeight: FontWeight.w400,
           //   ),
           // ),
-          trailing: const Icon(
+          trailing: Icon(
             MdiIcons.messageText,
             color: Colors.black,
           ),

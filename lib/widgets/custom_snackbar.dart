@@ -69,7 +69,10 @@ class CustomSnackBar {
           isError
               ? SvgPicture.asset("assets/images/Error.svg",
                   height: 25, width: 25, color: kredCancelTextColor)
-              : const Icon(MdiIcons.check, color: kgreenSuccessColor)
+              : Icon(
+                  MdiIcons.check,
+                  color: kgreenSuccessColor,
+                )
         ],
       ),
       backgroundColor: Colors.white,
@@ -107,7 +110,7 @@ class CustomSnackBar {
           ),
         ),
       ),
-      icon: const Icon(
+      icon: Icon(
         MdiIcons.accessPointNetworkOff,
       ),
     );

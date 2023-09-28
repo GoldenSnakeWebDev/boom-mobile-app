@@ -83,7 +83,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
-                                  child: const Icon(
+                                  child: Icon(
                                     MdiIcons.close,
                                     size: 20,
                                     color: Colors.black,

@@ -31,7 +31,7 @@ class SyntheticBankScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              icon: const Icon(MdiIcons.close),
+              icon: Icon(MdiIcons.close),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +68,7 @@ class SyntheticBankScreen extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
                       child: Row(
                         children: [
-                          const Icon(
+                          Icon(
                             MdiIcons.contentCopy,
                             size: 20,
                             color: Colors.black54,

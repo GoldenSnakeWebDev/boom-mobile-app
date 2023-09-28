@@ -90,8 +90,8 @@ class EditTaleImage extends StatelessWidget {
                         color: Colors.black.withOpacity(0.5),
                       ),
                       alignment: Alignment.center,
-                      child: const Padding(
-                        padding: EdgeInsets.all(6.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
                         child: Icon(
                           MdiIcons.stickerEmoji,
                           size: 16,
@@ -132,8 +132,8 @@ class EditTaleImage extends StatelessWidget {
                         color: Colors.black.withOpacity(0.5),
                       ),
                       alignment: Alignment.center,
-                      child: const Padding(
-                        padding: EdgeInsets.all(6.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
                         child: Icon(
                           MdiIcons.download,
                           size: 16,
@@ -160,8 +160,6 @@ class EditTaleImage extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          // TODO: Upload tale image
-
                           await _talesEpicsController.postTale(
                               imageFile, "tale");
                         },
@@ -199,8 +197,6 @@ class EditTaleImage extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () async {
-                          // TODO: Upload tale image
-
                           await _talesEpicsController.postTale(
                               imageFile, "epic");
                         },

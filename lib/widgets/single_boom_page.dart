@@ -198,7 +198,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                         .boom.location!.isNotEmpty,
                                     child: Wrap(
                                       children: [
-                                        const Icon(
+                                        Icon(
                                           MdiIcons.mapMarker,
                                           size: 18,
                                         ),
@@ -229,7 +229,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                       _onShare(context,
                                           boomController.boom.imageUrl!);
                                     },
-                                    child: const Icon(
+                                    child: Icon(
                                       MdiIcons.shareVariant,
                                       size: 18,
                                       color: Colors.black,
@@ -1049,7 +1049,7 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                     ],
                                   );
                                 },
-                                icon: const Icon(
+                                icon: Icon(
                                   MdiIcons.dotsHorizontal,
                                   color: Colors.black,
                                 ),
@@ -1452,9 +1452,9 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                               color: kPrimaryColor,
                                               strokeWidth: 2,
                                             )
-                                          : const Icon(
+                                          : Icon(
                                               MdiIcons.send,
-                                              color: Color(0xFF454C4D),
+                                              color: const Color(0xFF454C4D),
                                             ),
                                     ),
                                   ],

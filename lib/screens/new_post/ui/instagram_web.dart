@@ -23,7 +23,7 @@ class InstagramWeb extends StatelessWidget {
               _myController.flutterWebViewPlugin.close();
               Navigator.of(context).pop();
             },
-            icon: const Icon(
+            icon: Icon(
               MdiIcons.close,
               color: Colors.black,
             ),
@@ -33,7 +33,7 @@ class InstagramWeb extends StatelessWidget {
               onPressed: () async {
                 _myController.flutterWebViewPlugin.reload();
               },
-              icon: const Icon(
+              icon: Icon(
                 MdiIcons.reload,
                 color: Colors.black,
               ),

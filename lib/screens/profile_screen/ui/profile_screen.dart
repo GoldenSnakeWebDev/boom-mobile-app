@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
                                                   children: [
-                                                    const Icon(
+                                                    Icon(
                                                       MdiIcons.mapMarker,
                                                       size: 16,
                                                     ),
@@ -242,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           () =>
                                                               const EditProfile(),
                                                           arguments: [user]),
-                                                      child: const Icon(
+                                                      child: Icon(
                                                         MdiIcons
                                                             .accountEditOutline,
                                                         size: 24,

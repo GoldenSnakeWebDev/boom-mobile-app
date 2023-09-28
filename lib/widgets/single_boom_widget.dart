@@ -96,7 +96,7 @@ class SingleBoomWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(5.0),
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               MdiIcons.mapMarker,
                               size: 16,
                             ),

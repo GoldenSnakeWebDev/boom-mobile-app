@@ -62,7 +62,7 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                   controller.onClose();
                                   Get.back();
                                 },
-                                icon: const Icon(MdiIcons.close),
+                                icon: Icon(MdiIcons.close),
                               ),
                               GestureDetector(
                                 onTap: () async {
@@ -101,7 +101,7 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                         const EdgeInsets.fromLTRB(8, 2, 8, 2),
                                     child: Row(
                                       children: [
-                                        const Icon(
+                                        Icon(
                                           MdiIcons.contentCopy,
                                           size: 20,
                                         ),
@@ -314,7 +314,7 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                                     ),
                                                     child: Padding(
                                                       padding: const EdgeInsets
-                                                              .fromLTRB(
+                                                          .fromLTRB(
                                                           8.0, 4, 8, 4),
                                                       child: Text(
                                                         "Export",
@@ -452,7 +452,7 @@ class _BackPackScreenState extends State<BackPackScreen> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .fromLTRB(
+                                                                .fromLTRB(
                                                                 8.0, 4, 8, 4),
                                                         child: Text(
                                                           "Send To",
@@ -546,7 +546,7 @@ class _BackPackScreenState extends State<BackPackScreen> {
           //     fontWeight: FontWeight.w400,
           //   ),
           // ),
-          trailing: const Icon(
+          trailing: Icon(
             MdiIcons.send,
             color: Colors.black,
           ),

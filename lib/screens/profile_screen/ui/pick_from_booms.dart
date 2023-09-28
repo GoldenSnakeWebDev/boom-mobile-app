@@ -123,7 +123,7 @@ class _PickFromBoomState extends State<PickFromBoom> {
                                               color:
                                                   Colors.white.withOpacity(0.6),
                                               shape: BoxShape.circle),
-                                          child: const Icon(
+                                          child: Icon(
                                             MdiIcons.check,
                                             color: kPrimaryColor,
                                             size: 16,
