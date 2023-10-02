@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
 
   #a
-  animated_bottom_navigation_bar: ^1.1.0
+  animated_bottom_navigation_bar: ^1.3.0
   adapty_flutter: ^2.4.3
   awesome_dialog: ^3.0.2
 
