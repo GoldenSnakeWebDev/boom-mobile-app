@@ -104,7 +104,7 @@ dependencies:
   native_notify: ^0.0.16
 
   #o
-  onesignal_flutter: ^3.5.0
+  onesignal_flutter: ^5.0.3
 
   #p
   permission_handler: ^11.0.0
