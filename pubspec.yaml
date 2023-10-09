@@ -45,7 +45,7 @@ dependencies:
   #c
   camera: ^0.10.5+2
   cupertino_icons: ^1.0.2
-  cached_network_image: ^3.2.2
+  cached_network_image: ^3.3.0
   cached_video_player: ^2.0.3
   camerawesome: ^1.2.1
 
