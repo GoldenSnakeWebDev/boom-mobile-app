@@ -139,7 +139,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
-                                                  const Icon(
+                                                  Icon(
                                                     MdiIcons.mapMarker,
                                                     size: 16,
                                                   ),
@@ -289,8 +289,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                     ],
                                                                   );
                                                                 },
-                                                                child:
-                                                                    const Icon(
+                                                                child: Icon(
                                                                   MdiIcons
                                                                       .dotsVertical,
                                                                   size: 24,
@@ -570,7 +569,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                              .all(
+                                                                          .all(
                                                                           3.0),
                                                                   child: Text(
                                                                     "B",
@@ -667,7 +666,7 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                    .only(
+                                                                .only(
                                                                 bottom: 12),
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -1319,15 +1318,13 @@ class _OtherUserProfileScreenState extends State<OtherUserProfileScreen> {
                                                                       index],
                                                                   index);
                                                       return SingleBoomWidget(
-                                                        post: boomPost,
-                                                        controller: Get.find<
-                                                            HomeController>(),
-                                                        boomId: booms
-                                                            .booms[index].id!,
+                                                          post: boomPost,
+                                                          controller: Get.find<
+                                                              HomeController>(),
+                                                          boomId: booms
+                                                              .booms[index].id!,
                                                           boom: booms
-                                                              .booms[index]
-                                                            
-                                                      );
+                                                              .booms[index]);
                                                     },
                                                   ),
                                           ),

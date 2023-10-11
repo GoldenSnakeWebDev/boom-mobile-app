@@ -339,7 +339,9 @@ class SynCoinOption extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Icon(MdiIcons.circleMultiple),
+              Icon(
+                MdiIcons.circleMultiple,
+              ),
               Text(
                 coinAmount,
                 style: TextStyle(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -24,6 +25,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../authentication/login/models/user_model.dart';
+
+typedef OnUploadProgressCallback = void Function(
+    int byteCount, int totalByteCount);
 
 class EditProfileController extends GetxController {
   TextEditingController usernameController = TextEditingController();
@@ -297,6 +301,7 @@ class EditProfileController extends GetxController {
           mimeTypeData[1],
         ),
       );
+
       Map<String, String> headers = {
         "Content-Type": "multipart/form-data",
         "Accept": "*/*",
@@ -305,7 +310,7 @@ class EditProfileController extends GetxController {
 
       request.files.add(multipartFile);
       // request.fields["doc"] = basename(photo.path);
-      log(basename(photo.path));
+
       var response = await request.send();
 
       if (response.statusCode == 201) {

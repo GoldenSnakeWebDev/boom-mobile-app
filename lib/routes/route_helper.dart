@@ -4,6 +4,7 @@ import 'package:boom_mobile/screens/authentication/registration/registration_scr
 import 'package:boom_mobile/screens/explore/explore_screen.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
+import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/screens/notifications/notifications_screen.dart';
 import 'package:boom_mobile/screens/profile_screen/ui/profile_screen.dart';
 import 'package:boom_mobile/screens/splash_screen/splash_screen.dart';
@@ -18,6 +19,7 @@ class RouteHelper {
   static const String splashScreen = '/splash';
   static const String registerScreen = '/register';
   static const String newPostScreen = '/newPost';
+  static const String instagramWeb = '/instagramWeb';
 
   static List<GetPage> routes = [
     GetPage(name: homeScreen, page: () => const HomeScreen()),
@@ -28,5 +30,6 @@ class RouteHelper {
     GetPage(name: splashScreen, page: () => const SplashScreen()),
     GetPage(name: registerScreen, page: () => const RegistrationScreen()),
     GetPage(name: newPostScreen, page: () => const CreateNewPost()),
+    GetPage(name: instagramWeb, page: () => InstagramWeb()),
   ];
 }

@@ -7,8 +7,8 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class BoomBoxScreen extends StatefulWidget {
   const BoomBoxScreen({Key? key}) : super(key: key);
@@ -140,7 +140,7 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                                                   getProportionateScreenWidth(
                                                       7),
                                             ),
-                                            const Icon(
+                                            Icon(
                                               MdiIcons.cog,
                                               size: 20,
                                               color: Colors.black,
@@ -180,7 +180,7 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                             SizedBox(
                               width: getProportionateScreenWidth(7),
                             ),
-                            const Icon(
+                            Icon(
                               MdiIcons.cog,
                               size: 20,
                               color: Colors.black,
@@ -372,7 +372,7 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                             SizedBox(
                               width: getProportionateScreenWidth(7),
                             ),
-                            const Icon(
+                            Icon(
                               MdiIcons.cog,
                               size: 20,
                               color: Colors.black,
@@ -553,7 +553,7 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Column(children: [
-                                      const Icon(
+                                      Icon(
                                         MdiIcons.upload,
                                         size: 40,
                                       ),
@@ -608,7 +608,7 @@ class _BoomBoxScreenState extends State<BoomBoxScreen> {
                                   SizedBox(
                                     width: getProportionateScreenWidth(7),
                                   ),
-                                  const Icon(
+                                  Icon(
                                     MdiIcons.cog,
                                     size: 20,
                                     color: Colors.black,

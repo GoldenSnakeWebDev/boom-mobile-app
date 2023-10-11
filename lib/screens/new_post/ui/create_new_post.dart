@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:boom_mobile/routes/route_helper.dart';
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
-import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -240,7 +240,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                   controller: controller.nftId,
                                   decoration: InputDecoration(
                                     hintText: "NFT ID",
-                                    prefixIcon: const Icon(
+                                    prefixIcon: Icon(
                                       MdiIcons.identifier,
                                       color: Colors.black,
                                     ),
@@ -274,7 +274,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                   controller: controller.nftURI,
                                   decoration: InputDecoration(
                                     hintText: "Image URI",
-                                    prefixIcon: const Icon(
+                                    prefixIcon: Icon(
                                       MdiIcons.web,
                                       size: 20,
                                       color: Colors.black,
@@ -656,7 +656,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                               8, 4, 8, 4),
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 MdiIcons.plus,
                                                 color: Colors.white,
                                                 size: 13,
@@ -686,7 +686,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        Get.to(() => InstagramWeb());
+                                        Get.toNamed(RouteHelper.instagramWeb);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -702,7 +702,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                               8, 4, 8, 4),
                                           child: Row(
                                             children: [
-                                              const Icon(
+                                              Icon(
                                                 MdiIcons.plus,
                                                 color: Colors.blueAccent,
                                                 size: 13,
@@ -1552,7 +1552,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
-                                            await controller.web3Auth();
+                                            await controller.connectWalletNew();
 
                                             // Get.snackbar(
                                             //   "Coming Soon",

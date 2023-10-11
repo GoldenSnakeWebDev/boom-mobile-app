@@ -51,7 +51,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(
+              icon: Icon(
                 MdiIcons.dotsVertical,
                 color: Colors.black,
               ),
@@ -193,9 +193,9 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                                     controller.messageController.clear();
                                     FocusScope.of(context).unfocus();
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     MdiIcons.send,
-                                    color: Color(0xFF454C4D),
+                                    color: const Color(0xFF454C4D),
                                   ),
                                 ),
                         ),
@@ -342,7 +342,7 @@ class _SingleBoomBoxMessageState extends State<SingleBoomBoxMessage> {
                             SizedBox(
                               width: getProportionateScreenWidth(7),
                             ),
-                            const Icon(
+                            Icon(
                               MdiIcons.cog,
                               size: 20,
                               color: Colors.black,

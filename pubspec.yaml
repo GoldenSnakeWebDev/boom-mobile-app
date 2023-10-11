@@ -17,7 +17,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+88
+version: 1.0.0+90
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
@@ -127,7 +127,8 @@ dependencies:
   tezart: ^2.0.5
 
   #u
-  url_launcher_android: ^6.0.35
+  # url_launcher_android: ^6.0.35
+  url_launcher: ^6.1.14
   unique_identifier: ^0.3.0
 
   #v
@@ -144,7 +145,7 @@ dependencies:
   walletconnect_qrcode_modal_dart: ^0.4.3
   wallet_connect_v2: ^1.0.5
   walletconnect_flutter_v2: ^2.1.4
-  web3auth_flutter: ^2.0.3
+  # web3auth_flutter: ^2.0.3
 
   # walletconnect_qrcode_modal_dart: ^0.4.1
 

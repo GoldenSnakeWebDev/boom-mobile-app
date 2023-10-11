@@ -65,7 +65,7 @@ class _CaptureTaleScreenState extends State<CaptureTaleScreen> {
                 onTap: () {
                   Get.back();
                 },
-                child: const Icon(
+                child: Icon(
                   MdiIcons.close,
                   color: Colors.white,
                 ),
@@ -86,7 +86,7 @@ class _CaptureTaleScreenState extends State<CaptureTaleScreen> {
                 onTap: () {
                   controller.pickPhoto();
                 },
-                child: const Icon(
+                child: Icon(
                   MdiIcons.imageAreaClose,
                   color: Colors.white,
                 ),

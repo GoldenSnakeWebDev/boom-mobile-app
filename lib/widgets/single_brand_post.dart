@@ -183,7 +183,7 @@ class SingleBrandPost extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               bottom: 12,
               right: 15,
               child: Icon(

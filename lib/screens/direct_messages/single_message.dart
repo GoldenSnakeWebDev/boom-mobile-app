@@ -398,9 +398,9 @@ class _SingleMessageState extends State<SingleMessage> {
                                     _messageController.clear();
                                     FocusScope.of(context).unfocus();
                                   },
-                                  icon: const Icon(
+                                  icon: Icon(
                                     MdiIcons.send,
-                                    color: Color(0xFF454C4D),
+                                    color: const Color(0xFF454C4D),
                                   ),
                                 ),
                         ),

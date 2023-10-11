@@ -27,14 +27,11 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
-import 'package:web3auth_flutter/enums.dart' as web3;
-import 'package:web3auth_flutter/input.dart';
-import 'package:web3auth_flutter/output.dart';
-import 'package:web3auth_flutter/web3auth_flutter.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -815,6 +812,20 @@ class NewPostController extends GetxController {
   /// New Wallet Connect Integration Test using WalletConnectFlutterV2.
   /// More documentation can be found here: https://github.com/WalletConnect/WalletConnectFlutterV2
 
+  formatNativeUrl(String? deepLink, String wcUri) {
+    String safeAppUrl = deepLink ?? "";
+
+    if (deepLink != null && deepLink.isNotEmpty) {
+      if (!safeAppUrl.contains('://')) {
+        safeAppUrl = deepLink.replaceAll('/', '').replaceAll(':', '');
+        safeAppUrl = '$safeAppUrl://';
+      }
+    }
+    String encodeWcUrl = Uri.encodeComponent(wcUri);
+
+    return Uri.parse('$safeAppUrl$encodeWcUrl');
+  }
+
   connectWalletNew() async {
     try {
       log("Starting Connection");
@@ -860,32 +871,28 @@ class NewPostController extends GetxController {
             events: [],
           ),
         },
+        methods: [
+          [
+            'eth_sendTransaction',
+            'eth_signTransaction',
+            'eth_sign',
+          ]
+        ],
+        pairingTopic: "",
+        relays: [
+          Relay(
+            "https://relay.walletconnect.com/?projectId=$WALLET_CONNECT_ID",
+          )
+        ],
       );
 
-      wcClient.onSessionPing.subscribe((args) {
-        log('Topic: ${args!.topic}');
-      });
-
-      wcClient.onSessionEvent.subscribe((args) {
-        log('Topic: ${args!.topic}\nEvent Name: ${args.name}\nEvent Data: ${args.data}');
-      });
-
-      log("Gotten Connection");
-
       Uri? uri = resp.uri;
+      // var url = uri.toString();
 
-      log("The URI $uri");
-
-      wcClient.onSessionConnect.subscribe((SessionConnect? connect) {
-        log(connect?.session.peer.publicKey ?? "No Public Key Gotten");
-      });
-
-      // await launchUrlString(uri.toString());
-
-      final SessionData sessionData = await resp.session.future;
-
-      final session = sessionData.peer.publicKey;
-      log("Session Data $session");
+      await launchUrl(
+        Uri.parse("metamask://wc?$uri"),
+        mode: LaunchMode.externalNonBrowserApplication,
+      );
 
       final AuthRequestResponse authReq = await wcClient.requestAuth(
         params: AuthRequestParams(
@@ -895,8 +902,6 @@ class NewPostController extends GetxController {
             statement: 'Sign in with your wallet'),
         pairingTopic: resp.pairingTopic,
       );
-
-      log("Auth Reuest ${authReq.id}");
 
       final AuthResponse authResponse = await authReq.completer.future;
       // ignore: unnecessary_null_comparison
@@ -912,60 +917,83 @@ class NewPostController extends GetxController {
         log("WalletConnectError ${error?.message} Code: ${error?.code}");
         log("JSONRPCErrpr ${jsonError?.message} Code: ${jsonError?.code}");
       }
+
+      log("Gotten Connection");
+
+      log("The URI $uri");
+
+      wcClient.onSessionPing.subscribe((args) {
+        log('Topic: ${args!.topic}');
+      });
+
+      wcClient.onSessionEvent.subscribe((args) {
+        log('Topic: ${args!.topic}\nEvent Name: ${args.name}\nEvent Data: ${args.data}');
+      });
+
+      wcClient.onSessionConnect.subscribe((SessionConnect? connect) {
+        log(connect?.session.peer.publicKey ?? "No Public Key Gotten");
+      });
+
+      final SessionData sessionData = await resp.session.future;
+
+      final session = sessionData.peer.publicKey;
+      log("Session Data $session");
+
+      log("Auth Reuest ${authReq.id}");
     } catch (e) {
       log("Error has occured $e");
       throw Exception(e);
     }
   }
 
-  web3Auth() async {
-    log("Starting this shit");
-    try {
-      Uri redirectUrl;
-      if (Platform.isAndroid) {
-        redirectUrl = Uri.parse('w3a://dev.boom.boom_mobile/newPost');
-      } else if (Platform.isIOS) {
-        redirectUrl = Uri.parse('dev.boom.boom_mobile://newPost');
-      } else {
-        throw UnKnownException('Unknown platform');
-      }
+  // web3Auth() async {
+  //   log("Starting this shit");
+  //   try {
+  //     Uri redirectUrl;
+  //     if (Platform.isAndroid) {
+  //       redirectUrl = Uri.parse('w3a://dev.boom.boom_mobile/newPost');
+  //     } else if (Platform.isIOS) {
+  //       redirectUrl = Uri.parse('dev.boom.boom_mobile://newPost');
+  //     } else {
+  //       throw UnKnownException('Unknown platform');
+  //     }
 
-      await Web3AuthFlutter.init(
-        Web3AuthOptions(
-          clientId: Web3ClientID,
-          network: web3.Network.testnet,
-          redirectUrl: redirectUrl,
-          whiteLabel: WhiteLabelData(
-            dark: true,
-            name: "Boom SuperApp",
-          ),
-        ),
-      )
-          .timeout(
-            const Duration(seconds: 7),
-          )
-          .catchError(
-            (e) => log("Error occurred $e"),
-          );
+  //     await Web3AuthFlutter.init(
+  //       Web3AuthOptions(
+  //         clientId: Web3ClientID,
+  //         network: web3.Network.testnet,
+  //         redirectUrl: redirectUrl,
+  //         whiteLabel: WhiteLabelData(
+  //           dark: true,
+  //           name: "Boom SuperApp",
+  //         ),
+  //       ),
+  //     )
+  //         .timeout(
+  //           const Duration(seconds: 7),
+  //         )
+  //         .catchError(
+  //           (e) => log("Error occurred $e"),
+  //         );
 
-      log("Initializing Libu");
+  //     log("Initializing Libu");
 
-      await Web3AuthFlutter.initialize();
+  //     await Web3AuthFlutter.initialize();
 
-      final String privKey = await Web3AuthFlutter.getPrivKey();
+  //     final String privKey = await Web3AuthFlutter.getPrivKey();
 
-      log("Private Key $privKey");
+  //     log("Private Key $privKey");
 
-      final Web3AuthResponse response = await Web3AuthFlutter.login(
-        LoginParams(loginProvider: web3.Provider.jwt),
-      );
+  //     final Web3AuthResponse response = await Web3AuthFlutter.login(
+  //       LoginParams(loginProvider: web3.Provider.jwt),
+  //     );
 
-      log("Login Response ${response.privKey} ${response.userInfo}");
-    } catch (e) {
-      log("Error came in here $e");
-      throw Exception("Exception $e");
-    }
-  }
+  //     log("Login Response ${response.privKey} ${response.userInfo}");
+  //   } catch (e) {
+  //     log("Error came in here $e");
+  //     throw Exception("Exception $e");
+  //   }
+  // }
 }
 
 class WalletConnectEthereumCredentials extends CustomTransactionSender {

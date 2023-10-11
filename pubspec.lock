@@ -1933,7 +1933,7 @@ packages:
     source: hosted
     version: "2.2.2"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       sha256: "47e208a6711459d813ba18af120d9663c20bdf6985d6ad39fe165d2538378d27"
@@ -1941,7 +1941,7 @@ packages:
     source: hosted
     version: "6.1.14"
   url_launcher_android:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher_android
       sha256: b04af59516ab45762b2ca6da40fa830d72d0f6045cd97744450b73493fa76330
@@ -2172,14 +2172,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.4-beta"
-  web3auth_flutter:
-    dependency: "direct main"
-    description:
-      name: web3auth_flutter
-      sha256: "650d49130eea34d85edf49942602169fcb356d196c68eddd0d4a211070a3bda8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.3"
   web3dart:
     dependency: "direct main"
     description:
