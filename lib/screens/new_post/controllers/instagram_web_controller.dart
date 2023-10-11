@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
 import 'package:boom_mobile/screens/new_post/models/insta_media.dart';
 import 'package:boom_mobile/screens/new_post/services/instagram_api_service.dart';
-import 'package:boom_mobile/screens/new_post/ui/create_new_post.dart';
 import 'package:boom_mobile/screens/new_post/ui/instagram_posts.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:flutter/foundation.dart';
@@ -160,7 +159,10 @@ class InstagramWebController extends GetxController {
           log(selectedIgImage!.exists().toString());
           EasyLoading.dismiss();
           Get.find<NewPostController>().fetchImageFromIG(selectedIgImage!);
-          Get.to(() => const CreateNewPost());
+          Get.back();
+          Get.back();
+          // Get.offAndToNamed(RouteHelper.newPostScreen);
+          // Get.to(() => const CreateNewPost());
           update();
         } else {
           CustomSnackBar.showCustomSnackBar(

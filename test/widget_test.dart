@@ -27,9 +27,8 @@ void main() async {
     // Build our app and trigger a frame.
 
     await tester.pumpWidget(
-      GetMaterialApp(
-        initialBinding: AppBindings(),
-        home: const LoginScreen(),
+      const GetMaterialApp(
+        home: LoginScreen(),
       ),
     );
 

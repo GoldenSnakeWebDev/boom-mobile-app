@@ -871,6 +871,19 @@ class NewPostController extends GetxController {
             events: [],
           ),
         },
+        methods: [
+          [
+            'eth_sendTransaction',
+            'eth_signTransaction',
+            'eth_sign',
+          ]
+        ],
+        pairingTopic: "",
+        relays: [
+          Relay(
+            "https://relay.walletconnect.com/?projectId=$WALLET_CONNECT_ID",
+          )
+        ],
       );
 
       Uri? uri = resp.uri;

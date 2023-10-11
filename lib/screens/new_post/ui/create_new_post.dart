@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:boom_mobile/routes/route_helper.dart';
 import 'package:boom_mobile/screens/new_post/controllers/instagram_web_controller.dart';
 import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
-import 'package:boom_mobile/screens/new_post/ui/instagram_web.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -686,7 +686,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        Get.to(() => InstagramWeb());
+                                        Get.toNamed(RouteHelper.instagramWeb);
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
