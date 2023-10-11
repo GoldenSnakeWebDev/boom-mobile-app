@@ -887,7 +887,7 @@ class NewPostController extends GetxController {
       );
 
       Uri? uri = resp.uri;
-      var url = uri.toString();
+      // var url = uri.toString();
 
       await launchUrl(
         Uri.parse("metamask://wc?$uri"),
