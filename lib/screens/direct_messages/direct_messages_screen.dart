@@ -9,173 +9,187 @@ import '../profile_screen/models/boom_box_model.dart';
 import 'controllers/dm_controller.dart';
 import 'single_message.dart';
 
-class DirectMessagesScreen extends GetView<DMCrontroller> {
+class DirectMessagesScreen extends StatefulWidget {
   const DirectMessagesScreen({Key? key}) : super(key: key);
 
   @override
+  State<DirectMessagesScreen> createState() => _DirectMessagesScreenState();
+}
+
+class _DirectMessagesScreenState extends State<DirectMessagesScreen> {
+  @override
+  void initState() {
+    Get.put(DMCrontroller());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 1,
-      child: Scaffold(
-        backgroundColor: kContBgColor,
-        appBar: AppBar(
+    return GetBuilder<DMCrontroller>(builder: (controller) {
+      return DefaultTabController(
+        length: 1,
+        child: Scaffold(
           backgroundColor: kContBgColor,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios_new_outlined,
-              color: Colors.black,
-            ),
-          ),
-          title: Text(
-            "Messages",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: getProportionateScreenHeight(16),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          centerTitle: true,
-          bottom: TabBar(
-            unselectedLabelColor: Colors.black,
-            labelColor: kPrimaryColor,
-            tabs: [
-              Tab(
-                child: Text(
-                  "Direct Message",
-                  style: TextStyle(
-                      fontSize: getProportionateScreenHeight(14),
-                      fontWeight: FontWeight.bold),
-                ),
+          appBar: AppBar(
+            backgroundColor: kContBgColor,
+            elevation: 0,
+            leading: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: Colors.black,
               ),
-              // Tab(
-              //   child: Text(
-              //     "BoomBox Message",
-              //     style: TextStyle(
-              //         fontSize: getProportionateScreenHeight(14),
-              //         fontWeight: FontWeight.bold),
-              //   ),
-              // )
-            ],
-          ),
-        ),
-        body: RefreshIndicator(
-          onRefresh: () async {
-            await controller.fetchBoomBoxMessages();
-          },
-          child: TabBarView(
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              SafeArea(
-                child: Obx(
-                  () => (controller.isLoading.value)
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : (controller.dmMessages.isNotEmpty)
-                          ? _buildChatsList(controller.dmMessages, false)
-                          : const Center(
-                              child: Text("No messages"),
-                            ),
-                ),
-              ),
-              // SafeArea(
-              //   child: Obx(
-              //     () => (controller.isLoading.value)
-              //         ? const Center(
-              //             child: CircularProgressIndicator(),
-              //           )
-              //         : (controller.groupMessages.isNotEmpty)
-              //             ? _buildChatsList(controller.groupMessages, true)
-              //             : const Center(
-              //                 child: Text("No messages"),
-              //               ),
-              //   ),
-              // )
-            ],
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(
-                    getProportionateScreenHeight(15),
+            ),
+            // title: Text(
+            //   "Messages",
+            //   style: TextStyle(
+            //     color: Colors.black,
+            //     fontSize: getProportionateScreenHeight(16),
+            //     fontWeight: FontWeight.w700,
+            //   ),
+            // ),
+            centerTitle: true,
+            bottom: TabBar(
+              unselectedLabelColor: Colors.black,
+              labelColor: kPrimaryColor,
+              tabs: [
+                Tab(
+                  child: Text(
+                    "Direct Message",
+                    style: TextStyle(
+                        fontSize: getProportionateScreenHeight(14),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-              context: context,
-              builder: (context) => Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(15),
-                  vertical: getProportionateScreenHeight(20),
+                // Tab(
+                //   child: Text(
+                //     "BoomBox Message",
+                //     style: TextStyle(
+                //         fontSize: getProportionateScreenHeight(14),
+                //         fontWeight: FontWeight.bold),
+                //   ),
+                // )
+              ],
+            ),
+          ),
+          body: RefreshIndicator(
+            onRefresh: () async {
+              await controller.fetchBoomBoxMessages();
+            },
+            child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                SafeArea(
+                  child: Obx(
+                    () => (controller.isLoading.value)
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : (controller.dmMessages.isNotEmpty)
+                            ? _buildChatsList(
+                                controller.dmMessages, false, controller)
+                            : const Center(
+                                child: Text("No messages"),
+                              ),
+                  ),
                 ),
-                decoration: BoxDecoration(
+                // SafeArea(
+                //   child: Obx(
+                //     () => (controller.isLoading.value)
+                //         ? const Center(
+                //             child: CircularProgressIndicator(),
+                //           )
+                //         : (controller.groupMessages.isNotEmpty)
+                //             ? _buildChatsList(controller.groupMessages, true)
+                //             : const Center(
+                //                 child: Text("No messages"),
+                //               ),
+                //   ),
+                // )
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              showModalBottomSheet(
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(
                       getProportionateScreenHeight(15),
                     ),
                   ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Container(
-                    //   height: getProportionateScreenHeight(50),
-                    //   margin: EdgeInsets.only(
-                    //     bottom: getProportionateScreenHeight(15),
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     color: Colors.grey[200],
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    //   child: TextFormField(
-                    //     onChanged: (value) {},
-                    //     decoration: const InputDecoration(
-                    //       border: InputBorder.none,
-                    //       prefixIcon: Icon(
-                    //         Icons.search,
-                    //         color: Colors.grey,
-                    //       ),
-                    //       hintText: 'Search',
-                    //       hintStyle: TextStyle(
-                    //         color: Colors.grey,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    Text(
-                      "New Message",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: getProportionateScreenHeight(16),
-                        fontWeight: FontWeight.w700,
+                context: context,
+                builder: (context) => Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(15),
+                    vertical: getProportionateScreenHeight(20),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(
+                        getProportionateScreenHeight(15),
                       ),
                     ),
-                    SizedBox(
-                      height: getProportionateScreenHeight(15),
-                    ),
-                    Expanded(
-                      child: _buildUsersList(),
-                    ),
-                  ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Container(
+                      //   height: getProportionateScreenHeight(50),
+                      //   margin: EdgeInsets.only(
+                      //     bottom: getProportionateScreenHeight(15),
+                      //   ),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.grey[200],
+                      //     borderRadius: BorderRadius.circular(10),
+                      //   ),
+                      //   child: TextFormField(
+                      //     onChanged: (value) {},
+                      //     decoration: const InputDecoration(
+                      //       border: InputBorder.none,
+                      //       prefixIcon: Icon(
+                      //         Icons.search,
+                      //         color: Colors.grey,
+                      //       ),
+                      //       hintText: 'Search',
+                      //       hintStyle: TextStyle(
+                      //         color: Colors.grey,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      Text(
+                        "New Message",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenHeight(16),
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(
+                        height: getProportionateScreenHeight(15),
+                      ),
+                      Expanded(
+                        child: _buildUsersList(controller),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-          child: Icon(
-            MdiIcons.messageText,
+              );
+            },
+            child: Icon(
+              MdiIcons.messageText,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  _buildUsersList() {
+  _buildUsersList(DMCrontroller controller) {
     return ListView.builder(
       itemCount: controller.boxUsers?.length,
       itemBuilder: (context, index) {
@@ -217,7 +231,8 @@ class DirectMessagesScreen extends GetView<DMCrontroller> {
     );
   }
 
-  _buildChatsList(List<BoomBox> boomBoxes, bool isGroup) {
+  _buildChatsList(
+      List<BoomBox> boomBoxes, bool isGroup, DMCrontroller controller) {
     return GetBuilder(
       init: DMCrontroller(),
       builder: (ctrllerr) => Column(
