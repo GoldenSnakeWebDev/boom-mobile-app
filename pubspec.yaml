@@ -61,7 +61,7 @@ dependencies:
   flutter_webview_plugin_ios_android: ^0.3.12
   freezed_annotation: ^2.2.0
   flutter_easyloading: ^3.0.5
-  flutter_downloader: ^1.9.1
+  flutter_downloader: ^1.11.3
   firebase_core: ^1.24.0
   firebase_core_platform_interface: ^4.8.0
   firebase_analytics: ^9.3.8
