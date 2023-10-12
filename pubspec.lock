@@ -1824,10 +1824,10 @@ packages:
     dependency: "direct main"
     description:
       name: story
-      sha256: cb9f3077fe3bb9789346e66ec18f3cf8ecdd5f335ae09a298859403cb3fd73e8
+      sha256: "0cff3c02d5ad1d9c1cf79481b8fe4a4f2f859e56b351644e96b8b209e6a110a5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0"
+    version: "1.1.0"
   stream_channel:
     dependency: transitive
     description:
