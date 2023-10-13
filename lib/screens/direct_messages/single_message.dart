@@ -1,6 +1,7 @@
 import 'package:boom_mobile/screens/direct_messages/controllers/dm_controller.dart';
 import 'package:boom_mobile/screens/other_user_profile/other_user_profile.dart';
 import 'package:boom_mobile/utils/colors.dart';
+import 'package:boom_mobile/utils/date_util.dart';
 import 'package:boom_mobile/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -274,7 +275,7 @@ class _SingleMessageState extends State<SingleMessage> {
                             ? widget.boomBoxModel.imageUrl
                             : widget.boomBoxModel.members.first.user.photo != ""
                                 ? controller.userId ==
-                                        widget.boomBoxModel.user.photo
+                                        widget.boomBoxModel.user.userId
                                     ? widget
                                         .boomBoxModel.members.first.user.photo
                                     : widget.boomBoxModel.user.photo
@@ -425,37 +426,113 @@ class _SingleMessageState extends State<SingleMessage> {
   _buildChatMessages(
       List<Message>? messages, bool isBoomBox, DMCrontroller controller) {
     String userid = _storage.read('userId');
+    var tmpDate = DateUtil.tomorrow();
 
     return ListView.builder(
       shrinkWrap: true,
-      // physics: const NeverScrollableScrollPhysics(),
-
+      physics: const ClampingScrollPhysics(),
       controller: controller.listViewController,
       itemCount: messages!.length,
       itemBuilder: (context, index) {
-        return Container(
+        // bool showDate = true;
+        var isSameDate = false;
+
+        isSameDate = tmpDate.isSameDate(messages[index].createdAt.toLocal());
+
+        if (!isSameDate) {
+          tmpDate = messages[index].createdAt.toLocal();
+        }
+        final timeStamp =
+            DateUtil.hMMFormat(messages[index].createdAt.toLocal());
+        final date =
+            DateUtil.dateWithDayFormat(messages[index].createdAt.toLocal());
+        return ChatBubble(
+          userid: userid,
+          messages: messages[index],
+          isBoomBox: isBoomBox,
+          showDate: !isSameDate,
+          timeStamp: timeStamp,
+          date: date,
+        );
+      },
+    );
+  }
+}
+
+class ChatBubble extends StatelessWidget {
+  const ChatBubble({
+    super.key,
+    required this.userid,
+    required this.messages,
+    required this.isBoomBox,
+    required this.showDate,
+    required this.timeStamp,
+    required this.date,
+  });
+
+  final String userid;
+  final Message messages;
+  final bool isBoomBox;
+  final bool showDate;
+  final String timeStamp;
+  final String date;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        if (showDate)
+          Row(
+            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Expanded(
+                flex: 1,
+                child: Divider(
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
+                  child: Text("$date $timeStamp"),
+                ),
+              ),
+              const Expanded(
+                flex: 1,
+                child: Divider(
+                  thickness: 1,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        Container(
           margin: EdgeInsets.only(
             bottom: getProportionateScreenHeight(10),
             top: getProportionateScreenHeight(10),
           ),
           child: Row(
-            mainAxisAlignment: (messages[index].sender.id != userid)
+            mainAxisAlignment: (messages.sender.id != userid)
                 ? MainAxisAlignment.start
                 : MainAxisAlignment.end,
             children: [
               Column(
-                crossAxisAlignment: (messages[index].sender.id != userid)
+                crossAxisAlignment: (messages.sender.id != userid)
                     ? CrossAxisAlignment.start
                     : CrossAxisAlignment.end,
                 children: [
-                  isBoomBox && messages[index].sender.id != userid
+                  isBoomBox && messages.sender.id != userid
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4.0),
                           child: GestureDetector(
                             onTap: () {
                               Get.to(
                                 () => const OtherUserProfileScreen(),
-                                arguments: messages[index].sender.id,
+                                arguments: messages.sender.id,
                               );
                             },
                             child: Wrap(
@@ -463,14 +540,14 @@ class _SingleMessageState extends State<SingleMessage> {
                                 CircleAvatar(
                                   radius: getProportionateScreenWidth(10),
                                   backgroundImage: NetworkImage(
-                                    messages[index].sender.photo,
+                                    messages.sender.photo,
                                   ),
                                 ),
                                 SizedBox(
                                   width: getProportionateScreenWidth(5),
                                 ),
                                 Text(
-                                  messages[index].sender.username,
+                                  messages.sender.username,
                                   style: TextStyle(
                                     fontSize: getProportionateScreenHeight(12),
                                     fontWeight: FontWeight.w800,
@@ -485,10 +562,10 @@ class _SingleMessageState extends State<SingleMessage> {
                   Container(
                     width: SizeConfig.screenWidth * 0.7,
                     decoration: BoxDecoration(
-                      color: (messages[index].sender.id != userid)
+                      color: (messages.sender.id != userid)
                           ? const Color(0xFFF8F8F8)
                           : const Color(0XFF4B5259),
-                      borderRadius: (messages[index].sender.id == userid)
+                      borderRadius: (messages.sender.id == userid)
                           ? const BorderRadius.only(
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12),
@@ -503,11 +580,11 @@ class _SingleMessageState extends State<SingleMessage> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 4.0, vertical: 8.0),
-                      child: Text(
-                        messages[index].content,
+                      child: SelectableText(
+                        messages.content,
                         style: TextStyle(
                           fontSize: getProportionateScreenHeight(12),
-                          color: (messages[index].sender.id != userid)
+                          color: (messages.sender.id != userid)
                               ? const Color(0xFF5F5F5F)
                               : Colors.white,
                         ),
@@ -515,8 +592,7 @@ class _SingleMessageState extends State<SingleMessage> {
                     ),
                   ),
                   Text(
-                    DateFormat('HH:mm a')
-                        .format(messages[index].createdAt.toLocal()),
+                    DateFormat('HH:mm a').format(messages.createdAt.toLocal()),
                     style: TextStyle(
                       fontSize: getProportionateScreenHeight(10),
                     ),
@@ -525,8 +601,8 @@ class _SingleMessageState extends State<SingleMessage> {
               )
             ],
           ),
-        );
-      },
+        )
+      ],
     );
   }
 }
