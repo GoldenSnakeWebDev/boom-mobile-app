@@ -738,10 +738,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_downloader
-      sha256: "2b126083d2e6b7c09755bca12012c4c734bcf7666cf07ba00c508fcb83e8d0d7"
+      sha256: bc13eb52ce81822a94f107b2ea0541b0e28be350f0c064dfbb5c66e95d7791f4
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.1"
+    version: "1.11.3"
   flutter_driver:
     dependency: "direct dev"
     description: flutter
@@ -857,10 +857,10 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: "2df89855fe181baae3b6d714dc3c4317acf4fccd495a6f36e5e00f24144c6c3b"
+      sha256: "21bf2825311de65501d22e563e3d7605dff57fb5e6da982db785ae5372ff018a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.5"
   freezed_annotation:
     dependency: "direct main"
     description:
@@ -1094,10 +1094,10 @@ packages:
     dependency: "direct main"
     description:
       name: in_app_update
-      sha256: "102249a7e45e3050e4bc1b236cfc8de116b27d805ba78c3c276e73f3fffbaebc"
+      sha256: b6ccb757281a96a4b18536f68fe2567aeca865134218719364212da8fe94615c
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1"
+    version: "4.2.2"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -1824,10 +1824,10 @@ packages:
     dependency: "direct main"
     description:
       name: story
-      sha256: cb9f3077fe3bb9789346e66ec18f3cf8ecdd5f335ae09a298859403cb3fd73e8
+      sha256: "0cff3c02d5ad1d9c1cf79481b8fe4a4f2f859e56b351644e96b8b209e6a110a5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0"
+    version: "1.1.0"
   stream_channel:
     dependency: transitive
     description:
