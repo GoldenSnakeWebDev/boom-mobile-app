@@ -83,8 +83,9 @@ dependencies:
   image_picker: ^1.0.4
   intl: ^0.17.0
   image_cropper: ^4.0.1
-  in_app_purchase: ^3.1.8
+  in_app_purchase: ^3.1.11
   in_app_update: ^4.2.2
+
 
   #j
   json_annotation: ^4.4.0
