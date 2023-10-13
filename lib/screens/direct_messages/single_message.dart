@@ -437,13 +437,15 @@ class _SingleMessageState extends State<SingleMessage> {
         // bool showDate = true;
         var isSameDate = false;
 
-        isSameDate = tmpDate.isSameDate(messages[index].createdAt);
+        isSameDate = tmpDate.isSameDate(messages[index].createdAt.toLocal());
 
         if (!isSameDate) {
-          tmpDate = messages[index].createdAt;
+          tmpDate = messages[index].createdAt.toLocal();
         }
-        final timeStamp = DateUtil.hMMFormat(messages[index].createdAt);
-        final date = DateUtil.dateWithDayFormat(messages[index].createdAt);
+        final timeStamp =
+            DateUtil.hMMFormat(messages[index].createdAt.toLocal());
+        final date =
+            DateUtil.dateWithDayFormat(messages[index].createdAt.toLocal());
         return ChatBubble(
           userid: userid,
           messages: messages[index],
