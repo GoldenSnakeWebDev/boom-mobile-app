@@ -77,20 +77,22 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 10),
-              child: index == 2
-                  ? Badge(
-                      isLabelVisible: true,
-                      child: Icon(
-                        _icons[index],
-                        size: 24,
-                        color: isActive ? kPrimaryColor : Colors.black,
-                      ),
-                    )
-                  : Icon(
-                      _icons[index],
-                      size: 24,
-                      color: isActive ? kPrimaryColor : Colors.black,
-                    ),
+              child:
+                  // index == 2
+                  //     ? Badge(
+                  //         isLabelVisible: true,
+                  //         child: Icon(
+                  //           _icons[index],
+                  //           size: 24,
+                  //           color: isActive ? kPrimaryColor : Colors.black,
+                  //         ),
+                  //       )
+                  //     :
+                  Icon(
+                _icons[index],
+                size: 24,
+                color: isActive ? kPrimaryColor : Colors.black,
+              ),
             )
           ],
         );

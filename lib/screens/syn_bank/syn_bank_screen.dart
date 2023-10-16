@@ -1,4 +1,3 @@
-import 'package:boom_mobile/screens/purchase_syn_coins/ui/purchase_syn_coins.dart';
 import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/size_config.dart';
@@ -158,59 +157,60 @@ class SyntheticBankScreen extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            Container(
-              width: SizeConfig.screenWidth,
-              height: getProportionateScreenHeight(40),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black38, width: 0.4),
-                borderRadius: BorderRadius.circular(4),
-                gradient: const LinearGradient(
-                  colors: [
-                    kPrimaryColor,
-                    kSecondaryColor,
-                  ],
-                ),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                "Withdraw",
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: getProportionateScreenHeight(15),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: SizeConfig.screenWidth,
+            //   height: getProportionateScreenHeight(40),
+            //   decoration: BoxDecoration(
+            //     border: Border.all(color: Colors.black38, width: 0.4),
+            //     borderRadius: BorderRadius.circular(4),
+            //     gradient: const LinearGradient(
+            //       colors: [
+            //         kPrimaryColor,
+            //         kSecondaryColor,
+            //       ],
+            //     ),
+            //   ),
+            //   alignment: Alignment.center,
+            //   child: Text(
+            //     "Withdraw",
+            //     style: TextStyle(
+            //       fontWeight: FontWeight.w800,
+            //       fontSize: getProportionateScreenHeight(15),
+            //     ),
+            //   ),
+            // ),
+
             SizedBox(
               height: getProportionateScreenHeight(20),
             ),
-            GestureDetector(
-              onTap: () async {
-                Navigator.of(context).pop();
-                Get.to(() => const PurchaseSyntheticCoinsScreen());
-              },
-              child: Container(
-                width: SizeConfig.screenWidth,
-                height: getProportionateScreenHeight(40),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black38, width: 0.4),
-                  borderRadius: BorderRadius.circular(4),
-                  gradient: const LinearGradient(
-                    colors: [
-                      kPrimaryColor,
-                      kSecondaryColor,
-                    ],
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  "Deposit",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: getProportionateScreenHeight(15),
-                  ),
-                ),
-              ),
-            )
+            // GestureDetector(
+            //   onTap: () async {
+            //     Navigator.of(context).pop();
+            //     Get.to(() => const PurchaseSyntheticCoinsScreen());
+            //   },
+            //   child: Container(
+            //     width: SizeConfig.screenWidth,
+            //     height: getProportionateScreenHeight(40),
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.black38, width: 0.4),
+            //       borderRadius: BorderRadius.circular(4),
+            //       gradient: const LinearGradient(
+            //         colors: [
+            //           kPrimaryColor,
+            //           kSecondaryColor,
+            //         ],
+            //       ),
+            //     ),
+            //     alignment: Alignment.center,
+            //     child: Text(
+            //       "Deposit",
+            //       style: TextStyle(
+            //         fontWeight: FontWeight.w800,
+            //         fontSize: getProportionateScreenHeight(15),
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

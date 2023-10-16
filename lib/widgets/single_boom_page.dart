@@ -40,10 +40,16 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
   void _onShare(BuildContext context, String imgURL) async {
     final box = context.findRenderObject() as RenderBox;
 
-    await Share.share(
-        "Hey there, check out this NFT $imgURL. To view this NFT on Boom, download the app from https://play.google.com/store/apps/details?id=com.boom.boom_mobile",
+    try {
+      await Share.share(
+        "Hey there, check out this NFT https://boomhost.xyz/booms?id=$imgURL. To view this NFT on Boom, download the app from https://play.google.com/store/apps/details?id=com.boom.boom_mobile",
         subject: "NFT",
-        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
+      );
+    } catch (e) {
+      log("Ran into an exception error");
+      throw UnimplementedError();
+    }
   }
 
   final box = GetStorage();
@@ -226,8 +232,8 @@ class _SingleBoomPageState extends State<SingleBoomPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      _onShare(context,
-                                          boomController.boom.imageUrl!);
+                                      _onShare(
+                                          context, boomController.boom.id!);
                                     },
                                     child: Icon(
                                       MdiIcons.shareVariant,

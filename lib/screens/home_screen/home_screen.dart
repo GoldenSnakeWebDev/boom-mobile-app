@@ -2,16 +2,15 @@ import 'package:boom_mobile/models/single_boom_post.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/splash_screen/controllers/splash_controller.dart';
 import 'package:boom_mobile/screens/tales/controllers/tales_epics_controller.dart';
-import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/archery_header/archery_header.dart';
 import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/fab_button.dart';
+import 'package:boom_mobile/widgets/home_shimmer.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:visual_effect/visual_effect.dart';
 
 class _IndexScope extends InheritedWidget {
@@ -80,59 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           extendBody: false,
           body: SafeArea(
             child: controller.isLoading
-                ? SizedBox(
-                    height: SizeConfig.screenHeight * 0.95,
-                    width: SizeConfig.screenWidth,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.blueGrey.shade100,
-                      highlightColor: Colors.white,
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                height: SizeConfig.screenHeight * 0.2,
-                                margin: const EdgeInsets.only(bottom: 25),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                height: SizeConfig.screenHeight * 0.2,
-                                margin: const EdgeInsets.only(bottom: 25),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                height: SizeConfig.screenHeight * 0.2,
-                                margin: const EdgeInsets.only(bottom: 25),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.screenWidth,
-                                height: SizeConfig.screenHeight * 0.2,
-                                margin: const EdgeInsets.only(bottom: 25),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                ? const HomeShimmer()
                 : GestureDetector(
                     onHorizontalDragStart: (details) {
                       // details.globalPosition.dx > SizeConfig.screenWidth / 2
