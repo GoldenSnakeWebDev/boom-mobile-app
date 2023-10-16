@@ -269,7 +269,7 @@ class LoginController extends GetxController {
 
       if (res.statusCode == 200) {
         user = UserModel.fromJson(jsonDecode(res.body));
-        await OneSignal.shared.setExternalUserId(deviceId).then((value) {
+        await OneSignal.login(deviceId).then((value) {
           log("OneSignal External User ID: $deviceId");
         }).catchError((error) {
           log("OneSignal External User ID Error: $error");
