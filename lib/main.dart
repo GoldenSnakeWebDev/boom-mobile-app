@@ -56,11 +56,9 @@ void main() async {
     await Permission.notification.request();
   }
 
-  await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  await OneSignal.shared.setAppId(oneSignalAppId);
-  await OneSignal.shared
-      .promptUserForPushNotificationPermission()
-      .then((accepted) {});
+  await OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize(oneSignalAppId);
+  await OneSignal.Notifications.requestPermission(true).then((accepted) {});
 
   ErrorWidget.builder = (details) => CustomErrorPage(
         flutterErrorDetails: details,
