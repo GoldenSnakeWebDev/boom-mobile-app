@@ -8,6 +8,7 @@ import 'package:boom_mobile/utils/size_config.dart';
 import 'package:boom_mobile/widgets/bottom_navigation_bar.dart';
 import 'package:boom_mobile/widgets/custom_app_bar.dart';
 import 'package:boom_mobile/widgets/fab_button.dart';
+import 'package:boom_mobile/widgets/home_shimmer.dart';
 import 'package:boom_mobile/widgets/single_boom_widget.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -153,10 +154,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 : Expanded(
                                     child: Obx(
                                       () => searchCtrller.isLoading.value
-                                          ? const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            )
+                                          ? const HomeShimmer()
                                           : searchCtrller.searchResults ==
                                                       null ||
                                                   searchCtrller.searchResults!
