@@ -120,7 +120,7 @@ dependencies:
 
   #s
   share_plus: ^7.2.1
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   slide_action: ^0.0.2
   story: ^1.1.0
 
