@@ -8,6 +8,8 @@ import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/new_post/controllers/wc_eth_credentials.dart';
 import 'package:boom_mobile/screens/new_post/models/blockchain.dart';
+import 'package:boom_mobile/screens/new_post/models/blockchain_accounts.dart';
+import 'package:boom_mobile/screens/new_post/models/eip155_wallet_credentials.dart';
 import 'package:boom_mobile/screens/new_post/models/explorer_registry_listing.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
@@ -993,7 +995,90 @@ class NewPostController extends GetxController {
 
     stopwatch.stop();
     log("createWalletConnectSession - Elapsed time: ${stopwatch.elapsedMilliseconds}ms  - Connection with wallet took ${(stopwatch.elapsedMicroseconds / 1000).toStringAsFixed(2)} seconds.");
+    ISignEngine signEngine = _web3app.signEngine;
+    List<BlockchainAccount> blockchainAccounts = [];
+    for (SessionData? sessionData in signEngine.sessions.getAll()) {
+      blockchainAccounts +=
+          nameSpacesToBlockchainAccounts(sessionData!.namespaces);
+    }
+
+    String? sessionTopic = getSessionTopic(blockchainAccounts[0]);
+    WalletConnectEip155Credentials? connectEip155Credentials =
+        getgetEip155Credentials(
+            sessionTopic: sessionTopic!,
+            blockchainAccount: blockchainAccounts[0]);
+
+    //TODO: Add function to save the credentials securely and mint the NFT
+    //TODO: Change OnChainMint to use new Credentials
+
+    // onChainMint(
+    //     "imgURL", "boomId", "addy", client, connectEip155Credentials, null);
+
+    log("Connected Wallet Details ${connectEip155Credentials?.credentialAddress.toString()}");
 
     return 'Sessions?';
   }
+
+  String? getSessionTopic(BlockchainAccount? account) {
+    String? sessionTopic;
+    ISignEngine signEngine = _web3app.signEngine;
+
+    for (SessionData? sessionData in signEngine.sessions.getAll()) {
+      if (sessionData == null) {
+        //Fail First and Exit
+        log("getSessionTopicFromAccount - No active sessions.  Returning null.");
+        return null;
+      }
+
+      List<BlockchainAccount>? blockChainAccounts =
+          nameSpacesToBlockchainAccounts(sessionData.namespaces);
+
+      if (blockChainAccounts.contains(account)) {
+        if (WalletConnectUtils.isExpired(sessionData.expiry)) {
+          log('getSessionTopicFromAccount - Found expired match: ${sessionData.topic}.  Ignoring');
+          //TODO: Handle an expired session
+        } else {
+          sessionTopic = sessionData.topic;
+          return sessionData.topic;
+        }
+      }
+    }
+    return sessionTopic;
+  }
+
+//TODO: Separate WalletConnect Services from the controller to make it more modular
+//TODO: Refactor the code to make it more readable and understandable
+
+  WalletConnectEip155Credentials? getgetEip155Credentials(
+      {required String sessionTopic,
+      required BlockchainAccount blockchainAccount}) {
+    WalletConnectEip155Credentials credentials = WalletConnectEip155Credentials(
+        signEngine: _web3app.signEngine,
+        sessionTopic: sessionTopic,
+        blockchain: blockchainAccount.blockchain,
+        credentialAddress: blockchainAccount.toEthereumAddress);
+    return credentials;
+  }
+
+  List<BlockchainAccount> nameSpacesToBlockchainAccounts(
+      Map<String, Namespace> namespaces) {
+    List<BlockchainAccount> blockchainAccounts = [];
+    for (String namespace in namespaces.keys) {
+      List<String>? accounts = [];
+      accounts = namespaces[namespace]?.accounts ?? accounts;
+      for (String accountId in accounts) {
+        if (accountId.toLowerCase().contains('nan')) {
+          if (kDebugMode) {
+            log('namespacesToBlockchainAccounts - malformed accountId: $accountId, in namespace: $namespace, namespaces: $namespaces');
+          }
+          continue;
+        }
+        blockchainAccounts
+            .add(BlockchainAccount.fromAccountID(accountId: accountId));
+      }
+    }
+    return blockchainAccounts;
+  }
+
+  //TODO: Add Disconnect Pairing function to disconnect from WalletConnect onClose of the Controller
 }
