@@ -7,7 +7,7 @@ import 'package:boom_mobile/screens/home_screen/home_screen.dart';
 import 'package:boom_mobile/screens/home_screen/models/all_booms.dart';
 import 'package:boom_mobile/screens/home_screen/services/home_service.dart';
 import 'package:boom_mobile/screens/home_screen/services/single_boom_service.dart';
-import 'package:boom_mobile/screens/new_post/controllers/new_post_controller.dart';
+import 'package:boom_mobile/screens/new_post/controllers/wc_eth_credentials.dart';
 import 'package:boom_mobile/utils/boomERC721.dart';
 import 'package:boom_mobile/utils/colors.dart';
 import 'package:boom_mobile/utils/constants.dart';

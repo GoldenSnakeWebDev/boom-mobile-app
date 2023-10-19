@@ -6,10 +6,16 @@ import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
+import 'package:boom_mobile/screens/new_post/controllers/wc_eth_credentials.dart';
+import 'package:boom_mobile/screens/new_post/models/blockchain.dart';
+import 'package:boom_mobile/screens/new_post/models/explorer_registry_listing.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
+import 'package:boom_mobile/screens/new_post/models/wallet_pairing.dart';
+import 'package:boom_mobile/screens/new_post/services/explorer_registry_service.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
+import 'package:boom_mobile/secrets.dart';
 import 'package:boom_mobile/utils/boomERC721.dart';
 import 'package:boom_mobile/utils/boomMarketPlace.dart';
 import 'package:boom_mobile/utils/constants.dart';
@@ -19,7 +25,6 @@ import 'package:boom_mobile/widgets/custom_snackbar.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -27,15 +32,11 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
-import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
-
-import '../../../secrets.dart';
 
 enum POST_TYPE { image, video, text }
 
@@ -47,6 +48,8 @@ class NewPostController extends GetxController {
   File? pickedVideo;
   File? importedNFT;
   UploadService uploadService = UploadService();
+  final ExplorerRegistryService explorerRegistryService =
+      ExplorerRegistryService();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController title = TextEditingController();
@@ -69,18 +72,70 @@ class NewPostController extends GetxController {
   var cryptoAmount = '0.00'.obs;
   Network? selectedNetworkModel;
   List<Network> networks = [];
-  // final igController = Get.find<InstagramWebController>();
-  // late WCClient wcClient;
   late InAppWebViewController webViewController;
   late String walletAddress, privateKey;
   bool isWalletConnected = false;
   EthereumWalletConnectProvider? provider;
+  late TargetPlatform targetPlatform;
   late Web3Client client;
+  late Web3App _web3app;
+  late RequiredNamespace eip155RequiredNamespace;
+  late RequiredNamespace eip155OptionalNamespace;
+  List<Blockchain> reqiredBlockchains = [Blockchain.ethereum];
+  List<Blockchain> optionalBlockchains = [
+    Blockchain.mumbai,
+    Blockchain.scrollSepolia,
+    Blockchain.polygon
+  ];
+
+  Map<String, WalletPairingInfo> walletPairingInfoMap = {};
+  ExplorerRegistryListing selectedRegistryListing =
+      const ExplorerRegistryListing();
+
+  final List<String> kAppRequiredEIP155Methods = [
+    // 'eth_sign',
+    // 'eth_signTypedData', // Ambiguous suggested to use _v forms
+    'personal_sign',
+    // 'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
+    // 'eth_signTransaction',   // Rainbow Android does not support as of 8/25/23
+    'eth_sendTransaction',
+    // 'eth_sendRawTransaction',
+    // 'wallet_switchEthereumChain',  // Rainbow Android does not support as of 8/25/23
+  ];
+
+  final List<String> kAppOptionalEIP155Methods = [
+    'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
+    'wallet_switchEthereumChain', // Rainbow Android does not support as of 8/25/23
+  ];
+
+//TODO: Remove unrequired events and methods
+
+  final List<String> kAppRequiredEIP155Events =
+      // Blockchain events that your app required direct visibility into the events
+      //
+      // NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
+      // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
+      // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
+      [
+    'accountsChanged', // the accounts available to the Provider change
+    'chainChanged', // the chain the Provider is connected to changes
+    'connect', // the Provider becomes connected
+    'disconnect', // the Provider becomes disconnected from all chains
+  ];
+  final List<String> kAppOptionalEIP155Events =
+// Blockchain events that your app required direct visibility into the events
+//
+// NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
+// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
+// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
+      [
+    'accountsChanged', // the accounts available to the Provider change
+    'chainChanged', // the chain the Provider is connected to changes
+    'connect', // the Provider becomes connected
+    'disconnect', // the Provider becomes disconnected from all chains
+  ];
 
   var imageSelected = false.obs;
-  // WCSessionStore? sessionStore;
-
-  // String rpc = 'https://matic-testnet-archive-rpc.bwarelabs.com';
 
   int chainId = 56;
   String smartContractAddress = bnbTokenAddress;
@@ -89,16 +144,7 @@ class NewPostController extends GetxController {
   List<int> chainIds = [56, 137, 65];
   // List<int> chainIds = [97, 8001, 65];
 
-  // final web3Client = Web3Client(
-  //   "https://link.trustwallet.com/wc?uri=wc%3Aca1fccc0-f4d1-46c2-90b7-c07fce1c0cae%401%3Fbridge%3Dhttps%253A%252F%252Fbridge.walletconnect.org%26key%3Da413d90751839c7628873557c718fd73fcedc5e8e8c07cfecaefc0d3a178b1d8",
-  //   http.Client(),
-  // );
-
-  // final File abiFile = File('assets/files/erc721.json');
-
   String txHash = "";
-  // static const platform = MethodChannel('samples.flutter.dev/battery');
-  static const platform = MethodChannel('dev.boom.walletConnect/connect');
 
   @override
   void onInit() {
@@ -106,19 +152,45 @@ class NewPostController extends GetxController {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     analytics.setCurrentScreen(screenName: "New Post Screen");
+    init(
+        targetPlatform:
+            Platform.isAndroid ? TargetPlatform.android : TargetPlatform.iOS);
+
+    // image = null;
+    // pickedImage = null;
+  }
+
+  Future<void> init({required TargetPlatform targetPlatform}) async {
+    this.targetPlatform = targetPlatform;
     selectedNetwork = networkModel!.networks![0].symbol;
     selectedNetworkModel = networkModel!.networks![0];
     client = Web3Client(
       bnbMainnetRPC,
       http.Client(),
     );
+    eip155RequiredNamespace = RequiredNamespace(
+        chains: supportedBlockchainsToCAIP2List(
+            namespace: Blockchain.ethereum.namespace),
+        methods: kAppRequiredEIP155Methods,
+        events: kAppOptionalEIP155Events);
+
+    eip155OptionalNamespace = RequiredNamespace(
+      chains: supportedBlockchainsToCAIP2List(
+          namespace: Blockchain.ethereum.namespace),
+      methods: kAppOptionalEIP155Methods,
+      events: kAppOptionalEIP155Events,
+    );
+
     networks.clear();
     for (var element in networkModel!.networks!) {
       networks.add(element);
     }
-    getCryptoPrice(selectedNetworkModel!.symbol!);
-    // image = null;
-    // pickedImage = null;
+    await getCryptoPrice(selectedNetworkModel!.symbol!);
+  }
+
+  Future initWeb3App(
+      {String walletConnectProjectId = WALLET_CONNECT_ID}) async {
+    Stopwatch stopwatch = Stopwatch();
   }
 
   // Handle changing of selected network/crypto
@@ -790,24 +862,6 @@ class NewPostController extends GetxController {
         }
      */
   }
-  String batteryLevel = 'Unknown battaery level';
-
-  bindToPlatform() async {
-    EasyLoading.show(status: "Connecting...");
-
-    try {
-      String walletUri = await platform.invokeMethod('connectWallet');
-      await launchUrlString(walletUri);
-      EasyLoading.dismiss();
-      // batteryLevel = 'Battery Level at $result %';
-    } on PlatformException catch (e) {
-      EasyLoading.dismiss();
-      EasyLoading.showError(e.message.toString());
-      batteryLevel = "Failed to get battery level: ${e.message}";
-    }
-
-    update();
-  }
 
   /// New Wallet Connect Integration Test using WalletConnectFlutterV2.
   /// More documentation can be found here: https://github.com/WalletConnect/WalletConnectFlutterV2
@@ -826,218 +880,120 @@ class NewPostController extends GetxController {
     return Uri.parse('$safeAppUrl$encodeWcUrl');
   }
 
-  connectWalletNew() async {
-    try {
-      log("Starting Connection");
-      Web3App wcClient = await Web3App.createInstance(
-        projectId: WALLET_CONNECT_ID,
-        metadata: const PairingMetadata(
-          name: "Boom Social",
-          description: "description",
-          url: "https://walletconnect.com",
-          icons: [],
-        ),
-      );
+  /// Begin of WalletConnect Implementation.
 
-      await wcClient.init();
-
-      ConnectResponse resp = await wcClient.connect(
-        requiredNamespaces: {
-          'eip4361': const RequiredNamespace(
-            chains: ['eip4361:97'],
-            methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
-            events: [],
-          ),
-          'eip155': const RequiredNamespace(
-            chains: ['eip155:1'], // Ethereum chain
-            methods: ['eth_signTransaction'], // Requestable Methods
-            events: ['eth_sendTransaction'], // Requestable Events
-          ),
-          'kadena': const RequiredNamespace(
-            chains: ['kadena:mainnet01'], // Kadena chain
-            methods: ['kadena_quicksign_v1'], // Requestable Methods
-            events: ['kadena_transaction_updated'], // Requestable Events
-          ),
-        },
-        optionalNamespaces: {
-          'eip155': const RequiredNamespace(
-            chains: [
-              'eip155:1',
-              'eip155:137',
-              'eip155:97',
-              'eip155:8001',
-            ],
-            methods: ['eth_sendTransaction', 'eth_signTransaction', 'eth_sign'],
-            events: [],
-          ),
-        },
-        methods: [
-          [
-            'eth_sendTransaction',
-            'eth_signTransaction',
-            'eth_sign',
-          ]
-        ],
-        pairingTopic: "",
-        relays: [
-          Relay(
-            "https://relay.walletconnect.com/?projectId=$WALLET_CONNECT_ID",
-          )
-        ],
-      );
-
-      Uri? uri = resp.uri;
-      // var url = uri.toString();
-
-      await launchUrl(
-        Uri.parse("metamask://wc?$uri"),
-        mode: LaunchMode.externalNonBrowserApplication,
-      );
-
-      final AuthRequestResponse authReq = await wcClient.requestAuth(
-        params: AuthRequestParams(
-            chainId: 'eip4361:97',
-            domain: 'localhost:3000',
-            aud: 'http://localhost:3000/login',
-            statement: 'Sign in with your wallet'),
-        pairingTopic: resp.pairingTopic,
-      );
-
-      final AuthResponse authResponse = await authReq.completer.future;
-      // ignore: unnecessary_null_comparison
-      if (authResponse != null) {
-        final walletAddress =
-            AddressUtils.getDidAddress(authResponse.result!.p.iss);
-
-        log("The Address $walletAddress");
-      } else {
-        final WalletConnectError? error = authResponse.error;
-        final JsonRpcError? jsonError = authResponse.jsonRpcError;
-
-        log("WalletConnectError ${error?.message} Code: ${error?.code}");
-        log("JSONRPCErrpr ${jsonError?.message} Code: ${jsonError?.code}");
+  List<String> supportedBlockchainsToCAIP2List({required String namespace}) {
+    List<String> ciap2Strings = [];
+    if (reqiredBlockchains.isNotEmpty) {
+      for (Blockchain blockchain in reqiredBlockchains) {
+        if (blockchain.namespace == namespace) {
+          ciap2Strings.add(blockchain.chainId);
+        }
       }
-
-      log("Gotten Connection");
-
-      log("The URI $uri");
-
-      wcClient.onSessionPing.subscribe((args) {
-        log('Topic: ${args!.topic}');
-      });
-
-      wcClient.onSessionEvent.subscribe((args) {
-        log('Topic: ${args!.topic}\nEvent Name: ${args.name}\nEvent Data: ${args.data}');
-      });
-
-      wcClient.onSessionConnect.subscribe((SessionConnect? connect) {
-        log(connect?.session.peer.publicKey ?? "No Public Key Gotten");
-      });
-
-      final SessionData sessionData = await resp.session.future;
-
-      final session = sessionData.peer.publicKey;
-      log("Session Data $session");
-
-      log("Auth Reuest ${authReq.id}");
-    } catch (e) {
-      log("Error has occured $e");
-      throw Exception(e);
     }
+    return ciap2Strings;
   }
 
-  // web3Auth() async {
-  //   log("Starting this shit");
-  //   try {
-  //     Uri redirectUrl;
-  //     if (Platform.isAndroid) {
-  //       redirectUrl = Uri.parse('w3a://dev.boom.boom_mobile/newPost');
-  //     } else if (Platform.isIOS) {
-  //       redirectUrl = Uri.parse('dev.boom.boom_mobile://newPost');
-  //     } else {
-  //       throw UnKnownException('Unknown platform');
-  //     }
+  Future<String?> createWalletConnectSession(
+      {required BuildContext context, bool androidUseOsPicker = true}) async {
+    Stopwatch stopwatch = Stopwatch();
 
-  //     await Web3AuthFlutter.init(
-  //       Web3AuthOptions(
-  //         clientId: Web3ClientID,
-  //         network: web3.Network.testnet,
-  //         redirectUrl: redirectUrl,
-  //         whiteLabel: WhiteLabelData(
-  //           dark: true,
-  //           name: "Boom SuperApp",
-  //         ),
-  //       ),
-  //     )
-  //         .timeout(
-  //           const Duration(seconds: 7),
-  //         )
-  //         .catchError(
-  //           (e) => log("Error occurred $e"),
-  //         );
-
-  //     log("Initializing Libu");
-
-  //     await Web3AuthFlutter.initialize();
-
-  //     final String privKey = await Web3AuthFlutter.getPrivKey();
-
-  //     log("Private Key $privKey");
-
-  //     final Web3AuthResponse response = await Web3AuthFlutter.login(
-  //       LoginParams(loginProvider: web3.Provider.jwt),
-  //     );
-
-  //     log("Login Response ${response.privKey} ${response.userInfo}");
-  //   } catch (e) {
-  //     log("Error came in here $e");
-  //     throw Exception("Exception $e");
-  //   }
-  // }
-}
-
-class WalletConnectEthereumCredentials extends CustomTransactionSender {
-  final EthereumWalletConnectProvider provider;
-  WalletConnectEthereumCredentials({required this.provider});
-
-  @override
-  Future<EthereumAddress> extractAddress() async {
-    // TODO: implement extractAddress
-    return EthereumAddress.fromHex(provider.connector.session.accounts.first);
-    // throw UnimplementedError();
-  }
-
-  @override
-  Future<String> sendTransaction(Transaction transaction) async {
-    log("Attempting to send TX");
-    final hash = await provider.sendTransaction(
-      from: transaction.from!.hex,
-      to: transaction.to?.hex,
-      data: transaction.data,
-      gas: transaction.maxGas,
-      gasPrice: transaction.gasPrice?.getInWei,
-      value: transaction.value?.getInWei,
-      nonce: transaction.nonce,
+    stopwatch.start();
+    _web3app = await Web3App.createInstance(
+      projectId: WALLET_CONNECT_ID,
+      metadata: const PairingMetadata(
+        name: "Boom",
+        description: "Boom",
+        icons: [boomIconUrl],
+        url: url,
+      ),
+      // See definition at the top of the class
+      memoryStore: false,
+      // Persist session state in secure like storage
+      relayUrl: WalletConnectConstants.DEFAULT_RELAY_URL,
+      logLevel: LogLevel.nothing, // Level.verbose,
     );
 
-    return hash;
-  }
+    ConnectResponse resp = await _web3app.signEngine.connect(
+      requiredNamespaces: {
+        'eip155': eip155RequiredNamespace,
+      },
+      optionalNamespaces: {
+        'eip155': eip155OptionalNamespace,
+      },
+    );
 
-  @override
-  Future<MsgSignature> signToSignature(Uint8List payload,
-      {int? chainId, bool isEIP1559 = false}) async {
-    var signature = MsgSignature(BigInt.one, BigInt.two, chainId!);
-    return signature;
-  }
+    final Uri? pairingUri = resp.uri;
 
-  @override
-  EthereumAddress get address =>
-      EthereumAddress.fromHex(provider.connector.session.accounts.first);
+    if (pairingUri == null) {
+      log("createWalletConnectSession - No URI returned from connect method");
+      return null;
+    }
 
-  @override
-  MsgSignature signToEcSignature(Uint8List payload,
-      {int? chainId, bool isEIP1559 = false}) {
-    // TODO: implement signToEcSignature
-    throw UnimplementedError();
+    //Decoding the URI from the EIP-1328 Standard
+
+    final String decodeUriString = Uri.decodeFull(pairingUri.toString());
+
+    log("WalletConnect URI Decoded is $decodeUriString");
+
+    final String pairingTopic = resp.pairingTopic;
+
+    //Keeping Track of connected wallets for ease of reference in the future
+
+    walletPairingInfoMap[pairingTopic] = WalletPairingInfo(
+      pairingTopic: pairingTopic,
+      wcUri: pairingUri,
+    );
+
+    //SavePairingInfo
+    // savePairingInfo();
+
+    resp.session.future.then((value) {
+      if (context.mounted) {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context, 'QR Code Scanned');
+        }
+      }
+    });
+
+    try {
+      bool result = await explorerRegistryService.launcAppWithPairingUri(
+          platform: targetPlatform,
+          listing: selectedRegistryListing,
+          pairingUri: pairingUri,
+          androidOsPicker: androidUseOsPicker);
+
+      log("createWalletConnectSession - launchWithPairingUri result: $result");
+
+      log('Awaiting session completer before returning');
+
+      await resp.session.future;
+    } on JsonRpcError catch (e, s) {
+      String? errorMessage = e.message;
+      if (errorMessage != null) {
+        if (errorMessage.contains('chains are not supported')) {
+          log("Error from wallet: ${e.code} - ${e.message} Requested chains: ${eip155RequiredNamespace.chains ?? 'None'}");
+        }
+
+        if (errorMessage.contains('Unsupported methods')) {
+          log("Error from wallet: ${e.code} - ${e.message} Requested methods: ${eip155RequiredNamespace.methods}");
+        }
+
+        if (errorMessage.contains('Rejected by user')) {
+          log("Error from wallet: ${e.code} - ${e.message}. Bummer rejecting yourself like that. Blame the wallet.");
+        } else {
+          log("createWalletConnectSession JsonRpcError: ${e.code} - ${e.message}\n$s");
+        }
+      } else {
+        log("createWalletConnectSession JsonRpcError: ${e.code} - ${e.message}\n$s");
+      }
+    } catch (e, s) {
+      log("createWalletConnectSession Exception: $e\n$s");
+    }
+
+    stopwatch.stop();
+    log("createWalletConnectSession - Elapsed time: ${stopwatch.elapsedMilliseconds}ms  - Connection with wallet took ${(stopwatch.elapsedMicroseconds / 1000).toStringAsFixed(2)} seconds.");
+
+    return 'Sessions?';
   }
 }

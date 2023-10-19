@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'insta_media.dart';
 
@@ -91,11 +91,11 @@ class _$InstaMediaCopyWithImpl<$Res, $Val extends InstaMedia>
 }
 
 /// @nodoc
-abstract class _$$_InstaMediaCopyWith<$Res>
+abstract class _$$InstaMediaImplCopyWith<$Res>
     implements $InstaMediaCopyWith<$Res> {
-  factory _$$_InstaMediaCopyWith(
-          _$_InstaMedia value, $Res Function(_$_InstaMedia) then) =
-      __$$_InstaMediaCopyWithImpl<$Res>;
+  factory _$$InstaMediaImplCopyWith(
+          _$InstaMediaImpl value, $Res Function(_$InstaMediaImpl) then) =
+      __$$InstaMediaImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -107,11 +107,11 @@ abstract class _$$_InstaMediaCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_InstaMediaCopyWithImpl<$Res>
-    extends _$InstaMediaCopyWithImpl<$Res, _$_InstaMedia>
-    implements _$$_InstaMediaCopyWith<$Res> {
-  __$$_InstaMediaCopyWithImpl(
-      _$_InstaMedia _value, $Res Function(_$_InstaMedia) _then)
+class __$$InstaMediaImplCopyWithImpl<$Res>
+    extends _$InstaMediaCopyWithImpl<$Res, _$InstaMediaImpl>
+    implements _$$InstaMediaImplCopyWith<$Res> {
+  __$$InstaMediaImplCopyWithImpl(
+      _$InstaMediaImpl _value, $Res Function(_$InstaMediaImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -123,7 +123,7 @@ class __$$_InstaMediaCopyWithImpl<$Res>
     Object? username = null,
     Object? timestamp = null,
   }) {
-    return _then(_$_InstaMedia(
+    return _then(_$InstaMediaImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -150,8 +150,8 @@ class __$$_InstaMediaCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_InstaMedia extends _InstaMedia {
-  const _$_InstaMedia(
+class _$InstaMediaImpl extends _InstaMedia {
+  const _$InstaMediaImpl(
       {required this.id,
       required this.media_type,
       required this.media_url,
@@ -159,8 +159,8 @@ class _$_InstaMedia extends _InstaMedia {
       required this.timestamp})
       : super._();
 
-  factory _$_InstaMedia.fromJson(Map<String, dynamic> json) =>
-      _$$_InstaMediaFromJson(json);
+  factory _$InstaMediaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InstaMediaImplFromJson(json);
 
   @override
   final String id;
@@ -182,7 +182,7 @@ class _$_InstaMedia extends _InstaMedia {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_InstaMedia &&
+            other is _$InstaMediaImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.media_type, media_type) ||
                 other.media_type == media_type) &&
@@ -202,12 +202,12 @@ class _$_InstaMedia extends _InstaMedia {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_InstaMediaCopyWith<_$_InstaMedia> get copyWith =>
-      __$$_InstaMediaCopyWithImpl<_$_InstaMedia>(this, _$identity);
+  _$$InstaMediaImplCopyWith<_$InstaMediaImpl> get copyWith =>
+      __$$InstaMediaImplCopyWithImpl<_$InstaMediaImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_InstaMediaToJson(
+    return _$$InstaMediaImplToJson(
       this,
     );
   }
@@ -219,11 +219,11 @@ abstract class _InstaMedia extends InstaMedia {
       required final String media_type,
       required final String media_url,
       required final String username,
-      required final String timestamp}) = _$_InstaMedia;
+      required final String timestamp}) = _$InstaMediaImpl;
   const _InstaMedia._() : super._();
 
   factory _InstaMedia.fromJson(Map<String, dynamic> json) =
-      _$_InstaMedia.fromJson;
+      _$InstaMediaImpl.fromJson;
 
   @override
   String get id;
@@ -237,6 +237,6 @@ abstract class _InstaMedia extends InstaMedia {
   String get timestamp;
   @override
   @JsonKey(ignore: true)
-  _$$_InstaMediaCopyWith<_$_InstaMedia> get copyWith =>
+  _$$InstaMediaImplCopyWith<_$InstaMediaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

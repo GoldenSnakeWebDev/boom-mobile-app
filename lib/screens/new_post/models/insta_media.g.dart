@@ -6,8 +6,8 @@ part of 'insta_media.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_InstaMedia _$$_InstaMediaFromJson(Map<String, dynamic> json) =>
-    _$_InstaMedia(
+_$InstaMediaImpl _$$InstaMediaImplFromJson(Map<String, dynamic> json) =>
+    _$InstaMediaImpl(
       id: json['id'] as String,
       media_type: json['media_type'] as String,
       media_url: json['media_url'] as String,
@@ -15,7 +15,7 @@ _$_InstaMedia _$$_InstaMediaFromJson(Map<String, dynamic> json) =>
       timestamp: json['timestamp'] as String,
     );
 
-Map<String, dynamic> _$$_InstaMediaToJson(_$_InstaMedia instance) =>
+Map<String, dynamic> _$$InstaMediaImplToJson(_$InstaMediaImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'media_type': instance.media_type,

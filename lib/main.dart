@@ -58,7 +58,7 @@ void main() async {
 
   await OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
   OneSignal.initialize(oneSignalAppId);
-  await OneSignal.Notifications.requestPermission(true).then((accepted) {});
+  // await OneSignal.Notifications.requestPermission(true);
 
   ErrorWidget.builder = (details) => CustomErrorPage(
         flutterErrorDetails: details,
