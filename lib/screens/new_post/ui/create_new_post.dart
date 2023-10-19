@@ -1552,7 +1552,11 @@ class _CreateNewPostState extends State<CreateNewPost> {
                                         GestureDetector(
                                           onTap: () async {
                                             Get.back();
-                                            await controller.connectWalletNew();
+                                            await controller
+                                                .createWalletConnectSession(
+                                              context: context,
+                                              androidUseOsPicker: false,
+                                            );
 
                                             // Get.snackbar(
                                             //   "Coming Soon",
