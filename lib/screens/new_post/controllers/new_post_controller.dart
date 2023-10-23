@@ -6,16 +6,17 @@ import 'package:boom_mobile/helpers/file_uploader.dart';
 import 'package:boom_mobile/models/network_model.dart';
 import 'package:boom_mobile/screens/home_screen/controllers/home_controller.dart';
 import 'package:boom_mobile/screens/home_screen/home_screen.dart';
-import 'package:boom_mobile/screens/new_post/controllers/wc_eth_credentials.dart';
 import 'package:boom_mobile/screens/new_post/models/blockchain.dart';
 import 'package:boom_mobile/screens/new_post/models/blockchain_accounts.dart';
 import 'package:boom_mobile/screens/new_post/models/eip155_wallet_credentials.dart';
 import 'package:boom_mobile/screens/new_post/models/explorer_registry_listing.dart';
 import 'package:boom_mobile/screens/new_post/models/new_post_model.dart';
+import 'package:boom_mobile/screens/new_post/models/wallet_connect_extensions.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_nft.dart';
 import 'package:boom_mobile/screens/new_post/models/wallet_pairing.dart';
 import 'package:boom_mobile/screens/new_post/services/explorer_registry_service.dart';
 import 'package:boom_mobile/screens/new_post/services/upload_boom.dart';
+import 'package:boom_mobile/screens/new_post/services/wc_service.dart';
 import 'package:boom_mobile/screens/profile_screen/controllers/edit_profile_controller.dart';
 import 'package:boom_mobile/secrets.dart';
 import 'package:boom_mobile/utils/boomERC721.dart';
@@ -34,7 +35,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:video_player/video_player.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
@@ -52,6 +52,8 @@ class NewPostController extends GetxController {
   UploadService uploadService = UploadService();
   final ExplorerRegistryService explorerRegistryService =
       ExplorerRegistryService();
+
+  WalletConnectService wcService = WalletConnectService();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController title = TextEditingController();
@@ -83,10 +85,10 @@ class NewPostController extends GetxController {
   late Web3App _web3app;
   late RequiredNamespace eip155RequiredNamespace;
   late RequiredNamespace eip155OptionalNamespace;
-  List<Blockchain> reqiredBlockchains = [Blockchain.ethereum];
+  List<Blockchain> reqiredBlockchains = [Blockchain.mumbai, Blockchain.tbnb];
   List<Blockchain> optionalBlockchains = [
     Blockchain.mumbai,
-    Blockchain.scrollSepolia,
+    Blockchain.tbnb,
     Blockchain.polygon
   ];
 
@@ -139,12 +141,14 @@ class NewPostController extends GetxController {
 
   var imageSelected = false.obs;
 
-  int chainId = 56;
+  int chainId = 97;
   String smartContractAddress = bnbTokenAddress;
   String marketPlaceAddress = bnbMarketAddress;
 
-  List<int> chainIds = [56, 137, 65];
-  // List<int> chainIds = [97, 8001, 65];
+  // List<int> chainIds = [56, 137, 65];
+
+  //TODO: Return the list to the mainnet list for production
+  List<int> chainIds = [97, 8001, 65];
 
   String txHash = "";
 
@@ -172,13 +176,13 @@ class NewPostController extends GetxController {
     );
     eip155RequiredNamespace = RequiredNamespace(
         chains: supportedBlockchainsToCAIP2List(
-            namespace: Blockchain.ethereum.namespace),
+            namespace: Blockchain.mumbai.namespace),
         methods: kAppRequiredEIP155Methods,
         events: kAppOptionalEIP155Events);
 
     eip155OptionalNamespace = RequiredNamespace(
-      chains: supportedBlockchainsToCAIP2List(
-          namespace: Blockchain.ethereum.namespace),
+      chains:
+          supportedBlockchainsToCAIP2List(namespace: Blockchain.tbnb.namespace),
       methods: kAppOptionalEIP155Methods,
       events: kAppOptionalEIP155Events,
     );
@@ -427,86 +431,86 @@ class NewPostController extends GetxController {
 
   // Establish wallet connection and return Ethereum Wallet Address credentials
 
-  connectWallet(bool isImport,
-      {String? imgURL, String? timeStamp, NewPostModel? newPostModel}) async {
-    late WalletConnectEthereumCredentials credentials;
+  // connectWallet(bool isImport,
+  //     {String? imgURL, String? timeStamp, NewPostModel? newPostModel}) async {
+  //   late WalletConnectEip155Credentials credentials;
 
-    final connector = WalletConnect(
-      bridge: "wss://relay.walletconnect.com",
-      // uri: rpc,
-      clientId: "748a4dd9654a1f5291e7ff9714f63ac7",
-      clientMeta: const PeerMeta(
-        name: "Boom",
-        description: "Boom",
-        icons: [boomIconUrl],
-        url: "https://boomapp.io",
-      ),
-    );
-    connector.connect(chainId: chainId);
+  //   final connector = WalletConnect(
+  //     bridge: "wss://relay.walletconnect.com",
+  //     // uri: rpc,
+  //     clientId: "748a4dd9654a1f5291e7ff9714f63ac7",
+  //     clientMeta: const PeerMeta(
+  //       name: "Boom",
+  //       description: "Boom",
+  //       icons: [boomIconUrl],
+  //       url: "https://boomapp.io",
+  //     ),
+  //   );
+  //   connector.connect(chainId: chainId);
 
-    if (connector.connected) {
-      for (var element in connector.session.accounts) {
-        log("Wallet Address $element");
-      }
-      log("Wallet is already connected ${connector.session.accounts.first}");
+  //   if (connector.connected) {
+  //     for (var element in connector.session.accounts) {
+  //       log("Wallet Address $element");
+  //     }
+  //     log("Wallet is already connected ${connector.session.accounts.first}");
 
-      connector.on('connect', (SessionStatus session) {
-        provider = EthereumWalletConnectProvider(connector, chainId: chainId);
-        final sender = EthereumAddress.fromHex(session.accounts.first);
+  //     connector.on('connect', (SessionStatus session) {
+  //       provider = EthereumWalletConnectProvider(connector, chainId: chainId);
+  //       final sender = EthereumAddress.fromHex(session.accounts.first);
 
-        credentials = WalletConnectEthereumCredentials(provider: provider!);
-        log("Sender connected $sender");
-      });
+  //       credentials = WalletConnectEip155Credentials(provider: provider!);
+  //       log("Sender connected $sender");
+  //     });
 
-      if (isImport) {
-        await fetchNFT(credentials.provider.connector.session.accounts.first);
-      } else {
-        // Mint Bom
-        txHash = await onChainMint(
-          imgURL!,
-          timeStamp!,
-          credentials.provider.connector.session.accounts.first,
-          client,
-          credentials,
-          newPostModel!,
-        );
-        update();
-      }
-    } else {
-      log("Wallet connection Not done yet");
-      await connector.createSession(
-        chainId: chainId,
-        onDisplayUri: (uri) async {
-          await launchUrlString(uri);
+  //     if (isImport) {
+  //       await fetchNFT(credentials.provider.connector.session.accounts.first);
+  //     } else {
+  //       // Mint Bom
+  //       txHash = await onChainMint(
+  //         imgURL!,
+  //         timeStamp!,
+  //         credentials.provider.connector.session.accounts.first,
+  //         client,
+  //         credentials,
+  //         newPostModel!,
+  //       );
+  //       update();
+  //     }
+  //   } else {
+  //     log("Wallet connection Not done yet");
+  //     await connector.createSession(
+  //       chainId: chainId,
+  //       onDisplayUri: (uri) async {
+  //         await launchUrlString(uri);
 
-          // await connector.connect(chainId: chainId);
+  //         // await connector.connect(chainId: chainId);
 
-          connector.on('connect', (SessionStatus session) async {
-            provider =
-                EthereumWalletConnectProvider(connector, chainId: chainId);
-            final sender = EthereumAddress.fromHex(session.accounts.first);
-            final credentials =
-                WalletConnectEthereumCredentials(provider: provider!);
-            log("Sender $sender");
-            if (isImport) {
-              await fetchNFT(session.accounts.first);
-            } else {
-              // Mint Bom
-              txHash = await onChainMint(imgURL!, timeStamp!,
-                  session.accounts.first, client, credentials, newPostModel!);
-              update();
-            }
+  //         connector.on('connect', (SessionStatus session) async {
+  //           provider =
+  //               EthereumWalletConnectProvider(connector, chainId: chainId);
+  //           final sender = EthereumAddress.fromHex(session.accounts.first);
+  //           final credentials =
+  //               WalletConnectEthereumCredentials(provider: provider!);
+  //           log("Sender $sender");
+  //           if (isImport) {
+  //             await fetchNFT(session.accounts.first);
+  //           } else {
+  //             // Mint Bom
+  //             txHash = await onChainMint(imgURL!, timeStamp!,
+  //                 session.accounts.first, client, credentials, newPostModel!);
+  //             update();
+  //           }
 
-            return credentials.provider.connector.session.accounts.first;
-          });
-        },
-      );
-    }
-  }
+  //           return credentials.provider.connector.session.accounts.first;
+  //         });
+  //       },
+  //     );
+  //   }
+  // }
 
   //Function to handle uploading of Boom Post to Boom Backend
 
-  uploadNewBoom(bool isOnchain) async {
+  uploadNewBoom(bool isOnchain, {required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
       EasyLoading.show(status: "Uploading");
       String postType = '';
@@ -556,11 +560,16 @@ class NewPostController extends GetxController {
           boomState: boomState,
         );
 
-        await connectWallet(
-          false,
-          newPostModel: newPostModel,
-          imgURL: imgURL,
-          timeStamp: timeStamp,
+        Future.delayed(Duration.zero).then(
+          (_) async {
+            await createWalletConnectSession(
+              false,
+              context: context,
+              newPostModel: newPostModel,
+              imgURL: imgURL,
+              timeStamp: timeStamp,
+            );
+          },
         );
 
         // final res = await uploadService.uploadPost(newPostModel);
@@ -641,7 +650,7 @@ class NewPostController extends GetxController {
       String boomId,
       String addy,
       Web3Client web3Client,
-      WalletConnectEthereumCredentials credentials,
+      WalletConnectEip155Credentials credentials,
       NewPostModel newPostModel) async {
     late File nftImg;
     String hashResult = '';
@@ -689,6 +698,8 @@ class NewPostController extends GetxController {
           ),
         );
 
+        log("Selected Chain ID :$chainId");
+
         hashResult = await web3Client.sendTransaction(
           credentials,
           tx,
@@ -735,6 +746,8 @@ class NewPostController extends GetxController {
                 [marketPlaceAddress, true],
               ),
             );
+
+            log("Selected Chain ID :$chainId");
 
             final approveResult = await web3Client.sendTransaction(
               credentials,
@@ -893,11 +906,17 @@ class NewPostController extends GetxController {
         }
       }
     }
+
+    log("CIAP2 Strings $ciap2Strings");
     return ciap2Strings;
   }
 
-  Future<String?> createWalletConnectSession(
-      {required BuildContext context, bool androidUseOsPicker = true}) async {
+  Future<String?> createWalletConnectSession(bool isImport,
+      {required BuildContext context,
+      bool androidUseOsPicker = true,
+      String? imgURL,
+      String? timeStamp,
+      NewPostModel? newPostModel}) async {
     Stopwatch stopwatch = Stopwatch();
 
     stopwatch.start();
@@ -907,7 +926,7 @@ class NewPostController extends GetxController {
         name: "Boom",
         description: "Boom",
         icons: [boomIconUrl],
-        url: url,
+        url: redirectUri,
       ),
       // See definition at the top of the class
       memoryStore: false,
@@ -947,7 +966,8 @@ class NewPostController extends GetxController {
       wcUri: pairingUri,
     );
 
-    //SavePairingInfo
+    //SavePairingInfo To Secure Storage
+
     // savePairingInfo();
 
     resp.session.future.then((value) {
@@ -984,10 +1004,10 @@ class NewPostController extends GetxController {
         if (errorMessage.contains('Rejected by user')) {
           log("Error from wallet: ${e.code} - ${e.message}. Bummer rejecting yourself like that. Blame the wallet.");
         } else {
-          log("createWalletConnectSession JsonRpcError: ${e.code} - ${e.message}\n$s");
+          log("createWalletConnectSession JsonRpcError Unlisted Error: ${e.code} - ${e.message}\n$s");
         }
       } else {
-        log("createWalletConnectSession JsonRpcError: ${e.code} - ${e.message}\n$s");
+        log("createWalletConnectSession JsonRpcError No ErrorMsg: ${e.code} - ${e.message}\n$s");
       }
     } catch (e, s) {
       log("createWalletConnectSession Exception: $e\n$s");
@@ -1002,83 +1022,29 @@ class NewPostController extends GetxController {
           nameSpacesToBlockchainAccounts(sessionData!.namespaces);
     }
 
-    String? sessionTopic = getSessionTopic(blockchainAccounts[0]);
+    String? sessionTopic =
+        wcService.getSessionTopic(blockchainAccounts[0], web3app: _web3app);
     WalletConnectEip155Credentials? connectEip155Credentials =
-        getgetEip155Credentials(
-            sessionTopic: sessionTopic!,
-            blockchainAccount: blockchainAccounts[0]);
+        wcService.getgetEip155Credentials(
+      sessionTopic: sessionTopic!,
+      web3app: _web3app,
+      blockchainAccount: blockchainAccounts.first,
+    );
 
-    //TODO: Add function to save the credentials securely and mint the NFT
-    //TODO: Change OnChainMint to use new Credentials
-
-    // onChainMint(
-    //     "imgURL", "boomId", "addy", client, connectEip155Credentials, null);
-
-    log("Connected Wallet Details ${connectEip155Credentials?.credentialAddress.toString()}");
+    onChainMint(
+      imgURL!,
+      timeStamp!,
+      connectEip155Credentials!.credentialAddress.toString(),
+      client,
+      connectEip155Credentials,
+      newPostModel!,
+    );
 
     return 'Sessions?';
   }
 
-  String? getSessionTopic(BlockchainAccount? account) {
-    String? sessionTopic;
-    ISignEngine signEngine = _web3app.signEngine;
-
-    for (SessionData? sessionData in signEngine.sessions.getAll()) {
-      if (sessionData == null) {
-        //Fail First and Exit
-        log("getSessionTopicFromAccount - No active sessions.  Returning null.");
-        return null;
-      }
-
-      List<BlockchainAccount>? blockChainAccounts =
-          nameSpacesToBlockchainAccounts(sessionData.namespaces);
-
-      if (blockChainAccounts.contains(account)) {
-        if (WalletConnectUtils.isExpired(sessionData.expiry)) {
-          log('getSessionTopicFromAccount - Found expired match: ${sessionData.topic}.  Ignoring');
-          //TODO: Handle an expired session
-        } else {
-          sessionTopic = sessionData.topic;
-          return sessionData.topic;
-        }
-      }
-    }
-    return sessionTopic;
-  }
-
 //TODO: Separate WalletConnect Services from the controller to make it more modular
 //TODO: Refactor the code to make it more readable and understandable
-
-  WalletConnectEip155Credentials? getgetEip155Credentials(
-      {required String sessionTopic,
-      required BlockchainAccount blockchainAccount}) {
-    WalletConnectEip155Credentials credentials = WalletConnectEip155Credentials(
-        signEngine: _web3app.signEngine,
-        sessionTopic: sessionTopic,
-        blockchain: blockchainAccount.blockchain,
-        credentialAddress: blockchainAccount.toEthereumAddress);
-    return credentials;
-  }
-
-  List<BlockchainAccount> nameSpacesToBlockchainAccounts(
-      Map<String, Namespace> namespaces) {
-    List<BlockchainAccount> blockchainAccounts = [];
-    for (String namespace in namespaces.keys) {
-      List<String>? accounts = [];
-      accounts = namespaces[namespace]?.accounts ?? accounts;
-      for (String accountId in accounts) {
-        if (accountId.toLowerCase().contains('nan')) {
-          if (kDebugMode) {
-            log('namespacesToBlockchainAccounts - malformed accountId: $accountId, in namespace: $namespace, namespaces: $namespaces');
-          }
-          continue;
-        }
-        blockchainAccounts
-            .add(BlockchainAccount.fromAccountID(accountId: accountId));
-      }
-    }
-    return blockchainAccounts;
-  }
 
   //TODO: Add Disconnect Pairing function to disconnect from WalletConnect onClose of the Controller
 }
