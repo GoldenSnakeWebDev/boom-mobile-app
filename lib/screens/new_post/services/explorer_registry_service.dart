@@ -31,7 +31,7 @@ class ExplorerRegistryService {
 
   Future<List<ExplorerRegistryListing>> readWalletRegistry({
     int limit = 30,
-    String supportedCAIP2Chains = 'eip155:1,eip155:137',
+    String supportedCAIP2Chains = 'eip155:80001,eip155:137,eip155:56,eip155:97',
     String walletConnectProjectId = _walletConnectProjectId,
     required TargetPlatform targetPlatform,
     List<String> alwaysIncludedWallets = const [],
@@ -162,9 +162,10 @@ class ExplorerRegistryService {
 
           if (acceptListing) {
             listings.add(listing);
-          } else {
-            log("readWalletRegistry - Skipping ${listing.appType} id: ${listing.id} name: ${listing.name} supported chains:${listing.chains} - issues: $issues");
           }
+          //  else {
+          //   // log("readWalletRegistry - Skipping ${listing.appType} id: ${listing.id} name: ${listing.name} supported chains:${listing.chains} - issues: $issues");
+          // }
         }
       }
       log("readWalletRegistry - Found ${listings.length} compatible listings out of $numResponseListings returned.");
