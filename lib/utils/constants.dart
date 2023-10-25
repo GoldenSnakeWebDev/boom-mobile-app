@@ -108,3 +108,46 @@ List<String> profileOptions = [
   "Social Bridge",
   "Activity",
 ];
+
+final List<String> kAppRequiredEIP155Methods = [
+  // 'eth_sign',
+  // 'eth_signTypedData', // Ambiguous suggested to use _v forms
+  'personal_sign',
+  // 'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
+  // 'eth_signTransaction',   // Rainbow Android does not support as of 8/25/23
+  'eth_sendTransaction',
+  // 'eth_sendRawTransaction',
+  // 'wallet_switchEthereumChain',  // Rainbow Android does not support as of 8/25/23
+];
+
+final List<String> kAppOptionalEIP155Methods = [
+  'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
+  'wallet_switchEthereumChain', // Rainbow Android does not support as of 8/25/23
+];
+
+//TODO: Remove unrequired events and methods
+
+final List<String> kAppRequiredEIP155Events =
+    // Blockchain events that your app required direct visibility into the events
+    //
+    // NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
+    // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
+    // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
+    [
+  'accountsChanged', // the accounts available to the Provider change
+  'chainChanged', // the chain the Provider is connected to changes
+  'connect', // the Provider becomes connected
+  'disconnect', // the Provider becomes disconnected from all chains
+];
+final List<String> kAppOptionalEIP155Events =
+// Blockchain events that your app required direct visibility into the events
+//
+// NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
+// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
+// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
+    [
+  'accountsChanged', // the accounts available to the Provider change
+  'chainChanged', // the chain the Provider is connected to changes
+  'connect', // the Provider becomes connected
+  'disconnect', // the Provider becomes disconnected from all chains
+];

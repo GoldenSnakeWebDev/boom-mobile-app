@@ -85,7 +85,7 @@ class NewPostController extends GetxController {
   late Web3App _web3app;
   late RequiredNamespace eip155RequiredNamespace;
   late RequiredNamespace eip155OptionalNamespace;
-  List<Blockchain> reqiredBlockchains = [Blockchain.mumbai, Blockchain.bnb];
+  List<Blockchain> reqiredBlockchains = [Blockchain.bnb];
   List<Blockchain> optionalBlockchains = [Blockchain.bnb, Blockchain.polygon];
 
   Map<String, WalletPairingInfo> walletPairingInfoMap = {};
@@ -94,59 +94,15 @@ class NewPostController extends GetxController {
 
   List<ExplorerRegistryListing> explorerRegistryListings = [];
 
-  final List<String> kAppRequiredEIP155Methods = [
-    // 'eth_sign',
-    // 'eth_signTypedData', // Ambiguous suggested to use _v forms
-    'personal_sign',
-    // 'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
-    // 'eth_signTransaction',   // Rainbow Android does not support as of 8/25/23
-    'eth_sendTransaction',
-    // 'eth_sendRawTransaction',
-    // 'wallet_switchEthereumChain',  // Rainbow Android does not support as of 8/25/23
-  ];
-
-  final List<String> kAppOptionalEIP155Methods = [
-    'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
-    'wallet_switchEthereumChain', // Rainbow Android does not support as of 8/25/23
-  ];
-
-//TODO: Remove unrequired events and methods
-
-  final List<String> kAppRequiredEIP155Events =
-      // Blockchain events that your app required direct visibility into the events
-      //
-      // NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
-      // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
-      // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
-      [
-    'accountsChanged', // the accounts available to the Provider change
-    'chainChanged', // the chain the Provider is connected to changes
-    'connect', // the Provider becomes connected
-    'disconnect', // the Provider becomes disconnected from all chains
-  ];
-  final List<String> kAppOptionalEIP155Events =
-// Blockchain events that your app required direct visibility into the events
-//
-// NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
-// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
-// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
-      [
-    'accountsChanged', // the accounts available to the Provider change
-    'chainChanged', // the chain the Provider is connected to changes
-    'connect', // the Provider becomes connected
-    'disconnect', // the Provider becomes disconnected from all chains
-  ];
-
   var imageSelected = false.obs;
 
-  int chainId = 97;
+  int chainId = 56;
   String smartContractAddress = bnbTokenAddress;
   String marketPlaceAddress = bnbMarketAddress;
 
-  // List<int> chainIds = [56, 137, 65];
-
+  List<int> chainIds = [56, 137, 65];
   //TODO: Return the list to the mainnet list for production
-  List<int> chainIds = [97, 8001, 65];
+  // List<int> chainIds = [97, 80001, 65];
 
   String txHash = "";
 
@@ -201,13 +157,13 @@ class NewPostController extends GetxController {
     );
     eip155RequiredNamespace = RequiredNamespace(
         chains: supportedBlockchainsToCAIP2List(
-            namespace: Blockchain.mumbai.namespace),
+            namespace: Blockchain.bnb.namespace),
         methods: kAppRequiredEIP155Methods,
         events: kAppOptionalEIP155Events);
 
     eip155OptionalNamespace = RequiredNamespace(
-      chains:
-          supportedBlockchainsToCAIP2List(namespace: Blockchain.bnb.namespace),
+      chains: supportedBlockchainsToCAIP2List(
+          namespace: Blockchain.polygon.namespace),
       methods: kAppOptionalEIP155Methods,
       events: kAppOptionalEIP155Events,
     );
@@ -683,7 +639,8 @@ class NewPostController extends GetxController {
       String addy,
       Web3Client web3Client,
       WalletConnectEip155Credentials credentials,
-      NewPostModel newPostModel) async {
+      NewPostModel newPostModel,
+      int chainId) async {
     late File nftImg;
     String hashResult = '';
 
@@ -1013,18 +970,6 @@ class NewPostController extends GetxController {
     //   }
     // });
 
-    if (!(targetPlatform == TargetPlatform.android && androidUseOsPicker)) {
-      Future.delayed(Duration.zero).then((value) async {
-        var showModalResult = await showModalBottomSheet(
-            context: context,
-            builder: (btmSheetContext) {
-              return StatefulBuilder(builder: (stateContext, setState) {
-                return Container();
-              });
-            });
-      });
-    }
-
     try {
       explorerRegistryListings = await explorerRegistryService
           .readWalletRegistry(targetPlatform: targetPlatform);
@@ -1079,26 +1024,32 @@ class NewPostController extends GetxController {
       blockchainAccounts +=
           nameSpacesToBlockchainAccounts(sessionData.namespaces);
     }
+    BlockchainAccount selectedAccount = blockchainAccounts.firstWhere(
+        (element) => element.blockchain.chainId == "eip155:$chainId");
+
+    int selectedAccountIndex = blockchainAccounts.indexOf(selectedAccount);
+
+    log("Selected Account Index $selectedAccountIndex");
 
     String? sessionTopic = wcService.getSessionTopicFromAccount(
-            blockchainAccounts.first,
+            blockchainAccounts[selectedAccountIndex],
             web3app: _web3app) ??
         "No session topic found";
     WalletConnectEip155Credentials? connectEip155Credentials =
         wcService.getgetEip155Credentials(
       sessionTopic: sessionTopic,
       web3app: _web3app,
-      blockchainAccount: blockchainAccounts.first,
+      blockchainAccount: blockchainAccounts[selectedAccountIndex],
     );
 
     onChainMint(
-      imgURL!,
-      timeStamp!,
-      connectEip155Credentials!.credentialAddress.toString(),
-      client,
-      connectEip155Credentials,
-      newPostModel!,
-    );
+        imgURL!,
+        timeStamp!,
+        connectEip155Credentials!.credentialAddress.toString(),
+        client,
+        connectEip155Credentials,
+        newPostModel!,
+        chainId);
 
     return 'Sessions?';
   }
