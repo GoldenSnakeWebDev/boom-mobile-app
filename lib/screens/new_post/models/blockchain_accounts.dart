@@ -18,7 +18,7 @@ class BlockchainAccount {
     List<String> accountComponents = accountId.split(':');
 
     if (accountComponents.length != 3) {
-      throw 'Malformed accountId: $accountId - must have 3 components';
+      throw 'Malformed accountId: $accountId - must have 3 components or missing : separator?';
     } else {
       Blockchain? blockchainMatch = Blockchain.fromChainId(
           '${accountComponents[0]}:${accountComponents[1]}');

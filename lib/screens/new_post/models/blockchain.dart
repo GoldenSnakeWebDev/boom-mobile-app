@@ -22,14 +22,6 @@ enum Blockchain {
       nativeCurrency: NativeCurrency(
           currencyName: 'ETH', currencySymbol: 'ETH', currencyDecimals: 18)),
 
-  goerli(
-      name: 'Goerli',
-      namespace: 'eip155',
-      reference: '5',
-      nativeCurrency: NativeCurrency(
-          currencyName: 'GoerliETH',
-          currencySymbol: 'gorETH',
-          currencyDecimals: 18)),
   polygon(
       name: 'Polygon',
       namespace: 'eip155',
@@ -46,18 +38,24 @@ enum Blockchain {
           currencyName: 'TMATIC',
           currencySymbol: 'TMATIC',
           currencyDecimals: 18)),
-  scrollSepolia(
-      name: 'Scroll Sepolia',
+  // tbnb(
+  //     name: 'Binance Smart Chain TestNet',
+  //     namespace: 'eip155',
+  //     reference: '97',
+  //     nativeCurrency: NativeCurrency(
+  //       currencyName: 'tBNB',
+  //       currencySymbol: 'tBNB',
+  //       currencyDecimals: 18,
+  //     )),
+  bnb(
+      name: 'Binance Smart Chain',
       namespace: 'eip155',
-      reference: '534351',
+      reference: '56',
       nativeCurrency: NativeCurrency(
-          currencyName: 'ETH', currencySymbol: 'ETH', currencyDecimals: 18)),
-  kadena(
-      name: 'Kadena',
-      namespace: 'kadena',
-      reference: 'mainnet:1',
-      nativeCurrency: NativeCurrency(
-          currencyName: 'KDA', currencySymbol: 'KDA', currencyDecimals: 18));
+        currencyName: 'BNB',
+        currencySymbol: 'BNB',
+        currencyDecimals: 18,
+      ));
 
   const Blockchain({
     required this.name,
@@ -107,19 +105,19 @@ enum Blockchain {
 
   static const camelCaseNames = {
     Blockchain.ethereum: 'ethereum',
-    Blockchain.goerli: 'goerli',
     Blockchain.polygon: 'polygon',
     Blockchain.mumbai: 'mumbai',
-    Blockchain.scrollSepolia: 'scrollSepolia',
-    Blockchain.kadena: 'kadena',
+    // Blockchain.tbnb: 'tbnb',
+    Blockchain.bnb: 'bnb',
   };
 
   static const rpcUrls = {
-    Blockchain.ethereum: 'https://etherscan.io',
-    Blockchain.goerli: 'https://rpc.goerli.mudit.blog',
+    Blockchain.ethereum:
+        'https://mainnet.infura.io/v3/1c7c468f6c5a4b6e9f2b0b5b9b8b9b8b',
     Blockchain.polygon: 'https://polygon-rpc.com',
     Blockchain.mumbai: 'https://rpc-mumbai.maticvigil.com',
-    Blockchain.scrollSepolia: 'https://sepolia-rpc.scroll.io/',
+    // Blockchain.tbnb: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
+    Blockchain.bnb: 'https://binance.llamarpc.com',
   };
 
   // Check if we are in testnet or not
@@ -127,10 +125,10 @@ enum Blockchain {
     switch (this) {
       case Blockchain.ethereum:
       case Blockchain.polygon:
+      case Blockchain.bnb:
         return false;
-      case Blockchain.goerli:
       case Blockchain.mumbai:
-      case Blockchain.scrollSepolia:
+        // case Blockchain.tbnb:
         return true;
       default:
         throw 'Uninmplemented Blockchain $this';
@@ -140,12 +138,14 @@ enum Blockchain {
   //Switch and provide the testnet for the current blockchain
   Blockchain get toTestnet {
     switch (this) {
-      case Blockchain.ethereum:
-        return Blockchain.goerli;
       case Blockchain.polygon:
         return Blockchain.mumbai;
-      case Blockchain.goerli:
-      case Blockchain.scrollSepolia:
+      case Blockchain.bnb:
+        // return Blockchain.tbnb;
+        return this;
+
+      case Blockchain.ethereum:
+      // case Blockchain.tbnb:
       case Blockchain.mumbai:
         return this;
       default:
@@ -156,12 +156,13 @@ enum Blockchain {
   //Switch and provide the mainnet for the current blockchain
   Blockchain get toMainnet {
     switch (this) {
-      case Blockchain.goerli:
-        return Blockchain.ethereum;
       case Blockchain.mumbai:
         return Blockchain.polygon;
+      // case Blockchain.tbnb:
+      // return Blockchain.bnb;
       case Blockchain.ethereum:
       case Blockchain.polygon:
+      case Blockchain.bnb:
         return this;
       default:
         throw 'Uninmplemented Blockchain $this';
@@ -177,14 +178,14 @@ enum Blockchain {
     switch (value) {
       case 1:
         return Blockchain.ethereum;
-      case 5:
-        return Blockchain.goerli;
       case 137:
         return Blockchain.polygon;
       case 80001:
         return Blockchain.mumbai;
-      case 534351:
-        return Blockchain.scrollSepolia;
+      // case 97:
+      //   return Blockchain.tbnb;
+      case 56:
+        return Blockchain.bnb;
       default:
         throw 'Uninmplemented EIP155 chainId $value';
     }
@@ -200,14 +201,14 @@ enum Blockchain {
       switch (chainIdString) {
         case 'eip155:1':
           return Blockchain.ethereum;
-        case 'eip155:5':
-          return Blockchain.goerli;
         case 'eip155:137':
           return Blockchain.polygon;
         case 'eip155:80001':
           return Blockchain.mumbai;
-        case 'eip155:534351':
-          return Blockchain.scrollSepolia;
+        // case 'eip155:97':
+        //   return Blockchain.tbnb;
+        case 'eip155:56':
+          return Blockchain.bnb;
         default:
           throw 'Uninmplemented EIP155 chainId $chainIdString';
       }
