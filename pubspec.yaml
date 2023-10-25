@@ -65,7 +65,7 @@ dependencies:
   firebase_core: ^2.19.0
   firebase_core_platform_interface: ^5.0.0
   firebase_analytics: ^10.6.1
-  firebase_crashlytics: ^3.4.1
+  firebase_crashlytics: ^3.4.2
   firebase_performance: ^0.9.2+7
   flutter_email_sender: ^6.0.2
   flutter_network_connectivity: ^0.0.6
