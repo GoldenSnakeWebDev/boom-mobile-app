@@ -128,7 +128,7 @@ dependencies:
 
   #u
   # url_launcher_android: ^6.0.35
-  url_launcher: ^6.1.14
+  url_launcher: ^6.2.0
   unique_identifier: ^0.3.0
 
   #v
