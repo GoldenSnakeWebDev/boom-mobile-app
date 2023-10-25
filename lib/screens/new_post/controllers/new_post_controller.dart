@@ -85,16 +85,14 @@ class NewPostController extends GetxController {
   late Web3App _web3app;
   late RequiredNamespace eip155RequiredNamespace;
   late RequiredNamespace eip155OptionalNamespace;
-  List<Blockchain> reqiredBlockchains = [Blockchain.mumbai, Blockchain.tbnb];
-  List<Blockchain> optionalBlockchains = [
-    Blockchain.mumbai,
-    Blockchain.tbnb,
-    Blockchain.polygon
-  ];
+  List<Blockchain> reqiredBlockchains = [Blockchain.mumbai, Blockchain.bnb];
+  List<Blockchain> optionalBlockchains = [Blockchain.bnb, Blockchain.polygon];
 
   Map<String, WalletPairingInfo> walletPairingInfoMap = {};
   ExplorerRegistryListing selectedRegistryListing =
       const ExplorerRegistryListing();
+
+  List<ExplorerRegistryListing> explorerRegistryListings = [];
 
   final List<String> kAppRequiredEIP155Methods = [
     // 'eth_sign',
@@ -158,6 +156,7 @@ class NewPostController extends GetxController {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     analytics.setCurrentScreen(screenName: "New Post Screen");
+
     init(
         targetPlatform:
             Platform.isAndroid ? TargetPlatform.android : TargetPlatform.iOS);
@@ -166,10 +165,36 @@ class NewPostController extends GetxController {
     // pickedImage = null;
   }
 
+  @override
+  void onClose() {
+    super.onClose();
+    pickedImage = null;
+    pickedVideo = null;
+    selectedVideoController.dispose();
+    wcService.disconnectAllPairings(web3app: _web3app);
+    // pickedImage = null;
+    // pickedVideo = null;
+    // selectedVideoController.dispose();
+  }
+
   Future<void> init({required TargetPlatform targetPlatform}) async {
     this.targetPlatform = targetPlatform;
     selectedNetwork = networkModel!.networks![0].symbol;
     selectedNetworkModel = networkModel!.networks![0];
+    _web3app = await Web3App.createInstance(
+      projectId: WALLET_CONNECT_ID,
+      metadata: const PairingMetadata(
+        name: "Boom",
+        description: "Boom",
+        icons: [boomIconUrl],
+        url: redirectUri,
+      ),
+      // See definition at the top of the class
+      memoryStore: false,
+      // Persist session state in secure like storage
+      relayUrl: WalletConnectConstants.DEFAULT_RELAY_URL,
+      logLevel: LogLevel.nothing, // Level.verbose,
+    );
     client = Web3Client(
       bnbMainnetRPC,
       http.Client(),
@@ -182,9 +207,15 @@ class NewPostController extends GetxController {
 
     eip155OptionalNamespace = RequiredNamespace(
       chains:
-          supportedBlockchainsToCAIP2List(namespace: Blockchain.tbnb.namespace),
+          supportedBlockchainsToCAIP2List(namespace: Blockchain.bnb.namespace),
       methods: kAppOptionalEIP155Methods,
       events: kAppOptionalEIP155Events,
+    );
+
+    wcService.init(
+      platform: targetPlatform,
+      web3app: _web3app,
+      core: _web3app.signEngine.core,
     );
 
     networks.clear();
@@ -192,6 +223,7 @@ class NewPostController extends GetxController {
       networks.add(element);
     }
     await getCryptoPrice(selectedNetworkModel!.symbol!);
+    update();
   }
 
   Future initWeb3App(
@@ -896,6 +928,19 @@ class NewPostController extends GetxController {
   }
 
   /// Begin of WalletConnect Implementation.
+  ///
+
+  String get supportedBlockchainsToCIAP2String {
+    String chainIds = '';
+
+    if (reqiredBlockchains.isNotEmpty) {
+      for (Blockchain blockchain in reqiredBlockchains) {
+        chainIds = chainIds + (chainIds == '' ? '' : ',') + blockchain.chainId;
+      }
+    }
+
+    return chainIds;
+  }
 
   List<String> supportedBlockchainsToCAIP2List({required String namespace}) {
     List<String> ciap2Strings = [];
@@ -920,20 +965,10 @@ class NewPostController extends GetxController {
     Stopwatch stopwatch = Stopwatch();
 
     stopwatch.start();
-    _web3app = await Web3App.createInstance(
-      projectId: WALLET_CONNECT_ID,
-      metadata: const PairingMetadata(
-        name: "Boom",
-        description: "Boom",
-        icons: [boomIconUrl],
-        url: redirectUri,
-      ),
-      // See definition at the top of the class
-      memoryStore: false,
-      // Persist session state in secure like storage
-      relayUrl: WalletConnectConstants.DEFAULT_RELAY_URL,
-      logLevel: LogLevel.nothing, // Level.verbose,
-    );
+
+    await wcService.relayClientConnect(web3app: _web3app);
+
+    log("createWalletConnectSession - requiredNamespace: $eip155RequiredNamespace");
 
     ConnectResponse resp = await _web3app.signEngine.connect(
       requiredNamespaces: {
@@ -970,20 +1005,37 @@ class NewPostController extends GetxController {
 
     // savePairingInfo();
 
-    resp.session.future.then((value) {
-      if (context.mounted) {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context, 'QR Code Scanned');
-        }
-      }
-    });
+    // resp.session.future.then((value) {
+    //   if (context.mounted) {
+    //     if (Navigator.canPop(context)) {
+    //       Navigator.pop(context, 'QR Code Scanned');
+    //     }
+    //   }
+    // });
+
+    if (!(targetPlatform == TargetPlatform.android && androidUseOsPicker)) {
+      Future.delayed(Duration.zero).then((value) async {
+        var showModalResult = await showModalBottomSheet(
+            context: context,
+            builder: (btmSheetContext) {
+              return StatefulBuilder(builder: (stateContext, setState) {
+                return Container();
+              });
+            });
+      });
+    }
 
     try {
+      explorerRegistryListings = await explorerRegistryService
+          .readWalletRegistry(targetPlatform: targetPlatform);
+
       bool result = await explorerRegistryService.launcAppWithPairingUri(
           platform: targetPlatform,
           listing: selectedRegistryListing,
           pairingUri: pairingUri,
           androidOsPicker: androidUseOsPicker);
+
+      log("Data to be sent in: ${selectedRegistryListing.chains} ");
 
       log("createWalletConnectSession - launchWithPairingUri result: $result");
 
@@ -993,7 +1045,7 @@ class NewPostController extends GetxController {
     } on JsonRpcError catch (e, s) {
       String? errorMessage = e.message;
       if (errorMessage != null) {
-        if (errorMessage.contains('chains are not supported')) {
+        if (errorMessage.contains('Unsupported chains')) {
           log("Error from wallet: ${e.code} - ${e.message} Requested chains: ${eip155RequiredNamespace.chains ?? 'None'}");
         }
 
@@ -1018,15 +1070,23 @@ class NewPostController extends GetxController {
     ISignEngine signEngine = _web3app.signEngine;
     List<BlockchainAccount> blockchainAccounts = [];
     for (SessionData? sessionData in signEngine.sessions.getAll()) {
+      if (sessionData == null) {
+        log("getBlockChainAccounts - No active sessions returning null");
+        continue;
+      }
+      log("createSession - ${sessionData.namespaces} + ${sessionData.topic}");
+
       blockchainAccounts +=
-          nameSpacesToBlockchainAccounts(sessionData!.namespaces);
+          nameSpacesToBlockchainAccounts(sessionData.namespaces);
     }
 
-    String? sessionTopic =
-        wcService.getSessionTopic(blockchainAccounts[0], web3app: _web3app);
+    String? sessionTopic = wcService.getSessionTopicFromAccount(
+            blockchainAccounts.first,
+            web3app: _web3app) ??
+        "No session topic found";
     WalletConnectEip155Credentials? connectEip155Credentials =
         wcService.getgetEip155Credentials(
-      sessionTopic: sessionTopic!,
+      sessionTopic: sessionTopic,
       web3app: _web3app,
       blockchainAccount: blockchainAccounts.first,
     );

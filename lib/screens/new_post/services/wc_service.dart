@@ -23,6 +23,9 @@ class WalletConnectService {
       ICore? core}) async {
     Stopwatch stopwatch = Stopwatch();
     stopwatch.start();
+
+    serviceStats.clearCounters();
+    registerListeners(core: core!);
   }
 
   WalletConnectEip155Credentials? getgetEip155Credentials(
@@ -187,7 +190,7 @@ class WalletConnectService {
 
   //Get Session Topic from Blockchain Account
 
-  String? getSessionTopic(BlockchainAccount? account,
+  String? getSessionTopicFromAccount(BlockchainAccount account,
       {required Web3App web3app}) {
     String? sessionTopic;
     ISignEngine signEngine = web3app.signEngine;
