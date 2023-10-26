@@ -14,7 +14,7 @@ import 'package:slide_action/slide_action.dart';
 import 'package:video_player/video_player.dart';
 
 class CreateNewPost extends StatefulWidget {
-  const CreateNewPost({Key? key}) : super(key: key);
+  const CreateNewPost({super.key});
 
   @override
   State<CreateNewPost> createState() => _CreateNewPostState();
@@ -1658,7 +1658,7 @@ class _CreateNewPostState extends State<CreateNewPost> {
 
 class PreviewDialog extends StatelessWidget {
   final File image;
-  const PreviewDialog({Key? key, required this.image}) : super(key: key);
+  const PreviewDialog({super.key, required this.image});
 
   @override
   Widget build(BuildContext context) {

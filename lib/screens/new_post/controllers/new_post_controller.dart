@@ -101,7 +101,7 @@ class NewPostController extends GetxController {
   String marketPlaceAddress = bnbMarketAddress;
 
   List<int> chainIds = [56, 137, 65];
-  //TODO: Return the list to the mainnet list for production
+
   // List<int> chainIds = [97, 80001, 65];
 
   String txHash = "";
@@ -112,6 +112,13 @@ class NewPostController extends GetxController {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     analytics.setCurrentScreen(screenName: "New Post Screen");
+    selectedNetwork = networkModel!.networks![0].symbol;
+    selectedNetworkModel = networkModel!.networks![0];
+    networks.clear();
+    for (var element in networkModel!.networks!) {
+      networks.add(element);
+    }
+    getCryptoPrice(selectedNetworkModel!.symbol!);
 
     init(
         targetPlatform:
@@ -126,7 +133,7 @@ class NewPostController extends GetxController {
     super.onClose();
     pickedImage = null;
     pickedVideo = null;
-    selectedVideoController.dispose();
+    // selectedVideoController.dispose();
     wcService.disconnectAllPairings(web3app: _web3app);
     // pickedImage = null;
     // pickedVideo = null;
@@ -135,8 +142,7 @@ class NewPostController extends GetxController {
 
   Future<void> init({required TargetPlatform targetPlatform}) async {
     this.targetPlatform = targetPlatform;
-    selectedNetwork = networkModel!.networks![0].symbol;
-    selectedNetworkModel = networkModel!.networks![0];
+
     _web3app = await Web3App.createInstance(
       projectId: WALLET_CONNECT_ID,
       metadata: const PairingMetadata(
@@ -145,16 +151,16 @@ class NewPostController extends GetxController {
         icons: [boomIconUrl],
         url: redirectUri,
       ),
-      // See definition at the top of the class
       memoryStore: false,
-      // Persist session state in secure like storage
       relayUrl: WalletConnectConstants.DEFAULT_RELAY_URL,
       logLevel: LogLevel.nothing, // Level.verbose,
     );
+    //TODO: Change the RPC selection
     client = Web3Client(
       bnbMainnetRPC,
       http.Client(),
     );
+
     eip155RequiredNamespace = RequiredNamespace(
         chains: supportedBlockchainsToCAIP2List(
             namespace: Blockchain.bnb.namespace),
@@ -174,17 +180,7 @@ class NewPostController extends GetxController {
       core: _web3app.signEngine.core,
     );
 
-    networks.clear();
-    for (var element in networkModel!.networks!) {
-      networks.add(element);
-    }
-    await getCryptoPrice(selectedNetworkModel!.symbol!);
     update();
-  }
-
-  Future initWeb3App(
-      {String walletConnectProjectId = WALLET_CONNECT_ID}) async {
-    Stopwatch stopwatch = Stopwatch();
   }
 
   // Handle changing of selected network/crypto
@@ -213,16 +209,17 @@ class NewPostController extends GetxController {
             break;
 
           case "OKT":
-            chainId = chainIds[2];
-            smartContractAddress = "0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7";
-            client = Web3Client(
-              'https://exchaintestrpc.okex.org',
-              http.Client(),
-            );
-            break;
+          // chainId = chainIds[2];
+          // smartContractAddress = "0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7";
+          // client = Web3Client(
+          //   'https://exchaintestrpc.okex.org',
+          //   http.Client(),
+          // );
+          // break;
           default:
             chainId = chainIds[1];
         }
+        update();
       }
     }
     getCryptoPrice(selectedNetworkModel!.symbol!);
@@ -418,83 +415,6 @@ class NewPostController extends GetxController {
   }
 
   // Establish wallet connection and return Ethereum Wallet Address credentials
-
-  // connectWallet(bool isImport,
-  //     {String? imgURL, String? timeStamp, NewPostModel? newPostModel}) async {
-  //   late WalletConnectEip155Credentials credentials;
-
-  //   final connector = WalletConnect(
-  //     bridge: "wss://relay.walletconnect.com",
-  //     // uri: rpc,
-  //     clientId: "748a4dd9654a1f5291e7ff9714f63ac7",
-  //     clientMeta: const PeerMeta(
-  //       name: "Boom",
-  //       description: "Boom",
-  //       icons: [boomIconUrl],
-  //       url: "https://boomapp.io",
-  //     ),
-  //   );
-  //   connector.connect(chainId: chainId);
-
-  //   if (connector.connected) {
-  //     for (var element in connector.session.accounts) {
-  //       log("Wallet Address $element");
-  //     }
-  //     log("Wallet is already connected ${connector.session.accounts.first}");
-
-  //     connector.on('connect', (SessionStatus session) {
-  //       provider = EthereumWalletConnectProvider(connector, chainId: chainId);
-  //       final sender = EthereumAddress.fromHex(session.accounts.first);
-
-  //       credentials = WalletConnectEip155Credentials(provider: provider!);
-  //       log("Sender connected $sender");
-  //     });
-
-  //     if (isImport) {
-  //       await fetchNFT(credentials.provider.connector.session.accounts.first);
-  //     } else {
-  //       // Mint Bom
-  //       txHash = await onChainMint(
-  //         imgURL!,
-  //         timeStamp!,
-  //         credentials.provider.connector.session.accounts.first,
-  //         client,
-  //         credentials,
-  //         newPostModel!,
-  //       );
-  //       update();
-  //     }
-  //   } else {
-  //     log("Wallet connection Not done yet");
-  //     await connector.createSession(
-  //       chainId: chainId,
-  //       onDisplayUri: (uri) async {
-  //         await launchUrlString(uri);
-
-  //         // await connector.connect(chainId: chainId);
-
-  //         connector.on('connect', (SessionStatus session) async {
-  //           provider =
-  //               EthereumWalletConnectProvider(connector, chainId: chainId);
-  //           final sender = EthereumAddress.fromHex(session.accounts.first);
-  //           final credentials =
-  //               WalletConnectEthereumCredentials(provider: provider!);
-  //           log("Sender $sender");
-  //           if (isImport) {
-  //             await fetchNFT(session.accounts.first);
-  //           } else {
-  //             // Mint Bom
-  //             txHash = await onChainMint(imgURL!, timeStamp!,
-  //                 session.accounts.first, client, credentials, newPostModel!);
-  //             update();
-  //           }
-
-  //           return credentials.provider.connector.session.accounts.first;
-  //         });
-  //       },
-  //     );
-  //   }
-  // }
 
   //Function to handle uploading of Boom Post to Boom Backend
 
@@ -697,17 +617,41 @@ class NewPostController extends GetxController {
 
         int txCount = await web3Client.getTransactionCount(account);
         EasyLoading.dismiss();
-        log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n ${hashResult.length}"}");
+        log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n length: ${hashResult.length}"}");
         log("TX Count $txCount");
         // await subscription.cancel();
         if (hashResult.isNotEmpty) {
           //We get the Logs and decode to get NFT ID
-          final txLogs = await web3Client.getTransactionReceipt(hashResult);
 
-          log("TX Logs ${txLogs!.logs.first.topics!.last}");
+          EasyLoading.show(status: "Awaiting Tranasction Completion");
 
-          var tempId = txLogs.logs.first.topics!.last;
-          // log("Temp ID $tempId RunTimeType ${tempId.runtimeType}");
+          await Future.delayed(const Duration(milliseconds: 500));
+
+          // var txLogs;
+
+          // await web3Client.getTransactionReceipt(hashResult).then((value) {
+          //   log("TX LOGS $value");
+          //   txLogs = value;
+          // });
+
+          // await web3Client.getTransactionByHash(hashResult).then((value) {
+          //   log("TX LOGS $value");
+          //   txLogs = value;
+          // });
+
+          var txLogs = await web3Client.getTransactionReceipt(hashResult);
+          while (txLogs == null) {
+            log("TX Logs ${txLogs?.logs.first.topics ?? txLogs?.logs.length ?? "No Logs"}");
+            txLogs = await web3Client.getTransactionReceipt(hashResult);
+          }
+
+          log("TX Logs ${txLogs.logs.first.topics}");
+
+          var tempId = txLogs.logs.first.topics?.last ?? "";
+          // var tempId;
+          EasyLoading.dismiss();
+
+          log("Temp ID $tempId RunTimeType ${tempId.runtimeType}");
 
           int nftId = int.parse(tempId.toString().split("x")[1], radix: 16);
 
@@ -735,8 +679,6 @@ class NewPostController extends GetxController {
                 [marketPlaceAddress, true],
               ),
             );
-
-            log("Selected Chain ID :$chainId");
 
             final approveResult = await web3Client.sendTransaction(
               credentials,

@@ -131,7 +131,6 @@ class ExplorerRegistryService {
           }
           numResponseListings++;
           bool acceptListing = true;
-          String issues = '';
 
           if (alwaysIncludedWallets.contains(listing.id)) {
             listings.add(listing);
@@ -139,23 +138,19 @@ class ExplorerRegistryService {
           }
           if (alwaysExcludedWallets.contains(listing.id)) {
             acceptListing = false;
-            issues += 'app ID on the always excluded list';
           }
 
           if (!(listing.appType == 'wallet' || listing.appType == 'hybrid')) {
             acceptListing = false;
-            issues += 'app_type ${listing.appType} is not wallet or hybrid';
           }
 
           if (listing.chains?.isEmpty ?? true) {
             acceptListing = false;
-            issues += "chain list is empty or null";
           } else {
             List<String> requestedChains = supportedCAIP2Chains.split(',');
             for (String chain in requestedChains) {
               if (!listing.chains.toString().contains(chain)) {
                 acceptListing = false;
-                issues += 'missing chain $chain';
               }
             }
           }

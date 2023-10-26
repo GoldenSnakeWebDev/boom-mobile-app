@@ -21,8 +21,8 @@ const String maticMarketAddress = "0x46F0B35D57dbB7b1e971589350F7cFf5378Fd435";
 
 //Mainnet RPC URLs
 
-const String bnbMainnetRPC = "https://bsc-dataseed1.binance.org/";
-const String maticMainnetRPC = "https://polygon.llamarpc.com";
+const String bnbMainnetRPC = "https://binance.llamarpc.com";
+const String maticMainnetRPC = "https://polygon-rpc.com";
 
 //Smart Contract TestNet Addresses
 const String bnbTestNetToken = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
@@ -31,8 +31,9 @@ const String bnbTestNetMarket = "0x8f7157b9513b33f3364dD9Bdc2639d4214f0d852";
 const String maticTestNetMarket = "0xAf517ACFD09B6AC830f08D2265B105EDaE5B2fb5";
 
 //TestNet RPC URLs
-const String bnbTestnetRPC = "https://bsc-testnet.publicnode.com";
-const String maticTestnetRPC = "https://polygon-mumbai.gateway.tenderly.co";
+const String bnbTestnetRPC =
+    "https://bsc-testnet.blockpi.network/v1/rpc/public";
+const String maticTestnetRPC = "https://rpc.ankr.com/polygon_mumbai";
 
 List<Map<String, String>> brandDetails = [
   {
