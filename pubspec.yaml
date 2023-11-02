@@ -37,7 +37,7 @@ dependencies:
 
   #a
   animated_bottom_navigation_bar: ^1.3.0
-  adapty_flutter: ^2.7.0
+  adapty_flutter: ^2.7.1
   awesome_dialog: ^3.0.2
 
   #b
