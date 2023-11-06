@@ -38,15 +38,15 @@ enum Blockchain {
           currencyName: 'TMATIC',
           currencySymbol: 'TMATIC',
           currencyDecimals: 18)),
-  // tbnb(
-  //     name: 'Binance Smart Chain TestNet',
-  //     namespace: 'eip155',
-  //     reference: '97',
-  //     nativeCurrency: NativeCurrency(
-  //       currencyName: 'tBNB',
-  //       currencySymbol: 'tBNB',
-  //       currencyDecimals: 18,
-  //     )),
+  tbnb(
+      name: 'Binance Smart Chain TestNet',
+      namespace: 'eip155',
+      reference: '97',
+      nativeCurrency: NativeCurrency(
+        currencyName: 'tBNB',
+        currencySymbol: 'tBNB',
+        currencyDecimals: 18,
+      )),
   bnb(
       name: 'Binance Smart Chain',
       namespace: 'eip155',
@@ -107,7 +107,7 @@ enum Blockchain {
     Blockchain.ethereum: 'ethereum',
     Blockchain.polygon: 'polygon',
     Blockchain.mumbai: 'mumbai',
-    // Blockchain.tbnb: 'tbnb',
+    Blockchain.tbnb: 'tbnb',
     Blockchain.bnb: 'bnb',
   };
 
@@ -116,7 +116,7 @@ enum Blockchain {
         'https://mainnet.infura.io/v3/1c7c468f6c5a4b6e9f2b0b5b9b8b9b8b',
     Blockchain.polygon: 'https://polygon-rpc.com',
     Blockchain.mumbai: 'https://rpc-mumbai.maticvigil.com',
-    // Blockchain.tbnb: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
+    Blockchain.tbnb: 'https://data-seed-prebsc-1-s1.bnbchain.org:8545',
     Blockchain.bnb: 'https://binance.llamarpc.com',
   };
 
@@ -128,7 +128,7 @@ enum Blockchain {
       case Blockchain.bnb:
         return false;
       case Blockchain.mumbai:
-        // case Blockchain.tbnb:
+      case Blockchain.tbnb:
         return true;
       default:
         throw 'Uninmplemented Blockchain $this';
@@ -141,11 +141,11 @@ enum Blockchain {
       case Blockchain.polygon:
         return Blockchain.mumbai;
       case Blockchain.bnb:
-        // return Blockchain.tbnb;
-        return this;
+        return Blockchain.tbnb;
+      // return this;
 
       case Blockchain.ethereum:
-      // case Blockchain.tbnb:
+      case Blockchain.tbnb:
       case Blockchain.mumbai:
         return this;
       default:
@@ -158,8 +158,8 @@ enum Blockchain {
     switch (this) {
       case Blockchain.mumbai:
         return Blockchain.polygon;
-      // case Blockchain.tbnb:
-      // return Blockchain.bnb;
+      case Blockchain.tbnb:
+        return Blockchain.bnb;
       case Blockchain.ethereum:
       case Blockchain.polygon:
       case Blockchain.bnb:
@@ -182,8 +182,8 @@ enum Blockchain {
         return Blockchain.polygon;
       case 80001:
         return Blockchain.mumbai;
-      // case 97:
-      //   return Blockchain.tbnb;
+      case 97:
+        return Blockchain.tbnb;
       case 56:
         return Blockchain.bnb;
       default:
@@ -205,8 +205,8 @@ enum Blockchain {
           return Blockchain.polygon;
         case 'eip155:80001':
           return Blockchain.mumbai;
-        // case 'eip155:97':
-        //   return Blockchain.tbnb;
+        case 'eip155:97':
+          return Blockchain.tbnb;
         case 'eip155:56':
           return Blockchain.bnb;
         default:

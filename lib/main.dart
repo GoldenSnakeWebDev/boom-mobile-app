@@ -13,7 +13,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,7 +76,7 @@ void main() async {
   await analytics.logAppOpen();
 
   // Uncomment this line to disable screenshotting due to security policy
-  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   await GetStorage.init();
   configureLoader();
   runApp(

@@ -85,7 +85,7 @@ class NewPostController extends GetxController {
   late Web3App _web3app;
   late RequiredNamespace eip155RequiredNamespace;
   late RequiredNamespace eip155OptionalNamespace;
-  List<Blockchain> reqiredBlockchains = [Blockchain.mumbai, Blockchain.bnb];
+  List<Blockchain> reqiredBlockchains = [Blockchain.bnb];
   List<Blockchain> optionalBlockchains = [Blockchain.bnb, Blockchain.polygon];
 
   Map<String, WalletPairingInfo> walletPairingInfoMap = {};
@@ -94,59 +94,18 @@ class NewPostController extends GetxController {
 
   List<ExplorerRegistryListing> explorerRegistryListings = [];
 
-  final List<String> kAppRequiredEIP155Methods = [
-    // 'eth_sign',
-    // 'eth_signTypedData', // Ambiguous suggested to use _v forms
-    'personal_sign',
-    // 'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
-    // 'eth_signTransaction',   // Rainbow Android does not support as of 8/25/23
-    'eth_sendTransaction',
-    // 'eth_sendRawTransaction',
-    // 'wallet_switchEthereumChain',  // Rainbow Android does not support as of 8/25/23
-  ];
-
-  final List<String> kAppOptionalEIP155Methods = [
-    'signTypedData_v4', // Rainbow Android does not support as of 8/25/23
-    'wallet_switchEthereumChain', // Rainbow Android does not support as of 8/25/23
-  ];
-
-//TODO: Remove unrequired events and methods
-
-  final List<String> kAppRequiredEIP155Events =
-      // Blockchain events that your app required direct visibility into the events
-      //
-      // NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
-      // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
-      // https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
-      [
-    'accountsChanged', // the accounts available to the Provider change
-    'chainChanged', // the chain the Provider is connected to changes
-    'connect', // the Provider becomes connected
-    'disconnect', // the Provider becomes disconnected from all chains
-  ];
-  final List<String> kAppOptionalEIP155Events =
-// Blockchain events that your app required direct visibility into the events
-//
-// NOTE: WalletConnect handles most bookeeping with wc_sessionUpdate and wc_sessionExtend
-// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionupdate
-// https://docs.walletconnect.com/2.0/specs/clients/sign/rpc-methods#wc_sessionextend
-      [
-    'accountsChanged', // the accounts available to the Provider change
-    'chainChanged', // the chain the Provider is connected to changes
-    'connect', // the Provider becomes connected
-    'disconnect', // the Provider becomes disconnected from all chains
-  ];
-
   var imageSelected = false.obs;
 
   int chainId = 97;
+  // String smartContractAddress = bnbTestNetToken;
+  // String marketPlaceAddress = bnbTestNetMarket;
+
   String smartContractAddress = bnbTokenAddress;
   String marketPlaceAddress = bnbMarketAddress;
 
-  // List<int> chainIds = [56, 137, 65];
+  List<int> chainIds = [56, 137, 65];
 
-  //TODO: Return the list to the mainnet list for production
-  List<int> chainIds = [97, 8001, 65];
+  // List<int> chainIds = [97, 80001, 65];
 
   String txHash = "";
 
@@ -156,6 +115,13 @@ class NewPostController extends GetxController {
     FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     analytics.setCurrentScreen(screenName: "New Post Screen");
+    selectedNetwork = networkModel!.networks![0].symbol;
+    selectedNetworkModel = networkModel!.networks![0];
+    networks.clear();
+    for (var element in networkModel!.networks!) {
+      networks.add(element);
+    }
+    getCryptoPrice(selectedNetworkModel!.symbol!);
 
     init(
         targetPlatform:
@@ -170,7 +136,7 @@ class NewPostController extends GetxController {
     super.onClose();
     pickedImage = null;
     pickedVideo = null;
-    selectedVideoController.dispose();
+    // selectedVideoController.dispose();
     wcService.disconnectAllPairings(web3app: _web3app);
     // pickedImage = null;
     // pickedVideo = null;
@@ -179,8 +145,7 @@ class NewPostController extends GetxController {
 
   Future<void> init({required TargetPlatform targetPlatform}) async {
     this.targetPlatform = targetPlatform;
-    selectedNetwork = networkModel!.networks![0].symbol;
-    selectedNetworkModel = networkModel!.networks![0];
+
     _web3app = await Web3App.createInstance(
       projectId: WALLET_CONNECT_ID,
       metadata: const PairingMetadata(
@@ -189,25 +154,26 @@ class NewPostController extends GetxController {
         icons: [boomIconUrl],
         url: redirectUri,
       ),
-      // See definition at the top of the class
       memoryStore: false,
-      // Persist session state in secure like storage
       relayUrl: WalletConnectConstants.DEFAULT_RELAY_URL,
       logLevel: LogLevel.nothing, // Level.verbose,
     );
+
+    //TODO: Change the RPC selection
     client = Web3Client(
       bnbMainnetRPC,
       http.Client(),
     );
+
     eip155RequiredNamespace = RequiredNamespace(
         chains: supportedBlockchainsToCAIP2List(
-            namespace: Blockchain.mumbai.namespace),
+            namespace: Blockchain.bnb.namespace),
         methods: kAppRequiredEIP155Methods,
         events: kAppOptionalEIP155Events);
 
     eip155OptionalNamespace = RequiredNamespace(
-      chains:
-          supportedBlockchainsToCAIP2List(namespace: Blockchain.bnb.namespace),
+      chains: supportedBlockchainsToCAIP2List(
+          namespace: Blockchain.polygon.namespace),
       methods: kAppOptionalEIP155Methods,
       events: kAppOptionalEIP155Events,
     );
@@ -218,17 +184,7 @@ class NewPostController extends GetxController {
       core: _web3app.signEngine.core,
     );
 
-    networks.clear();
-    for (var element in networkModel!.networks!) {
-      networks.add(element);
-    }
-    await getCryptoPrice(selectedNetworkModel!.symbol!);
     update();
-  }
-
-  Future initWeb3App(
-      {String walletConnectProjectId = WALLET_CONNECT_ID}) async {
-    Stopwatch stopwatch = Stopwatch();
   }
 
   // Handle changing of selected network/crypto
@@ -242,6 +198,7 @@ class NewPostController extends GetxController {
           case "MATIC":
             chainId = chainIds[1];
             smartContractAddress = maticTokenAddress;
+            marketPlaceAddress = maticMarketAddress;
             client = Web3Client(
               maticMainnetRPC,
               http.Client(),
@@ -250,6 +207,7 @@ class NewPostController extends GetxController {
           case "BNB":
             chainId = chainIds[0];
             smartContractAddress = bnbTokenAddress;
+            marketPlaceAddress = bnbMarketAddress;
             client = Web3Client(
               bnbMainnetRPC,
               http.Client(),
@@ -257,16 +215,17 @@ class NewPostController extends GetxController {
             break;
 
           case "OKT":
-            chainId = chainIds[2];
-            smartContractAddress = "0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7";
-            client = Web3Client(
-              'https://exchaintestrpc.okex.org',
-              http.Client(),
-            );
-            break;
+          // chainId = chainIds[2];
+          // smartContractAddress = "0xfbC908Cf9E63c63F8Ca9Bc102713aCe8F8Eba4F7";
+          // client = Web3Client(
+          //   'https://exchaintestrpc.okex.org',
+          //   http.Client(),
+          // );
+          // break;
           default:
             chainId = chainIds[1];
         }
+        update();
       }
     }
     getCryptoPrice(selectedNetworkModel!.symbol!);
@@ -463,83 +422,6 @@ class NewPostController extends GetxController {
 
   // Establish wallet connection and return Ethereum Wallet Address credentials
 
-  // connectWallet(bool isImport,
-  //     {String? imgURL, String? timeStamp, NewPostModel? newPostModel}) async {
-  //   late WalletConnectEip155Credentials credentials;
-
-  //   final connector = WalletConnect(
-  //     bridge: "wss://relay.walletconnect.com",
-  //     // uri: rpc,
-  //     clientId: "748a4dd9654a1f5291e7ff9714f63ac7",
-  //     clientMeta: const PeerMeta(
-  //       name: "Boom",
-  //       description: "Boom",
-  //       icons: [boomIconUrl],
-  //       url: "https://boomapp.io",
-  //     ),
-  //   );
-  //   connector.connect(chainId: chainId);
-
-  //   if (connector.connected) {
-  //     for (var element in connector.session.accounts) {
-  //       log("Wallet Address $element");
-  //     }
-  //     log("Wallet is already connected ${connector.session.accounts.first}");
-
-  //     connector.on('connect', (SessionStatus session) {
-  //       provider = EthereumWalletConnectProvider(connector, chainId: chainId);
-  //       final sender = EthereumAddress.fromHex(session.accounts.first);
-
-  //       credentials = WalletConnectEip155Credentials(provider: provider!);
-  //       log("Sender connected $sender");
-  //     });
-
-  //     if (isImport) {
-  //       await fetchNFT(credentials.provider.connector.session.accounts.first);
-  //     } else {
-  //       // Mint Bom
-  //       txHash = await onChainMint(
-  //         imgURL!,
-  //         timeStamp!,
-  //         credentials.provider.connector.session.accounts.first,
-  //         client,
-  //         credentials,
-  //         newPostModel!,
-  //       );
-  //       update();
-  //     }
-  //   } else {
-  //     log("Wallet connection Not done yet");
-  //     await connector.createSession(
-  //       chainId: chainId,
-  //       onDisplayUri: (uri) async {
-  //         await launchUrlString(uri);
-
-  //         // await connector.connect(chainId: chainId);
-
-  //         connector.on('connect', (SessionStatus session) async {
-  //           provider =
-  //               EthereumWalletConnectProvider(connector, chainId: chainId);
-  //           final sender = EthereumAddress.fromHex(session.accounts.first);
-  //           final credentials =
-  //               WalletConnectEthereumCredentials(provider: provider!);
-  //           log("Sender $sender");
-  //           if (isImport) {
-  //             await fetchNFT(session.accounts.first);
-  //           } else {
-  //             // Mint Bom
-  //             txHash = await onChainMint(imgURL!, timeStamp!,
-  //                 session.accounts.first, client, credentials, newPostModel!);
-  //             update();
-  //           }
-
-  //           return credentials.provider.connector.session.accounts.first;
-  //         });
-  //       },
-  //     );
-  //   }
-  // }
-
   //Function to handle uploading of Boom Post to Boom Backend
 
   uploadNewBoom(bool isOnchain, {required BuildContext context}) async {
@@ -678,12 +560,14 @@ class NewPostController extends GetxController {
   //Function to mint Post to selected network
 
   onChainMint(
-      String imgURL,
-      String boomId,
-      String addy,
-      Web3Client web3Client,
-      WalletConnectEip155Credentials credentials,
-      NewPostModel newPostModel) async {
+    String imgURL,
+    String boomId,
+    String addy,
+    Web3Client web3Client,
+    WalletConnectEip155Credentials credentials,
+    NewPostModel newPostModel,
+    int chainId,
+  ) async {
     late File nftImg;
     String hashResult = '';
 
@@ -740,29 +624,52 @@ class NewPostController extends GetxController {
 
         int txCount = await web3Client.getTransactionCount(account);
         EasyLoading.dismiss();
-        log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n ${hashResult.length}"}");
+        log("Result ${hashResult.isEmpty ? "No Result" : "$hashResult\n length: ${hashResult.length}"}");
         log("TX Count $txCount");
         // await subscription.cancel();
         if (hashResult.isNotEmpty) {
           //We get the Logs and decode to get NFT ID
-          final txLogs = await web3Client.getTransactionReceipt(hashResult);
 
-          log("TX Logs ${txLogs!.logs.first.topics!.last}");
+          EasyLoading.show(status: "Awaiting Tranasction Completion");
 
-          var tempId = txLogs.logs.first.topics!.last;
-          // log("Temp ID $tempId RunTimeType ${tempId.runtimeType}");
+          await Future.delayed(const Duration(milliseconds: 500));
+
+          // var txLogs;
+
+          // await web3Client.getTransactionReceipt(hashResult).then((value) {
+          //   log("TX LOGS $value");
+          //   txLogs = value;
+          // });
+
+          // await web3Client.getTransactionByHash(hashResult).then((value) {
+          //   log("TX LOGS $value");
+          //   txLogs = value;
+          // });
+
+          var txLogs = await web3Client.getTransactionReceipt(hashResult);
+          while (txLogs == null) {
+            log("TX Logs ${txLogs?.logs.first.topics ?? txLogs?.logs.length ?? "No Logs"}");
+            txLogs = await web3Client.getTransactionReceipt(hashResult);
+          }
+
+          log("TX Logs ${txLogs.logs.first.topics}");
+
+          var tempId = txLogs.logs.first.topics?.last ?? "";
+          // var tempId;
+          EasyLoading.dismiss();
+
+          log("Temp ID $tempId RunTimeType ${tempId.runtimeType}");
 
           int nftId = int.parse(tempId.toString().split("x")[1], radix: 16);
 
           EasyLoading.show(
               status: 'Approval... Please check your wallet app for approval');
 
-          EthereumAddress marketPlaceAddress =
-              EthereumAddress.fromHex(bnbTestNetMarket);
+          EthereumAddress market = EthereumAddress.fromHex(marketPlaceAddress);
 
           var marketContract = DeployedContract(
             ContractAbi.fromJson(marketPlaceContrat, 'Marketplace'),
-            marketPlaceAddress,
+            market,
           );
 
           //Call the createListing Function of the Smart Contract
@@ -775,11 +682,9 @@ class NewPostController extends GetxController {
               from: account,
               to: contractAddress,
               data: contract.function('setApprovalForAll').encodeCall(
-                [marketPlaceAddress, true],
+                [market, true],
               ),
             );
-
-            log("Selected Chain ID :$chainId");
 
             final approveResult = await web3Client.sendTransaction(
               credentials,
@@ -829,7 +734,7 @@ class NewPostController extends GetxController {
                 // 1688059352
                 Transaction listingTx = Transaction(
                   from: account,
-                  to: marketPlaceAddress,
+                  to: market,
                   data: marketContract.function('createListing').encodeCall(
                     [listingParams],
                   ),
@@ -1013,18 +918,6 @@ class NewPostController extends GetxController {
     //   }
     // });
 
-    if (!(targetPlatform == TargetPlatform.android && androidUseOsPicker)) {
-      Future.delayed(Duration.zero).then((value) async {
-        var showModalResult = await showModalBottomSheet(
-            context: context,
-            builder: (btmSheetContext) {
-              return StatefulBuilder(builder: (stateContext, setState) {
-                return Container();
-              });
-            });
-      });
-    }
-
     try {
       explorerRegistryListings = await explorerRegistryService
           .readWalletRegistry(targetPlatform: targetPlatform);
@@ -1079,26 +972,32 @@ class NewPostController extends GetxController {
       blockchainAccounts +=
           nameSpacesToBlockchainAccounts(sessionData.namespaces);
     }
+    BlockchainAccount selectedAccount = blockchainAccounts.firstWhere(
+        (element) => element.blockchain.chainId == "eip155:$chainId");
+
+    int selectedAccountIndex = blockchainAccounts.indexOf(selectedAccount);
+
+    log("Selected Account Index $selectedAccountIndex");
 
     String? sessionTopic = wcService.getSessionTopicFromAccount(
-            blockchainAccounts.first,
+            blockchainAccounts[selectedAccountIndex],
             web3app: _web3app) ??
         "No session topic found";
     WalletConnectEip155Credentials? connectEip155Credentials =
         wcService.getgetEip155Credentials(
       sessionTopic: sessionTopic,
       web3app: _web3app,
-      blockchainAccount: blockchainAccounts.first,
+      blockchainAccount: blockchainAccounts[selectedAccountIndex],
     );
 
     onChainMint(
-      imgURL!,
-      timeStamp!,
-      connectEip155Credentials!.credentialAddress.toString(),
-      client,
-      connectEip155Credentials,
-      newPostModel!,
-    );
+        imgURL!,
+        timeStamp!,
+        connectEip155Credentials!.credentialAddress.toString(),
+        client,
+        connectEip155Credentials,
+        newPostModel!,
+        chainId);
 
     return 'Sessions?';
   }
