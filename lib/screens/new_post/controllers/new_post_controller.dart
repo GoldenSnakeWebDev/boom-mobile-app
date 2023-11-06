@@ -96,7 +96,10 @@ class NewPostController extends GetxController {
 
   var imageSelected = false.obs;
 
-  int chainId = 56;
+  int chainId = 97;
+  // String smartContractAddress = bnbTestNetToken;
+  // String marketPlaceAddress = bnbTestNetMarket;
+
   String smartContractAddress = bnbTokenAddress;
   String marketPlaceAddress = bnbMarketAddress;
 
@@ -155,6 +158,7 @@ class NewPostController extends GetxController {
       relayUrl: WalletConnectConstants.DEFAULT_RELAY_URL,
       logLevel: LogLevel.nothing, // Level.verbose,
     );
+
     //TODO: Change the RPC selection
     client = Web3Client(
       bnbMainnetRPC,
@@ -194,6 +198,7 @@ class NewPostController extends GetxController {
           case "MATIC":
             chainId = chainIds[1];
             smartContractAddress = maticTokenAddress;
+            marketPlaceAddress = maticMarketAddress;
             client = Web3Client(
               maticMainnetRPC,
               http.Client(),
@@ -202,6 +207,7 @@ class NewPostController extends GetxController {
           case "BNB":
             chainId = chainIds[0];
             smartContractAddress = bnbTokenAddress;
+            marketPlaceAddress = bnbMarketAddress;
             client = Web3Client(
               bnbMainnetRPC,
               http.Client(),
@@ -554,13 +560,14 @@ class NewPostController extends GetxController {
   //Function to mint Post to selected network
 
   onChainMint(
-      String imgURL,
-      String boomId,
-      String addy,
-      Web3Client web3Client,
-      WalletConnectEip155Credentials credentials,
-      NewPostModel newPostModel,
-      int chainId) async {
+    String imgURL,
+    String boomId,
+    String addy,
+    Web3Client web3Client,
+    WalletConnectEip155Credentials credentials,
+    NewPostModel newPostModel,
+    int chainId,
+  ) async {
     late File nftImg;
     String hashResult = '';
 
@@ -658,12 +665,11 @@ class NewPostController extends GetxController {
           EasyLoading.show(
               status: 'Approval... Please check your wallet app for approval');
 
-          EthereumAddress marketPlaceAddress =
-              EthereumAddress.fromHex(bnbTestNetMarket);
+          EthereumAddress market = EthereumAddress.fromHex(marketPlaceAddress);
 
           var marketContract = DeployedContract(
             ContractAbi.fromJson(marketPlaceContrat, 'Marketplace'),
-            marketPlaceAddress,
+            market,
           );
 
           //Call the createListing Function of the Smart Contract
@@ -676,7 +682,7 @@ class NewPostController extends GetxController {
               from: account,
               to: contractAddress,
               data: contract.function('setApprovalForAll').encodeCall(
-                [marketPlaceAddress, true],
+                [market, true],
               ),
             );
 
@@ -728,7 +734,7 @@ class NewPostController extends GetxController {
                 // 1688059352
                 Transaction listingTx = Transaction(
                   from: account,
-                  to: marketPlaceAddress,
+                  to: market,
                   data: marketContract.function('createListing').encodeCall(
                     [listingParams],
                   ),
