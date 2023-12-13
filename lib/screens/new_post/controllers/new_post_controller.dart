@@ -634,18 +634,6 @@ class NewPostController extends GetxController {
 
           await Future.delayed(const Duration(milliseconds: 500));
 
-          // var txLogs;
-
-          // await web3Client.getTransactionReceipt(hashResult).then((value) {
-          //   log("TX LOGS $value");
-          //   txLogs = value;
-          // });
-
-          // await web3Client.getTransactionByHash(hashResult).then((value) {
-          //   log("TX LOGS $value");
-          //   txLogs = value;
-          // });
-
           var txLogs = await web3Client.getTransactionReceipt(hashResult);
           while (txLogs == null) {
             log("TX Logs ${txLogs?.logs.first.topics ?? txLogs?.logs.length ?? "No Logs"}");

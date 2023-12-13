@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:boom_mobile/utils/url_container.dart';
 import 'package:boom_mobile/widgets/custom_snackbar.dart';
@@ -51,7 +52,9 @@ class RegisterController extends GetxController {
         "username": usernameController.text.trim(),
         "password": passwordController.text.trim(),
       };
-
+      log("email>>>${emailController.text.trim()}" );
+      log("email>>>${usernameController.text.trim()}" );
+      log("email>>>${passwordController.text.trim()}" );
       EasyLoading.show(status: "Signing up...");
 
       final res = await http.post(

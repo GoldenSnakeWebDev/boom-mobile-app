@@ -38,7 +38,14 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    // ndkVersion flutter.ndkVersion
+    ndkVersion "25.1.8937393"
+    
+
+    lintOptions {
+        warning('deprecation')
+        warning('unchecked')
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -68,10 +75,9 @@ android {
         release {
             keyAlias keyStoreProperties['keyAlias']
             keyPassword keyStoreProperties['keyPassword']
-            storeFile file(keyStoreProperties['storeFile']) ? file(keyStoreProperties['storeFile']) : null
+            storeFile keyStoreProperties['storeFile'] ? keyStoreProperties['storeFile'] : null
             storePassword keyStoreProperties['storePassword']
         }
-
        
     }
 

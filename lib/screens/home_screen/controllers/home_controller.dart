@@ -223,6 +223,7 @@ class HomeController extends GetxController {
         // await fetchTrendingBoxes();
         update();
       } else {
+        log("back end error on fetchbooms");
         isLoading = false;
         CustomSnackBar.showCustomSnackBar(
             errorList: ["Could not fetch Booms"],
@@ -292,6 +293,7 @@ class HomeController extends GetxController {
         _homeBooms!.addAll(allBooms!.booms!);
         update();
       } else {
+        log("error occured on fetch boom (load more))");
         EasyLoading.dismiss();
         CustomSnackBar.showCustomSnackBar(
             errorList: ["Could not fetch Booms"],
@@ -316,6 +318,7 @@ class HomeController extends GetxController {
 
     if (res.statusCode == 200) {
     } else {
+      log("error occured on react to boom");
       CustomSnackBar.showCustomSnackBar(
           errorList: ["Could not react to Boom"],
           msg: ["Error"],

@@ -58,7 +58,7 @@ dependencies:
   #f
   flutter_svg: ^2.0.9
   flutter_windowmanager: ^0.2.0
-  flutter_webview_plugin_ios_android: ^0.3.12
+  flutter_webview_plugin_ios_android: ^0.3.13+12
   freezed_annotation: ^2.2.0
   flutter_easyloading: ^3.0.5
   flutter_downloader: ^1.11.4
@@ -146,6 +146,7 @@ dependencies:
   wallet_connect_v2: ^1.0.5
   walletconnect_flutter_v2: ^2.1.8
   flutter_secure_storage: ^8.1.0
+  walletconnect_dart: ^0.0.11
   # web3auth_flutter: ^2.0.3
 
   # walletconnect_qrcode_modal_dart: ^0.4.1

@@ -286,6 +286,7 @@ class LoginController extends GetxController {
         return true;
       } else {
         EasyLoading.dismiss();
+        log("error occured on login controller");
         log(res.body);
         CustomSnackBar.showCustomSnackBar(
           errorList: [jsonDecode(res.body)["errors"][0]["message"]],
